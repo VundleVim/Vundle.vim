@@ -1,0 +1,27 @@
+** Warning: alpha quality **
+
+## About
+
+Vundle is a short cut for Vim Bundle and is a simple plugin for managing vim plugins.
+
+## Installation
+
+    curl http://github.com/vundle.git/master/tree/plugin/vundle.vim > ~/.vim/plugin/
+
+## Configuration
+
+Append those lines to your .vimrc
+
+    Bundle "git://github.com/vim-scripts/FuzzyFinder"
+    Bundle "git://github.com/vim-scripts/jQuery.git"
+    Bundle "git://github.com/vim-scripts/rails.vim.git"
+    Bundle "git://github.com/vim-scripts/ack.vim.git"
+    BundleRequire
+
+## Installing plugins
+
+    vim -e ':BundleInstall'
+
+## TODO:
+
+* support non Git resources aswell
