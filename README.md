@@ -6,7 +6,7 @@ Vundle is a short cut for Vim Bundle and is a simple plugin for managing vim plu
 
 ## Installation
 
-    curl http://github.com/vundle.git/master/tree/plugin/vundle.vim > ~/.vim/plugin/
+    curl http://github.com/gmarik/vundle/blob/master/plugin/vundle.vim > ~/.vim/plugin/
 
 ## Configuration
 
