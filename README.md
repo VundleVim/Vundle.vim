@@ -13,11 +13,14 @@
 
 Append those lines to your .vimrc
 
+    source '~/.vim/plugin/vundle.vim' 
+
     Bundle "http://github.com/vim-scripts/L9.git"
     Bundle "http://github.com/vim-scripts/FuzzyFinder.git"
     Bundle "http://git.wincent.com/command-t.git"
     Bundle "http://github.com/vim-scripts/rails.vim.git"
     Bundle "http://github.com/vim-scripts/ack.vim.git"
+
     BundleRequire
 
 BTW using [Vim-Scripts.org](http://vim-scripts.org) we have access to all vim plugins.
