@@ -1,8 +1,7 @@
-" vundle.vim - path option manipulation
-" Maintainer:   gmarik at gmail dot com
+" vundle.vim  - is a shortcut for Vim Bundle and Is a simple plugin manager for Vim
+" Maintainer:   http://github.com/gmarik
 " Version:      0.1
-
-" Install in ~/.vim/autoload (or ~\vimfiles\autoload).
+" Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 
 if exists("g:vundle_loaded") || &cp | finish | endif
 let g:vundle_loaded = 1
