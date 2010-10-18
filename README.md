@@ -2,7 +2,7 @@
 
 ** Warning: alpha quality **
 
-[Vundle](http://github.com/gmarik/vundle) is a short cut for [Vim](http://vim.org)bundle and is a 67 LOC plugin for managing vim plugins.
+[Vundle](http://github.com/gmarik/vundle) is a short cut for [Vim](http://vim.org)bundle and is a 67 LOC plugin for managing [Vim](http://vim.org) plugins.
 
 
 ## Installation
@@ -20,13 +20,13 @@ Append those lines to your .vimrc
     Bundle "http://github.com/vim-scripts/ack.vim.git"
     BundleRequire
 
-BTW using [Vim-Scripts.org](http://vim-scripts.org) we have access to all vim plugins with git.
+BTW using [Vim-Scripts.org](http://vim-scripts.org) we have access to all vim plugins.
 
 ## Installing bundled plugins
 
     vim  -e -c 'BundleInstall' -c 'q'
 
-triggers Git clone for each configured repo to <code>~/.vim/bundle/</code>.
+triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
 
 ## Thanks
 
