@@ -41,7 +41,7 @@ function! vundle#sync_bundles()
   for bundle in g:bundles
     let bundle_path = s:BundlePath(bundle)
     let bundle_uri = g:bundle_uris[bundle]
-    execute '!echo "* '.bundle.'";cd '.g:bundle_dir.' && git pull 2>/dev/null || git clone '.bundle_uri.' '.bundle_path
+    execute '!echo "* '.bundle.'";cd '.bundle_path.' 2>/dev/null && git pull || git clone '.bundle_uri.' '.bundle_path
   endfor
 endfunction
 
