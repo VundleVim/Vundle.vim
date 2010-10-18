@@ -2,26 +2,39 @@
 
 ## About
 
-Vundle is a short cut for Vim Bundle and is a simple plugin for managing vim plugins.
+Vundle is a short cut for [Vim](http://vim.org) Bundle and is a 67 LOC plugin for managing vim plugins.
+
 
 ## Installation
 
-    curl http://github.com/gmarik/vundle/blob/master/plugin/vundle.vim > ~/.vim/plugin/
+    curl http://github.com/gmarik/vundle/raw/master/plugin/vundle.vim > ~/.vim/plugin/vundle.vim
 
 ## Configuration
 
 Append those lines to your .vimrc
 
-    Bundle "git://github.com/vim-scripts/FuzzyFinder"
-    Bundle "git://github.com/vim-scripts/jQuery.git"
-    Bundle "git://github.com/vim-scripts/rails.vim.git"
-    Bundle "git://github.com/vim-scripts/ack.vim.git"
+    Bundle "http://github.com/vim-scripts/L9.git"
+    Bundle "http://github.com/vim-scripts/FuzzyFinder.git"
+    Bundle "http://git.wincent.com/command-t.git"
+    Bundle "http://github.com/vim-scripts/rails.vim.git"
+    Bundle "http://github.com/vim-scripts/ack.vim.git"
     BundleRequire
+
+Using [Vim-Scripts.org](http://vim-scripts.org) mirror we can have access to all vim plugins
 
 ## Installing plugins
 
-    vim -e ':BundleInstall'
+    vim  -e -c 'BundleInstall' -c 'q'
+
+triggers Git clone for each configured repo to <code>~/.vim/bundle/</code>
+
+
+## Thanks
+
+* [Pathogen](http://github.com/tpope/pathogen/)
+* [Bundler](http://github.com/wycats/bundler/)
 
 ## TODO:
 
+* improve code (as this is my first [Vim](http://vim.org) plugin)
 * support non Git resources aswell
