@@ -7,22 +7,22 @@
 if exists("g:vundle_loaded") || &cp | finish | endif
 let g:vundle_loaded = 1
 
-com! -nargs=+ Bundle call g:BundleAdd(<args>)
-com! -nargs=0 BundleRequire call g:BundleRequire()
-com! -nargs=0 BundleSync call g:BundleSync()
-com! -nargs=0 BundleInstall call g:BundleInstall()
+com! -nargs=+ Bundle call vundle#add_bundle(<args>)
+com! -nargs=0 BundleRequire call vundle#require_bundles()
+com! -nargs=0 BundleSync call vundle#sync_bundles()
+com! -nargs=0 BundleInstall call vundle#install_bundles()
 
 let g:bundle_dir = expand('~/.vim/bundle/')
 let g:bundles = []
 let g:bundle_uris = {}
 
-function! g:BundleAdd(...)
+function! vundle#add_bundle(...)
   let bundle = split(a:1,'\/')[-1]
   call add(g:bundles, bundle)
   let g:bundle_uris[bundle] = a:1
 endfunction
 
-function! g:BundleRequire()
+function! vundle#require_bundles()
   let rtp = filter(split(&rtp, ','),'v:val !~# g:bundle_dir')
   let after = [] | let before = []
   for bundle in g:bundles
@@ -32,12 +32,12 @@ function! g:BundleRequire()
   let &rtp = join(before + rtp + after, ',')
 endfunction
 
-function! g:BundleInstall()
-  call g:BundleSync()
-  call g:BundleHelptags()
+function! vundle#install_bundles()
+  call g:sync_bundles()
+  call g:helptagify_bundles()
 endfunction
 
-function! g:BundleSync()
+function! vundle#sync_bundles()
   execute '!mkdir -p '.g:bundle_dir
   for bundle in g:bundles
     let bundle_path = s:BundlePath(bundle)
@@ -46,7 +46,7 @@ function! g:BundleSync()
   endfor
 endfunction
 
-function! g:BundleHelptags()
+function! g:helptagify_bundles()
   for bundle in g:bundles
     let dir = s:BundlePath(bundle)
     if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
