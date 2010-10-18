@@ -33,8 +33,8 @@ function! vundle#require_bundles()
 endfunction
 
 function! vundle#install_bundles()
-  call g:sync_bundles()
-  call g:helptagify_bundles()
+  call vundle#sync_bundles()
+  call vundle#helptagify_bundles()
 endfunction
 
 function! vundle#sync_bundles()
@@ -42,11 +42,11 @@ function! vundle#sync_bundles()
   for bundle in g:bundles
     let bundle_path = s:BundlePath(bundle)
     let bundle_uri = g:bundle_uris[bundle]
-    execute '!cd '.bundle_path.' 2>/dev/null && git pull || git clone '.bundle_uri.' '.bundle_path
+    execute '!echo "* '.bundle.'";cd '.bundle_path.' && git pull || git clone '.bundle_uri.' '.bundle_path
   endfor
 endfunction
 
-function! g:helptagify_bundles()
+function! vundle#helptagify_bundles()
   for bundle in g:bundles
     let dir = s:BundlePath(bundle)
     if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
