@@ -38,6 +38,7 @@ function! g:BundleInstall()
 endfunction
 
 function! g:BundleSync()
+  execute '!mkdir -p '.g:bundle_dir
   for bundle in g:bundles
     let bundle_path = s:BundlePath(bundle)
     let bundle_uri = g:bundle_uris[bundle]
