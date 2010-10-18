@@ -2,7 +2,7 @@
 
 ** Warning: alpha quality **
 
-[Vundle](http://github.com/gmarik/vundle) is a short cut for [Vim](http://vim.org)bundle and is a 67 LOC plugin for managing [Vim](http://vim.org) plugins.
+[Vundle] is a short cut for [Vim]bundle and is a 67 LOC plugin for managing [Vim] plugins.
 
 
 ## Installation
@@ -30,10 +30,16 @@ triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo
 
 ## Thanks
 
-* [Pathogen](http://github.com/tpope/vim-pathogen/)
-* [Bundler](http://github.com/wycats/bundler/)
+* [Pathogen]
+* [Bundler]
 
 ## TODO:
 
-* improve code (as this is my first [Vim](http://vim.org) plugin)
-* support non Git resources aswell
+* improve code (as this is my first [Vim] plugin
+* support non [Git] resources aswell
+
+[Vundle]:http://github.com/gmarik/vundle
+[Pathogen]:http://github.com/tpope/vim-pathogen/
+[Bundler]:http://github.com/wycats/bundler/
+[Vim]:http://vim.org
+[Git]:http://git-scm.com
