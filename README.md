@@ -8,7 +8,7 @@
 ## Installation
 
     mkdir -p ~/.vim/autoload/ && \
-    curl http://github.com/gmarik/vundle/raw/bundlerc/autoload/vundle.vim > ~/.vim/autoload/vundle.vim
+    curl http://github.com/gmarik/vundle/raw/master/autoload/vundle.vim > ~/.vim/autoload/vundle.vim
 
 ## Configuration
 
@@ -24,7 +24,7 @@ Configure required plugins in <code>~/.vim/bundlerc</code>, ie like this:
     " check http://vim-scripts.org for more
     EOF
 
-BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts.
+BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts. Se [gmarik's bubdlerc](http://github.com/gmarik/vimfiles/raw/master/bundlerc) for working example.
 
 Add to your <code>.vimrc</code>
 
