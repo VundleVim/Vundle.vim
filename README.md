@@ -2,7 +2,7 @@
 
 ** Warning: alpha quality **
 
-[Vundle] is a short cut for [V](#)imb[undle](#) and is a 67 LOC plugin for managing [Vim] plugins.
+[Vundle] is a short cut for [V](#)imb[undle](#) and is a ~80 LOC plugin for managing [Vim] plugins.
 
 
 ## Installation
