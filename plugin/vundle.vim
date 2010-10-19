@@ -21,6 +21,11 @@ func! vundle#add_bundle(...)
   let g:bundle_uris[bundle] = a:1
 endf
 
+func! vundle#rc(...)
+  exec 'silent! so '.expand('~/.vim/bundlerc')
+  call vundle#require_bundles()
+endf
+
 func! vundle#require_bundles()
   let rtp = filter(split(&rtp, ','),'v:val !~# g:bundle_dir')
   let after = [] | let before = []
