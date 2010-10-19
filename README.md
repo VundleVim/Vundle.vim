@@ -12,9 +12,10 @@
 
 ## Configuration
 
-Append those lines to your <code>~/.vim/bundlerc</code>
+Configure required plugins in <code>~/.vim/bundlerc</code>, ie like this:
 
     cat > ~/.vim/bundlerc <<EOF 
+    " Bundle "<git-repo-uri>"
     Bundle "http://github.com/vim-scripts/L9.git"
     Bundle "http://github.com/vim-scripts/FuzzyFinder.git"
     Bundle "git://git.wincent.com/command-t.git"
