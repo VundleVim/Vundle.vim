@@ -15,13 +15,13 @@ let g:bundle_dir = expand('~/.vim/bundle/')
 let g:bundles = []
 let g:bundle_uris = {}
 
-function! vundle#add_bundle(...)
+func! vundle#add_bundle(...)
   let bundle = split(a:1,'\/')[-1]
   call add(g:bundles, bundle)
   let g:bundle_uris[bundle] = a:1
-endfunction
+endf
 
-function! vundle#require_bundles()
+func! vundle#require_bundles()
   let rtp = filter(split(&rtp, ','),'v:val !~# g:bundle_dir')
   let after = [] | let before = []
   for bundle in g:bundles
@@ -29,14 +29,14 @@ function! vundle#require_bundles()
     let before += path[0] | let after += path[1]
   endfor
   let &rtp = join(before + rtp + after, ',')
-endfunction
+endf
 
-function! vundle#install_bundles()
+func! vundle#install_bundles()
   call vundle#sync_bundles()
   call vundle#helptagify_bundles()
-endfunction
+endf
 
-function! vundle#sync_bundles()
+func! vundle#sync_bundles()
   execute '!mkdir -p '.g:bundle_dir
   for bundle in g:bundles
     let bundle_path = s:BundlePath(bundle)
@@ -48,25 +48,25 @@ function! vundle#sync_bundles()
     exec '!echo -ne "* '.bundle.'"'
     exec '!git '.cmd
   endfor
-endfunction
+endf
 
-function! vundle#helptagify_bundles()
+func! vundle#helptagify_bundles()
   for bundle in g:bundles
     let dir = s:BundlePath(bundle)
     if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
       helptags `=dir.'/doc'`
     endif
   endfor
-endfunction
+endf
 
-function! s:BundlePath(bundle_name)
+func! s:BundlePath(bundle_name)
   return expand(g:bundle_dir.a:bundle_name)
-endfunction
+endf
 
-function! s:BundleRuntime(bundle_name) " {{{1
+func! s:BundleRuntime(bundle_name) " {{{1
   let bundle_path = s:BundlePath(a:bundle_name)
   let before = [bundle_path] | let after  = []
   let after_dir = expand(bundle_path.'/'.'after')
   if isdirectory(after_dir) | let after = [after_dir] | endif
   return [before, after]
-endfunction " }}}
+endf " }}}
