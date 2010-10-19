@@ -8,27 +8,26 @@
 ## Installation
 
     mkdir -p ~/.vim/autoload/ && \
-    curl http://github.com/gmarik/vundle/raw/master/plugin/vundle.vim > ~/.vim/autoload/vundle.vim
+    curl http://github.com/gmarik/vundle/raw/bundlerc/autoload/vundle.vim > ~/.vim/autoload/vundle.vim
 
 ## Configuration
 
 Append those lines to your <code>~/.vim/bundlerc</code>
 
-    cat >> ~/.vim/bundlerc <EOF
-    
+    cat > ~/.vim/bundlerc <<EOF 
     Bundle "http://github.com/vim-scripts/L9.git"
     Bundle "http://github.com/vim-scripts/FuzzyFinder.git"
     Bundle "git://git.wincent.com/command-t.git"
     Bundle "http://github.com/vim-scripts/rails.vim.git"
     Bundle "http://github.com/vim-scripts/ack.vim.git"
-
+    " check http://vim-scripts.org for more
     EOF
+
+BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts.
 
 Add to your <code>.vimrc</code>
 
     call vundle#rc()
-
-BTW using [Vim-Scripts.org](http://vim-scripts.org) we have access to all vim plugins.
 
 ## Installing plugins
 
