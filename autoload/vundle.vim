@@ -6,6 +6,8 @@
 if exists("g:vundle_loaded") || &cp | finish | endif
 let g:vundle_loaded = 1
 
+au BufRead,BufNewFile {bundlerc} set ft=vim
+
 com! -nargs=+ Bundle call vundle#add_bundle(<args>)
 com! -nargs=0 BundleRequire call vundle#require_bundles()
 com! -nargs=0 BundleSync call vundle#sync_bundles()
