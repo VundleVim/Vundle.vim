@@ -24,7 +24,7 @@ Configure required plugins in <code>~/.vim/bundlerc</code>, ie like this:
     " check http://vim-scripts.org for more
     EOF
 
-BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts. Se [gmarik's bubdlerc](http://github.com/gmarik/vimfiles/raw/master/bundlerc) for working example.
+BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts. See [gmarik's bubdlerc](http://github.com/gmarik/vimfiles/raw/master/bundlerc) for working example.
 
 Add to your <code>.vimrc</code>
 
