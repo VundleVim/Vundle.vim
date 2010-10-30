@@ -15,12 +15,16 @@ com! -nargs=0 BundleInstall call vundle#install_bundles()
 
 let g:bundle_dir = expand('~/.vim/bundle/')
 let g:bundles = []
-let g:bundle_uris = {}
 
 func! vundle#add_bundle(...)
-  let bundle = split(a:1,'\/')[-1]
+  let bundle = { 'uri': a:1 }
+  let bundle.name = split(a:1,'\/')[-1] " potentially break on Windows
+  let bundle.path = s:BundlePath(bundle.name)
+  if len(a:000) == 2 
+    if type(a:2) == type({}) | call extend(bundle, a:2) | endif
+  endif
+  let bundle.rtpath = has_key(bundle, 'rtp') ? join([bundle.path, bundle.rtp], '/') : bundle.path
   call add(g:bundles, bundle)
-  let g:bundle_uris[bundle] = a:1
 endf
 
 func! vundle#rc(...)
@@ -44,22 +48,20 @@ func! vundle#install_bundles()
 endf
 
 func! vundle#sync_bundles()
-  execute '!mkdir -p '.g:bundle_dir
+  exec '!mkdir -p '.g:bundle_dir
   for bundle in g:bundles
-    let bundle_path = s:BundlePath(bundle)
-    let bundle_uri = g:bundle_uris[bundle]
-    let git_dir = bundle_path.'/.git'
+    let git_dir = bundle.path.'/.git'
     let cmd = isdirectory(git_dir) ?  
           \ '--git-dir='.git_dir.' pull' : 
-          \ 'clone '.bundle_uri.' '.bundle_path
-    exec '!echo -ne "* '.bundle.'"'
+          \ 'clone '.bundle.uri.' '.bundle.path
+    exec '!echo -ne "* '.bundle.name.'"'
     exec '!git '.cmd
   endfor
 endf
 
 func! vundle#helptagify_bundles()
   for bundle in g:bundles
-    let dir = s:BundlePath(bundle)
+    let dir = bundle.path
     if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
       helptags `=dir.'/doc'`
     endif
@@ -70,10 +72,9 @@ func! s:BundlePath(bundle_name)
   return expand(g:bundle_dir.a:bundle_name)
 endf
 
-func! s:BundleRuntime(bundle_name) " {{{1
-  let bundle_path = s:BundlePath(a:bundle_name)
-  let before = [bundle_path] | let after  = []
-  let after_dir = expand(bundle_path.'/'.'after')
+func! s:BundleRuntime(bundle) 
+  let before = [a:bundle.rtpath] | let after  = []
+  let after_dir = expand(a:bundle.rtpath.'/'.'after')
   if isdirectory(after_dir) | let after = [after_dir] | endif
   return [before, after]
-endf " }}}
+endf 
