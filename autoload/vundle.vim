@@ -17,7 +17,7 @@ let g:bundles = []
 
 func! vundle#add_bundle(uri, opts)
   let bundle = a:opts 
-  call extend(bundle, { 'uri': a:uri })
+  let bundle.uri = a:uri
   let bundle.name = split(a:uri,'\/')[-1] " potentially break on Windows
   let bundle.path = expand(g:bundle_dir.''.bundle.name)
   let bundle.rtpath = has_key(bundle, 'rtp') ? join([bundle.path, bundle.rtp], '/') : bundle.path
@@ -37,10 +37,9 @@ func! vundle#rc()
 endf
 
 func! vundle#require_bundle(bundle)
-  let bundle = a:bundle
-  let rtp = filter(split(&rtp, ','),'v:val !~# bundle.path')
+  let rtp = filter(split(&rtp, ','),'v:val !~# a:bundle.path')
   let after = [] | let before = []
-  let path = s:RuntimePath(bundle)
+  let path = s:RuntimePath(a:bundle)
   let before += path[0] | let after += path[1]
   let &rtp = join(before + rtp + after, ',')
 endf
