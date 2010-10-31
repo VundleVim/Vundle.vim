@@ -12,9 +12,13 @@ install() {
   echo -en 'Install:'; [ -d $HOME/.vim/bundle ] && [ "$(ls -1 -d ~/.vim/bundle/*|wc -l)" = "$(grep ^Bundle ~/.vim/vimrc|wc -l)" ] && echo 'ok' || echo 'fail'
 }
 
+# $ source vundle_test.sh; test
 test() {
   setup
   install
 }
 
-test
+# $ source vundle_test.sh; doc
+doc() {
+  maruku --html README.md ; open README.html 
+}

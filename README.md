@@ -1,8 +1,6 @@
 ## About
 
-** Warning: alpha quality **
-
-[Vundle] is a short cut for [V](#)imb[undle](#) and is a ~80 LOC plugin for managing [Vim] plugins.
+[Vundle] is a short cut for **V**imb**undle** and is a ~80 LOC plugin for managing [Vim] plugins.
 
 
 ## Installation
@@ -12,9 +10,10 @@
 
 ## Configuration
 
-Configure required plugins in <code>~/.vim/bundlerc</code>, ie like this:
+Add to your <code>~/.vimrc</code>
 
-    cat > ~/.vim/bundlerc <<EOF 
+    call vundle#rc()
+    " My bundles
     " Bundle "<git-repo-uri>"
     Bundle "http://github.com/vim-scripts/L9.git"
     Bundle "http://github.com/vim-scripts/FuzzyFinder.git"
@@ -22,28 +21,28 @@ Configure required plugins in <code>~/.vim/bundlerc</code>, ie like this:
     Bundle "http://github.com/vim-scripts/rails.vim.git"
     Bundle "http://github.com/vim-scripts/ack.vim.git"
     " check http://vim-scripts.org for more
-    EOF
 
-BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts. See [gmarik's bubdlerc](http://github.com/gmarik/vimfiles/blob/master/bundlerc) for working example.
-
-Add to your <code>.vimrc</code>
-
-    call vundle#rc()
+BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts. See [gmarik's vimrc](http://github.com/gmarik/vimfiles/blob/6926a7e2ba176a292a8e71b6e4c17f15b8eebe04/vimrc#L134) for working example.
 
 ## Installing plugins
 
-    vim  -e -c 'BundleInstall' -c 'q'
+Launch <code>vim</code> and run <code>:BundleInstall</code>.
+
+Or from command line:
+
+   $ vim  -e -c 'BundleInstall' -c 'q'
 
 triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
 
-## Thanks
+## Inspiration and ideas from
 
-* [Pathogen]
-* [Bundler]
+* [pathogen]
+* [bundler]
+* [Scott Bronson](http://github.com/bronson)
 
 ## TODO:
 
-* improve code (as this is my first [Vim] plugin
+* improve code 
 * support non [Git] resources aswell
 
 [Vundle]:http://github.com/gmarik/vundle
