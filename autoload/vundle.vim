@@ -34,6 +34,7 @@ endf
 
 func! vundle#rc()
   let &rtp = join(filter(split(&rtp, ','),'v:val !~# g:bundle_dir'), ',')
+  let g:bundles = []
 endf
 
 func! vundle#require_bundle(bundle)
