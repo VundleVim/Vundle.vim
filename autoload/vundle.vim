@@ -9,11 +9,9 @@ let g:vundle_loaded = 1
 au BufRead,BufNewFile {bundlerc} set ft=vim
 
 com! -nargs=+ Bundle call vundle#add_and_require_bundle(<args>)
-com! -nargs=0 BundleSync call vundle#sync_bundles()
 com! -nargs=0 BundleInstall call vundle#install_bundles()
 
 let g:bundle_dir = expand('~/.vim/bundle/')
-let g:bundles = []
 
 func! vundle#add_bundle(uri, opts)
   let bundle = a:opts 
