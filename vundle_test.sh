@@ -9,7 +9,7 @@ setup() {
 install() {
   vim -e -c "BundleInstall" -c "q"
   # echo -en "Setup: " ; [ -s $HOME/.vim/autoload/vundle.vim ] && echo "ok" || echo "fail"
-  echo -en 'Install:'; [ -d $HOME/.vim/bundle ] && [ "$(ls -1 -d ~/.vim/bundle/*|wc -l)" = "$(grep ^Bundle ~/.vim/bundlerc|wc -l)" ] && echo 'ok' || echo 'fail'
+  echo -en 'Install:'; [ -d $HOME/.vim/bundle ] && [ "$(ls -1 -d ~/.vim/bundle/*|wc -l)" = "$(grep ^Bundle ~/.vim/vimrc|wc -l)" ] && echo 'ok' || echo 'fail'
 }
 
 test() {

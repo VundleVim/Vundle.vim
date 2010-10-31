@@ -34,11 +34,6 @@ endf
 
 func! vundle#rc()
   let &rtp = join(filter(split(&rtp, ','),'v:val !~# g:bundle_dir'), ',')
-  " TODO: Do we need this?
-  let bundlerc = expand('~/.vim/bundlerc')
-  if filereadable(expand(bundlerc))
-    exec 'silent! so '.bundlerc
-  endif
 endf
 
 func! vundle#require_bundle(bundle)
