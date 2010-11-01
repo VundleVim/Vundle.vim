@@ -10,6 +10,7 @@ au BufRead,BufNewFile {bundlerc} set ft=vim
 
 com! -nargs=+ Bundle call vundle#new_bundle(<args>)
 com! -nargs=0 BundleInstall call vundle#install_bundles()
+com! -nargs=0 BundleDocs call vundle#helptagify_bundles()
 
 let g:bundle_dir = expand('~/.vim/bundle/')
 
@@ -62,7 +63,7 @@ endf
 
 func! vundle#helptagify_bundles()
   for bundle in g:bundles
-    let dir = bundle.path
+    let dir = bundle.rtpath
     if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
       helptags `=dir.'/doc'`
     endif
