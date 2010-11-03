@@ -1,7 +1,9 @@
 setup() {
+  echo -en 'disabled'
   # mkdir -p $HOME/.vim/autoload/ && 
   # curl http://github.com/gmarik/vundle/raw/master/autoload/vundle.vim > $HOME/.vim/autoload/vundle.vim
   # return$([ -s $HOME/.vim/autoload/vundle.vim ] && rm -f ~/.vim/autoload/vundle.vim ) 
+  return 1
 }
 
 install() {
@@ -21,7 +23,6 @@ t() {
   $1 1>> 'test.log' 2>&1 && echo 'ok' || echo 'fail'
 }
 
-# $ source vundle_test.sh; test_all
 test_all() {
   : > 'test.log'
   t setup 
@@ -29,7 +30,8 @@ test_all() {
   t docs
 } 
 
-# $ source vundle_test.sh; doc
 doc() {
   maruku --html README.md ; open README.html 
 }
+
+${1:-test_all}
