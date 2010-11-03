@@ -59,6 +59,7 @@ func! vundle#require_bundle(bundle)
 endf
 
 func! vundle#install_bundles()
+  silent source ~/.vimrc
   exec '!mkdir -p '.g:bundle_dir
   call vundle#sync_bundles()
   call vundle#helptagify_bundles()
