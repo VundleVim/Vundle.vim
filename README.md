@@ -55,7 +55,9 @@ Will split new window with results:
     Bundle "VimFootnotes"
     Bundle "foo.vim"
 
-So you can just copy one you need to you <code>.vimrc</code>
+So you can just copy one you need to you <code>.vimrc</code>.
+
+Searching requires [<code>curl</code>](http://curl.haxx.se/)
 
 ## Inspiration and ideas from
 
