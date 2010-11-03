@@ -1,7 +1,7 @@
 setup() {
-  mkdir -p $HOME/.vim/autoload/ && 
-  curl http://github.com/gmarik/vundle/raw/master/autoload/vundle.vim > $HOME/.vim/autoload/vundle.vim
-  return$([ -s $HOME/.vim/autoload/vundle.vim ] && rm -f ~/.vim/autoload/vundle.vim ) 
+  # mkdir -p $HOME/.vim/autoload/ && 
+  # curl http://github.com/gmarik/vundle/raw/master/autoload/vundle.vim > $HOME/.vim/autoload/vundle.vim
+  # return$([ -s $HOME/.vim/autoload/vundle.vim ] && rm -f ~/.vim/autoload/vundle.vim ) 
 }
 
 install() {
