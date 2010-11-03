@@ -1,9 +1,10 @@
 ## About
 
-[Vundle] is a short cut for **V**imb**undle** and is a ~80 LOC plugin for managing [Vim] plugins.
+[Vundle] is a short cut for **V**imb**undle** and is a small plugin for managing [Vim] plugins.
 
 ## Why
 [Vundle] can:
+
 - automatically install vim script (aka bundle) 
 - manage runtime path of your installed scripts so you don't have to
 - disable/enable bundles by commenting/uncommenting configured Bundle(requires reload)
