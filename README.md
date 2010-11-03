@@ -2,37 +2,60 @@
 
 [Vundle] is a short cut for **V**imb**undle** and is a ~80 LOC plugin for managing [Vim] plugins.
 
+## Why
+[Vundle] can:
+- automatically install vim script (aka bundle) 
+- manage runtime path of your installed scripts so you don't have to
+- disable/enable bundles by commenting/uncommenting configured Bundle(requires reload)
+- NEW: search [all available vim scripts] by name
 
-## Installation
+[Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
+in order to install/search [all available vim scripts]
 
-    mkdir -p ~/.vim/autoload/ && \
-    curl http://github.com/gmarik/vundle/raw/master/autoload/vundle.vim > ~/.vim/autoload/vundle.vim
+## How
 
-## Configuration
+1. Setup [Vundle]:
 
-Add to your <code>~/.vimrc</code>
+        git clone http://github.com/gmarik/vundle.git > ~/.vim/vundle.vim
 
-    call vundle#rc()
-    " My bundles
-    " Bundle "<git-repo-uri>"
-    Bundle "http://github.com/vim-scripts/L9.git"
-    Bundle "http://github.com/vim-scripts/FuzzyFinder.git"
-    Bundle "git://git.wincent.com/command-t.git"
-    Bundle "http://github.com/vim-scripts/rails.vim.git"
-    Bundle "http://github.com/vim-scripts/ack.vim.git"
-    " check http://vim-scripts.org for more
+2. Configure bundles:
 
-BTW [Vim-Scripts.org](http://vim-scripts.org) is a git mirror of all vim scripts. See [gmarik's vimrc](http://github.com/gmarik/vimfiles/blob/6926a7e2ba176a292a8e71b6e4c17f15b8eebe04/vimrc#L134) for working example.
+   Add to your <code>~/.vimrc</code>:
 
-## Installing plugins
+        set rtp+=~/.vim/vundle.git/ 
+        call vundle#rc()
 
-Launch <code>vim</code> and run <code>:BundleInstall</code>.
+        " My bundles
+        Bundle "L9"
+        Bundle "FuzzyFinder"
+        Bundle "rails.vim"
+        Bundle "ack.vim"
+        Bundle "git://git.wincent.com/command-t.git"
+        " check http://vim-scripts.org for more
 
-Or from command line:
+3. Install configured bundles:
 
-   $ vim  -e -c 'BundleInstall' -c 'q'
+   Launch <code>vim</code> and run <code>:BundleInstall</code>.
 
-triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
+   Or from command line:
+
+        $ vim  -e -c 'BundleInstall' -c 'q'
+
+   triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
+
+   See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
+
+## Searching
+
+    :BundleSearch Finder
+
+Will split new window with results:
+
+    Bundle "FuzzyFinder"
+    Bundle "Indent-Finder"
+    Bundle "cHeaderFinder"
+
+So you can just copy one you need to you <code>.vimrc</code>
 
 ## Inspiration and ideas from
 
@@ -41,12 +64,19 @@ triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo
 * [Scott Bronson](http://github.com/bronson)
 
 ## TODO:
+[Vundle] is a work in progress so any ideas/patches appreciated
 
-* improve code 
-* support non [Git] resources aswell
+* tests
+* allow specify revision/version?
+* activate newly added bundles on .vimrc reload
+* search by description aswell
+* show descrption in search results
+* use location list/quick fix list for search results
+* make it rock!
 
 [Vundle]:http://github.com/gmarik/vundle
 [Pathogen]:http://github.com/tpope/vim-pathogen/
 [Bundler]:http://github.com/wycats/bundler/
 [Vim]:http://vim.org
 [Git]:http://git-scm.com
+[all available vim scripts]:http://vim-scripts.org/scripts.html

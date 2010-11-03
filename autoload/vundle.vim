@@ -1,34 +1,49 @@
 " vundle.vim  - is a shortcut for Vim Bundle and Is a simple plugin manager for Vim
 " Maintainer:   http://github.com/gmarik
-" Version:      0.1
+" Version:      0.2
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 
-if exists("g:vundle_loaded") || &cp | finish | endif
-let g:vundle_loaded = 1
-
-au BufRead,BufNewFile {bundlerc} set ft=vim
-
-com! -nargs=+ Bundle call vundle#add_bundle(<args>)
+com! -nargs=+ Bundle        call vundle#add_bundle(<args>)
 com! -nargs=0 BundleInstall call vundle#install_bundles()
-com! -nargs=0 BundleDocs call vundle#helptagify_bundles()
+com! -nargs=0 BundleDocs    call vundle#helptagify_bundles()
 
-let g:bundle_dir = expand('~/.vim/bundle/')
+com! -nargs=* BundleSearch  call vundle#scripts#search(<q-args>)
 
 func! vundle#rc()
+  let g:bundle_dir = expand('$HOME/.vim/bundle/')
   let g:bundles = []
 endf
 
 func! vundle#add_bundle(...)
-  let [uri; rest] = a:000 | let opts = {}
+  let [arg; rest] = a:000 | let opts = {}
   if len(rest) == 1 | let opts = rest[0] | endif
-  let bundle = vundle#new_bundle(uri, opts)
-  call vundle#require_bundle(bundle)
+  " try 
+    let bundle = vundle#new_bundle(arg, opts)
+    call vundle#require_bundle(bundle)
+  " catch | echo 'Error: loadin '.arg | endtry
 endf
 
-func! vundle#new_bundle(uri, opts)
-  let bundle = a:opts 
-  let bundle.uri = a:uri
-  let bundle.name = split(a:uri,'\/')[-1]
+func! vundle#init_bundle(arg, opts)
+  let bundle = a:opts | let arg = a:arg
+  if arg =~ '^\s*\d\+\s*$' || type(arg) == type(42) " script id
+    let bundle.name = vundle#scripts#find(arg)
+    let bundle.uri  = vundle#script_uri(bundle.name)
+  elseif arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\*$'
+    let bundle.uri = arg
+    let bundle.name = substitute(split(bundle.uri,'\/')[-1], '\.git\s*$','','i')
+  else
+    let bundle.name = arg
+    let bundle.uri  = vundle#script_uri(bundle.name)
+  endif
+  return bundle
+endf
+
+func! vundle#script_uri(name) 
+  return 'http://github.com/vim-scripts/'.a:name.'.git'
+endf
+
+func! vundle#new_bundle(arg, opts)
+  let bundle = vundle#init_bundle(a:arg, a:opts)
   let bundle.path = expand(g:bundle_dir.''.bundle.name)
   let bundle.rtpath = has_key(bundle, 'rtp') ? join([bundle.path, bundle.rtp], '/') : bundle.path
   call add(g:bundles, bundle)
@@ -68,3 +83,4 @@ func! vundle#helptagify_bundles()
     endif
   endfor
 endf
+
