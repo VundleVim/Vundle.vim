@@ -17,7 +17,7 @@ in order to install/search [all available vim scripts]
 
 1. Setup [Vundle]:
 
-        git clone http://github.com/gmarik/vundle.git > ~/.vim/vundle.vim
+        git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
 2. Configure bundles:
 
