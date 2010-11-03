@@ -48,13 +48,12 @@ in order to install/search [all available vim scripts]
 
 ## Searching
 
-    :BundleSearch Finder
+    :BundleSearch foo
 
 Will split new window with results:
 
-    Bundle "FuzzyFinder"
-    Bundle "Indent-Finder"
-    Bundle "cHeaderFinder"
+    Bundle "VimFootnotes"
+    Bundle "foo.vim"
 
 So you can just copy one you need to you <code>.vimrc</code>
 
