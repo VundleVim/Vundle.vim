@@ -26,10 +26,8 @@ func! vundle#scripts#read()
 endf
 
 func! vundle#scripts#load()
-  if !exists('g:vundle_scripts') || empty(g:vundle_scripts)
-		let g:vundle_scripts_file = expand('$HOME/.vim-vundle/vim-scripts.org.json')
-    let g:vundle_scripts = eval(vundle#scripts#read())
-  endif
+  let g:vundle_scripts_file = expand('$HOME/.vim-vundle/vim-scripts.org.json')
+  let g:vundle_scripts = eval(vundle#scripts#read())
 
   return g:vundle_scripts
 endf
