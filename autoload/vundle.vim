@@ -65,11 +65,12 @@ endf
 func! vundle#sync_bundles()
   for bundle in g:bundles
     let git_dir = bundle.path.'/.git'
-    let cmd = isdirectory(git_dir) ?  
-          \ '--git-dir='.git_dir.' pull' : 
-          \ 'clone '.bundle.uri.' '.bundle.path
     exec '!echo -ne "* '.bundle.name.'"'
-    silent exec '!git '.cmd
+    if isdirectory(git_dir)
+        silent exec '!cd '.bundle.path.'; git pull'
+    else
+        silent exec '!git clone '.bundle.uri.' '.bundle.path
+    endif
   endfor
 endf
 
