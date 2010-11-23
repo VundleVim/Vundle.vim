@@ -5,10 +5,11 @@
 ## Why
 [Vundle] can:
 
-- automatically install vim scripts (aka bundle) 
+- keep track and configure your scripts right in <code>.vimrc</code> 
+- install configured scripts (aka bundle) 
 - manage runtime path of your installed scripts so you don't have to
+- search [all available vim scripts] by name
 - disable/enable bundles by commenting/uncommenting configured Bundle(requires reload)
-- NEW: search [all available vim scripts] by name
 
 [Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
 in order to install/search [all available vim scripts]
@@ -21,7 +22,7 @@ in order to install/search [all available vim scripts]
 
 2. Configure bundles:
 
-   Add to your <code>~/.vimrc</code>:
+   Append to your <code>~/.vimrc</code>:
 
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
@@ -32,22 +33,13 @@ in order to install/search [all available vim scripts]
         Bundle "rails.vim"
         Bundle "ack.vim"
         Bundle "git://git.wincent.com/command-t.git"
-        " check http://vim-scripts.org for more
 
 3. Install configured bundles:
 
-   Launch <code>vim</code>, run <code>:BundleInstall</code> and restart Vim. 
+   Launch <code>vim</code>, run <code>:BundleInstall</code> and **restart Vim**. 
 
-   Or from command line:
+   BundleInstall requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
 
-        $ vim  -e -c 'BundleInstall' -c 'q'
-
-
-   triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
-
-   **Make sure to restart Vim after installing new scripts**.
-
-   See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
 
 ## Searching
 
@@ -58,9 +50,14 @@ Will split new window with results:
     Bundle "VimFootnotes"
     Bundle "foo.vim"
 
-So you can just copy one you need to you <code>.vimrc</code>.
+So you can just copy ones you need to <code>.vimrc</code>.
 
-Searching requires [<code>curl</code>](http://curl.haxx.se/)
+BundleSearch requires [<code>curl</code>](http://curl.haxx.se/)
+
+
+## Examples   
+
+   See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
 
 ## Inspiration and ideas from
 
@@ -71,12 +68,13 @@ Searching requires [<code>curl</code>](http://curl.haxx.se/)
 ## TODO:
 [Vundle] is a work in progress so any ideas/patches appreciated
 
-* tests
+* activate newly added bundles on .vimrc reload or after :BundleInstall
 * allow specify revision/version?
-* activate newly added bundles on .vimrc reload
 * search by description aswell
 * show descrption in search results
 * use location list/quick fix list for search results
+* documentation
+* tests
 * make it rock!
 
 [Vundle]:http://github.com/gmarik/vundle
