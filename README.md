@@ -5,7 +5,7 @@
 ## Why
 [Vundle] can:
 
-- automatically install vim script (aka bundle) 
+- automatically install vim scripts (aka bundle) 
 - manage runtime path of your installed scripts so you don't have to
 - disable/enable bundles by commenting/uncommenting configured Bundle(requires reload)
 - NEW: search [all available vim scripts] by name
@@ -36,13 +36,16 @@ in order to install/search [all available vim scripts]
 
 3. Install configured bundles:
 
-   Launch <code>vim</code> and run <code>:BundleInstall</code>.
+   Launch <code>vim</code>, run <code>:BundleInstall</code> and restart Vim. 
 
    Or from command line:
 
         $ vim  -e -c 'BundleInstall' -c 'q'
 
+
    triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
+
+   **Make sure to restart Vim after installing new scripts**.
 
    See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
 
