@@ -4,7 +4,7 @@ func! vundle#scripts#search(...)
   call writefile(matches, temp)
   exec 'sp '.temp
 	let @/=a:1
-  setlocal hls
+  setlocal hls ft=vim
   redraw
 endf
 
