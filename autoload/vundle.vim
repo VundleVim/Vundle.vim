@@ -7,7 +7,7 @@ com! -nargs=+ Bundle        call vundle#add_bundle(<args>)
 com! -nargs=0 BundleInstall call vundle#install_bundles()
 com! -nargs=0 BundleDocs    call vundle#helptagify_bundles()
 
-com! -nargs=* BundleSearch  call vundle#scripts#search(<q-args>)
+com! -nargs=* BundleSearch  silent call vundle#scripts#search(<q-args>)
 
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle/')
@@ -25,10 +25,7 @@ endf
 
 func! vundle#init_bundle(arg, opts)
   let bundle = a:opts | let arg = a:arg
-  if arg =~ '^\s*\d\+\s*$' || type(arg) == type(42) " script id
-    let bundle.name = vundle#scripts#find(arg)
-    let bundle.uri  = vundle#script_uri(bundle.name)
-  elseif arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\*$'
+  if arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\*$'
     let bundle.uri = arg
     let bundle.name = substitute(split(bundle.uri,'\/')[-1], '\.git\s*$','','i')
   else

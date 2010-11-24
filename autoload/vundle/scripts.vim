@@ -1,40 +1,24 @@
 func! vundle#scripts#search(...)
-  let matches = map(vundle#scripts#lookup(a:1), ' printf("Bundle \"%s\"", v:val) ') 
+  let matches = filter(eval(vundle#scripts#read()), 'v:val =~ "'.escape(a:1,'"').'"')
+  let results = map(matches, ' printf("Bundle \"%s\"", v:val) ') 
   let temp = tempname()
-  call writefile(matches, temp)
+  call writefile(results, temp)
   exec 'sp '.temp
 	let @/=a:1
   setlocal hls ft=vim
   redraw
 endf
 
-func! vundle#scripts#lookup(term)
-  return filter(vundle#scripts#load(), 'v:val =~ "'.escape(a:term,'"').'"')
-endf
-
-func! vundle#scripts#fetch()
-  let to = g:vundle_scripts_file
+func! vundle#scripts#fetch(to)
   let temp = tempname()
   exec '!curl http://vim-scripts.org/api/scripts.json > '.temp
-  exec '!mkdir -p $(dirname  '.to.') && mv -f '.temp.' '.to
-  return to
+  exec '!mkdir -p $(dirname  '.a:to.') && mv -f '.temp.' '.a:to
 endf
 
 func! vundle#scripts#read()
-  if !filereadable(g:vundle_scripts_file)
-    call vundle#scripts#fetch()
+  let scripts_file = expand('$HOME/.vim-vundle/vim-scripts.org.json')
+  if !filereadable(scripts_file)
+    call vundle#scripts#fetch(scripts_file)
   endif
-  return readfile(g:vundle_scripts_file, 'b')[0]
-endf
-
-func! vundle#scripts#load()
-  let g:vundle_scripts_file = expand('$HOME/.vim-vundle/vim-scripts.org.json')
-  let g:vundle_scripts = eval(vundle#scripts#read())
-
-  return g:vundle_scripts
-endf
-
-func! vundle#scripts#find(id)
-  let scripts = vundle#scripts#load()
-  return scripts[a:id]
+  return readfile(scripts_file, 'b')[0]
 endf
