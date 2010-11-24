@@ -1,5 +1,5 @@
 func! vundle#scripts#search(...)
-  let matches = map(vundle#scripts#lookup(a:1), ' printf("Bundle \"%-5s\"", v:val) ') 
+  let matches = map(vundle#scripts#lookup(a:1), ' printf("Bundle \"%s\"", v:val) ') 
   let temp = tempname()
   call writefile(matches, temp)
   exec 'sp '.temp
