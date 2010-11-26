@@ -3,11 +3,11 @@
 " Version:      0.2
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 
-com! -nargs=+ Bundle        call vundle#add_bundle(<args>)
-com! -nargs=0 BundleInstall call vundle#install_bundles()
-com! -nargs=0 BundleDocs    call vundle#helptagify_bundles()
+com! -nargs=+       Bundle                call vundle#add_bundle(<args>)
+com! -nargs=0       BundleInstall         call vundle#install_bundles()
+com! -nargs=0       BundleDocs            call vundle#helptagify_bundles()
 
-com! -nargs=* BundleSearch  silent call vundle#scripts#search(<q-args>)
+com! -nargs=+ -bang BundleSearch  silent  call vundle#scripts#search("<bang>", <q-args>)
 
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle/')
