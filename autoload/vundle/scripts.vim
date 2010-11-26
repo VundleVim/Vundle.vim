@@ -1,9 +1,16 @@
 func! vundle#scripts#search(bang,search_str)
   let matches = filter(eval(vundle#scripts#read(a:bang)), 'v:val =~ "'.escape(a:search_str,'"').'"')
   let results = map(matches, ' printf("Bundle \"%s\"", v:val) ') 
-  let temp = tempname()
-  call writefile(results, temp)
-  exec 'sp '.temp
+  call s:display(results, a:search_str)
+endf
+
+func! s:display(results,search_str)
+  if !exists('s:buff') 
+    let s:buff = tempname()
+    split
+  endif
+  call writefile(['" Search results for: '.a:search_str] + a:results, s:buff)
+  exec 'e '.s:buff
 	let @/=a:search_str
   setlocal hls ft=vim
   redraw
