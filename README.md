@@ -3,7 +3,7 @@
 [Vundle] is a short cut for **V**imb**undle** and is a small plugin for managing [Vim] plugins.
 
 ## Why
-[Vundle] can:
+[Vundle] allows to:
 
 - keep track and configure your scripts right in <code>.vimrc</code> 
 - install configured scripts (aka bundle) 
@@ -38,7 +38,7 @@ in order to install/search [all available vim scripts]
 
    Launch <code>vim</code>, run <code>:BundleInstall</code> and **restart Vim**. 
 
-   BundleInstall requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
+   Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
 
 
 ## Searching
@@ -52,8 +52,11 @@ Will split new window with results:
 
 So you can just copy ones you need to <code>.vimrc</code>.
 
-BundleSearch requires [<code>curl</code>](http://curl.haxx.se/)
+    :BundleSearch! foo
 
+Will refresh scripts list before doing search.
+
+Searching requires [<code>curl</code>](http://curl.haxx.se/)
 
 ## Examples   
 
@@ -69,6 +72,7 @@ BundleSearch requires [<code>curl</code>](http://curl.haxx.se/)
 [Vundle] is a work in progress so any ideas/patches appreciated
 
 * activate newly added bundles on .vimrc reload or after :BundleInstall
+* improve error handling
 * allow specify revision/version?
 * search by description aswell
 * show descrption in search results
