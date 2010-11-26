@@ -45,16 +45,16 @@ in order to install/search [all available vim scripts]
 
     :BundleSearch foo
 
-Will split new window with results:
+will split new window with results:
 
     Bundle "VimFootnotes"
     Bundle "foo.vim"
 
-So you can just copy ones you need to <code>.vimrc</code>.
+so you can just copy ones you need to <code>.vimrc</code>.
 
     :BundleSearch! foo
 
-Will refresh scripts list before doing search.
+will refresh scripts list before doing search.
 
 Searching requires [<code>curl</code>](http://curl.haxx.se/)
 
