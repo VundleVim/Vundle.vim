@@ -86,4 +86,4 @@ Searching requires [<code>curl</code>](http://curl.haxx.se/)
 [Bundler]:http://github.com/wycats/bundler/
 [Vim]:http://vim.org
 [Git]:http://git-scm.com
-[all available vim scripts]:http://vim-scripts.org/scripts.html
+[all available vim scripts]:http://vim-scripts.org/vim/scripts.html
