@@ -76,7 +76,7 @@ Searching requires [<code>curl</code>](http://curl.haxx.se/)
 * allow specify revision/version?
 * search by description aswell
 * show descrption in search results
-* use location list/quick fix list for search results
+* √ use preview window for search results
 * documentation
 * tests
 * make it rock!
