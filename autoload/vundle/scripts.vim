@@ -5,12 +5,10 @@ func! vundle#scripts#search(bang,search_str)
 endf
 
 func! s:display(results,search_str)
-  if !exists('s:buff') 
-    let s:buff = tempname()
-    split
-  endif
+  if !exists('s:buff') | let s:buff = tempname() | endif
   call writefile(['" Search results for: '.a:search_str] + a:results, s:buff)
-  exec 'e '.s:buff
+  pedit `=s:buff`
+  wincmd P
 	let @/=a:search_str
   setlocal hls ft=vim
   redraw
