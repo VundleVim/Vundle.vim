@@ -9,7 +9,7 @@ func! s:display(results,search_str)
   call writefile(['" Search results for: '.a:search_str] + a:results, s:buff)
   pedit `=s:buff`
   wincmd P
-	let @/=a:search_str
+  let @/=a:search_str
   setlocal hls ft=vim
   redraw
 endf
