@@ -11,7 +11,7 @@ func! s:display(results,search_str)
   wincmd P
   let @/=a:search_str
   setlocal hls ft=vim
-  redraw
+  redraw!
 endf
 
 func! s:fetch_scripts(to)
