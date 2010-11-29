@@ -69,7 +69,7 @@ func! vundle#sync_bundles()
           \ '--git-dir='.git_dir.' pull' : 
           \ 'clone '.bundle.uri.' '.bundle.path
     exec '!echo -ne "* '.bundle.name.'"'
-    exec '!git '.cmd
+    silent exec '!git '.cmd
   endfor
 endf
 
