@@ -5,7 +5,7 @@
 ## Why
 [Vundle] allows to:
 
-- keep track and configure your scripts right in <code>.vimrc</code> 
+- keep track and configure your scripts right in <code>.vimrc</code>
 - install configured scripts (aka bundle) 
 - manage runtime path of your installed scripts so you don't have to
 - search [all available vim scripts] by name
@@ -58,7 +58,7 @@ will refresh scripts list before doing search.
 
 Searching requires [<code>curl</code>](http://curl.haxx.se/)
 
-## Examples   
+## Examples
 
    See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
 
