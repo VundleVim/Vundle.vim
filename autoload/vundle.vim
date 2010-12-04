@@ -67,9 +67,9 @@ func! vundle#sync_bundles()
     let git_dir = bundle.path.'/.git'
     exec '!echo -ne "* '.bundle.name.'"'
     if isdirectory(git_dir)
-        silent exec '!cd '.bundle.path.'; git pull'
+      silent exec '!cd '.bundle.path.'; git pull'
     else
-        silent exec '!git clone '.bundle.uri.' '.bundle.path
+      silent exec '!git clone '.bundle.uri.' '.bundle.path
     endif
   endfor
 endf
