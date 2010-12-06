@@ -1,6 +1,6 @@
 " vundle.vim  - is a shortcut for Vim Bundle and Is a simple plugin manager for Vim
 " Maintainer:   http://github.com/gmarik
-" Version:      0.3
+" Version:      0.4
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 
 com! -nargs=+       Bundle                call vundle#add_bundle(<args>)
