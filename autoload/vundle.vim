@@ -56,7 +56,7 @@ func s:parse_options(opts)
     if  type(a:opts[0]) == type({})
       return a:opts[0]
     else
-      return {'revision': a:opts[0]}
+      return {'rev': a:opts[0]}
     endif
   endif
   return {}
@@ -94,4 +94,3 @@ func! s:bundle.install()
   call self.sync() 
   call self.helptags()
 endf
-
