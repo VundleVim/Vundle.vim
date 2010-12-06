@@ -15,10 +15,10 @@ func! vundle#rc()
 endf
 
 func! vundle#add_bundle(arg, ...)
-  let bundle = copy(s:bundle)
+  let bundle = s:parse_options(a:000)
   call add(g:bundles, bundle)
-  call extend(bundle, s:parse_options(a:000))  
-  call bundle.parse_name(a:arg)
+  call extend(bundle, s:parse_name(a:arg))  
+  call extend(bundle, copy(s:bundle))
   call bundle.require()
 endf
 
@@ -30,6 +30,29 @@ endf
 
 func! vundle#helptags()
   for bundle in g:bundles | call bundle.helptags() | endfor
+endf
+
+func s:parse_options(opts)
+  " TODO: improve this
+  if len(a:opts) != 1 | return {} | endif
+    
+  if type(a:opts[0]) == type({})
+    return a:opts[0]
+  else
+    return {'rev': a:opts[0]}
+  endif
+endf
+
+func! s:parse_name(arg)
+  let arg = a:arg
+  if arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\*$'
+    let uri = arg
+    let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
+  else
+    let name = arg
+    let uri  = 'http://github.com/vim-scripts/'.name.'.git'
+  endif
+  return {'name': name, 'uri': uri }
 endf
 
 let s:bundle = {}
@@ -47,29 +70,6 @@ func s:bundle.require()
   exec 'set rtp^='.dir
   let after = expand(dir.'/after') | if isdirectory(after) 
     exec 'set rtp+='.after 
-  endif
-endf
-
-func s:parse_options(opts)
-  " TODO: improve this
-  if len(a:opts) == 1
-    if  type(a:opts[0]) == type({})
-      return a:opts[0]
-    else
-      return {'rev': a:opts[0]}
-    endif
-  endif
-  return {}
-endf
-
-func! s:bundle.parse_name(arg)
-  let arg = a:arg
-  if arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\*$'
-    let self.uri = arg
-    let self.name = substitute(split(self.uri,'\/')[-1], '\.git\s*$','','i')
-  else
-    let self.name = arg
-    let self.uri  = 'http://github.com/vim-scripts/'.self.name.'.git'
   endif
 endf
 
