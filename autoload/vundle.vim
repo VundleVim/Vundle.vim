@@ -73,13 +73,8 @@ func! s:helptags(rtp)
   return 1
 endf
 
-func! s:require(bundle)
-  exec 'runtime '.bundle.rtpath().'/plugin/*.vim'
-endf
-
 func! s:sync(bundle) 
   let git_dir = a:bundle.path().'/.git'
-  echo a:bundle.name
   if isdirectory(git_dir)
     silent exec '!cd '.a:bundle.path().'; git pull'
   else
@@ -88,8 +83,10 @@ func! s:sync(bundle)
 endf
 
 func! s:install(bundle)
-  call s:sync(a:bundle) 
-  call s:helptags(a:bundle)
+  echo a:bundle.name
+  call s:sync(a:bundle)
+  call s:helptags(a:bundle.rtpath())
+  exec 'runtime! '.a:bundle.rtpath().'/plugin/*.vim'
 endf
 
 let s:bundle = {}
