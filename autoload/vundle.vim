@@ -24,10 +24,7 @@ endf
 func! vundle#install_bundles(bang)
   silent source ~/.vimrc
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
-  for bundle in g:bundles | 
-    let synced = s:install('!' == a:bang, bundle) 
-    echo bundle.name.' '.(synced ? ' ': ' already').' installed'
-  endfor
+  for bundle in g:bundles | call s:install('!' == a:bang, bundle) | endfor
 endf
 
 func! vundle#helptags()
@@ -86,10 +83,9 @@ func! s:sync(bang, bundle)
 endf
 
 func! s:install(bang, bundle)
-  if !s:sync(a:bang, a:bundle) | return 0 | end
+  let synced = s:sync(a:bang, a:bundle)
+  echo a:bundle.name.' '.(synced ? ' ': ' already').' installed'
   call s:helptags(a:bundle.rtpath())
-  exec 'runtime! '.a:bundle.rtpath().'/plugin/*.vim'
-  return 1
 endf
 
 let s:bundle = {}
