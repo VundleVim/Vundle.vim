@@ -32,7 +32,7 @@ endf
 func! vundle#helptags()
   let c = 0
   for bundle in g:bundles | let c += s:helptags(bundle.rtpath()) | endfor
-  echo 'Done. '.c.' helptags generated'
+  echo 'Done. '.c.' bundles processed'
 endf
 
 func! s:rtp_add(dir)
