@@ -4,7 +4,7 @@
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 
 com! -nargs=+       Bundle                call vundle#add_bundle(<args>)
-com! -nargs=0       BundleInstall         call vundle#install_bundles()
+com! -nargs=? -bang BundleInstall         call vundle#install_bundles("<bang>")
 com! -nargs=0       BundleDocs            call vundle#helptags()
 
 com! -nargs=+ -bang BundleSearch  silent  call vundle#scripts#search("<bang>", <q-args>)
@@ -22,11 +22,13 @@ func! vundle#add_bundle(arg, ...)
   call s:rtp_add(bundle.rtpath())
 endf
 
-func! vundle#install_bundles()
+func! vundle#install_bundles(bang)
   silent source ~/.vimrc
-  exec '!mkdir -p '.g:bundle_dir
-  for bundle in g:bundles | call s:install(bundle) | endfor
-  echo 'Done'
+  if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+  for bundle in g:bundles | 
+    let synced = s:install('!' == a:bang, bundle) 
+    echo bundle.name.' '.(synced ? ' ': ' already').' installed'
+  endfor
 endf
 
 func! vundle#helptags()
@@ -73,20 +75,22 @@ func! s:helptags(rtp)
   return 1
 endf
 
-func! s:sync(bundle) 
+func! s:sync(bang, bundle) 
   let git_dir = a:bundle.path().'/.git'
   if isdirectory(git_dir)
+    if !(a:bang) | return 0 | endif
     silent exec '!cd '.a:bundle.path().'; git pull'
   else
     silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path()
   endif
+  return 1
 endf
 
-func! s:install(bundle)
-  echo a:bundle.name
-  call s:sync(a:bundle)
+func! s:install(bang, bundle)
+  if !s:sync(a:bang, a:bundle) | return 0 | end
   call s:helptags(a:bundle.rtpath())
   exec 'runtime! '.a:bundle.rtpath().'/plugin/*.vim'
+  return 1
 endf
 
 let s:bundle = {}
