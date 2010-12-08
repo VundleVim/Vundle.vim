@@ -32,7 +32,7 @@ func! vundle#helptags()
   for bundle in g:bundles | call bundle.helptags() | endfor
 endf
 
-func s:parse_options(opts)
+func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
     
@@ -57,15 +57,15 @@ endf
 
 let s:bundle = {}
 
-func s:bundle.path()
+func! s:bundle.path()
   return expand(g:bundle_dir.''.self.name)
 endf
 
-func s:bundle.rtpath()
+func! s:bundle.rtpath()
   return has_key(self, 'rtp') ? join([self.path(), self.rtp], '/') : self.path()
 endf
 
-func s:bundle.require()
+func! s:bundle.require()
   let dir = self.rtpath()
   exec 'set rtp^='.dir
   let after = expand(dir.'/after') | if isdirectory(after) 
@@ -82,7 +82,7 @@ endf
 
 func! s:bundle.sync() 
   let git_dir = self.path().'/.git'
-  exec '!echo -ne "* '.self.name.'"'
+  echo self.name
   if isdirectory(git_dir)
     silent exec '!cd '.self.path().'; git pull'
   else
