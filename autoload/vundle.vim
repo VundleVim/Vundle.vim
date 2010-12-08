@@ -25,11 +25,11 @@ endf
 func! vundle#install_bundles()
   silent source ~/.vimrc
   exec '!mkdir -p '.g:bundle_dir
-  for bundle in g:bundles | call bundle.install() | endfor
+  for bundle in g:bundles | call s:install(bundle) | endfor
 endf
 
 func! vundle#helptags()
-  for bundle in g:bundles | call bundle.helptags() | endfor
+  for bundle in g:bundles | call s:helptags(bundle) | endfor
 endf
 
 func! s:rtp_add(dir)
@@ -62,6 +62,32 @@ func! s:parse_name(arg)
   return {'name': name, 'uri': uri }
 endf
 
+func! s:helptags(bundle)
+  let dir = a:bundle.rtpath()
+  if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
+    helptags `=dir.'/doc'`
+  endif
+endf
+
+func! s:require(bundle)
+  exec 'runtime '.bundle.rtpath().'/plugin/*.vim'
+endf
+
+func! s:sync(bundle) 
+  let git_dir = a:bundle.path().'/.git'
+  echo a:bundle.name
+  if isdirectory(git_dir)
+    silent exec '!cd '.a:bundle.path().'; git pull'
+  else
+    silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path()
+  endif
+endf
+
+func! s:install(bundle)
+  call s:sync(a:bundle) 
+  call s:helptags(a:bundle)
+endf
+
 let s:bundle = {}
 
 func! s:bundle.path()
@@ -70,27 +96,4 @@ endf
 
 func! s:bundle.rtpath()
   return has_key(self, 'rtp') ? join([self.path(), self.rtp], '/') : self.path()
-endf
-
-
-func! s:bundle.helptags()
-  let dir = self.rtpath()
-  if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
-    helptags `=dir.'/doc'`
-  endif
-endf
-
-func! s:bundle.sync() 
-  let git_dir = self.path().'/.git'
-  echo self.name
-  if isdirectory(git_dir)
-    silent exec '!cd '.self.path().'; git pull'
-  else
-    silent exec '!git clone '.self.uri.' '.self.path()
-  endif
-endf
-
-func! s:bundle.install()
-  call self.sync() 
-  call self.helptags()
 endf
