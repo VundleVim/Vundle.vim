@@ -15,10 +15,9 @@ func! vundle#rc()
 endf
 
 func! vundle#add_bundle(arg, ...)
-  let bundle = s:parse_options(a:000)
-  call add(g:bundles, bundle)
-  call extend(bundle, s:parse_name(a:arg))  
+  let bundle = extend(s:parse_options(a:000), s:parse_name(a:arg))
   call extend(bundle, copy(s:bundle))
+  call add(g:bundles, bundle)
   call s:rtp_add(bundle.rtpath())
 endf
 
