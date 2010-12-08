@@ -26,10 +26,13 @@ func! vundle#install_bundles()
   silent source ~/.vimrc
   exec '!mkdir -p '.g:bundle_dir
   for bundle in g:bundles | call s:install(bundle) | endfor
+  echo 'Done'
 endf
 
 func! vundle#helptags()
-  for bundle in g:bundles | call s:helptags(bundle) | endfor
+  let c = 0
+  for bundle in g:bundles | let c += s:helptags(bundle.rtpath()) | endfor
+  echo 'Done. '.c.' helptags generated'
 endf
 
 func! s:rtp_add(dir)
@@ -62,11 +65,12 @@ func! s:parse_name(arg)
   return {'name': name, 'uri': uri }
 endf
 
-func! s:helptags(bundle)
-  let dir = a:bundle.rtpath()
-  if isdirectory(dir.'/doc') && (!filereadable(dir.'/doc/tags') || filewritable(dir.'/doc/tags'))
-    helptags `=dir.'/doc'`
+func! s:helptags(rtp)
+  if !(isdirectory(a:rtp.'/doc') && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags')))
+    return 0
   endif
+  helptags `=a:rtp.'/doc'`
+  return 1
 endf
 
 func! s:require(bundle)
