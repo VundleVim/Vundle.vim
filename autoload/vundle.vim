@@ -19,7 +19,7 @@ func! vundle#add_bundle(arg, ...)
   call add(g:bundles, bundle)
   call extend(bundle, s:parse_name(a:arg))  
   call extend(bundle, copy(s:bundle))
-  call bundle.require()
+  call s:rtp_add(bundle.rtpath())
 endf
 
 func! vundle#install_bundles()
@@ -30,6 +30,13 @@ endf
 
 func! vundle#helptags()
   for bundle in g:bundles | call bundle.helptags() | endfor
+endf
+
+func! s:rtp_add(dir)
+  exec 'set rtp^='.a:dir
+  let after = expand(a:dir.'/after') | if isdirectory(after) 
+    exec 'set rtp+='.after 
+  endif
 endf
 
 func! s:parse_options(opts)
@@ -65,13 +72,6 @@ func! s:bundle.rtpath()
   return has_key(self, 'rtp') ? join([self.path(), self.rtp], '/') : self.path()
 endf
 
-func! s:bundle.require()
-  let dir = self.rtpath()
-  exec 'set rtp^='.dir
-  let after = expand(dir.'/after') | if isdirectory(after) 
-    exec 'set rtp+='.after 
-  endif
-endf
 
 func! s:bundle.helptags()
   let dir = self.rtpath()
