@@ -9,7 +9,6 @@
 - install configured scripts (aka bundle) 
 - manage runtime path of your installed scripts so you don't have to
 - search [all available vim scripts] by name
-- disable/enable bundles by commenting/uncommenting configured Bundle(requires reload)
 
 [Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
 in order to install/search [all available vim scripts]
@@ -27,19 +26,25 @@ in order to install/search [all available vim scripts]
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
 
-        " My bundles
+        " Bundles:
         Bundle "L9"
         Bundle "FuzzyFinder"
         Bundle "rails.vim"
         Bundle "ack.vim"
         Bundle "git://git.wincent.com/command-t.git"
+        " ...
 
 3. Install configured bundles:
 
-   Launch <code>vim</code>, run <code>:BundleInstall</code> and **restart Vim**. 
+   Launch <code>vim</code>, run <code>:BundleInstall</code> (**no restart required** since v0.5)
 
    Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
 
+## Script installation
+
+  `BundleInstall` installs script only if it hasn't been already installed installed. 
+  `BundleInstall` is faster than `BundleInstall!` (note bang at the end) because latter fetches scripts without any checks. 
+  Use `BundleInstall!` to update scripts.
 
 ## Searching
 
@@ -71,12 +76,13 @@ Searching requires [<code>curl</code>](http://curl.haxx.se/)
 ## TODO:
 [Vundle] is a work in progress so any ideas/patches appreciated
 
-* activate newly added bundles on .vimrc reload or after :BundleInstall
+* √ activate newly added bundles on .vimrc reload or after :BundleInstall
+* √ use preview window for search results
 * improve error handling
 * allow specify revision/version?
 * search by description aswell
 * show descrption in search results
-* √ use preview window for search results
+* instead sourcing .vimrc before installation come up with another solution
 * documentation
 * tests
 * make it rock!
