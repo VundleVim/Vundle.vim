@@ -34,7 +34,7 @@ endf
 func! vundle#helptags()
   let c = 0
   for bundle in g:bundles | let c += s:helptags(bundle.rtpath()) | endfor
-  echo 'Done. '.c.' bundles processed'
+  call s:log('Done. '.c.' bundles processed')
 endf
 
 func! s:parse_options(opts)
@@ -79,17 +79,17 @@ func! s:sync(bang, bundle)
   let git_dir = a:bundle.path().'/.git'
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
-    silent exec '!cd '.a:bundle.path().'; git pull'
+    silent exec '!cd '.a:bundle.path().'; git pull >/dev/null 2>&1'
   else
-    silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path()
+    silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path().' >/dev/null 2>&1'
   endif
   return 1
 endf
 
 func! s:install(bang, bundle)
   let synced = s:sync(a:bang, a:bundle)
-  echo a:bundle.name.' '.(synced ? ' ': ' already').' installed'
   call s:helptags(a:bundle.rtpath())
+  call s:log(a:bundle.name.' '.(synced ? ' ': ' already').' installed')
 endf
 
 func! s:rtp_rm(dir)
@@ -102,6 +102,16 @@ func! s:rtp_add(dir)
   exec 'set rtp+='.expand(a:dir.'/after')
 endf
 
+func! s:log(msg)
+  if has('gui_running')
+    echo a:msg
+  else
+    " console vim requires to hit ENTER after each !cmd with stdout output
+    " workaround
+    silent exec '! echo '.a:msg.' >&2| cat >/dev/null' 
+  endif
+endf
+
 let s:bundle = {}
 
 func! s:bundle.path()
@@ -111,3 +121,4 @@ endf
 func! s:bundle.rtpath()
   return has_key(self, 'rtp') ? join([self.path(), self.rtp], '/') : self.path()
 endf
+
