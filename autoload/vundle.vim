@@ -9,8 +9,12 @@ com! -nargs=0       BundleDocs            call vundle#helptags()
 
 com! -nargs=+ -bang BundleSearch  silent  call vundle#scripts#search("<bang>", <q-args>)
 
+if !exists('g:bundles') | let g:bundles = [] | endif
+
 func! vundle#rc()
-  let g:bundle_dir = expand('$HOME/.vim/bundle/')
+  let g:bundle_dir = expand('$HOME/.vim/bundle')
+  call filter(g:bundles, 's:rtp_rm(v:val.rtpath())')
+  call s:rtp_rm(g:bundle_dir)
   let g:bundles = []
 endf
 
@@ -19,6 +23,8 @@ func! vundle#add_bundle(arg, ...)
   call extend(bundle, copy(s:bundle))
   call add(g:bundles, bundle)
   call s:rtp_add(bundle.rtpath())
+  call s:rtp_add(g:bundle_dir)
+  exec 'runtime! '.bundle.name.'/plugin/*.vim'
 endf
 
 func! vundle#install_bundles(bang)
@@ -31,13 +37,6 @@ func! vundle#helptags()
   let c = 0
   for bundle in g:bundles | let c += s:helptags(bundle.rtpath()) | endfor
   echo 'Done. '.c.' bundles processed'
-endf
-
-func! s:rtp_add(dir)
-  exec 'set rtp^='.a:dir
-  let after = expand(a:dir.'/after') | if isdirectory(after) 
-    exec 'set rtp+='.after 
-  endif
 endf
 
 func! s:parse_options(opts)
@@ -88,10 +87,20 @@ func! s:install(bang, bundle)
   call s:helptags(a:bundle.rtpath())
 endf
 
+func! s:rtp_rm(dir)
+  exec 'set rtp-='.a:dir
+  exec 'set rtp-='.expand(a:dir.'/after')
+endf
+
+func! s:rtp_add(dir)
+  exec 'set rtp^='.a:dir
+  exec 'set rtp+='.expand(a:dir.'/after')
+endf
+
 let s:bundle = {}
 
 func! s:bundle.path()
-  return expand(g:bundle_dir.''.self.name)
+  return join([g:bundle_dir, self.name], '/')
 endf
 
 func! s:bundle.rtpath()
