@@ -13,6 +13,5 @@ if !exists('g:bundles') | let g:bundles = [] | endif
 
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle')
-  call filter(g:bundles, 's:rtp_rm(v:val.rtpath())')
-  let g:bundles = []
+  call vundle#config#init()
 endf

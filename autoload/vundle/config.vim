@@ -6,6 +6,11 @@ func! vundle#config#bundle(arg, ...)
   call s:require(bundle)
 endf
 
+func! vundle#config#init()
+  call filter(g:bundles, 's:rtp_rm(v:val.rtpath())')
+  let g:bundles = []
+endf
+
 func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
