@@ -42,9 +42,9 @@ in order to install/search [all available vim scripts]
 
 ## Script installation
 
-  `BundleInstall` installs script only if it hasn't been already installed installed. 
+  `BundleInstall` installs script only if it hasn't been already installed. 
   `BundleInstall` is faster than `BundleInstall!` (note bang at the end) because latter fetches scripts without any checks. 
-  Use `BundleInstall!` to update scripts.
+  Use `BundleInstall` to install new scripts scripts. Use `BundleInstall!` to update scripts.
 
 ## Searching
 
