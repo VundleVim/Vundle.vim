@@ -14,7 +14,6 @@ if !exists('g:bundles') | let g:bundles = [] | endif
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle')
   call filter(g:bundles, 's:rtp_rm(v:val.rtpath())')
-  call s:rtp_rm(g:bundle_dir)
   let g:bundles = []
 endf
 
@@ -23,8 +22,7 @@ func! vundle#add_bundle(arg, ...)
   call extend(bundle, copy(s:bundle))
   call add(g:bundles, bundle)
   call s:rtp_add(bundle.rtpath())
-  call s:rtp_add(g:bundle_dir)
-  exec 'runtime! '.bundle.name.'/plugin/*.vim'
+  call s:require(bundle)
 endf
 
 func! vundle#install_bundles(bang)
@@ -60,6 +58,13 @@ func! s:parse_name(arg)
     let uri  = 'http://github.com/vim-scripts/'.name.'.git'
   endif
   return {'name': name, 'uri': uri }
+endf
+
+func! s:require(bundle)
+  call s:rtp_add(g:bundle_dir)
+  exec 'runtime! '.a:bundle.name.'/plugin/*.vim'
+  exec 'runtime! '.a:bundle.name.'/after/*.vim'
+  call s:rtp_rm(g:bundle_dir)
 endf
 
 func! s:helptags(rtp)
