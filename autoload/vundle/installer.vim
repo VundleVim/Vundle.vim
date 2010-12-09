@@ -33,7 +33,8 @@ endf
 func! s:install(bang, bundle)
   let synced = s:sync(a:bang, a:bundle)
   call s:helptags(a:bundle.rtpath())
-  call s:log(a:bundle.name.' '.(synced ? ' ': ' already').' installed')
+  call s:log(a:bundle.name.' '.(synced ? '': ' already').' installed')
+  if synced | call vundle#config#require(a:bundle) | endif
 endf
 
 func! s:log(msg)
