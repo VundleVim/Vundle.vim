@@ -36,7 +36,7 @@ in order to install/search [all available vim scripts]
 
 3. Install configured bundles:
 
-   Launch <code>vim</code>, run <code>:BundleInstall</code> (**no restart required** since v0.5)
+   Launch <code>vim</code>, run <code>:BundleInstall</code> (**no `Vim` restart required** since v0.5)
 
    Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
 
@@ -44,7 +44,7 @@ in order to install/search [all available vim scripts]
 
   `BundleInstall` installs script only if it hasn't been already installed. 
   `BundleInstall` is faster than `BundleInstall!` (note bang at the end) because latter fetches scripts without any checks. 
-  Use `BundleInstall` to install new scripts scripts. Use `BundleInstall!` to update scripts.
+  Use `BundleInstall` to install new scripts. Use `BundleInstall!` to update scripts.
 
 ## Searching
 
