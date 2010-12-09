@@ -1,5 +1,5 @@
 func! vundle#installer#install(bang)
-  " TODO: this sucks
+  " TODO: obtain Bundles without sourcing .vimrc
   silent source ~/.vimrc 
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
   for bundle in g:bundles | call s:install('!' == a:bang, bundle) | endfor
@@ -37,6 +37,7 @@ func! s:install(bang, bundle)
   if synced | call vundle#config#require(a:bundle) | endif
 endf
 
+" TODO: make it pause after output in console mode
 func! s:log(msg)
   if has('gui_running')
     echo a:msg
