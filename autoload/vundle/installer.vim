@@ -1,6 +1,5 @@
 func! vundle#installer#install(bang)
-  " TODO: obtain Bundles without sourcing .vimrc
-  silent source ~/.vimrc 
+  call s:reload_bundles()
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
   for bundle in g:bundles | call s:install('!' == a:bang, bundle) | endfor
 endf
@@ -9,6 +8,12 @@ func! vundle#installer#helptags()
   let c = 0
   for bundle in g:bundles | let c += s:helptags(bundle.rtpath()) | endfor
   call s:log('Done. '.c.' bundles processed')
+endf
+
+func! s:reload_bundles()
+  " TODO: obtain Bundles without sourcing .vimrc
+  silent source $MYVIMRC
+  if !filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
 endf
 
 func! s:helptags(rtp)
