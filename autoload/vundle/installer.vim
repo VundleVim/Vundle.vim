@@ -13,7 +13,7 @@ endf
 func! s:reload_bundles()
   " TODO: obtain Bundles without sourcing .vimrc
   silent source $MYVIMRC
-  if !filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
+  if filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
 endf
 
 func! s:helptags(rtp)
