@@ -1,14 +1,16 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = extend(s:parse_options(a:000), s:parse_name(a:arg))
   call extend(bundle, copy(s:bundle))
+  call s:rtp_rm_a()
   call add(g:bundles, bundle)
-  call s:rtp_add(bundle.rtpath())
+  call s:rtp_add_a()
   " TODO: fix this: explicit sourcing kills command-T
   " call vundle#config#require(bundle)
 endf
 
 func! vundle#config#init()
-  call filter(g:bundles, 's:rtp_rm(v:val.rtpath())')
+  if !exists('g:bundles') | let g:bundles = [] | endif
+  call s:rtp_rm_a()
   let g:bundles = []
 endf
 
@@ -41,6 +43,14 @@ func! s:parse_name(arg)
     let uri  = 'http://github.com/vim-scripts/'.name.'.git'
   endif
   return {'name': name, 'uri': uri }
+endf
+
+func! s:rtp_rm_a()
+  for b in g:bundles | call s:rtp_rm(b.rtpath()) | endfor
+endf
+
+func! s:rtp_add_a()
+  for b in reverse(copy(g:bundles)) | call s:rtp_add(b.rtpath()) | endfor
 endf
 
 func! s:rtp_rm(dir)

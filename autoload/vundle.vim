@@ -10,8 +10,6 @@ com! -nargs=0       BundleDocs            call vundle#installer#helptags()
 
 com! -nargs=+ -bang BundleSearch  silent  call vundle#scripts#search("<bang>", <q-args>)
 
-if !exists('g:bundles') | let g:bundles = [] | endif
-
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle')
   call vundle#config#init()
