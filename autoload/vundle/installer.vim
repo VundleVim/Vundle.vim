@@ -42,6 +42,13 @@ func! s:install(bang, bundle)
   if synced | call vundle#config#require(a:bundle) | endif
 endf
 
+func! vundle#installer#clean()
+  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
+  let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
+  let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
+  for d in x_dirs | exec '!rm -rf "'.escape(d,'"').'"' | endfor
+endf
+
 " TODO: make it pause after output in console mode
 func! s:log(msg)
   if has('gui_running')

@@ -9,6 +9,7 @@
 - install configured scripts (aka bundle) 
 - manage runtime path of your installed scripts so you don't have to
 - search [all available vim scripts] by name
+- clean up from unused scripts
 
 [Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
 in order to install/search [all available vim scripts]
@@ -50,7 +51,7 @@ in order to install/search [all available vim scripts]
 
     :BundleSearch foo
 
-will split new window with results:
+lists search results in new split window, ie:
 
     Bundle "VimFootnotes"
     Bundle "foo.vim"
@@ -59,9 +60,15 @@ so you can just copy ones you need to <code>.vimrc</code>.
 
     :BundleSearch! foo
 
-will refresh scripts list before doing search.
+refreshes script list before performing actual search.
 
 Searching requires [<code>curl</code>](http://curl.haxx.se/)
+
+## Cleaning up
+
+    :BundleClean
+
+removes unused script dirs from your `.vim/bundle`
 
 ## Examples
 
