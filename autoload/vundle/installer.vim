@@ -10,6 +10,17 @@ func! vundle#installer#helptags()
   call s:log('Done. '.c.' bundles processed')
 endf
 
+func! vundle#installer#clean(bang)
+  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
+  let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
+  let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
+  if (!empty(x_dirs))
+    if ('!' == a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
+      exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+    endif
+  end
+endf
+
 func! s:reload_bundles()
   " TODO: obtain Bundles without sourcing .vimrc
   silent source $MYVIMRC
@@ -40,13 +51,6 @@ func! s:install(bang, bundle)
   call s:helptags(a:bundle.rtpath())
   call s:log(a:bundle.name.' '.(synced ? '': ' already').' installed')
   if synced | call vundle#config#require(a:bundle) | endif
-endf
-
-func! vundle#installer#clean()
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
-  let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
-  let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
-  for d in x_dirs | exec '!rm -rf "'.escape(d,'"').'"' | endfor
 endf
 
 " TODO: make it pause after output in console mode

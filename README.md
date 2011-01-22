@@ -68,7 +68,7 @@ Searching requires [<code>curl</code>](http://curl.haxx.se/)
 
     :BundleClean
 
-removes unused script dirs from your `.vim/bundle`
+confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` does that silently.
 
 ## Examples
 
