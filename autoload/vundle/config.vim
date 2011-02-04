@@ -36,7 +36,7 @@ endf
 
 func! s:parse_name(arg)
   let arg = a:arg
-  if arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\*$'
+  if arg =~ '^\s*\(git@\|git://\)\S\+' || arg =~ 'https\?://' || arg =~ '\.git\s*$'
     let uri = arg
     let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
   else
