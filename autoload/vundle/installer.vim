@@ -37,11 +37,12 @@ endf
 
 func! s:sync(bang, bundle) 
   let git_dir = a:bundle.path().'/.git'
+  silent exec '!echo "* '.a:bundle.name.'" 2>&1 >>'. g:vundle_log
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
-    silent exec '!cd '.a:bundle.path().'; git pull >/dev/null 2>&1'
+    silent exec '!cd '.a:bundle.path().'; git pull 2>&1 >>'.g:vundle_log
   else
-    silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path().' >/dev/null 2>&1'
+    silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path().' 2>&1 >>'.g:vundle_log
   endif
   return 1
 endf

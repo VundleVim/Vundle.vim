@@ -10,6 +10,7 @@ endf
 
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
+  let g:vundle_log = tempname()
   call s:rtp_rm_a()
   let g:bundles = []
 endf

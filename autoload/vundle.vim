@@ -11,6 +11,8 @@ com! -nargs=0       BundleDocs            call vundle#installer#helptags()
 
 com! -nargs=+ -bang BundleSearch  silent  call vundle#scripts#search('<bang>', <q-args>)
 
+com! -nargs=0       VundleLog     silent  pedit `=g:vundle_log`
+
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle')
   call vundle#config#init()
