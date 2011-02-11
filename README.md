@@ -5,11 +5,15 @@
 ## Why
 [Vundle] allows to:
 
-- keep track and configure your scripts right in <code>.vimrc</code>
+- keep track and configure your scripts right in `.vimrc`
 - install configured scripts (aka bundle) 
-- manage runtime path of your installed scripts so you don't have to
 - search [all available vim scripts] by name
-- clean up from unused scripts
+- clean unused scripts up
+
+Also as a bonus [Vundle]:
+
+- manages runtime path of your installed scripts
+- regenerates helptag atomatically
 
 [Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
 in order to install/search [all available vim scripts]
@@ -62,7 +66,7 @@ so you can just copy ones you need to <code>.vimrc</code>.
 
 refreshes script list before performing actual search.
 
-Searching requires [<code>curl</code>](http://curl.haxx.se/)
+Searching requires [`curl`](http://curl.haxx.se/)
 
 ## Cleaning up
 
@@ -79,6 +83,11 @@ confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` d
 * [pathogen]
 * [bundler]
 * [Scott Bronson](http://github.com/bronson)
+
+## Also
+
+* Vundle wasn't tested on windows(so if you care i'm waiting for you pull request)
+* Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
 ## TODO:
 [Vundle] is a work in progress so any ideas/patches appreciated
