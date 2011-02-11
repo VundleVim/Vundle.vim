@@ -1,6 +1,6 @@
 ## About
 
-[Vundle] is a short cut for **V**imb**undle** and is a small plugin for managing [Vim] plugins.
+[Vundle] is a short cut for **V**imb**undle** and is a [Vim] plugin manager.
 
 ## Why
 [Vundle] allows to:
@@ -26,7 +26,7 @@ in order to install/search [all available vim scripts]
 
 2. Configure bundles:
 
-   Append to your <code>~/.vimrc</code>:
+   Append to your `~/.vimrc`:
 
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
@@ -41,9 +41,9 @@ in order to install/search [all available vim scripts]
 
 3. Install configured bundles:
 
-   Launch <code>vim</code>, run <code>:BundleInstall</code> (**no `Vim` restart required** since v0.5)
+   Launch `vim`, run `:BundleInstall` (**no `Vim` restart required** since v0.5)
 
-   Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to <code>~/.vim/bundle/</code>.
+   Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
 
 ## Script installation
 
@@ -60,7 +60,7 @@ lists search results in new split window, ie:
     Bundle "VimFootnotes"
     Bundle "foo.vim"
 
-so you can just copy ones you need to <code>.vimrc</code>.
+so you can just copy ones you need to `.vimrc`.
 
     :BundleSearch! foo
 
@@ -86,7 +86,7 @@ confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` d
 
 ## Also
 
-* Vundle wasn't tested on windows(so if you care i'm waiting for you pull request)
+* Vundle wasn't tested on windows(so if you care i'm waiting for your pull request)
 * Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
 ## TODO:
@@ -94,12 +94,12 @@ confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` d
 
 * √ activate newly added bundles on .vimrc reload or after :BundleInstall
 * √ use preview window for search results
+* Vim documentation
 * improve error handling
 * allow specify revision/version?
 * search by description aswell
 * show descrption in search results
 * instead sourcing .vimrc before installation come up with another solution
-* documentation
 * tests
 * make it rock!
 
