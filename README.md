@@ -86,6 +86,7 @@ confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` d
 
 ## Also
 
+* Vundle was developed and tested in [Vim] 7.3 on `OSX` and `Linux`
 * Vundle wasn't tested on windows(so if you care i'm waiting for your pull request)
 * Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
