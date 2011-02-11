@@ -1,7 +1,7 @@
 func! vundle#scripts#search(bang,search_str)
   let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:search_str,'"').'"')
   let results = map(matches, ' printf("Bundle \"%s\"", v:val) ') 
-  call s:display(results, a:search_str)
+  call s:display(reverse(results), a:search_str)
 endf
 
 func! s:display(results,search_str)
