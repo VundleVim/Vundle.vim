@@ -1,46 +1,51 @@
-*vundle.txt* Vundle plug-in for Vim. *vundle*
+*vundle.txt* Vundle the plug-in manager for Vim.     *vundle*
 
-CONTENTS                                                      *vundle-contents*
+CONTENTS ~
+                                                   *vundle-contents*
+===========================================================================
 
- 1. About                   |vundle-about|
- 2. Why Vundle              |vundle-why-vundle|
- 3. Setup                   |vundle-setup|
- 4. Scrips                  |vundle-scripts|
-   4.1. Configure scripts   |vundle-script-configure|
-   4.2. Installing scripts  |vundle-script-install|
-   4.3. Searching scripts   |vundle-script-search|
-   4.4. Cleanup             |vundle-about|
+1. About                                           |vundle-about|
+2. Why Vundle                                      |vundle-why-vundle|
+3. Quick start                                     |vundle-quickstart||
+4. Scrips                                          |vundle-scripts|
+   4.1. Configure scripts                          |vundle-scripts-configure|
+   4.2. Installing scripts                         |vundle-scripts-install|
+   4.3. Updating scripts                           |vundle-scripts-update|
+   4.4. Searching scripts                          |vundle-scripts-search|
+   4.5. Cleanup                                    |vundle-scripts-cleanup|
 
-ABOUT                       *vundle-about*
+===========================================================================
 
-*Vundle* is a short cut for Vim bundle and is the Vim plugin manager.
+ABOUT                                              *vundle-about*
 
-WHY VUNDLE                  *vunde-why-vundle*
+Vundle is a short cut for Vim bundle and is the Vim plug-in manager.
 
-*Vundle* allows to:
+2. WHY VUNDLE ~
+                                                   *vundle-why-vundle*
+Vundle allows to:
 
 - keep track and configure your scripts right in `.vimrc`
 - install configured scripts (aka bundle) 
+- update configured scripts
 - search [all available vim scripts] by name
-- clean unused scripts up
+- clean up from unused scripts
 
-Also as a bonus *Vundle* :
+Also as *Vundle* :
 
 - manages runtime path of your installed scripts
 - regenerates helptag atomatically
 
-[Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
+Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org) 
 in order to install/search [all available vim scripts]
 
-SETUP                       *vundle-setup*
-
-1. Setup [Vundle]:
+3. QUICK START ~
+                                                    *vundle-quickstart*
+1) Setup Vundle: >
 
         git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
-2. Configure bundles:
-
-   Append to your `~/.vimrc`:
+2) Configure bundles:
+   Append to your `~/.vimrc`: >
 
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
@@ -53,52 +58,66 @@ SETUP                       *vundle-setup*
         Bundle "git://git.wincent.com/command-t.git"
         " ...
 
-3. Install configured bundles:
+3) Install configured bundles:
 
-   Launch `vim`, run `:BundleInstall` (**no `Vim` restart required** since v0.5)
+   Launch `vim`, run >
 
-   Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
+   :BundleInstall
 
-SCRIPTS                 *vundle-scripts*
+Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for 
+each configured repo to `~/.vim/bundle/`.
 
-CONFIGURE SCRIPTS       *vundle-scripts-configure*
+4. SCRIPTS ~
+                                                    *vundle-scripts*
+4.1 CONFIGURE SCRIPTS ~
+                                                    *vundle-scripts-configure*
+Before installing scripts they need to be configured. It's done using `Bundle`
+command in `.vimrc`: >
 
-  
-## Script installation
+    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository 
+or >
+    Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
 
-  `BundleInstall` installs script only if it hasn't been already installed. 
-  `BundleInstall` is faster than `BundleInstall!` (note bang at the end) because latter fetches scripts without any checks. 
-  Use `BundleInstall` to install new scripts. Use `BundleInstall!` to update scripts.
+4.2 INSTALL SCRIPTS ~
+                                                    *vundle-scripts-install*
+run >
+    :BundleInstall
 
-SEARCHING                         |*vundle-scripts-search*|
+installs configured scripts. Newly installed scripts will be automatically
+enabled. Except special cases requiring compilation or preconfiguration.
 
+4.3 UPDATE SCRIPTS ~
+                                                    *vundle-scripts-update*
+run >
+    :BundleInstall!             " note bang(!)
+
+installs or updates configured scripts.
+
+4.4 SEARCHING ~
+                                                    *vundle-scripts-search*
+run >
     :BundleSearch foo
 
 lists search results in new split window, ie:
-
+>
     Bundle "VimFootnotes"
     Bundle "foo.vim"
 
 so you can just copy ones you need to `.vimrc`.
-
-    :BundleSearch! foo
+>
+    :BundleSearch! foo          " note bang(!)
 
 refreshes script list before performing actual search.
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
-CLEANING UP                       |*vundle-scripts-cleanup*|
-
+4.5 CLEANING UP ~
+                                                  *vundle-scripts-cleanup*
+run >
     :BundleClean
 
 confirms removal of unused script dirs from your `.vim/bundle`. 
-`BundleClean!` does that silently.
+>
+    :BundleClean! 
 
-
-
-[Vundle]:http://github.com/gmarik/vundle
-[Pathogen]:http://github.com/tpope/vim-pathogen/
-[Bundler]:http://github.com/wycats/bundler/
-[Vim]:http://vim.org
-[Git]:http://git-scm.com
-[all available vim scripts]:http://vim-scripts.org/vim/scripts.html
+removes unused scripts with no questions.
