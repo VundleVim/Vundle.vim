@@ -47,7 +47,7 @@ Also as a bonus [Vundle]:
 
 ## Docs
 
-see [documentation](doc/vundle.txt) for more details.
+see [documentation](vundle/doc/vundle.txt) for more details.
 
 ## Examples
 
