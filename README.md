@@ -47,7 +47,7 @@ Also as a bonus [Vundle]:
 
 ## Docs
 
-see [documentation](vundle/blob/master/doc/vundle.txt) for more details.
+see [`doc/vundle.txt`](vundle/blob/master/doc/vundle.txt) vimdoc for more details.
 
 ## Examples
 
