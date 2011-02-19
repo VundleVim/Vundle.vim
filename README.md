@@ -2,23 +2,7 @@
 
 [Vundle] is a short cut for **V**imb**undle** and is a [Vim] plugin manager.
 
-## Why
-[Vundle] allows to:
-
-- keep track and configure your scripts right in `.vimrc`
-- install configured scripts (aka bundle) 
-- search [all available vim scripts] by name
-- clean unused scripts up
-
-Also as a bonus [Vundle]:
-
-- manages runtime path of your installed scripts
-- regenerates helptag atomatically
-
-[Vundle] takes advantage of [vim-scripts.org](http://vim-scripts.org) 
-in order to install/search [all available vim scripts]
-
-## How
+## Quick start
 
 1. Setup [Vundle]:
 
@@ -45,34 +29,25 @@ in order to install/search [all available vim scripts]
 
    Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
 
-## Script installation
+## Why Vundle
 
-  `BundleInstall` installs script only if it hasn't been already installed. 
-  `BundleInstall` is faster than `BundleInstall!` (note bang at the end) because latter fetches scripts without any checks. 
-  Use `BundleInstall` to install new scripts. Use `BundleInstall!` to update scripts.
+[Vundle] allows to:
 
-## Searching
+- keep track and configure your scripts right in `.vimrc`
+- install configured scripts (aka bundle) 
+- update configured scripts
+- search [all available vim scripts] by name
+- clean unused scripts up
 
-    :BundleSearch foo
+Also as a bonus [Vundle]:
 
-lists search results in new split window, ie:
+- manages runtime path of your installed scripts
+- regenerates helptag atomatically
 
-    Bundle "VimFootnotes"
-    Bundle "foo.vim"
 
-so you can just copy ones you need to `.vimrc`.
+## Docs
 
-    :BundleSearch! foo
-
-refreshes script list before performing actual search.
-
-Searching requires [`curl`](http://curl.haxx.se/)
-
-## Cleaning up
-
-    :BundleClean
-
-confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` does that silently.
+see [documentation](doc/vundle.txt) for more details.
 
 ## Examples
 
@@ -95,7 +70,7 @@ confirms removal of unused script dirs from your `.vim/bundle`. `BundleClean!` d
 
 * √ activate newly added bundles on .vimrc reload or after :BundleInstall
 * √ use preview window for search results
-* Vim documentation
+* √ vim documentation
 * improve error handling
 * allow specify revision/version?
 * search by description aswell
