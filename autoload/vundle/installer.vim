@@ -1,7 +1,7 @@
 func! vundle#installer#install(bang)
   call s:reload_bundles()
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
-  for bundle in g:bundles | call s:install('!' == a:bang, bundle) | endfor
+  for bundle in g:bundles | call s:install(a:bang, bundle) | endfor
 
   call vundle#installer#helptags()
 endf
@@ -18,7 +18,7 @@ func! vundle#installer#clean(bang)
   let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
   if (!empty(x_dirs))
-    if ('!' == a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
+    if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
       exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
     endif
   end
