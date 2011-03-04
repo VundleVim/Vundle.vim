@@ -29,7 +29,9 @@ func! s:reload_bundles()
 endf
 
 func! s:has_doc(rtp)
-  return (isdirectory(a:rtp.'/doc') && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags')))
+  return (isdirectory(a:rtp.'/doc')
+        \ && (!filereadable(a:rtp.'/doc/tags')
+        \ || filewritable(a:rtp.'/doc/tags')))
 endf
 
 func! s:helptags(rtp)
