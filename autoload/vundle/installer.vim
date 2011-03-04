@@ -2,13 +2,15 @@ func! vundle#installer#install(bang)
   call s:reload_bundles()
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
   for bundle in g:bundles | call s:install('!' == a:bang, bundle) | endfor
+
+  call vundle#installer#helptags()
 endf
 
 func! vundle#installer#helptags()
   let bundle_dirs = map(copy(g:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
-  call s:log('Done. '.len(help_dirs).' bundles processed')
+  call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
 endf
 
 func! vundle#installer#clean(bang)
@@ -52,7 +54,6 @@ endf
 
 func! s:install(bang, bundle)
   let synced = s:sync(a:bang, a:bundle)
-  call s:helptags(a:bundle.rtpath())
   call s:log(a:bundle.name.' '.(synced ? '': ' already').' installed')
   if synced | call vundle#config#require(a:bundle) | endif
 endf
