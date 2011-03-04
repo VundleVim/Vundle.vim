@@ -5,9 +5,10 @@ func! vundle#installer#install(bang)
 endf
 
 func! vundle#installer#helptags()
-  let c = 0
-  for bundle in g:bundles | let c += s:helptags(bundle.rtpath()) | endfor
-  call s:log('Done. '.c.' bundles processed')
+  let bundle_dirs = map(copy(g:bundles),'v:val.rtpath()')
+  let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
+  call map(copy(help_dirs), 's:helptags(v:val)')
+  call s:log('Done. '.len(help_dirs).' bundles processed')
 endf
 
 func! vundle#installer#clean(bang)
@@ -27,12 +28,12 @@ func! s:reload_bundles()
   if filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
 endf
 
+func! s:has_doc(rtp)
+  return (isdirectory(a:rtp.'/doc') && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags')))
+endf
+
 func! s:helptags(rtp)
-  if !(isdirectory(a:rtp.'/doc') && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags')))
-    return 0
-  endif
   helptags `=a:rtp.'/doc'`
-  return 1
 endf
 
 func! s:sync(bang, bundle) 
