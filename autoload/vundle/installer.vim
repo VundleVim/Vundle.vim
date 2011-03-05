@@ -1,16 +1,20 @@
-func! vundle#installer#install(bang)
-  call s:reload_bundles()
+func! vundle#installer#install(bang, ...)
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
-  for bundle in g:bundles | call s:install(a:bang, bundle) | endfor
-
-  call vundle#installer#helptags()
+  let bundles = (a:1 == '') ?
+        \ s:reload_bundles() :
+        \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
+  call s:log(bundles)
+  for bundle in bundles | call s:install(a:bang, bundle) | endfor
+  call vundle#installer#helptags(bundles)
 endf
 
-func! vundle#installer#helptags()
-  let bundle_dirs = map(copy(g:bundles),'v:val.rtpath()')
+func! vundle#installer#helptags(bundles)
+  let bundle_dirs = map(a:bundles,'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
-  call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
+	if len(help_dirs) > 0
+		call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
+	endif
 endf
 
 func! vundle#installer#clean(bang)
@@ -28,6 +32,7 @@ func! s:reload_bundles()
   " TODO: obtain Bundles without sourcing .vimrc
   silent source $MYVIMRC
   if filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
+  return g:bundles
 endf
 
 func! s:has_doc(rtp)

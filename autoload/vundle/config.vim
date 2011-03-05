@@ -1,6 +1,5 @@
 func! vundle#config#bundle(arg, ...)
-  let bundle = extend(s:parse_options(a:000), s:parse_name(a:arg))
-  call extend(bundle, copy(s:bundle))
+  let bundle = vundle#config#init_bundle(a:arg, a:000)
   call s:rtp_rm_a()
   call add(g:bundles, bundle)
   call s:rtp_add_a()
@@ -23,10 +22,15 @@ func! vundle#config#require(bundle)
   call s:rtp_rm(g:bundle_dir)
 endf
 
+func! vundle#config#init_bundle(name, opts)
+  let opts = extend(s:parse_options(a:opts), s:parse_name(a:name))
+  return extend(opts, copy(s:bundle))
+endf
+
 func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
-    
+
   if type(a:opts[0]) == type({})
     return a:opts[0]
   else

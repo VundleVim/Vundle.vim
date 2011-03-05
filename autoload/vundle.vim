@@ -5,9 +5,9 @@
 " Version:      0.5
 
 com! -nargs=+       Bundle                call vundle#config#bundle(<args>)
-com! -nargs=? -bang BundleInstall         call vundle#installer#install('!' == '<bang>')
+com! -nargs=? -bang BundleInstall         call vundle#installer#install('!' == '<bang>', <q-args>)
 com! -nargs=? -bang BundleClean           call vundle#installer#clean('!' == '<bang>')
-com! -nargs=0       BundleDocs            call vundle#installer#helptags()
+com! -nargs=0       BundleDocs            call vundle#installer#helptags(g:bundles)
 
 com! -nargs=+ -bang BundleSearch  silent  call vundle#scripts#search('!' == '<bang>', <q-args>)
 
