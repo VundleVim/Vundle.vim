@@ -3,8 +3,6 @@ func! vundle#config#bundle(arg, ...)
   call s:rtp_rm_a()
   call add(g:bundles, bundle)
   call s:rtp_add_a()
-  " TODO: fix this: explicit sourcing kills command-T
-  " call vundle#config#require(bundle)
 endf
 
 func! vundle#config#init()
