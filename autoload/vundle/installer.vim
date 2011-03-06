@@ -59,7 +59,7 @@ endf
 func! s:install(bang, bundle)
   let synced = s:sync(a:bang, a:bundle)
   call s:log(a:bundle.name.' '.(synced ? '': ' already').' installed')
-  if synced | call vundle#config#require(a:bundle) | endif
+  call vundle#config#require(a:bundle)
 endf
 
 " TODO: make it pause after output in console mode
