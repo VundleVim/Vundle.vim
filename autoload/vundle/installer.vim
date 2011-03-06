@@ -11,9 +11,9 @@ func! vundle#installer#helptags(bundles)
   let bundle_dirs = map(a:bundles,'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
-	if len(help_dirs) > 0
-		call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
-	endif
+  if len(help_dirs) > 0
+    call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
+  endif
 endf
 
 func! vundle#installer#clean(bang)
