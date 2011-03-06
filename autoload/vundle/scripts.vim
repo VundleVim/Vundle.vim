@@ -4,6 +4,10 @@ func! vundle#scripts#search(bang,search_str)
   call s:display(reverse(results), a:search_str)
 endf
 
+func! vundle#scripts#complete(a,c,d)
+  return join(s:load_scripts(0),"\n")
+endf
+
 func! s:display(results,search_str)
   if !exists('s:buff') | let s:buff = tempname() | endif
   call writefile(['" Search results for: '.a:search_str] + a:results, s:buff)

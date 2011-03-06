@@ -7,7 +7,7 @@
 com! -nargs=+         Bundle
    \ call vundle#config#bundle(<args>)
 
-com! -nargs=? -bang   BundleInstall
+com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
    \ call vundle#installer#install('!' == '<bang>', <q-args>)
 
 com! -nargs=? -bang   BundleClean
