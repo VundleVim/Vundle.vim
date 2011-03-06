@@ -26,7 +26,7 @@ endf
 
 func! s:load_scripts(bang)
   let f = expand('$HOME/.vim-vundle/vim-scripts.org.json')
-  if '!' == a:bang || !filereadable(f)
+  if a:bang || !filereadable(f)
     call s:fetch_scripts(f)
   endif
   return eval(readfile(f, 'b')[0])
