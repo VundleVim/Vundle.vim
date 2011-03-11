@@ -10,7 +10,7 @@
 
 2. Configure bundles:
 
-   Append to your `~/.vimrc`:
+   Put into your `~/.vimrc`:
 
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
@@ -22,6 +22,9 @@
         Bundle "ack.vim"
         Bundle "git://git.wincent.com/command-t.git"
         " ...
+
+        " NOTE: if some plugins fail to work, put the config *before* line:
+        " filetype plugin indent on 
 
 3. Install configured bundles:
 
