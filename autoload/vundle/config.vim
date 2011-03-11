@@ -50,11 +50,11 @@ func! s:parse_name(arg)
 endf
 
 func! s:rtp_rm_a()
-  for b in g:bundles | call s:rtp_rm(b.rtpath()) | endfor
+  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
 endf
 
 func! s:rtp_add_a()
-  for b in reverse(copy(g:bundles)) | call s:rtp_add(b.rtpath()) | endfor
+  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
 endf
 
 func! s:rtp_rm(dir)

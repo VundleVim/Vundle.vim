@@ -3,7 +3,7 @@ func! vundle#installer#install(bang, ...)
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
-  for bundle in bundles | call s:install(a:bang, bundle) | endfor
+  call map(copy(bundles), 's:install(a:bang, v:val)')
   call vundle#installer#helptags(bundles)
 endf
 
