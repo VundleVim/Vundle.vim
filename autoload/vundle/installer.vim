@@ -8,7 +8,7 @@ func! vundle#installer#install(bang, ...)
 endf
 
 func! vundle#installer#helptags(bundles)
-  let bundle_dirs = map(a:bundles,'v:val.rtpath()')
+  let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
   if len(help_dirs) > 0
