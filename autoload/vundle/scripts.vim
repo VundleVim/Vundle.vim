@@ -17,7 +17,6 @@ endf
 func! vundle#scripts#install() abort
   let line = substitute(substitute(getline('.'), '\s*Bundle\s*','','g'), "'",'','g')
   call vundle#installer#install(0, line)
-  redraw!
 endf
 
 func! s:display(headers, results)
