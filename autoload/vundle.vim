@@ -2,7 +2,7 @@
 " Author:       gmarik
 " HomePage:     http://github.com/gmarik/vundle
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
-" Version:      0.6
+" Version:      0.7
 
 com! -nargs=+         Bundle
    \ call vundle#config#bundle(<args>)
