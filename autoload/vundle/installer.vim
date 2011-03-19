@@ -6,11 +6,11 @@ func! vundle#installer#install(bang, ...)
 
   let installed = s:install(a:bang, bundles)
   redraw!
-  let help_dirs = vundle#installer#helptags(bundles)
   call vundle#config#require(bundles)
 
-  call s:log('Installed bundles: '.join(len(installed) > 0 ? map(installed, 'v:val.name') : 'none',','))
+  call s:log('Installed bundles: '.join((len(installed) == 0 ?  ['no new bundless installed'] : map(installed, 'v:val.name')),','))
 
+  let help_dirs = vundle#installer#helptags(bundles)
   if len(help_dirs) > 0
     call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
   endif
