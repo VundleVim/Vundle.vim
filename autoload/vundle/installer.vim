@@ -3,17 +3,24 @@ func! vundle#installer#install(bang, ...)
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
-  call map(copy(bundles), 's:install(a:bang, v:val)')
-  call vundle#installer#helptags(bundles)
+
+  let installed = s:install(a:bang, bundles)
+  redraw!
+  let help_dirs = vundle#installer#helptags(bundles)
+  call vundle#config#require(bundles)
+
+  call s:log('Installed bundles: '.join(len(installed) > 0 ? map(installed, 'v:val.name') : 'none',','))
+
+  if len(help_dirs) > 0
+    call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
+  endif
 endf
 
 func! vundle#installer#helptags(bundles)
   let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
-  if len(help_dirs) > 0
-    call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
-  endif
+  return help_dirs
 endf
 
 func! vundle#installer#clean(bang)
@@ -21,6 +28,7 @@ func! vundle#installer#clean(bang)
   let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
   if (!empty(x_dirs))
+    " TODO: improve message
     if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
       exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
     endif
@@ -55,19 +63,11 @@ func! s:sync(bang, bundle)
   return 1
 endf
 
-func! s:install(bang, bundle)
-  let synced = s:sync(a:bang, a:bundle)
-  call s:log(a:bundle.name.' '.(synced ? '': ' already').' installed')
-  call vundle#config#require(a:bundle)
+func! s:install(bang, bundles)
+  return filter(copy(a:bundles), 's:sync(a:bang, v:val)')
 endf
 
 " TODO: make it pause after output in console mode
 func! s:log(msg)
-  if has('gui_running')
-    echo a:msg
-  else
-    " console vim requires to hit ENTER after each !cmd with stdout output
-    " workaround
-    silent exec '! echo '.a:msg.' >&2| cat >/dev/null' 
-  endif
+  echo a:msg
 endf
