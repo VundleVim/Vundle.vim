@@ -5,9 +5,10 @@ func! vundle#scripts#all(bang, ...)
     call s:display(info, matches)
   else
     let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:1,'"').'"')
-    let @/=a:1
     call s:display(info + ['"Search results for: '.a:1], matches)
-    redraw
+    let @/=a:1
+    " TODO: highlight doesn't work
+    setl hls
   endif
   echo len(matches).' bundles found'
 endf
