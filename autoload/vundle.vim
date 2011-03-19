@@ -19,6 +19,9 @@ com! -nargs=0         BundleDocs
 com! -nargs=+ -bang   BundleSearch 
    \ silent call vundle#scripts#search('!' == '<bang>', <q-args>)
 
+com! -nargs=0         Vundle
+   \ call vundle#scripts#browse()
+
 com! -nargs=0         VundleLog
    \ silent pedit `=g:vundle_log`
 

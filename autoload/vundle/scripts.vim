@@ -1,21 +1,30 @@
 func! vundle#scripts#search(bang,search_str)
   let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:search_str,'"').'"')
-  let results = map(matches, ' printf("Bundle ' ."'%s'".'", v:val) ') 
-  call s:display(reverse(results), a:search_str)
+  call s:display(['" Search results for: '.a:search_str], matches)
+  let @/=a:search_str 
+  redraw
+endf
+
+func! vundle#scripts#browse()
+  call s:display(['" Vim scripts: '], s:load_scripts(0))
 endf
 
 func! vundle#scripts#complete(a,c,d)
   return join(s:load_scripts(0),"\n")
 endf
 
-func! s:display(results,search_str)
-  if !exists('s:buff') | let s:buff = tempname() | endif
-  call writefile(['" Search results for: '.a:search_str] + a:results, s:buff)
-  pedit `=s:buff`
-  wincmd P
-  let @/=a:search_str
-  setlocal hls ignorecase ft=vim 
+func! vundle#scripts#install() abort
+  let line = substitute(substitute(getline('.'), '\s*Bundle\s*','','g'), "'",'','g')
+  call vundle#installer#install(0, line)
   redraw!
+endf
+
+func! s:display(headers, results)
+  if !exists('s:browse') | let s:browse = tempname() | endif
+  let results = reverse(map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) '))
+  call writefile(a:headers + results, s:browse)
+  pedit `=s:browse`| wincmd P | wincmd H
+  setl ft=vundle
 endf
 
 func! s:fetch_scripts(to)
