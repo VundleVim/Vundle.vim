@@ -12,13 +12,15 @@ func! vundle#config#init()
   let g:bundles = []
 endf
 
-func! vundle#config#require(bundle)
-  call s:rtp_add(a:bundle.rtpath())
-  call s:rtp_add(g:bundle_dir)
-  " TODO: it has to be relative rtpath, not bundle.name
-  exec 'runtime! '.a:bundle.name.'/plugin/*.vim'
-  exec 'runtime! '.a:bundle.name.'/after/*.vim'
-  call s:rtp_rm(g:bundle_dir)
+func! vundle#config#require(bundles)
+  for b in a:bundles
+    call s:rtp_add(b.rtpath())
+    call s:rtp_add(g:bundle_dir)
+    " TODO: it has to be relative rtpath, not bundle.name
+    exec 'runtime! '.b.name.'/plugin/*.vim'
+    exec 'runtime! '.b.name.'/after/*.vim'
+    call s:rtp_rm(g:bundle_dir)
+  endfor
 endf
 
 func! vundle#config#init_bundle(name, opts)
