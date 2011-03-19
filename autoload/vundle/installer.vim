@@ -45,7 +45,7 @@ endf
 func! s:has_doc(rtp)
   return isdirectory(a:rtp.'/doc')
     \ && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags'))
-    \ && (len(expand(a:rtp.'/doc/*.txt')) > 0 || len(expand(a:rtp.'/doc/*.??x')) > 0)
+    \ && (len(glob(a:rtp.'/doc/*.txt')) > 0 || len(glob(a:rtp.'/doc/*.??x')) > 0)
 endf
 
 func! s:helptags(rtp)
