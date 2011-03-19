@@ -26,7 +26,8 @@ func! s:display(headers, results)
   if !exists('s:browse') | let s:browse = tempname() | endif
   let results = reverse(map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) '))
   call writefile(a:headers + results, s:browse)
-  pedit `=s:browse`| wincmd P | wincmd H
+  silent pedit `=s:browse`
+  wincmd P | wincmd H
   setl ft=vundle
 endf
 
