@@ -29,8 +29,8 @@ endf
 
 func! s:fetch_scripts(to)
   let temp = tempname()
-  exec '!curl http://vim-scripts.org/api/scripts.json > '.temp
-  exec '!mkdir -p $(dirname  '.a:to.') && mv -f '.temp.' '.a:to
+  exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
+    \  '&& mkdir -p $(dirname  '.a:to.') && mv -f '.temp.' '.a:to
 endf
 
 func! s:load_scripts(bang)
