@@ -9,10 +9,6 @@ func! vundle#scripts#all(bang, ...)
   endif
 endf
 
-func! vundle#scripts#complete(a,c,d)
-  return join(s:load_scripts(0),"\n")
-endf
-
 func! vundle#scripts#install() abort
   let line = substitute(substitute(getline('.'), '\s*Bundle\s*','','g'), "'",'','g')
   call vundle#installer#install(0, line)
