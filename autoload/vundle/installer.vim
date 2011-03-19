@@ -52,15 +52,15 @@ func! s:helptags(rtp)
   helptags `=a:rtp.'/doc'`
 endf
 
-func! s:sync(bang, bundle) 
+func! s:sync(bang, bundle) abort
   let git_dir = a:bundle.path().'/.git'
-  silent exec '!echo "* '.a:bundle.name.'" 2>&1 >>'. g:vundle_log
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
-    silent exec '!cd '.a:bundle.path().'; git pull 2>&1 >>'.g:vundle_log
+    let cmd = 'cd '.a:bundle.path().' && git pull'
   else
-    silent exec '!git clone '.a:bundle.uri.' '.a:bundle.path().' 2>&1 >>'.g:vundle_log
+    let cmd = 'git clone '.a:bundle.uri.' '.a:bundle.path()
   endif
+  silent exec '!'.cmd
   return 1
 endf
 
