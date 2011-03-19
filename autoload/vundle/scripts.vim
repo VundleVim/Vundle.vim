@@ -1,12 +1,12 @@
-func! vundle#scripts#search(bang,search_str)
-  let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:search_str,'"').'"')
-  call s:display(['" Search results for: '.a:search_str], matches)
-  let @/=a:search_str 
-  redraw
-endf
-
-func! vundle#scripts#browse()
-  call s:display(['" Vim scripts: '], s:load_scripts(0))
+func! vundle#scripts#all(bang, ...)
+  if a:1== '' " whether refine search string given
+    call s:display(['" Vim scripts: '], s:load_scripts(a:bang))
+  else
+    let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:1,'"').'"')
+    call s:display(['" Search results for: '.a:1], matches)
+    let @/=a:1
+    redraw
+  endif
 endf
 
 func! vundle#scripts#complete(a,c,d)
