@@ -1,10 +1,11 @@
 func! vundle#scripts#all(bang, ...)
+  let info = ['"Keymap: i - Install bundle; c - Cleanup; r - Refine list']
   if a:1== '' " whether refine search string given
-    call s:display(['" Vim scripts: '], s:load_scripts(a:bang))
+    call s:display(info + ['"Vim scripts: '], s:load_scripts(a:bang))
   else
     let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:1,'"').'"')
-    call s:display(['" Search results for: '.a:1], matches)
     let @/=a:1
+    call s:display(info + ['"Search results for: '.a:1], matches)
     redraw
   endif
 endf
