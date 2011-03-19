@@ -23,7 +23,9 @@
         Bundle "git://git.wincent.com/command-t.git"
         " ...
 
-        " NOTE: if some plugins fail to work, put the config *before* line:
+        " NOTE: if some plugins fail to work, put the config *between* lines:
+        " filetype off
+        " "Bundles here
         " filetype plugin indent on 
 
 3. Install configured bundles:

@@ -58,6 +58,11 @@ in order to install/search [all available vim scripts]
         Bundle "git://git.wincent.com/command-t.git"
         " ...
 
+        " NOTE: if some plugins fail to work, put the config *between* lines:
+        " filetype off
+        " "Bundles here
+        " filetype plugin indent on 
+
 3) Install configured bundles:
 
    Launch `vim`, run >
