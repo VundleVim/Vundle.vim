@@ -53,7 +53,7 @@ Also as a bonus [Vundle]:
 
 ## Docs
 
-see [`:h vundle`](vundle/blob/master/doc/vundle.txt) vimdoc for more details.
+see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 ## Examples
 
