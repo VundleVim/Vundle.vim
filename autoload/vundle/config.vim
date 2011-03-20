@@ -23,7 +23,7 @@ func! vundle#config#require(bundles)
 endf
 
 func! vundle#config#init_bundle(name, opts)
-  let opts = extend(s:parse_options(a:opts), s:parse_name(a:name))
+  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
   return extend(opts, copy(s:bundle))
 endf
 
