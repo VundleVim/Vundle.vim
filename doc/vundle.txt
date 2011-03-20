@@ -108,9 +108,6 @@ BundleInstall allows to install scripts by name:>
 installs and activates unite.vim. You can use Tab to autocomplete known script names.
 NOTE: installation, as just described, doesn't automatically configure scripts; 
 you have to configure them manually.
-Some scripts may require additional manipulation(ie CommandT requires compilation).
-That's why those scripts cannot be automatically activated right after installation
-
 
 4.3 UPDATE SCRIPTS ~
                                       *vundle-scripts-update* *BundleInstall!*
@@ -122,9 +119,9 @@ installs or updates configured scripts.
 4.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
 run >
-    :Bundles foo
+    :Bundles foo      " note plural Bundles not singular Bundle
 
-lists search results in new split window, ie:
+lists bundles matching 'foo' in new a new split window, ie:
 >
     Bundle "VimFootnotes"
     Bundle "foo.vim"
@@ -157,9 +154,9 @@ removes unused scripts with no questions.
 Vundle provides simple interactive mode to help you explore new scripts easily.
 Interactive mode is available as result of :Bundles command. For instance running >
 
-  :Bundle unite
+  :Bundles unite
 
-displays: >
+searches for scripts matching 'unite' string and yelds the result:
 
   "Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list
   "Search results for: unite
