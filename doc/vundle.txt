@@ -132,7 +132,11 @@ and >
 
 refreshes script list before performing actual search.
 
-If command is run without argument it displays all known scripts.
+If command is run without argument: >
+
+   :Bundles!
+
+it will display all known scripts
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
@@ -171,7 +175,7 @@ allows running certain commands with single keypress:
 >
 *i* - runs BundleInstall with name taken from line cursor is positioned on
 *c* - runs BundleCleanup
-*r* - alows to refine list. requires a string to refine list with
+*r* - alows to refine list; requires a string to refine list with
 *R* - fetches fresh script list from server
 
 vim:tw=78:ts=8:ft=help:norl:
