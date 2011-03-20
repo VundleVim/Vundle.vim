@@ -43,13 +43,12 @@
 - [update] configured scripts
 - [search] [all available vim scripts] by name
 - [clean] unused scripts up
-- provides [interface] to run install|update|search scripts with single keypress
+- run above actions with *single keypress* using [interface] made a _Vim-way_
 
-Also as a bonus [Vundle]:
+Also [Vundle]:
 
 - manages runtime path of your installed scripts
 - regenerates helptag atomatically
-
 
 ## Docs
 
