@@ -66,7 +66,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 ## Also
 
-* Vundle was developed and tested in [Vim] 7.3 on `OSX` and `Linux`
+* Vundle was developed and tested with [Vim] 7.3 on `OSX` and `Linux`
 * Vundle wasn't tested on windows(so if you care i'm waiting for your pull request)
 * Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
@@ -76,12 +76,14 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 * √ activate newly added bundles on .vimrc reload or after :BundleInstall
 * √ use preview window for search results
 * √ vim documentation
+* tests
 * improve error handling
+* :VundleUpdate - self.update
+* handle dependencies
 * allow specify revision/version?
 * search by description aswell
 * show descrption in search results
 * instead sourcing .vimrc before installation come up with another solution
-* tests
 * make it rock!
 
 [Vundle]:http://github.com/gmarik/vundle
