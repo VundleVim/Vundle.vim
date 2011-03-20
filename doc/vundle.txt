@@ -34,7 +34,7 @@ Vundle allows to:
 Also *Vundle* :
 
 - manages runtime path of your installed scripts
-- regenerates helptag atomatically
+- regenerates helptags automatically
 
 Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org) 
 in order to install/search [all available vim scripts]
@@ -59,7 +59,7 @@ in order to install/search [all available vim scripts]
     Bundle "git://git.wincent.com/command-t.git"
     " ...
 
-    " NOTE: if some plugins fail to work, put the config *between* lines:
+    " NOTE: if some plug-ins fail to work, put the config *between* lines:
     " filetype off
     " "Bundles here
     " filetype plugin indent on 
@@ -99,27 +99,27 @@ run >
     :BundleInstall
 
 installs configured scripts. Newly installed scripts will be automatically
-enabled. Except special cases requiring compilation or preconfiguration.
+enabled. Except special cases requiring compilation or pre-configuration.
 
 BundleInstall allows to install scripts by name:>
 
     :BundleIntall unite.vim
 
-installs and activates unite.vim. You can use Tab to autocomplete known script names.
+installs and activates unite.vim. You can use Tab to auto-complete known script names.
 NOTE: installation, as just described, doesn't automatically configure scripts; 
 you have to configure them manually.
 
 4.3 UPDATE SCRIPTS ~
                                       *vundle-scripts-update* *BundleInstall!*
 run >
-    :BundleInstall!             " note bang(!)
+    :BundleInstall!             " NOTE: bang(!)
 
 installs or updates configured scripts.
 
 4.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
 run >
-    :Bundles foo      " note plural Bundles not singular Bundle
+    :Bundles foo                " NOTE: plural Bundles not singular Bundle
 
 lists bundles matching 'foo' in new a new split window, ie:
 >
@@ -162,7 +162,7 @@ Interactive mode is available as result of :Bundles command. For instance runnin
 
     :Bundles! unite
 
-searches for scripts matching 'unite' string and yelds the split window with
+searches for scripts matching 'unite' string and yields a split window with
 content: >
 
     "Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list
@@ -174,7 +174,7 @@ content: >
     Bundle 'unite-font'
     Bundle 'unite-colorscheme'
 
-As the first line(starting with `"Keymap:`) sows 
+As the first line(starting with `"Keymap:`) shows 
 certain Vundle commands can be triggered with single keypress, ie:
 
 KEY | DESCRIPTION
@@ -184,9 +184,9 @@ KEY | DESCRIPTION
  r  |  refine list; requires a string to refine list with
  R  |  fetch fresh script list from server
 
-So move cursor over line `Bundle 'unite.vim'` and press i key(install). 
+Now move cursor over line `Bundle 'unite.vim'` and press i key(install). 
 After unite.vim script is installed - `:Unite file` command should be
-available to prove 'unite.vim' availability
+available to prove 'unite.vim' availability.
 
 NOTE: Interactive installation doesn't update your .vimrc configuration.
 
