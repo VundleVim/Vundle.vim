@@ -39,10 +39,11 @@
 [Vundle] allows to:
 
 - keep track and configure your scripts right in `.vimrc`
-- install configured scripts (aka bundle) 
-- update configured scripts
-- search [all available vim scripts] by name
-- clean unused scripts up
+- [install] configured scripts (aka bundle) 
+- [update] configured scripts
+- [search] [all available vim scripts] by name
+- [clean] unused scripts up
+- provides [interface] to run install|update|search scripts with single keypress
 
 Also as a bonus [Vundle]:
 
@@ -90,3 +91,9 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt) vimdoc for more details.
 [Vim]:http://vim.org
 [Git]:http://git-scm.com
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
+
+[install]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L96G)
+[update]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L115G)
+[search]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L122G)
+[clean]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L142G)
+[interface]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L155G)

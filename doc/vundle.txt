@@ -13,6 +13,7 @@ CONTENTS ~
    4.3. Updating scripts                           |vundle-scripts-update|
    4.4. Searching scripts                          |vundle-scripts-search|
    4.5. Cleanup                                    |vundle-scripts-cleanup|
+5. Interactive mode                                |vundle-interactive|
 
 ===========================================================================
 
@@ -30,7 +31,7 @@ Vundle allows to:
 - search [all available vim scripts] by name
 - clean up from unused scripts
 
-Also as *Vundle* :
+Also *Vundle* :
 
 - manages runtime path of your installed scripts
 - regenerates helptag atomatically
@@ -42,26 +43,26 @@ in order to install/search [all available vim scripts]
                                                     *vundle-quickstart*
 1) Setup Vundle: >
 
-        git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
+    git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
 2) Configure bundles:
    Append to your `~/.vimrc`: >
 
-        set rtp+=~/.vim/vundle.git/ 
-        call vundle#rc()
+    set rtp+=~/.vim/vundle.git/ 
+    call vundle#rc()
 
-        " Bundles:
-        Bundle "L9"
-        Bundle "FuzzyFinder"
-        Bundle "rails.vim"
-        Bundle "ack.vim"
-        Bundle "git://git.wincent.com/command-t.git"
-        " ...
+    " Bundles:
+    Bundle "L9"
+    Bundle "FuzzyFinder"
+    Bundle "rails.vim"
+    Bundle "ack.vim"
+    Bundle "git://git.wincent.com/command-t.git"
+    " ...
 
-        " NOTE: if some plugins fail to work, put the config *between* lines:
-        " filetype off
-        " "Bundles here
-        " filetype plugin indent on 
+    " NOTE: if some plugins fail to work, put the config *between* lines:
+    " filetype off
+    " "Bundles here
+    " filetype plugin indent on 
 
 3) Install configured bundles:
 
@@ -83,6 +84,15 @@ command in `.vimrc`: >
 or >
     Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
 
+Vundle loves Github, that's why short uris can be used to configure bundles: >
+
+  Bundle 'tpope/fugitive'
+
+equals full uri >
+
+  Bundle 'http://github.com/tpope/fugitive.git'
+
+
 4.2 INSTALL SCRIPTS ~
                                       *vundle-scripts-install* *BundleInstall*
 run >
@@ -90,6 +100,17 @@ run >
 
 installs configured scripts. Newly installed scripts will be automatically
 enabled. Except special cases requiring compilation or preconfiguration.
+
+BundleInstall allows to install scripts by name:>
+
+    :BundleIntall unite.vim
+
+installs and activates unite.vim. You can use Tab to autocomplete known script names.
+NOTE: installation, as just described, doesn't automatically configure scripts; 
+you have to configure them manually.
+Some scripts may require additional manipulation(ie CommandT requires compilation).
+That's why those scripts cannot be automatically activated right after installation
+
 
 4.3 UPDATE SCRIPTS ~
                                       *vundle-scripts-update* *BundleInstall!*
@@ -101,31 +122,59 @@ installs or updates configured scripts.
 4.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
 run >
-    :BundleSearch foo
+    :Bundles foo
 
 lists search results in new split window, ie:
 >
     Bundle "VimFootnotes"
     Bundle "foo.vim"
-
-so you can just copy ones you need to `.vimrc`.             *BundleSearch!*
 >
-    :BundleSearch! foo          " note bang(!)
+and >
+
+   :Bundles! foo
 
 refreshes script list before performing actual search.
+
+If command is run without argument it displays all known scripts.
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
 4.5 CLEANING UP ~
                                      *vundle-scripts-cleanup* *BundleClean*
 run >
+
     :BundleClean
 
-confirms removal of unused script dirs from your `.vim/bundle`. 
-                                                            *BundleClean!*
->
+requires confirmation before removal of unused script-dirs from your `.vim/bundle`. 
+
+                                                            *BundleClean!*  >
     :BundleClean! 
 
 removes unused scripts with no questions.
+
+5. INTERACTIVE MODE ~
+                                    *vundle-interactive*
+Vundle provides simple interactive mode to help you explore new scripts easily.
+Interactive mode is available as result of :Bundles command. For instance running >
+
+  :Bundle unite
+
+displays: >
+
+  "Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list
+  "Search results for: unite
+  Bundle 'unite.vim'
+  Bundle 'unite-yarm'
+  Bundle 'unite-gem'
+  Bundle 'unite-locate'
+  Bundle 'unite-font'
+  Bundle 'unite-colorscheme'
+
+allows running certain commands with single keypress:
+>
+*i* - runs BundleInstall with name taken from line cursor is positioned on
+*c* - runs BundleCleanup
+*r* - alows to refine list. requires a string to refine list with
+*R* - fetches fresh script list from server
 
 vim:tw=78:ts=8:ft=help:norl:
