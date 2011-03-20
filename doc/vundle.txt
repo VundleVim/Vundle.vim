@@ -178,4 +178,8 @@ allows running certain commands with single keypress:
 *r* - alows to refine list; requires a string to refine list with
 *R* - fetches fresh script list from server
 
+So move cursor over line `Bundle 'unite.vim'` and press i key. 
+unite.vim script will be installed! 
+After that you will be able to run `:Unite file` command!
+
 vim:tw=78:ts=8:ft=help:norl:
