@@ -92,8 +92,8 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt) vimdoc for more details.
 [Git]:http://git-scm.com
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
-[install]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L96G)
-[update]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L115G)
-[search]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L122G)
-[clean]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L142G)
-[interface]:(https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L155G)
+[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L96G
+[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L115G
+[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L122G
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L142G
+[interface]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt:L155G
