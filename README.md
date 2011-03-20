@@ -43,7 +43,7 @@
 - [update] configured scripts
 - [search] [all available vim scripts] by name
 - [clean] unused scripts up
-- run above actions with *single keypress* using [interface] made a _Vim-way_
+- run above actions in a *single keypress* with _vimish_ [interface]
 
 Also [Vundle]:
 
