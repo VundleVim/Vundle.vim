@@ -84,13 +84,15 @@ command in `.vimrc`: >
 or >
     Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
 
-Vundle loves Github, that's why short uris can be used to configure bundles: >
+Vundle loves Github, that's why short uris can be used with commands: >
 
     Bundle 'tpope/vim-fugitive'
 
 equals full uri >
 
     Bundle 'http://github.com/tpope/vim-fugitive.git'
+
+NOTE: Vundle defaults to http:// protocol for the short URIs
 
 
 4.2 INSTALL SCRIPTS ~
@@ -158,11 +160,11 @@ removes unused scripts with no questions.
 5. INTERACTIVE MODE ~
 
 Vundle provides simple interactive mode to help you explore new scripts easily.
-Interactive mode is available as result of :Bundles command. For instance running >
+Interactive mode is available as result of :Bundles command. For instance, running: >
 
     :Bundles! unite
 
-searches for scripts matching 'unite' string and yields a split window with
+triggers search for scripts matching 'unite' and yields a split window with
 content: >
 
     "Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list
