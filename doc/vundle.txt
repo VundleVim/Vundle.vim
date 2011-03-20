@@ -86,11 +86,11 @@ or >
 
 Vundle loves Github, that's why short uris can be used to configure bundles: >
 
-  Bundle 'tpope/fugitive'
+  Bundle 'tpope/vim-fugitive'
 
 equals full uri >
 
-  Bundle 'http://github.com/tpope/fugitive.git'
+  Bundle 'http://github.com/tpope/vim-fugitive.git'
 
 
 4.2 INSTALL SCRIPTS ~
