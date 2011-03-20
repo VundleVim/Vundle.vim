@@ -43,7 +43,7 @@
 - [update] configured scripts
 - [search] [all available vim scripts] by name
 - [clean] unused scripts up
-- run above actions in a *single keypress* with _vimish_ [interface]
+- run above actions in a *single keypress* with [interactive mode]
 
 Also [Vundle]:
 
@@ -92,7 +92,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
 [install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L96
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L115
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L122
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L142
-[interface]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L155
+[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L112
+[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L119
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L139
+[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L152
