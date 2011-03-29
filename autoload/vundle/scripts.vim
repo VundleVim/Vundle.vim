@@ -25,7 +25,12 @@ func! vundle#scripts#complete(a,c,d)
 endf
 
 func! vundle#scripts#install() abort
-  let line = substitute(substitute(getline('.'), '\s*Bundle\s*','','g'), "'",'','g')
+  let l = getline('.')
+  if l !~ '^Bundle '
+    echohl Error | echo 'Select Bundle to install'| echohl None
+    return 0
+  end
+  let line = substitute(substitute(l, '\s*Bundle\s*','','g'), "'",'','g')
   call vundle#installer#install(0, line)
 endf
 
