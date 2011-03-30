@@ -40,8 +40,14 @@ endf
 
 func! s:fetch_scripts(to)
   let temp = tempname()
-  exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
-    \  '&& mkdir -p $(dirname  '.a:to.') && mv -f '.temp.' '.a:to
+  if has('win32') || has('win64')
+    let d = fnamemodify(expand(a:to), ":h")
+    exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
+      \  '&& mkdir '.d.' && move /Y '.temp.' '.a:to
+  else
+    exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
+      \  '&& mkdir -p $(dirname  '.a:to.') && mv -f '.temp.' '.a:to
+  endif
 endf
 
 func! s:load_scripts(bang)
