@@ -30,7 +30,11 @@ func! vundle#installer#clean(bang)
   if (!empty(x_dirs))
     " TODO: improve message
     if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
-      exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+      if has('win32') || has('win64')
+        exec '!rmdir /S /Q '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+      else
+        exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+      endif
     endif
   end
 endf
