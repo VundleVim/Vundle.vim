@@ -4,11 +4,31 @@
 
 ## Quick start
 
-1. Setup [Vundle]:
+1. Requirements:
+
+   Vundle requires the `git` and `curl` commandline tools.  These can be
+   installed through the regular means for your operating system.
+
+   On Windows you can install `git` using
+   [msysgit](http://code.google.com/p/msysgit/).  Git must be added to the
+   PATH environment variable for Vundle to work.  The msysgit installer
+   provides an option to add git to the path automatically.
+
+   The `curl` Windows binary can be found on the
+   [curl website](http://curl.haxx.se/).  Copy the files to where you'd like
+   to store them (`%PROGRAMFILES%\curl` is a pretty good choice).
+
+   You can edit your Windows PATH environment variable by right-clicking
+   on My Computer and selecting selecting Properties (Windows Vista/7 users
+   must also click `Advanced System Settings`). Go to the Advanced tab and
+   click `Environment Variables...`.  Append the path where you installed
+   `curl` to the `Path` system variable.
+
+2. Setup [Vundle]:
 
         git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
-2. Configure bundles:
+3. Configure bundles:
 
    Put into your `~/.vimrc`:
 
@@ -28,7 +48,7 @@
         " "Bundles here
         " filetype plugin indent on 
 
-3. Install configured bundles:
+4. Install configured bundles:
 
    Launch `vim`, run `:BundleInstall` (**no `Vim` restart required** since v0.5)
 
