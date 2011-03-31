@@ -47,6 +47,7 @@ func! s:parse_name(arg)
   elseif arg =~ '^\s*\(git@\|git://\)\S\+' 
   \   || arg =~ 'https\?://'
   \   || arg =~ '\.git\s*$'
+  \   || arg =~ '\(file://\)\?[~/]'
     let uri = arg
     let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
   else
