@@ -45,10 +45,10 @@ func! s:parse_name(arg)
     let uri = 'https://github.com/'.split(arg, ':')[-1]
     let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
   elseif arg =~ '^\s*\(git@\|git://\)\S\+' 
-  \   || arg =~ 'https\?://'
+  \   || arg =~ '(file|https\?)://'
   \   || arg =~ '\.git\s*$'
     let uri = arg
-    let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
+    let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
   else
     let name = arg
     let uri  = 'https://github.com/vim-scripts/'.name.'.git'

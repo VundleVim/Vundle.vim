@@ -8,10 +8,10 @@ func! vundle#installer#install(bang, ...)
   redraw!
   call vundle#config#require(bundles)
 
-  call s:log("Installed bundles:\n".join((len(installed) == 0 ?  ['no new bundless installed'] : map(installed, 'v:val.name')),"\n"))
+  call s:log("Installed bundles:\n".join((empty(installed) ?  ['no new bundless installed'] : map(installed, 'v:val.name')),"\n"))
 
   let help_dirs = vundle#installer#helptags(bundles)
-  if len(help_dirs) > 0
+  if !empty(help_dirs)
     call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
   endif
 endf
@@ -49,7 +49,7 @@ endf
 func! s:has_doc(rtp)
   return isdirectory(a:rtp.'/doc')
     \ && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags'))
-    \ && (len(glob(a:rtp.'/doc/*.txt')) > 0 || len(glob(a:rtp.'/doc/*.??x')) > 0)
+    \ && !(empty(glob(a:rtp.'/doc/*.txt')) && empty(glob(a:rtp.'/doc/*.??x')))
 endf
 
 func! s:helptags(rtp)
