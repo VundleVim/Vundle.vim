@@ -39,22 +39,24 @@ func! s:display(headers, results)
   let results = reverse(map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) '))
   call writefile(a:headers + results, s:browse)
   silent pedit `=s:browse`
+
   wincmd P | wincmd H
+
   setl ft=vundle
 endf
 
 func! s:fetch_scripts(to)
-  let temp = tempname()
+  let temp = shellescape(tempname())
   if has('win32') || has('win64')
     let scripts_dir = fnamemodify(expand(a:to), ":h")
     if !isdirectory(scripts_dir)
       call mkdir(scripts_dir, "p")
     endif
     exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
-      \  '&& move /Y '.temp.' '.a:to
+      \  '&& move /Y '.temp.' '.shellescape(a:to)
   else
     exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
-      \  '&& mkdir -p $(dirname  '.a:to.') && mv -f '.temp.' '.a:to
+      \  '&& mkdir -p $(dirname  '.shellescape(a:to).') && mv -f '.temp.' '.shellescape(a:to)
   endif
 endf
 

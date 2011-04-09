@@ -1,6 +1,4 @@
-setl hls ro noma ignorecase
-
-set syntax=vim
+setl hls ro noma ignorecase syntax=vim
 
 syn keyword vimCommand Bundle
 

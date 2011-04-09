@@ -11,7 +11,7 @@ func! vundle#config#init()
   let g:bundles = []
 endf
 
-func! vundle#config#require(bundles)
+func! vundle#config#require(bundles) abort
   for b in a:bundles
     call s:rtp_add(b.rtpath())
     call s:rtp_add(g:bundle_dir)
@@ -64,14 +64,14 @@ func! s:rtp_add_a()
   call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
 endf
 
-func! s:rtp_rm(dir)
-  exec 'set rtp-='.a:dir
-  exec 'set rtp-='.expand(a:dir.'/after')
+func! s:rtp_rm(dir) abort
+  exec 'set rtp-='.escape(expand(a:dir),' ')
+  exec 'set rtp-='.escape(expand(a:dir.'/after'), ' ')
 endf
 
-func! s:rtp_add(dir)
-  exec 'set rtp^='.a:dir
-  exec 'set rtp+='.expand(a:dir.'/after')
+func! s:rtp_add(dir) abort
+  exec 'set rtp^='.escape(expand(a:dir), ' ')
+  exec 'set rtp+='.escape(expand(a:dir.'/after'), ' ')
 endf
 
 let s:bundle = {}
