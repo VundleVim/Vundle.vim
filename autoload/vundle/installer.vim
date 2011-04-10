@@ -8,7 +8,9 @@ func! vundle#installer#install(bang, ...) abort
   redraw!
   call vundle#config#require(bundles)
 
-  call s:log("Installed bundles:\n".join((empty(installed) ?  ['no new bundless installed'] : map(installed, 'v:val.name')),"\n"))
+  call s:log("Installed bundles:\n".join((empty(installed) ? 
+  \      ['no new bundless installed'] : 
+  \      map(installed, 'v:val.name')),"\n"))
 
   vundle#installer#helptags(bundles)
 endf
@@ -48,8 +50,8 @@ endf
 
 func! s:has_doc(rtp) abort
   return isdirectory(a:rtp.'/doc')
-    \ && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags'))
-    \ && !(empty(glob(a:rtp.'/doc/*.txt')) && empty(glob(a:rtp.'/doc/*.??x')))
+  \   && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags'))
+  \   && !(empty(glob(a:rtp.'/doc/*.txt')) && empty(glob(a:rtp.'/doc/*.??x')))
 endf
 
 func! s:helptags(rtp) abort
