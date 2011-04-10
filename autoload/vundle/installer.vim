@@ -6,6 +6,7 @@ func! vundle#installer#install(bang, ...) abort
 
   let installed = s:install(a:bang, bundles)
   redraw!
+  " TODO: handle error: let user know hen they need to restart Vim
   call vundle#config#require(bundles)
 
   call s:log("Installed bundles:\n".join((empty(installed) ? 
