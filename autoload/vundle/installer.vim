@@ -29,16 +29,19 @@ func! vundle#installer#clean(bang) abort
   let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
   let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
-  if (!empty(x_dirs))
-    " TODO: improve message
-    if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
-      if has('win32') || has('win64')
-        exec '!rmdir /S /Q '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
-      else
-        exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
-      endif
-    endif
+
+  if empty(x_dirs)
+    call s:log("All clean!")
+    return
   end
+
+  if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
+    if has('win32') || has('win64')
+      exec '!rmdir /S /Q '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+    else
+      exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+    endif
+  endif
 endf
 
 func! s:reload_bundles()
