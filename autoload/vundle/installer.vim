@@ -10,7 +10,7 @@ func! vundle#installer#install(bang, ...) abort
 
   call s:log("Installed bundles:\n".join((empty(installed) ?  ['no new bundless installed'] : map(installed, 'v:val.name')),"\n"))
 
-  let help_dirs = vundle#installer#helptags(bundles)
+  vundle#installer#helptags(bundles)
 endf
 
 func! vundle#installer#helptags(bundles) abort
