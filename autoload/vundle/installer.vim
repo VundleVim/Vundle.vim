@@ -12,7 +12,7 @@ func! vundle#installer#install(bang, ...) abort
   \      ['no new bundless installed'] : 
   \      map(installed, 'v:val.name')),"\n"))
 
-  vundle#installer#helptags(bundles)
+  call vundle#installer#helptags(bundles)
 endf
 
 func! vundle#installer#helptags(bundles) abort
