@@ -36,12 +36,11 @@ func! vundle#installer#clean(bang) abort
     return
   end
 
-  if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles?') =~? 'y')
-    if has('win32') || has('win64')
-      exec '!rmdir /S /Q '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
-    else
-      exec '!rm -rf '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
-    endif
+  if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles? [ y/n ]:') =~? 'y')
+    let cmd = (has('win32') || has('win64')) ?
+    \           'rmdir /S /Q' :
+    \           'rm -rf'
+    exec '!'.cmd.' '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
   endif
 endf
 
