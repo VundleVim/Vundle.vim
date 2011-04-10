@@ -1,6 +1,6 @@
-syn keyword vimCommand Bundle
-
 setl hls ro noma ignorecase syntax=vim
+
+syn keyword vimCommand Bundle
 
 nnoremap <buffer> q :wincmd q<CR>
 nnoremap <buffer> i :call vundle#scripts#install()<CR>
