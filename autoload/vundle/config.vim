@@ -65,13 +65,13 @@ func! s:rtp_add_a()
 endf
 
 func! s:rtp_rm(dir) abort
-  exec 'set rtp-='.escape(expand(a:dir),' ')
-  exec 'set rtp-='.escape(expand(a:dir.'/after'), ' ')
+  exec 'set rtp-='.fnameescape(expand(a:dir))
+  exec 'set rtp-='.fnameescape(expand(a:dir.'/after'))
 endf
 
 func! s:rtp_add(dir) abort
-  exec 'set rtp^='.escape(expand(a:dir), ' ')
-  exec 'set rtp+='.escape(expand(a:dir.'/after'), ' ')
+  exec 'set rtp^='.fnameescape(expand(a:dir))
+  exec 'set rtp+='.fnameescape(expand(a:dir.'/after'))
 endf
 
 let s:bundle = {}
