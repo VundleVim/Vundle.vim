@@ -23,6 +23,11 @@ com! -nargs=0         BundleDocs
 com! -nargs=? -bang   BundleSearch
    \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
+
+au! Filetype  vundle    call vundle#scripts#setup_view()
+au! Syntax    vim       syn keyword vimCommand Bundle
+
+
 func! vundle#rc()
   let g:bundle_dir = expand('$HOME/.vim/bundle')
   call vundle#config#init()

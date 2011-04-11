@@ -34,6 +34,19 @@ func! vundle#scripts#install() abort
   call vundle#installer#install(0, line)
 endf
 
+func! vundle#scripts#setup_view() abort
+  setl hls ro noma ignorecase syntax=vim
+
+  syn keyword vimCommand Bundle
+
+  nnoremap <buffer> q :wincmd q<CR>
+  nnoremap <buffer> i :call vundle#scripts#install()<CR>
+  nnoremap <buffer> r :Bundles 
+  nnoremap <buffer> c :BundleClean<CR>
+  nnoremap <buffer> C :BundleClean!<CR>
+  nnoremap <buffer> R :call vundle#scripts#reload()<CR>
+endf
+
 func! s:display(headers, results)
   if !exists('s:browse') | let s:browse = tempname() | endif
   let results = reverse(map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) '))
@@ -43,6 +56,7 @@ func! s:display(headers, results)
   wincmd P | wincmd H
 
   setl ft=vundle
+  call vundle#scripts#setup_view()
 endf
 
 func! s:fetch_scripts(to)
