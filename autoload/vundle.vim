@@ -5,23 +5,23 @@
 " Version:      0.7
 
 com! -nargs=+         Bundle
-   \ call vundle#config#bundle(<args>)
+\ call vundle#config#bundle(<args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
-   \ call vundle#installer#install('!' == '<bang>', <q-args>)
+\ call vundle#installer#install('!' == '<bang>', <q-args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles
-   \ call vundle#scripts#all('!'=='<bang>', <q-args>)
+\ call vundle#scripts#all('!'=='<bang>', <q-args>)
 
 com! -nargs=? -bang   BundleClean
-   \ call vundle#installer#clean('!' == '<bang>')
+\ call vundle#installer#clean('!' == '<bang>')
 
 com! -nargs=0         BundleDocs 
-   \ call vundle#installer#helptags(g:bundles)
+\ call vundle#installer#helptags(g:bundles)
 
 " deprecated in favor of Bundles
 com! -nargs=? -bang   BundleSearch
-   \ call vundle#scripts#all('!' == '<bang>', <q-args>)
+\ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
 
 au! Filetype  vundle    call vundle#scripts#setup_view()
