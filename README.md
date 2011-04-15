@@ -31,7 +31,8 @@
 3. Install configured bundles:
 
    Launch `vim`, run `:BundleInstall`. 
-   *Windows users* see _Requrements / Windows_ section
+
+   *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
    Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
 
@@ -59,34 +60,14 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
    See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
 
-## Requirements:
-
-   Vundle requires the `git` and `curl` commandline tools.  These can be
-   installed through the regular means for your operating system.
-
-### Windows support
-
-   On Windows you can install `git` using
-   [msysgit](http://code.google.com/p/msysgit/).
-
-   The `curl` Windows binary can be found on the
-   [curl website](http://curl.haxx.se/).  Copy the files to where you'd like
-   to store them (`%PROGRAMFILES%\curl` is a pretty good choice).
-
-   Both `git` and `curl` must be added to the PATH environment variable for
-   Vundle to work.  The msysgit installer provides an option to add git to the
-   path automatically.
-
-   You can edit your Windows PATH environment variable by right-clicking
-   on My Computer and selecting selecting Properties (Windows Vista/7 users
-   must also click `Advanced System Settings`). Go to the Advanced tab and
-   click `Environment Variables...`.  Append the path where you installed
-   `curl` to the `Path` system variable.
-
 ## Contributors
+
 * [Brad Anderson](http://github.com/eco) (windows support)
 * [Ryan W](http://github.com/rygwdn)
 * [gmarik](http://github.com/gmarik)
+* and others
+
+*Thank you!*
 
 ## Inspiration and ideas from
 
@@ -96,7 +77,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 ## Also
 
-* Vundle was developed and tested with [Vim] 7.3 on `OSX` and `Linux`
+* Vundle was developed and tested with [Vim] 7.3 on `OSX`, `Linux` and `Windows`
 * Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
 ## TODO:
