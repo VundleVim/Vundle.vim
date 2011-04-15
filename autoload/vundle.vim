@@ -24,8 +24,8 @@ com! -nargs=? -bang   BundleSearch
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
 
-au! Filetype  vundle    call vundle#scripts#setup_view()
-au! Syntax    vim       syn keyword vimCommand Bundle
+au Filetype  vundle    call vundle#scripts#setup_view()
+au Syntax    vim       syn keyword vimCommand Bundle
 
 
 func! vundle#rc()
