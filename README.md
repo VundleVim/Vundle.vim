@@ -15,17 +15,18 @@
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
 
-        " Bundles:
-        Bundle "L9"
-        Bundle "FuzzyFinder"
-        Bundle "rails.vim"
-        Bundle "ack.vim"
-        Bundle "git://git.wincent.com/command-t.git"
+        Bundle 'L9'
+        Bundle 'FuzzyFinder'
+        Bundle 'rails.vim'
+        Bundle 'ack.vim'
+        Bundle 'git://git.wincent.com/command-t.git'
         " ...
 
         " NOTE: if some plugins fail to work, put the config *between* lines:
         " filetype off
-        " "Bundles here
+        "
+        " Vundle stuff here...
+        "
         " filetype plugin indent on 
 
 3. Install configured bundles:
@@ -88,6 +89,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 * √ vim documentation
 * tests
 * improve error handling
+* put vundle to bundles/ too(will fix vundle help)
 * :VundleUpdate - self.update
 * handle dependencies
 * allow specify revision/version?
