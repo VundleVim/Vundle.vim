@@ -15,10 +15,15 @@
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
 
+        " original repos on github
+        Bundle 'tpope/vim-fugitive'
+        Bundle 'lokaltog/vim-easymotion'
+        Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+        " vim-scripts repos
         Bundle 'L9'
         Bundle 'FuzzyFinder'
         Bundle 'rails.vim'
-        Bundle 'ack.vim'
+        " non github repos
         Bundle 'git://git.wincent.com/command-t.git'
         " ...
 
