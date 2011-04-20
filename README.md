@@ -10,7 +10,7 @@
 
 2. Configure bundles:
 
-   Put into your `~/.vimrc`:
+     Put into your `~/.vimrc`:
 
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
