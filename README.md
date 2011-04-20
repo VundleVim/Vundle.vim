@@ -95,7 +95,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 * tests
 * improve error handling
 * put vundle to bundles/ too(will fix vundle help)
-* :VundleUpdate - self.update
+* `:VundleUpdate` - self.update
 * handle dependencies
 * allow specify revision/version?
 * search by description aswell
