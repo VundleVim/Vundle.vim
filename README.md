@@ -12,9 +12,13 @@
 
      Put into your `~/.vimrc`:
 
+        filetype off
+
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
 
+        " My Bundles here:
+        "
         " original repos on github
         Bundle 'tpope/vim-fugitive'
         Bundle 'lokaltog/vim-easymotion'
@@ -27,12 +31,7 @@
         Bundle 'git://git.wincent.com/command-t.git'
         " ...
 
-        " NOTE: if some plugins fail to work, put the config *between* lines:
-        " filetype off
-        "
-        " Vundle stuff here...
-        "
-        " filetype plugin indent on 
+        filetype plugin indent on 
 
 3. Install configured bundles:
 
