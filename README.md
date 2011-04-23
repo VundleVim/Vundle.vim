@@ -12,6 +12,7 @@
 
      Put into your `~/.vimrc`:
 
+        set nocompatible               " be iMproved
         filetype off
 
         set rtp+=~/.vim/vundle.git/ 
