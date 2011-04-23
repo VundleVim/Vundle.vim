@@ -10,10 +10,10 @@
 
 2. Configure bundles:
 
-     Put into your `~/.vimrc`:
+      Sample `.vimrc`:
 
         set nocompatible               " be iMproved
-        filetype off
+        filetype off                   " required!
 
         set rtp+=~/.vim/vundle.git/ 
         call vundle#rc()
@@ -32,7 +32,7 @@
         Bundle 'git://git.wincent.com/command-t.git'
         " ...
 
-        filetype plugin indent on 
+        filetype plugin indent on     " required!
 
 3. Install configured bundles:
 
