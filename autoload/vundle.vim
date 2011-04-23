@@ -28,7 +28,7 @@ au Filetype  vundle    call vundle#scripts#setup_view()
 au Syntax    vim       syn keyword vimCommand Bundle
 
 
-func! vundle#rc()
-  let g:bundle_dir = expand('$HOME/.vim/bundle')
+func! vundle#rc(...) abort
+  let g:bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
   call vundle#config#init()
 endf
