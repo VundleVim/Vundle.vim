@@ -46,7 +46,7 @@ endf
 
 func! s:reload_bundles()
   " TODO: obtain Bundles without sourcing .vimrc
-  silent source $MYVIMRC
+  if filereadable($MYVIMRC)| silent source $MYVIMRC | endif
   if filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
   return g:bundles
 endf
