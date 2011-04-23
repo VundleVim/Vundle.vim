@@ -1,0 +1,51 @@
+" vim -u test/vimrc
+set nocompatible
+
+filetype off
+runtime macros/matchit.vim
+set rtp+=~/.vim/vundle.git/
+
+call vundle#rc('/tmp/vundle_bundles')
+
+silent BundleClean!
+
+" vim-scripts name
+Bundle 'molokai'
+
+" github username with dashes
+Bundle 'vim-scripts/ragtag.vim'
+
+" original repo
+Bundle 'altercation/vim-colors-solarized'
+" with extension
+Bundle 'nelstrom/vim-mac-classic-theme.git'
+
+" full uri
+Bundle 'git@github.com:gmarik/ingretu.git'
+" short uri
+Bundle 'gh:gmarik/snipmate.vim.git'
+Bundle 'github:mattn/gist-vim.git'
+
+" local uri stuff
+Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
+" Bundle 'file://Dropbox/.gitrepos/utilz.vim.git'
+
+" with options
+Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+
+" Camel case
+Bundle 'vim-scripts/RubySinatra'
+
+filetype plugin indent on      " Automatically detect file types.
+
+BundleInstall
+
+func! s:assert_bundles() abort
+  for b in g:bundles
+    if (!isdirectory(b.path().'/.git'))
+      throw b.name.' not installed'
+    endif
+  endfor
+endf
+
+call s:assert_bundles()
