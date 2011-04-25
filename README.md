@@ -74,8 +74,6 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 * [Marc Jeanson](https://github.com/marcjeanson) - vim dude I always bug for help...;)
 * [Brad Anderson](http://github.com/eco) (windows support)
 * [Ryan W](http://github.com/rygwdn)
-* [gmarik](http://github.com/gmarik)
-
 * and others
 
 *Thank you!*
