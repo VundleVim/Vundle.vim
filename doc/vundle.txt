@@ -46,23 +46,30 @@ in order to install/search [all available vim scripts]
     git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
 2) Configure bundles:
-   Append to your `~/.vimrc`: >
 
-    set rtp+=~/.vim/vundle.git/ 
-    call vundle#rc()
+   Sample `.vimrc`: >
 
-    " Bundles:
-    Bundle "L9"
-    Bundle "FuzzyFinder"
-    Bundle "rails.vim"
-    Bundle "ack.vim"
-    Bundle "git://git.wincent.com/command-t.git"
-    " ...
+     set nocompatible               " be iMproved
+     filetype off                   " required!
 
-    " NOTE: if some plug-ins fail to work, put the config *between* lines:
-    " filetype off
-    " "Bundles here
-    " filetype plugin indent on 
+     set rtp+=~/.vim/vundle.git/ 
+     call vundle#rc()
+
+     " My Bundles here:
+     "
+     " original repos on github
+     Bundle 'tpope/vim-fugitive'
+     Bundle 'lokaltog/vim-easymotion'
+     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+     " vim-scripts repos
+     Bundle 'L9'
+     Bundle 'FuzzyFinder'
+     Bundle 'rails.vim'
+     " non github repos
+     Bundle 'git://git.wincent.com/command-t.git'
+     " ...
+
+     filetype plugin indent on     " required!
 
 3) Install configured bundles:
 
