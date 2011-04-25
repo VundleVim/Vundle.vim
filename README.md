@@ -60,7 +60,7 @@ Also [Vundle]:
 
 ## Docs
 
-run [`helptags ~/.vim/vundle.git/doc`](https://github.com/gmarik/vundle/issues/17)
+run [`:helptags ~/.vim/vundle.git/doc`](https://github.com/gmarik/vundle/issues/17)
 
 see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
