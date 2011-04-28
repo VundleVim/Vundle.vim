@@ -38,6 +38,8 @@ Bundle 'vim-scripts/RubySinatra'
 
 filetype plugin indent on      " Automatically detect file types.
 
+set wildignore+=doc              " should not break helptags
+
 BundleInstall
 
 func! s:assert_bundles() abort

@@ -58,7 +58,7 @@ func! s:has_doc(rtp) abort
 endf
 
 func! s:helptags(rtp) abort
-  helptags `=a:rtp.'/doc'`
+  helptags `=a:rtp.'/doc/'`
 endf
 
 func! s:sync(bang, bundle) abort
