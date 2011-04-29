@@ -9,6 +9,7 @@ func! vundle#installer#install(bang, ...) abort
   " TODO: handle error: let user know hen they need to restart Vim
   call vundle#config#require(bundles)
 
+
   call s:log("Installed bundles:\n".join((empty(installed) ? 
   \      ['no new bundless installed'] : 
   \      map(installed, 'v:val.name')),"\n"))
@@ -62,6 +63,8 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
+  let cwd = getcwd()
+
   let git_dir = expand(a:bundle.path().'/.git')
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
@@ -69,8 +72,17 @@ func! s:sync(bang, bundle) abort
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
-  silent exec '!'.cmd
+  exec '!echo '.cmd
+  exec '!'.cmd
+
+  exec 'lcd '.a:bundle.path()
+  exec 'doautocmd bundle#'.a:bundle.name.' User PostInstall'
+
+  " confirm ('what')
+
+  
   return 1
+  
 endf
 
 func! s:install(bang, bundles) abort

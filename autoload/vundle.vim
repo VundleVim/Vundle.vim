@@ -32,3 +32,18 @@ func! vundle#rc(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
   call vundle#config#init()
 endf
+
+
+augroup bundle#Command-T
+  au!
+  au User PreInstall  echo 'ok'
+  au User PostInstall call s:commandt_install()
+augroup END
+
+func! s:commandt_install()
+  ruby <<EOF
+    puts( cmd = "cd ruby/command-t && ruby extconf.rb && make clean && make");
+    system(cmd)
+EOF
+endf
+
