@@ -34,7 +34,7 @@ func! vundle#rc(...) abort
 endf
 
 
-augroup bundle#Command-T
+augroup bundle#command-t
   au!
   au User PreInstall  echo 'ok'
   au User PostInstall call s:commandt_install()
