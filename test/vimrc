@@ -7,8 +7,6 @@ set rtp+=~/.vim/vundle.git/
 
 call vundle#rc('/tmp/vundle_bundles')
 
-silent BundleClean!
-
 " vim-scripts name
 Bundle 'molokai'
 
@@ -39,8 +37,6 @@ Bundle 'vim-scripts/RubySinatra'
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
-
-BundleInstall
 
 func! s:assert_bundles() abort
   for b in g:bundles
