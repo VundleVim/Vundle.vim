@@ -72,17 +72,29 @@ func! s:sync(bang, bundle) abort
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
-  exec '!echo '.cmd
-  exec '!'.cmd
 
-  exec 'lcd '.a:bundle.path()
-  exec 'doautocmd bundle#'.a:bundle.name.' User PostInstall'
+  silent exec '!echo '.cmd | silent exec '!'.cmd
 
-  " confirm ('what')
+  let l:aug_name = tolower('bundle#'.a:bundle.name)
 
-  
+  if 0 <= index(s:load_augroups(), aug_name)
+    lcd `=a:bundle.path()`
+    exec 'doautocmd '.l:aug_name.' User PostInstall'
+    lcd `=cwd`
+  endif
+
   return 1
-  
+endf
+
+func! s:load_augroups()
+  let temp = @v
+  redir @v
+  silent verbose augroup
+  redir END
+  let v = @v
+  let @v = temp
+  let augroups = map(split(v,'[\n\r\t\ ]\+'), 'tolower(v:val)')
+  return augroups
 endf
 
 func! s:install(bang, bundles) abort
