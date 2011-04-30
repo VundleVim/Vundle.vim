@@ -36,6 +36,6 @@ endf
 
 augroup bundle#command-t
   au!
-  au User PreInstall  echo 'ok'
-  au User PostInstall !cd ruby/command-t && ruby extconf.rb && make clean && make
+  au User BundleInstallPre  echo 'ok'
+  au User BundleInstallPost !cd ruby/command-t && ruby extconf.rb && make clean && make
 augroup END

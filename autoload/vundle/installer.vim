@@ -79,7 +79,7 @@ func! s:sync(bang, bundle) abort
 
   if 0 <= index(s:load_augroups(), aug_name)
     lcd `=a:bundle.path()`
-    exec 'doautocmd '.l:aug_name.' User PostInstall'
+    exec 'doautocmd '.l:aug_name.' User BundleInstallPost'
     lcd `=cwd`
   endif
 
