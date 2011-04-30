@@ -87,12 +87,7 @@ func! s:sync(bang, bundle) abort
 endf
 
 func! s:load_augroups()
-  let temp = @v
-  redir @v
-  silent verbose augroup
-  redir END
-  let v = @v
-  let @v = temp
+  redir => v | silent verbose augroup | redir END
   let augroups = map(split(v,'[\n\r\t\ ]\+'), 'tolower(v:val)')
   return augroups
 endf
