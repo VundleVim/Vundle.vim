@@ -17,7 +17,7 @@ com! -nargs=? -bang   BundleClean
 \ call vundle#installer#clean('!' == '<bang>')
 
 com! -nargs=0         BundleDocs 
-\ call vundle#installer#helptags(g:bundles)
+\ call vundle#installer#helptags(g:vundle#bundles)
 
 " deprecated in favor of Bundles
 com! -nargs=? -bang   BundleSearch
@@ -29,7 +29,7 @@ au Syntax    vim       syn keyword vimCommand Bundle
 
 
 func! vundle#rc(...) abort
-  let g:bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
+  let g:vundle#bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
   call vundle#config#init()
 endf
 

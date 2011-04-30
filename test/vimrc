@@ -42,7 +42,7 @@ filetype plugin indent on      " Automatically detect file types.
 set wildignore+=doc              " should not break helptags
 
 func! s:assert_bundles() abort
-  for b in g:bundles
+  for b in g:vundle#bundles
     if (!isdirectory(b.path().'/.git'))
       throw b.name.' not installed'
     endif
