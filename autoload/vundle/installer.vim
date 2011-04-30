@@ -1,5 +1,5 @@
 func! vundle#installer#install(bang, ...) abort
-  if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+  if !isdirectory(g:vundle#bundle_dir) | call mkdir(g:vundle#bundle_dir, 'p') | endif
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
@@ -27,8 +27,8 @@ func! vundle#installer#helptags(bundles) abort
 endf
 
 func! vundle#installer#clean(bang) abort
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
-  let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
+  let bundle_dirs = map(copy(g:vundle#bundles), 'v:val.path()') 
+  let all_dirs = split(globpath(g:vundle#bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
   if empty(x_dirs)
@@ -48,7 +48,7 @@ func! s:reload_bundles()
   " TODO: obtain Bundles without sourcing .vimrc
   if filereadable($MYVIMRC)| silent source $MYVIMRC | endif
   if filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
-  return g:bundles
+  return g:vundle#bundles
 endf
 
 func! s:has_doc(rtp) abort

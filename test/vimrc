@@ -43,7 +43,7 @@ set wildignore+=doc              " should not break helptags
 BundleInstall
 
 func! s:assert_bundles() abort
-  for b in g:bundles
+  for b in g:vundle#bundles
     if (!isdirectory(b.path().'/.git'))
       throw b.name.' not installed'
     endif

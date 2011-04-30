@@ -1,24 +1,24 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
   call s:rtp_rm_a()
-  call add(g:bundles, bundle)
+  call add(g:vundle#bundles, bundle)
   call s:rtp_add_a()
 endf
 
 func! vundle#config#init()
-  if !exists('g:bundles') | let g:bundles = [] | endif
+  if !exists('g:vundle#bundles') | let g:vundle#bundles = [] | endif
   call s:rtp_rm_a()
-  let g:bundles = []
+  let g:vundle#bundles = []
 endf
 
 func! vundle#config#require(bundles) abort
   for b in a:bundles
     call s:rtp_add(b.rtpath())
-    call s:rtp_add(g:bundle_dir)
+    call s:rtp_add(g:vundle#bundle_dir)
     " TODO: it has to be relative rtpath, not bundle.name
     exec 'runtime! '.b.name.'/plugin/*.vim'
     exec 'runtime! '.b.name.'/after/*.vim'
-    call s:rtp_rm(g:bundle_dir)
+    call s:rtp_rm(g:vundle#bundle_dir)
   endfor
 endf
 
@@ -57,11 +57,11 @@ func! s:parse_name(arg)
 endf
 
 func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
+  call filter(copy(g:vundle#bundles), 's:rtp_rm(v:val.rtpath())')
 endf
 
 func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
+  call filter(reverse(copy(g:vundle#bundles)), 's:rtp_add(v:val.rtpath())')
 endf
 
 func! s:rtp_rm(dir) abort
@@ -77,7 +77,7 @@ endf
 let s:bundle = {}
 
 func! s:bundle.path()
-  return join([g:bundle_dir, self.name], '/')
+  return join([g:vundle#bundle_dir, self.name], '/')
 endf
 
 func! s:bundle.rtpath()
