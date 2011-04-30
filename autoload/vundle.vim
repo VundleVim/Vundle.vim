@@ -37,13 +37,5 @@ endf
 augroup bundle#command-t
   au!
   au User PreInstall  echo 'ok'
-  au User PostInstall call s:commandt_install()
+  au User PostInstall !cd ruby/command-t && ruby extconf.rb && make clean && make
 augroup END
-
-func! s:commandt_install()
-  ruby <<EOF
-    puts( cmd = "cd ruby/command-t && ruby extconf.rb && make clean && make");
-    system(cmd)
-EOF
-endf
-
