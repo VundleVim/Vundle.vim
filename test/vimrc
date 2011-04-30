@@ -34,6 +34,9 @@ Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
 
+" PostInstall 
+Bundle 'wincent/Command-T'
+
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
