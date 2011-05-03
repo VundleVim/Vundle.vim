@@ -81,8 +81,12 @@ endf
 
 let s:bundle = {}
 
+func! s:bundle.nosync() 
+  return has_key(self, 'sync') && 'no' == self.sync()
+endf
+
 func! s:bundle.path()
-  if has_key(self, 'sync') && 'no' == self.sync
+  if self.nosync()
     if isdirectory(expand(self.uri))
       let path = expand(self.uri)
     endif

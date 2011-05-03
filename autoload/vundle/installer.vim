@@ -62,6 +62,7 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
+  if a:bundle.nosync() | return 0 | endif
   let git_dir = expand(a:bundle.path().'/.git')
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
