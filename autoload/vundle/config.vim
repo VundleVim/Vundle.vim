@@ -85,6 +85,10 @@ func! s:bundle.nosync()
   return has_key(self, 'sync') && 'no' == self.sync()
 endf
 
+func! s:bundle.installed()
+  return !empty(split(globpath(self.path(), '*'), "\n"))
+endf
+
 func! s:bundle.path()
   if self.nosync()
     if isdirectory(expand(self.uri))
