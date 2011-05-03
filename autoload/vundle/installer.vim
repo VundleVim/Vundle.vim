@@ -62,11 +62,12 @@ func! s:helptags(rtp) abort
   helptags `=a:rtp.'/doc/'`
 endf
 
-func! s:sync(bang, bundle) abort
-  let cwd = getcwd()
+func! s:installed(bundle) abort
+  return !empty(split(globpath(a:bundle.path(), '*'), "\n"))
+endf
 
-  let git_dir = expand(a:bundle.path().'/.git')
-  if isdirectory(git_dir)
+func! vundle#installer#sync(bang, bundle) abort
+  if s:installed(a:bundle)
     if !(a:bang) | return 0 | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
   else
