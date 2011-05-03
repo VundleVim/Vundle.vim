@@ -1,5 +1,5 @@
-func! vundle#config#bundle(arg, ...)
-  let bundle = vundle#config#init_bundle(a:arg, a:000)
+func! vundle#config#bundle(bang, arg, ...)
+  let bundle = vundle#config#init_bundle(a:bang, a:arg, a:000)
   call s:rtp_rm_a()
   call add(g:vundle#bundles, bundle)
   call s:rtp_add_a()
@@ -22,20 +22,25 @@ func! vundle#config#require(bundles) abort
   endfor
 endf
 
-func! vundle#config#init_bundle(name, opts)
-  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
+func! vundle#config#init_bundle(bang, name, opts)
+  let opts = extend(s:parse_options(a:bang, a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
   return extend(opts, copy(s:bundle))
 endf
 
-func! s:parse_options(opts)
-  " TODO: improve this
-  if len(a:opts) != 1 | return {} | endif
-
-  if type(a:opts[0]) == type({})
-    return a:opts[0]
-  else
-    return {'rev': a:opts[0]}
+func! s:parse_options(bang, opts)
+  if len(a:opts) != 1 
+    let opts = {}
+  elseif type(a:opts[0]) == type({})
+    let opts = a:opts[0]
+  elseif type(a:opts[0]) == type('')
+    let opts = {'rev': a:opts[0]}
   endif
+
+  if a:bang
+    let opts = extend({'sync':'no'}, opts)
+  endif
+
+  return opts
 endf
 
 func! s:parse_name(arg)
@@ -77,7 +82,14 @@ endf
 let s:bundle = {}
 
 func! s:bundle.path()
-  return join([g:vundle#bundle_dir, self.name], '/')
+  if has_key(self, 'sync') && 'no' == self.sync
+    if isdirectory(expand(self.uri))
+      let path = expand(self.uri)
+    endif
+  else
+    let path = g:vundle#bundle_dir
+  endif
+  return join([path, self.name], '/')
 endf
 
 func! s:bundle.rtpath()
