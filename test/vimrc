@@ -30,6 +30,9 @@ Bundle 'github:mattn/gist-vim.git'
 Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 " Bundle 'file://Dropbox/.gitrepos/utilz.vim.git'
 
+" nosync
+Bundle! '~/.vim/vundle.git/test/'
+
 " with options
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 
