@@ -19,7 +19,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'nelstrom/vim-mac-classic-theme.git'
 
 " full uri
-Bundle 'git@github.com:gmarik/ingretu.git'
+" Bundle 'git@github.com:gmarik/ingretu.git'
 " short uri
 Bundle 'gh:gmarik/snipmate.vim.git'
 Bundle 'github:mattn/gist-vim.git'

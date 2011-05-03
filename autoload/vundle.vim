@@ -33,9 +33,23 @@ func! vundle#rc(...) abort
   call vundle#config#init()
 endf
 
-
 augroup bundle#command-t
   au!
-  au User BundleInstallPre  echo 'ok'
+  au User BundleInstallPost echo 'Running command-t hooks'
   au User BundleInstallPost !cd ruby/command-t && ruby extconf.rb && make clean && make
+  au User BundleInstallPost ![ -f doc/readme.txt -a -f doc/command-t.txt ] && rm doc/README.txt
+  au User BundleInstallPost echohl WarningMsg | echo 'Please restart Vim for command-t to work' | echohl None
+augroup END
+
+augroup vundle#bundle
+  au!
+  au User BundleInstallPre    echo 'Installing '.g:bundle.name
+  au User BundleInstall       call vundle#installer#sync(1, g:bundle)
+  au User BundleInstallPost   echo 'Installed '.g:bundle.name
+
+  au User BundleInstalled     echo 'Already Installed '.g:bundle.name
+
+  au User BundlesInstallPost  call vundle#config#require(g:bundles)
+  au User BundlesInstallPost  call vundle#installer#helptags(g:bundles)
+  au User BundlesInstallPost  echo len(g:bundles).' '. "bundles installed"
 augroup END

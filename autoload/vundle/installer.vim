@@ -1,20 +1,45 @@
 func! vundle#installer#install(bang, ...) abort
-  if !isdirectory(g:vundle#bundle_dir) | call mkdir(g:vundle#bundle_dir, 'p') | endif
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
-  let installed = s:install(a:bang, bundles)
-  redraw!
-  " TODO: handle error: let user know hen they need to restart Vim
-  call vundle#config#require(bundles)
+  let cwd = getcwd()
+  let new_bundles = []
 
+  for bundle in bundles
+    if !isdirectory(bundle.path()) | call mkdir(bundle.path(), 'p') | endif
 
-  call s:log("Installed bundles:\n".join((empty(installed) ? 
-  \      ['no new bundless installed'] : 
-  \      map(installed, 'v:val.name')),"\n"))
+    let g:bundle = bundle
 
-  call vundle#installer#helptags(bundles)
+    lcd `=bundle.path()`
+
+    call s:doautocmd('BundleInstallPre',      'vundle#bundle')
+    call s:doautocmd('BundleInstallPre',      'bundle#'.tolower(bundle.name))
+
+    if a:bang || !(s:installed(bundle))
+      call s:doautocmd('BundleInstall',       'vundle#bundle')
+      call s:doautocmd('BundleInstall',       'bundle#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstallPost',   'vundle#bundle')
+      call s:doautocmd('BundleInstallPost',   'bundle#'.tolower(bundle.name))
+
+      call add(new_bundles, bundle)
+    else
+      call s:doautocmd('BundleInstalled',     'vundle#bundle')
+      call s:doautocmd('BundleInstalled',     'bundle#'.tolower(bundle.name))
+    endif
+    lcd `=cwd`
+  endfor
+
+  let g:bundles = new_bundles
+  call s:doautocmd('BundlesInstallPost',  'vundle#bundle')
+endf
+
+" TODO: verify whether autocommand already exists
+" verbose autocmd User BundleInstall*
+func! s:doautocmd(event, augroup_name)
+  if 0 <= index(s:load_augroups(), a:augroup_name)
+    exec 'doautocmd '.a:augroup_name.' User '.a:event
+  endif
 endf
 
 func! vundle#installer#helptags(bundles) abort
@@ -76,14 +101,6 @@ func! vundle#installer#sync(bang, bundle) abort
 
   silent exec '!echo '.cmd | silent exec '!'.cmd
 
-  let l:aug_name = tolower('bundle#'.a:bundle.name)
-
-  if 0 <= index(s:load_augroups(), aug_name)
-    lcd `=a:bundle.path()`
-    exec 'doautocmd '.l:aug_name.' User BundleInstallPost'
-    lcd `=cwd`
-  endif
-
   return 1
 endf
 
@@ -91,10 +108,6 @@ func! s:load_augroups()
   redir => v | silent verbose augroup | redir END
   let augroups = map(split(v,'[\n\r\t\ ]\+'), 'tolower(v:val)')
   return augroups
-endf
-
-func! s:install(bang, bundles) abort
-  return filter(copy(a:bundles), 's:sync(a:bang, v:val)')
 endf
 
 " TODO: make it pause after output in console mode
