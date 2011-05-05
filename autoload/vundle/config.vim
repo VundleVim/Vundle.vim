@@ -23,7 +23,7 @@ func! vundle#config#require(bundles) abort
 endf
 
 func! vundle#config#init_bundle(bang, name, opts)
-  let opts = extend(s:parse_options(a:bang, a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
+  let opts = extend(s:parse_options(a:bang, a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')),'keep')
   return extend(opts, copy(s:bundle))
 endf
 
