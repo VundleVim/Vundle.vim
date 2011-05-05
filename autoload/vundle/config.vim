@@ -91,8 +91,7 @@ endf
 
 func! s:bundle.path()
   if self.nosync()
-    let dir = expand(self.uri)
-    return dif
+    return expand(self.uri)
   endif
 
   return join([g:vundle#bundle_dir, self.name], '/')
