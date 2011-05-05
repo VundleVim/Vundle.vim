@@ -1,4 +1,4 @@
-func! vundle#config#bundle(bang, arg, ...)
+func! vundle#config#bundle(bang, arg, ...) abort
   let bundle = vundle#config#init_bundle(a:bang, a:arg, a:000)
   call s:rtp_rm_a()
   call add(g:vundle#bundles, bundle)
@@ -82,7 +82,7 @@ endf
 let s:bundle = {}
 
 func! s:bundle.nosync() 
-  return has_key(self, 'sync') && 'no' == self.sync()
+  return has_key(self, 'sync') && 'no' == self.sync
 endf
 
 func! s:bundle.installed()

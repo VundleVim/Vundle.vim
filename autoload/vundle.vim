@@ -4,7 +4,7 @@
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 " Version:      0.8
 
-com! -nargs=+         Bundle
+com! -nargs=+ -bang   Bundle
 \ call vundle#config#bundle('!' == '<bang>', <args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
