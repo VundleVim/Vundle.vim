@@ -46,14 +46,37 @@ filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
 
+
+
+augroup vimrc
+  au WinEnter * call s:test()
+augroup END
+
+func! s:test()
+  if 'ok' != g:vundle_test_plugin() != 'ok'
+    throw 'ooops'
+  endif
+
+  call s:assert_bundles()
+
+  call s:asser_a_bundle()
+endf
+
+func! s:assert(cond, msg)
+  if !a:cond
+    throw a:msg
+  endif
+endf
+
 func! s:assert_bundles() abort
   for b in g:vundle#bundles
-    if (!b.installed())
-      throw b.name.' not installed'
-    endif
+    call assert(b.nosync() || b.installed(), b.name.' not installed')
   endfor
 endf
 
-if 'ok' != g:vundle_test_plugin() | throw 'ooops' | endif
+func! s:assert_a_bundle() abort
+  let b = filter(copy(g:vundle#bundles), 'v:var.name = "a_bundle"')[0]
+  let c = b.path() != expand(g:vundle#bundle_dir.'/'.'a_name')
+  call s:assert(c, ' a_plugin isnt instaled')
+endf
 
-call s:assert_bundles()
