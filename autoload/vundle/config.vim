@@ -91,10 +91,10 @@ func! s:bundle.installed()
 endf
 
 func! s:bundle.path()
-  if self.nosync()
-    return expand(self.uri)
+  " TODO: should lcd to tmpdir here
+  if self.nosync() && isdirectory(expand(self.uri))
+    return self.uri
   endif
-
   return join([g:vundle#bundle_dir, self.name], '/')
 endf
 
