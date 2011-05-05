@@ -47,7 +47,7 @@ BundleInstall
 
 func! s:assert_bundles() abort
   for b in g:vundle#bundles
-    if (!isdirectory(b.path().'/.git'))
+    if (!b.installed())
       throw b.name.' not installed'
     endif
   endfor

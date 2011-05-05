@@ -62,10 +62,6 @@ func! s:helptags(rtp) abort
 endf
 
 
-func! s:installed(bundle) abort
-  return !empty(split(globpath(a:bundle.path(), '*'), "\n"))
-endf
-
 func! s:sync(bang, bundle) abort
   if a:bundle.nosync() | return 0 | endif
   if a:bundle.installed()
