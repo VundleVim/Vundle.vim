@@ -52,6 +52,7 @@ func! s:parse_name(arg)
   elseif arg =~? '^\s*\(git@\|git://\)\S\+' 
   \   || arg =~? '(file|https\?)://'
   \   || arg =~? '\.git\s*$'
+  \   || isdirectory(expand(arg))
     let uri = arg
     let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
   else
