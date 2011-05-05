@@ -30,14 +30,18 @@ Bundle 'github:mattn/gist-vim.git'
 Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 " Bundle 'file://Dropbox/.gitrepos/utilz.vim.git'
 
-" nosync
-Bundle! '~/.vim/vundle.git/test/'
-
 " with options
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
+
+" NOSYNC
+" existing directory
+Bundle! '~/.vim/vundle.git/test/'
+
+" just create one
+Bundle! 'a_plugin'
 
 filetype plugin indent on      " Automatically detect file types.
 
@@ -52,5 +56,7 @@ func! s:assert_bundles() abort
     endif
   endfor
 endf
+
+if 'ok' != g:vundle_test_plugin() | throw 'ooops' | endif
 
 call s:assert_bundles()
