@@ -63,7 +63,7 @@ endf
 
 
 func! s:sync(bang, bundle) abort
-  if a:bundle.nosync() | return 0 | endif
+  if a:bundle.nosync() | return a:bang | endif
   if a:bundle.installed()
     if !(a:bang) | return 0 | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
