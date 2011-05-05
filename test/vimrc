@@ -1,6 +1,10 @@
 " vim -u test/vimrc
 set nocompatible
 
+syntax on
+
+silent exec 'e '.expand('<sfile>')
+
 filetype off
 runtime macros/matchit.vim
 set rtp+=~/.vim/vundle.git/
@@ -41,42 +45,49 @@ Bundle! '~/.vim/vundle.git/test/'
 
 " just create one
 Bundle! 'a_plugin'
+"
+" just create one
+Bundle! 'b_plugin', {'name': 'zzz'}
 
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
 
-
-
 augroup vimrc
-  au WinEnter * call s:test()
+  au WinEnter * call Test()
 augroup END
 
-func! s:test()
-  if 'ok' != g:vundle_test_plugin() != 'ok'
+func! Test() abort
+  if 'ok' != g:vundle_test_plugin()
     throw 'ooops'
   endif
 
-  call s:assert_bundles()
-
-  call s:asser_a_bundle()
+  call Assert_bundles()
+  call Assert_a_bundle()
+  call Assert_b_bundle()
 endf
 
-func! s:assert(cond, msg)
-  if !a:cond
+func! Assert(cond, msg)
+  if !(a:cond)
     throw a:msg
   endif
 endf
 
-func! s:assert_bundles() abort
+func! Assert_bundles() abort
   for b in g:vundle#bundles
-    call assert(b.nosync() || b.installed(), b.name.' not installed')
+    call Assert(b.nosync() || b.installed(), b.name.' not installed')
   endfor
 endf
 
-func! s:assert_a_bundle() abort
-  let b = filter(copy(g:vundle#bundles), 'v:var.name = "a_bundle"')[0]
-  let c = b.path() != expand(g:vundle#bundle_dir.'/'.'a_name')
-  call s:assert(c, ' a_plugin isnt instaled')
+func! Assert_a_bundle() abort
+  let b = filter(copy(g:vundle#bundles), 'v:val.name == "a_plugin"')[0]
+  let c = (b.path() == expand(g:vundle#bundle_dir.'/'.'a_plugin'))
+  call Assert(c, b.name.' isnt instaled')
+endf
+
+func! Assert_b_bundle() abort
+  let b = filter(copy(g:vundle#bundles), 'v:val.name == "zzz"')[0]
+  let c = (b.path() == expand(g:vundle#bundle_dir.'/'.'zzz'))
+  call Assert(c, b.name.' isnt instaled')
 endf
 
