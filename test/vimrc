@@ -1,6 +1,10 @@
 " vim -u test/vimrc
 set nocompatible
 
+syntax on
+
+silent exec 'e '.expand('<sfile>')
+
 filetype off
 runtime macros/matchit.vim
 set rtp+=~/.vim/vundle.git/
@@ -34,19 +38,59 @@ Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
 
+
 " PostInstall 
 Bundle 'wincent/Command-T'
+
+" NOSYNC
+" existing directory
+Bundle! '~/.vim/vundle.git/test/'
+
+" just create one
+Bundle! 'a_plugin'
+"
+" just create one, and override name
+Bundle! 'b_plugin', {'name': 'zzz'}
 
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
 
-func! s:assert_bundles() abort
+augroup vimrc
+  au WinEnter * call Test()
+augroup END
+
+func! Test() abort
+  if 'ok' != g:vundle_test_plugin()
+    throw 'ooops'
+  endif
+
+  call Assert_bundles()
+  call Assert_a_bundle()
+  call Assert_b_bundle()
+endf
+
+func! Assert(cond, msg)
+  if !(a:cond)
+    throw a:msg
+  endif
+endf
+
+func! Assert_bundles() abort
   for b in g:vundle#bundles
-    if (!isdirectory(b.path().'/.git'))
-      throw b.name.' not installed'
-    endif
+    call Assert(b.nosync() || b.installed(), b.name.' not installed')
   endfor
 endf
 
-call s:assert_bundles()
+func! Assert_a_bundle() abort
+  let b = filter(copy(g:vundle#bundles), 'v:val.name == "a_plugin"')[0]
+  let c = (b.path() == expand(g:vundle#bundle_dir.'/'.'a_plugin'))
+  call Assert(c, b.name.' isnt instaled')
+endf
+
+func! Assert_b_bundle() abort
+  let b = filter(copy(g:vundle#bundles), 'v:val.name == "zzz"')[0]
+  let c = (b.path() == expand(g:vundle#bundle_dir.'/'.'zzz'))
+  call Assert(c, b.name.' isnt instaled')
+endf
+

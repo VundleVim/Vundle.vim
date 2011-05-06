@@ -68,6 +68,18 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
    See [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136) for working example.
 
+## FAQ
+
+- **Q** i'm aked for username/pass, why?
+  **A** Correct invalid bundle name.
+  this is the case of invalid name used with `Bundle`, which leads to attemt to clone nonexisting repo:
+
+        git clone http://github.com/gmarik/non_existin_repo
+        Cloning into non_existin_repo...
+        Username: 
+        Password: 
+        fatal: Authentication failed
+
 ## Contributors
 
 * [redlinesoftware](http://redlinesoftware.com) - for lending me 24" monitor!

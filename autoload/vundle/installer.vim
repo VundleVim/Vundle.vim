@@ -1,4 +1,5 @@
 func! vundle#installer#install(bang, ...) abort
+  if !isdirectory(g:vundle#bundle_dir) | call mkdir(g:vundle#bundle_dir, 'p') | endif
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
@@ -87,12 +88,10 @@ func! s:helptags(rtp) abort
   helptags `=a:rtp.'/doc/'`
 endf
 
-func! s:installed(bundle) abort
-  return !empty(split(globpath(a:bundle.path(), '*'), "\n"))
-endf
 
-func! vundle#installer#sync(bang, bundle) abort
-  if s:installed(a:bundle)
+func! s:sync(bang, bundle) abort
+  if a:bundle.nosync() | return a:bang | endif
+  if a:bundle.installed()
     if !(a:bang) | return 0 | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
   else
