@@ -17,7 +17,7 @@ func! vundle#installer#install(bang, ...) abort
     call s:doautocmd('BundleInstallPre',      'vundle#bundle')
     call s:doautocmd('BundleInstallPre',      'bundle#'.tolower(bundle.name))
 
-    if a:bang || !(s:installed(bundle))
+    if a:bang || !(bundle.installed())
       call s:doautocmd('BundleInstall',       'vundle#bundle')
       call s:doautocmd('BundleInstall',       'bundle#'.tolower(bundle.name))
       call s:doautocmd('BundleInstallPost',   'vundle#bundle')
@@ -89,7 +89,7 @@ func! s:helptags(rtp) abort
 endf
 
 
-func! s:sync(bang, bundle) abort
+func! vundle#installer#sync(bang, bundle) abort
   if a:bundle.nosync() | return a:bang | endif
   if a:bundle.installed()
     if !(a:bang) | return 0 | endif

@@ -38,7 +38,6 @@ Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
 
-
 " PostInstall 
 Bundle 'wincent/Command-T'
 
