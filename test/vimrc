@@ -46,7 +46,7 @@ Bundle! '~/.vim/vundle.git/test/'
 " just create one
 Bundle! 'a_plugin'
 "
-" just create one
+" just create one, and override name
 Bundle! 'b_plugin', {'name': 'zzz'}
 
 filetype plugin indent on      " Automatically detect file types.
