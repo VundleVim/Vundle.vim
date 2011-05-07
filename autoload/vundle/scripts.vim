@@ -21,7 +21,9 @@ func! vundle#scripts#reload() abort
 endf
 
 func! vundle#scripts#complete(a,c,d)
-  return join(s:load_scripts(0),"\n")
+  let configured = map(copy(g:vundle#bundles), 'v:val.name')
+  let vim_scripts = s:load_scripts(0)
+  return join(configured + vim_scripts,"\n")
 endf
 
 func! vundle#scripts#install() abort
