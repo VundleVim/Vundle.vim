@@ -2,7 +2,7 @@ func! vundle#installer#install(bang, ...) abort
   if !isdirectory(g:vundle#bundle_dir) | call mkdir(g:vundle#bundle_dir, 'p') | endif
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
-        \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
+        \ [s:find_or_init_by_name(a:1)]
 
   let cwd = getcwd()
   let new_bundles = []
@@ -33,6 +33,15 @@ func! vundle#installer#install(bang, ...) abort
 
   let g:bundles = new_bundles
   call s:doautocmd('BundlesInstallPost',  'vundle#bundle')
+endf
+
+" TODO: improve this
+func! s:find_or_init_by_name(name)
+  let matches = filter(copy(g:vundle#bundles), 'v:val.name == a:name')
+  if (!empty(matches)) 
+    return matches[0]     "assuming only 1 match may happen
+  endif
+  return vundle#config#init_bundle(0, a:name, {})
 endf
 
 " TODO: verify whether autocommand already exists
