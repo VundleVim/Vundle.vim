@@ -39,7 +39,7 @@ augroup bundle#command-t
   au User BundleInstallPost !cd ruby/command-t && ruby extconf.rb && make clean && make
   au User BundleInstallPost ![ -f doc/readme.txt -a -f doc/command-t.txt ] && rm doc/README.txt
   au User BundleInstallPost echohl WarningMsg | echo 'Please restart Vim for command-t to work' | echohl None
-augroup END
+augroup end
 
 augroup vundle#bundle
   au!
@@ -52,4 +52,4 @@ augroup vundle#bundle
   au User BundlesInstallPost  call vundle#config#require(g:bundles)
   au User BundlesInstallPost  call vundle#installer#helptags(g:bundles)
   au User BundlesInstallPost  echo len(g:bundles).' '. "bundles installed"
-augroup END
+augroup end
