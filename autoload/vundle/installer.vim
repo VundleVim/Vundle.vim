@@ -36,6 +36,7 @@ func! vundle#installer#install(bang, ...) abort
 endf
 
 " TODO: improve this
+" TODO: init_bundle should happen first though to get proper bundle name
 func! s:find_or_init_by_name(name)
   let matches = filter(copy(g:vundle#bundles), 'v:val.name == a:name')
   if (!empty(matches)) 
