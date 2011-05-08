@@ -16,23 +16,28 @@ func! vundle#installer#install(bang, ...) abort
 
     call s:doautocmd('BundleInstallPre',      'vundle#bundle')
     call s:doautocmd('BundleInstallPre',      'bundle#'.tolower(bundle.name))
+    call s:doautocmd('BundleInstallPre',      'user#'.tolower(bundle.name))
 
     if a:bang || !(bundle.installed())
       call s:doautocmd('BundleInstall',       'vundle#bundle')
       call s:doautocmd('BundleInstall',       'bundle#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstall',       'user#'.tolower(bundle.name))
       call s:doautocmd('BundleInstallPost',   'vundle#bundle')
       call s:doautocmd('BundleInstallPost',   'bundle#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstallPost',   'user#'.tolower(bundle.name))
 
       call add(new_bundles, bundle)
     else
       call s:doautocmd('BundleInstalled',     'vundle#bundle')
       call s:doautocmd('BundleInstalled',     'bundle#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstalled',     'user#'.tolower(bundle.name))
     endif
     lcd `=cwd`
   endfor
 
   let g:bundles = new_bundles
   call s:doautocmd('BundlesInstallPost',  'vundle#bundle')
+  call s:doautocmd('BundlesInstallPost',  'user#bundle')
 endf
 
 " TODO: improve this
