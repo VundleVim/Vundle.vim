@@ -1,4 +1,4 @@
-" vim -u test/vimrc
+" vim -gu test/vimrc
 set nocompatible
 
 syntax on
