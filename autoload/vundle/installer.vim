@@ -14,14 +14,15 @@ func! vundle#installer#install(bang, ...) abort
 
     lcd `=bundle.path()`
 
-    call s:doautocmd('BundleInstallPre',      'vundle#bundle')
-    call s:doautocmd('BundleInstallPre',      'bundle#'.tolower(bundle.name))
-    call s:doautocmd('BundleInstallPre',      'user#'.tolower(bundle.name))
-
     if a:bang || !(bundle.installed())
+      call s:doautocmd('BundleInstallPre',    'vundle#bundle')
+      call s:doautocmd('BundleInstallPre',    'bundle#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstallPre',    'user#'.tolower(bundle.name))
+
       call s:doautocmd('BundleInstall',       'vundle#bundle')
       call s:doautocmd('BundleInstall',       'bundle#'.tolower(bundle.name))
       call s:doautocmd('BundleInstall',       'user#'.tolower(bundle.name))
+
       call s:doautocmd('BundleInstallPost',   'vundle#bundle')
       call s:doautocmd('BundleInstallPost',   'bundle#'.tolower(bundle.name))
       call s:doautocmd('BundleInstallPost',   'user#'.tolower(bundle.name))
