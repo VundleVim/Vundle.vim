@@ -45,7 +45,7 @@ Bundle 'CSS3-Highlights'
 
 augroup user#css3-highlights
   au!
-  au User BundleInstallPre  ! git reset --hard
+  au User BundleInstallPre  ! [ -d .git ] &&  git reset --hard
   au User BundleInstallPost ! vim **/*.vim  +'bufdo set fileformat=unix | wall | qall'
 augroup end
 
