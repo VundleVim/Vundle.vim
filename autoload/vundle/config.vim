@@ -92,8 +92,9 @@ endf
 
 func! s:bundle.path()
   " TODO: should lcd to tmpdir here
+  " TODO: FIX this spagetti
   if self.nosync() && isdirectory(expand(self.uri))
-    return self.uri
+    return expand(self.uri)
   endif
 
   return join([g:vundle#bundle_dir, self.name], '/')
