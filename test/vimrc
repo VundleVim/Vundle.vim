@@ -5,11 +5,21 @@ syntax on
 
 silent exec 'e '.expand('<sfile>')
 
+let root = '/tmp/vundle_bundles/'
+if !isdirectory(expand(root))
+  exec '!git clone http://github.com/gmarik/vundle.git '.root.'/vundle'
+endif
+
 filetype off
+
 runtime macros/matchit.vim
-set rtp+=~/.vim/vundle.git/
+
+exec 'set rtp+='.root.'/vundle'
 
 call vundle#rc('/tmp/vundle_bundles')
+
+" Vundle manages Vunlde
+Bundle 'gmarik/vundle'
 
 " vim-scripts name
 Bundle 'molokai'
@@ -52,7 +62,7 @@ augroup end
 
 " NOSYNC
 " existing directory
-Bundle! '~/.vim/vundle.git/test/'
+Bundle! root.'/vundle/test/'
 
 " just create one
 Bundle! 'a_plugin'
