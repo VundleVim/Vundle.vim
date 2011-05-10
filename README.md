@@ -6,7 +6,7 @@
 
 1. Setup [Vundle]:
 
-        git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
+        git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 
 2. Configure bundles:
 
@@ -15,8 +15,9 @@
         set nocompatible               " be iMproved
         filetype off                   " required!
 
-        set rtp+=~/.vim/vundle.git/ 
+        set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
+
 
         " My Bundles here:
         "
@@ -31,6 +32,8 @@
         " non github repos
         Bundle 'git://git.wincent.com/command-t.git'
         " ...
+        " let Vundle manage Vundle
+        Bundle 'gmarik/vundle'
 
         filetype plugin indent on     " required!
 
@@ -108,10 +111,9 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 * √ activate newly added bundles on .vimrc reload or after :BundleInstall
 * √ use preview window for search results
 * √ vim documentation
-* tests
+* √ put vundle to bundles/ too(will fix vundle help)
+* √ tests
 * improve error handling
-* put vundle to bundles/ too(will fix vundle help)
-* `:VundleUpdate` - self.update
 * handle dependencies
 * allow specify revision/version?
 * search by description aswell
