@@ -5,9 +5,11 @@ syntax on
 
 silent exec 'e '.expand('<sfile>')
 
-let root = '/tmp/vundle_bundles/'
-if !isdirectory(expand(root))
-  exec '!git clone http://github.com/gmarik/vundle.git '.root.'/vundle'
+let branch = split(filter(split(system('git branch'),'\n'),'v:val[0]=="*"')[0],'\s\+')[1]
+
+let root = '/tmp/vundle_bundles_'.branch
+if !isdirectory(expand(root.'/vundle'))
+  exec '!git clone -b '.branch.' http://github.com/gmarik/vundle.git '.root.'/vundle'
 endif
 
 filetype off
@@ -16,7 +18,7 @@ runtime macros/matchit.vim
 
 exec 'set rtp+='.root.'/vundle'
 
-call vundle#rc('/tmp/vundle_bundles')
+call vundle#rc(root)
 
 " Vundle manages Vunlde
 Bundle 'gmarik/vundle'
