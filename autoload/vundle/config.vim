@@ -16,9 +16,13 @@ func! vundle#config#source(bundles) abort
     " TODO: should this be here?
     call s:rtp_add(b.rtpath())
     " load plugin
-    for s in s:glob(b.rtpath().'/plugin/**/*.vim')
-      exec 'source '.s
-    endfor
+    call s:source(b.rtpath().'/plugin/**/*.vim')
+  endfor
+endf
+
+func! s:source(glob) abort
+  for s in s:glob(a:glob)
+    exec 'source '.s
   endfor
 endf
 
