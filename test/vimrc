@@ -32,6 +32,7 @@ Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 
 " with options
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+Bundle 'westoque/molly.vim', {'depth': 5}
 
 " Camel case
 Bundle 'vim-scripts/RubySinatra'

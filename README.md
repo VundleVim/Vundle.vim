@@ -29,7 +29,7 @@
         Bundle 'FuzzyFinder'
         Bundle 'rails.vim'
         " non github repos
-        Bundle 'git://git.wincent.com/command-t.git'
+        Bundle 'git://git.wincent.com/command-t.git', {'depth': 0}
         " ...
 
         filetype plugin indent on     " required!

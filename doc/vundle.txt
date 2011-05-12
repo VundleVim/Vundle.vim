@@ -7,13 +7,14 @@ CONTENTS ~
 1. About                                           |vundle-about|
 2. Why Vundle                                      |vundle-why-vundle|
 3. Quick start                                     |vundle-quickstart|
-4. Scrips                                          |vundle-scripts|
-   4.1. Configure scripts                          |vundle-scripts-configure|
-   4.2. Installing scripts                         |vundle-scripts-install|
-   4.3. Updating scripts                           |vundle-scripts-update|
-   4.4. Searching scripts                          |vundle-scripts-search|
-   4.5. Cleanup                                    |vundle-scripts-cleanup|
-5. Interactive mode                                |vundle-interactive|
+4. Configuration                                   |vundle-configuration|
+5. Scrips                                          |vundle-scripts|
+   5.1. Configure scripts                          |vundle-scripts-configure|
+   5.2. Installing scripts                         |vundle-scripts-install|
+   5.3. Updating scripts                           |vundle-scripts-update|
+   5.4. Searching scripts                          |vundle-scripts-search|
+   5.5. Cleanup                                    |vundle-scripts-cleanup|
+6. Interactive mode                                |vundle-interactive|
 
 ===========================================================================
 
@@ -66,7 +67,7 @@ in order to install/search [all available vim scripts]
      Bundle 'FuzzyFinder'
      Bundle 'rails.vim'
      " non github repos
-     Bundle 'git://git.wincent.com/command-t.git'
+     Bundle 'git://git.wincent.com/command-t.git', {'depth': 0}
      " ...
 
      filetype plugin indent on     " required!
@@ -80,9 +81,18 @@ in order to install/search [all available vim scripts]
 Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for 
 each configured repo to `~/.vim/bundle/`.
 
-4. SCRIPTS ~
+4. CONFIGURATION ~
+                                                    *vundle-configuration*
+Set the clone depth for all packages: >
+
+    let g:vundle_depth = 5
+
+The default value is 1, to clone as little as possible. Any non-positive value
+causes the entire repository to be cloned.
+
+5. SCRIPTS ~
                                                     *vundle-scripts*
-4.1 CONFIGURE SCRIPTS ~
+5.1 CONFIGURE SCRIPTS ~
                                       *vundle-scripts-configure* *Bundle*
 Before installing scripts they need to be configured. It's done using `Bundle`
 command in `.vimrc`: >
@@ -102,7 +112,7 @@ equals full uri >
 NOTE: Vundle defaults to http:// protocol for the short URIs
 
 
-4.2 INSTALL SCRIPTS ~
+5.2 INSTALL SCRIPTS ~
                                       *vundle-scripts-install* *BundleInstall*
 run >
     :BundleInstall
@@ -118,14 +128,14 @@ installs and activates unite.vim. You can use Tab to auto-complete known script 
 NOTE: installation, as just described, doesn't automatically configure scripts; 
 you have to configure them manually.
 
-4.3 UPDATE SCRIPTS ~
+5.3 UPDATE SCRIPTS ~
                                       *vundle-scripts-update* *BundleInstall!*
 run >
     :BundleInstall!             " NOTE: bang(!)
 
 installs or updates configured scripts.
 
-4.4 SEARCHING ~
+5.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
 run >
     :Bundles foo                " NOTE: plural Bundles not singular Bundle
@@ -149,7 +159,7 @@ it will display all known scripts
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
-4.5 CLEANING UP ~
+5.5 CLEANING UP ~
                                      *vundle-scripts-cleanup* *BundleClean*
 run >
 
@@ -164,7 +174,7 @@ requires confirmation before removal of unused script-dirs from your `.vim/bundl
 removes unused scripts with no questions.
 
                                      *vundle-interactive*
-5. INTERACTIVE MODE ~
+6. INTERACTIVE MODE ~
 
 Vundle provides simple interactive mode to help you explore new scripts easily.
 Interactive mode is available as result of :Bundles command. For instance, running: >
