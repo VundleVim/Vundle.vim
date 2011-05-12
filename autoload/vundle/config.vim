@@ -13,13 +13,17 @@ endf
 
 func! vundle#config#require(bundles) abort
   for b in a:bundles
+    " TODO: should this be here?
     call s:rtp_add(b.rtpath())
-    call s:rtp_add(g:vundle#bundle_dir)
-    " TODO: it has to be relative rtpath, not bundle.name
-    exec 'runtime! '.b.name.'/plugin/*.vim'
-    exec 'runtime! '.b.name.'/after/*.vim'
-    call s:rtp_rm(g:vundle#bundle_dir)
+    " load plugin
+    for s in s:glob(b.rtpath().'/plugin/**/*.vim')
+      exec 'source '.s
+    endfor
   endfor
+endf
+
+func! s:glob(pattern)
+  return split(glob(a:pattern),"\n")
 endf
 
 func! vundle#config#init_bundle(bang, name, opts)
