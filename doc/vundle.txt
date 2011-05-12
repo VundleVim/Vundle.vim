@@ -7,7 +7,7 @@ CONTENTS ~
 1. About                                           |vundle-about|
 2. Why Vundle                                      |vundle-why-vundle|
 3. Quick start                                     |vundle-quickstart|
-4. Scrips                                          |vundle-scripts|
+4. Scripts                                          |vundle-scripts|
    4.1. Configure scripts                          |vundle-scripts-configure|
    4.2. Installing scripts                         |vundle-scripts-install|
    4.3. Updating scripts                           |vundle-scripts-update|
