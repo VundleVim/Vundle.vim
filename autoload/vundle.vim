@@ -49,7 +49,7 @@ augroup vundle#bundle
 
   au User BundleInstalled     echo 'Already Installed '.g:bundle.name
 
-  au User BundlesInstallPost  call vundle#config#require(g:bundles)
+  au User BundlesInstallPost  call vundle#config#source(g:bundles)
   au User BundlesInstallPost  call vundle#installer#helptags(g:bundles)
   au User BundlesInstallPost  echo len(g:bundles).' '. "bundles installed"
 augroup end

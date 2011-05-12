@@ -11,7 +11,7 @@ func! vundle#config#init()
   let g:vundle#bundles = []
 endf
 
-func! vundle#config#require(bundles) abort
+func! vundle#config#source(bundles) abort
   for b in a:bundles
     " TODO: should this be here?
     call s:rtp_add(b.rtpath())
