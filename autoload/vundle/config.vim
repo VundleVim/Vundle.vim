@@ -21,6 +21,7 @@ func! vundle#config#source(bundles) abort
     call s:rtp_add(b.rtpath())
     " load plugin
     call s:source(b.rtpath().'/plugin/**/*.vim')
+    call s:source(b.rtpath().'/after/**/*.vim')
   endfor
 endf
 
