@@ -11,6 +11,10 @@ func! vundle#config#init()
   let g:vundle#bundles = []
 endf
 
+func! vundle#config#configure(bundle) abort
+  return s:source(a:bundle.rtpath().'/bundle/'.a:bundle.name.'.vim')
+endf
+
 func! vundle#config#source(bundles) abort
   for b in a:bundles
     " TODO: should this be here?

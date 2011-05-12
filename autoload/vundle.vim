@@ -45,6 +45,7 @@ augroup vundle#bundle
   au!
   au User BundleInstallPre    echo 'Installing '.g:bundle.name
   au User BundleInstall       call vundle#installer#sync(1, g:bundle)
+  au User BundleInstall       call vundle#config#configure(g:bundle)
   au User BundleInstallPost   echo 'Installed '.g:bundle.name
 
   au User BundleInstalled     echo 'Already Installed '.g:bundle.name
