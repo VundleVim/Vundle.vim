@@ -67,7 +67,19 @@ func! s:sync(bang, bundle) abort
     if !(a:bang) | return 0 | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd = 'git clone '
+    if has_key(a:bundle, 'depth')
+      let depth = a:bundle.depth
+    elseif exists('g:vundle_depth')
+      let depth = g:vundle_depth
+    else
+      " Clone as little as possible by default.
+      let depth = 1
+    endif
+	if depth > 0
+      let cmd .= '--depth '.depth.' '
+    endif
+	let cmd .= a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
   silent exec '!'.cmd
   return 1
