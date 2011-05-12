@@ -62,7 +62,7 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
-  let git_dir = expand(a:bundle.path().'/.git')
+  let git_dir = expand(a:bundle.path().'/.git/')
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
