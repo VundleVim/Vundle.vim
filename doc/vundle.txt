@@ -112,7 +112,7 @@ enabled. Except special cases requiring compilation or pre-configuration.
 
 BundleInstall allows to install scripts by name:>
 
-    :BundleIntall unite.vim
+    :BundleInstall unite.vim
 
 installs and activates unite.vim. You can use Tab to auto-complete known script names.
 NOTE: installation, as just described, doesn't automatically configure scripts; 
