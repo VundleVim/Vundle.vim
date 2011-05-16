@@ -1,13 +1,19 @@
 " vim -u test/vimrc
 set nocompatible
 
+let root = '/tmp/vundle_bundles/'
+if !isdirectory(expand(root).'/vundle')
+  exec '!git clone http://github.com/gmarik/vundle.git '.root.'/vundle'
+endif
+
 filetype off
+
 runtime macros/matchit.vim
-set rtp+=~/.vim/vundle.git/
 
-call vundle#rc('/tmp/vundle_bundles')
+exec 'set rtp+='.root.'/vundle'
 
-silent BundleClean!
+
+call vundle#rc(root)
 
 " vim-scripts name
 Bundle 'molokai'
