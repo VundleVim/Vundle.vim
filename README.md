@@ -18,6 +18,8 @@
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
 
+        " let Vundle manage Vundle
+        Bundle 'gmarik/vundle'
 
         " My Bundles here:
         "
@@ -32,8 +34,6 @@
         " non github repos
         Bundle 'git://git.wincent.com/command-t.git'
         " ...
-        " let Vundle manage Vundle
-        Bundle 'gmarik/vundle'
 
         filetype plugin indent on     " required!
 
