@@ -104,7 +104,6 @@ func! s:helptags(rtp) abort
   helptags `=a:rtp.'/doc/'`
 endf
 
-
 func! vundle#installer#sync(bang, bundle) abort
   if a:bundle.nosync() | return a:bang | endif
   if a:bundle.installed()
