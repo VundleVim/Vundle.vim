@@ -7,6 +7,7 @@ if !isdirectory(expand(root).'/vundle')
 endif
 
 filetype off
+syntax on
 
 runtime macros/matchit.vim
 
