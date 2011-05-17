@@ -10,7 +10,7 @@ func! vundle#installer#install(bang, ...) abort
   call vundle#config#require(bundles)
 
   call s:log("Installed bundles:\n".join((empty(installed) ? 
-  \      ['no new bundless installed'] : 
+  \      ['no new bundles installed'] : 
   \      map(installed, 'v:val.name')),"\n"))
 
   call vundle#installer#helptags(bundles)
