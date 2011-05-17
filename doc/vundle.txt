@@ -55,6 +55,9 @@ in order to install/search [all available vim scripts]
      set rtp+=~/.vim/vundle.git/ 
      call vundle#rc()
 
+     " let Vundle manage Vundle
+     Bundle 'gmarik/vundle'
+
      " My Bundles here:
      "
      " original repos on github
