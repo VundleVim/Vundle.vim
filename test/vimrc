@@ -53,7 +53,7 @@ BundleInstall
 
 func! s:assert_bundles() abort
   for b in g:bundles
-    if (!isdirectory(b.path().'/.git'))
+    if (!isdirectory(b.path().'/.git/'))
       throw b.name.' not installed'
     endif
   endfor
