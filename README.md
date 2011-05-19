@@ -83,6 +83,11 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
         Password: 
         fatal: Authentication failed
 
+
+-   **Q** My configuration is bundle dependant, so when I try to install plugins for the first time I get errors. How do I fix that?
+
+    **A** [Fix your Chicken or Egg dilemma](http://gmarik.info/blog/2011/05/17/chicken-or-egg-dilemma)
+
 ## Contributors
 
 * [redlinesoftware](http://redlinesoftware.com) - for lending me 24" monitor!
