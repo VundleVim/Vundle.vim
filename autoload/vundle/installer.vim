@@ -113,7 +113,8 @@ func! vundle#installer#sync(bang, bundle) abort
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
 
-  silent exec '!echo '.cmd | silent exec '!'.cmd
+   " exec '!echo '.shellescape(cmd)
+   silent exec '!'.cmd
 
   return 1
 endf
