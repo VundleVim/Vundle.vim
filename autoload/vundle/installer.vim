@@ -10,28 +10,29 @@ func! vundle#installer#install(bang, ...) abort
   for bundle in bundles
     if !isdirectory(bundle.path()) | call mkdir(bundle.path(), 'p') | endif
 
-    let g:bundle = bundle
+    let [name, g:bundle] = [tolower(bundle.name) ,bundle]
 
     lcd `=bundle.path()`
 
+
     if a:bang || !(bundle.installed())
-      call s:doautocmd('BundleInstallPre',    'vundle#bundle')
-      call s:doautocmd('BundleInstallPre',    'bundle#'.tolower(bundle.name))
-      call s:doautocmd('BundleInstallPre',    'user#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstallPre'    ,'vundle#bundle')
+      call s:doautocmd('BundleInstallPre'    ,'bundle#'.name)
+      call s:doautocmd('BundleInstallPre'    ,'user#'.name)
 
-      call s:doautocmd('BundleInstall',       'vundle#bundle')
-      call s:doautocmd('BundleInstall',       'bundle#'.tolower(bundle.name))
-      call s:doautocmd('BundleInstall',       'user#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstall'       ,'vundle#bundle')
+      call s:doautocmd('BundleInstall'       ,'bundle#'.name)
+      call s:doautocmd('BundleInstall'       ,'user#'.name)
 
-      call s:doautocmd('BundleInstallPost',   'vundle#bundle')
-      call s:doautocmd('BundleInstallPost',   'bundle#'.tolower(bundle.name))
-      call s:doautocmd('BundleInstallPost',   'user#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstallPost'   ,'vundle#bundle')
+      call s:doautocmd('BundleInstallPost'   ,'bundle#'.name)
+      call s:doautocmd('BundleInstallPost'   ,'user#'.name)
 
       call add(new_bundles, bundle)
     else
-      call s:doautocmd('BundleInstalled',     'vundle#bundle')
-      call s:doautocmd('BundleInstalled',     'bundle#'.tolower(bundle.name))
-      call s:doautocmd('BundleInstalled',     'user#'.tolower(bundle.name))
+      call s:doautocmd('BundleInstalled'     ,'vundle#bundle')
+      call s:doautocmd('BundleInstalled'     ,'bundle#'.name)
+      call s:doautocmd('BundleInstalled'     ,'user#'.name)
     endif
     lcd `=cwd`
   endfor
