@@ -45,7 +45,7 @@ func! s:parse_name(arg)
     let uri = 'https://github.com/'.split(arg, ':')[-1]
     let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
   elseif arg =~? '^\s*\(git@\|git://\)\S\+' 
-  \   || arg =~? '(file|https\?)://'
+  \   || arg =~? '\(file\|https\?\)://'
   \   || arg =~? '\.git\s*$'
     let uri = arg
     let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
