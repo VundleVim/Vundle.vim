@@ -135,8 +135,8 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 [Git]:http://git-scm.com
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
-[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L110-138
+[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L110-124
 [update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L126-131
 [search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L133-155
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L157-1169
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L160-193
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L157-169
+[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L172-205
