@@ -32,7 +32,7 @@ Vundle allows to:
 - clean up from unused scripts
 
 Also *Vundle* :
-<
+
 - manages runtime path of your installed scripts
 - regenerates helptags automatically
 
