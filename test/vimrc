@@ -30,6 +30,8 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'nelstrom/vim-mac-classic-theme.git'
 
 " full uri
+Bundle 'https://github.com/vim-scripts/vim-game-of-life'
+" full uri
 Bundle 'git@github.com:gmarik/ingretu.git'
 " short uri
 Bundle 'gh:gmarik/snipmate.vim.git'
