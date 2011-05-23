@@ -32,7 +32,7 @@ Vundle allows to:
 - clean up from unused scripts
 
 Also *Vundle* :
-
+<
 - manages runtime path of your installed scripts
 - regenerates helptags automatically
 
@@ -73,6 +73,9 @@ in order to install/search [all available vim scripts]
      " ...
 
      filetype plugin indent on     " required!
+
+<  (You may also use "filetype plugin on" as the last line if you don't want
+   to use the indentation feature of the filetype system.)
 
 3) Install configured bundles:
 

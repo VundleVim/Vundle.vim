@@ -35,7 +35,7 @@
         Bundle 'git://git.wincent.com/command-t.git'
         " ...
 
-        filetype plugin indent on     " required!
+        filetype plugin indent on     " required! ("filetype plugin on" also works)
 
 3. Install configured bundles:
 
