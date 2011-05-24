@@ -65,9 +65,9 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
   if isdirectory(git_dir)
     if !(a:bang) | return 0 | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --recursive --init'
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd = 'git clone --recursive '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
   silent exec '!'.cmd
   return 1
