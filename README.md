@@ -1,6 +1,6 @@
 ## About
 
-[Vundle] is a short cut for **V**imb**undle** and is a [Vim] plugin manager.
+[Vundle] is short for **V**imb**undle** and is a [Vim] plugin manager.
 
 ## Quick start
 
@@ -77,7 +77,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 -   **Q** Why am I asked for username/pass?
 
-    **A** This is the case of invalid name used with `Bundle`, which leads to attempt to clone nonexisting repo:
+    **A** This is the case of invalid name used with `Bundle`, which leads to attempt to clone nonexistent repo:
 
         git clone http://github.com/gmarik/non_existin_repo
         Cloning into non_existin_repo...
@@ -123,8 +123,8 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 * improve error handling
 * handle dependencies
 * allow specify revision/version?
-* search by description aswell
-* show descrption in search results
+* search by description as well
+* show description in search results
 * instead sourcing .vimrc before installation come up with another solution
 * make it rock!
 
