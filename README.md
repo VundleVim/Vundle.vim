@@ -6,42 +6,42 @@
 
 1. Setup [Vundle]:
 
-   ```console
-   $ git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-   ```
+     ```console
+     $ git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+     ```
 
 2. Configure bundles:
 
-   Sample `.vimrc`:
+     Sample `.vimrc`:
 
-   ```vim
-   set nocompatible               " be iMproved
-   filetype off                   " required!
+     ```vim
+     set nocompatible               " be iMproved
+     filetype off                   " required!
 
-   set rtp+=~/.vim/bundle/vundle/
-   call vundle#rc()
+     set rtp+=~/.vim/bundle/vundle/
+     call vundle#rc()
 
-   " let Vundle manage Vundle
-   Bundle 'gmarik/vundle'
+     " let Vundle manage Vundle
+     Bundle 'gmarik/vundle'
 
-   " My Bundles here:
-   "
-   " original repos on github
-   Bundle 'tpope/vim-fugitive'
-   Bundle 'lokaltog/vim-easymotion'
-   Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-   " vim-scripts repos
-   Bundle 'L9'
-   Bundle 'FuzzyFinder'
-   Bundle 'rails.vim'
-   " non github repos
-   Bundle 'git://git.wincent.com/command-t.git'
-   " ...
+     " My Bundles here:
+     "
+     " original repos on github
+     Bundle 'tpope/vim-fugitive'
+     Bundle 'lokaltog/vim-easymotion'
+     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+     " vim-scripts repos
+     Bundle 'L9'
+     Bundle 'FuzzyFinder'
+     Bundle 'rails.vim'
+     " non github repos
+     Bundle 'git://git.wincent.com/command-t.git'
+     " ...
 
-   filetype plugin indent on     " required! 
-   " or 
-   " filetype plugin on          " to not use the indentation settings set by plugins
-   ```
+     filetype plugin indent on     " required! 
+     " or 
+     " filetype plugin on          " to not use the indentation settings set by plugins
+     ```
 
 3. Install configured bundles:
 
