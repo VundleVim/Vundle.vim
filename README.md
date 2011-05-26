@@ -6,7 +6,7 @@
 
 1. Setup [Vundle]:
 
-     ```shell
+     ```
      $ git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
      ```
 
@@ -83,7 +83,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
     **A** This is the case of invalid name used with `Bundle`, which leads to attempt to clone nonexistent repo:
 
-    ```shell
+    ```
     git clone http://github.com/gmarik/non_existin_repo
     Cloning into non_existin_repo...
     Username: 
