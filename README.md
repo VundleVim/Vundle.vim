@@ -45,11 +45,11 @@
 
 3. Install configured bundles:
 
-   Launch `vim`, run `:BundleInstall`. 
+     Launch `vim`, run `:BundleInstall`. 
 
-   *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
+     *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
-   Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
+     Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
 
 ## Why Vundle
 
