@@ -58,7 +58,11 @@ func! s:has_doc(rtp) abort
 endf
 
 func! s:helptags(rtp) abort
-  helptags `=a:rtp.'/doc/'`
+  try
+    helptags `=a:rtp.'/doc/'`
+  catch
+    echohl Error | echo "Error generating helptags in ".a:rtp | echohl None
+  endtry
 endf
 
 func! s:sync(bang, bundle) abort
