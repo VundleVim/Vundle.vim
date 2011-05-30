@@ -12,11 +12,12 @@ syntax on
 runtime macros/matchit.vim
 
 exec 'set rtp+='.root.'/vundle'
+" set rtp+=~/.vim/bundle/vundle
 
 
 call vundle#rc(root)
 
-Bundle 'gmarik/vundle'
+Bundle 'gmarik/vundle' " Let Vundle manage Vundle
 
 " vim-scripts name
 Bundle 'molokai'
