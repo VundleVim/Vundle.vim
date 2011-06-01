@@ -16,7 +16,7 @@ exec 'set rtp+='.root.'/vundle'
 
 call vundle#rc(root)
 
-Bundle 'gmarik/vundle'
+Bundle "gmarik/vundle"
 
 " vim-scripts name
 Bundle 'molokai'
