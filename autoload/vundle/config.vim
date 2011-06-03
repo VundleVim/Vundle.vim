@@ -77,9 +77,9 @@ endf
 let s:bundle = {}
 
 func! s:bundle.path()
-  return join([g:bundle_dir, self.name], '/')
+  return expand(g:bundle_dir.'/'.self.name)
 endf
 
 func! s:bundle.rtpath()
-  return has_key(self, 'rtp') ? join([self.path(), self.rtp], '/') : self.path()
+  return has_key(self, 'rtp') ? expand(self.path().'/'.self.rtp) : self.path()
 endf
