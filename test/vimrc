@@ -2,8 +2,11 @@
 set nocompatible
 
 let root = '/tmp/vundle_bundles/'
+let src = 'http://github.com/gmarik/vundle.git' 
+" let src = '~/.vim/bundle/vundle/.git' 
+
 if !isdirectory(expand(root).'/vundle')
-  exec '!git clone http://github.com/gmarik/vundle.git '.root.'/vundle'
+  exec '!git clone '.src.' '.root.'/vundle'
 endif
 
 filetype off
@@ -12,8 +15,6 @@ syntax on
 runtime macros/matchit.vim
 
 exec 'set rtp+='.root.'/vundle'
-" set rtp+=~/.vim/bundle/vundle
-
 
 call vundle#rc(root)
 
