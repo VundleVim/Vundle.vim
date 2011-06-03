@@ -74,12 +74,16 @@ func! s:rtp_add(dir) abort
   exec 'set rtp+='.fnameescape(expand(a:dir.'/after'))
 endf
 
+func! s:expand_path(path) abort
+  return simplify(expand(a:path))
+endf
+
 let s:bundle = {}
 
 func! s:bundle.path()
-  return expand(g:bundle_dir.'/'.self.name)
+  return s:expand_path(g:bundle_dir.'/'.self.name)
 endf
 
 func! s:bundle.rtpath()
-  return has_key(self, 'rtp') ? expand(self.path().'/'.self.rtp) : self.path()
+  return has_key(self, 'rtp') ? s:expand_path(self.path().'/'.self.rtp) : self.path()
 endf
