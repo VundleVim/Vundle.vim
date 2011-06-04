@@ -22,7 +22,7 @@
      call vundle#rc()
 
      " let Vundle manage Vundle
-     Bundle 'gmarik/vundle'
+     Bundle 'gmarik/vundle'         " required! 
 
      " My Bundles here:
      "
