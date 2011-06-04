@@ -55,6 +55,9 @@ in order to install/search [all available vim scripts]
      set rtp+=~/.vim/vundle.git/ 
      call vundle#rc()
 
+     " let Vundle manage Vundle
+     Bundle 'gmarik/vundle'
+
      " My Bundles here:
      "
      " original repos on github
@@ -70,6 +73,8 @@ in order to install/search [all available vim scripts]
      " ...
 
      filetype plugin indent on     " required!
+     " or 
+     " filetype plugin on          " to not use the indentation settings set by plugins
 
 3) Install configured bundles:
 

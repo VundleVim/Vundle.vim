@@ -63,7 +63,7 @@ func! s:parse_name(arg)
     let uri = 'https://github.com/'.split(arg, ':')[-1]
     let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
   elseif arg =~? '^\s*\(git@\|git://\)\S\+' 
-  \   || arg =~? '(file|https\?)://'
+  \   || arg =~? '\(file\|https\?\)://'
   \   || arg =~? '\.git\s*$'
   \   || isdirectory(expand(arg))
     let uri = arg
@@ -93,6 +93,10 @@ func! s:rtp_add(dir) abort
   exec 'set rtp+='.fnameescape(expand(a:dir.'/after'))
 endf
 
+func! s:expand_path(path) abort
+  return simplify(expand(a:path))
+endf
+
 let s:bundle = {}
 
 func! s:bundle.nosync() 
@@ -107,12 +111,12 @@ func! s:bundle.path()
   " TODO: should lcd to tmpdir here
   " TODO: FIX this spagetti
   if self.nosync() && isdirectory(expand(self.uri))
-    return expand(self.uri)
+    return s:expand_path(self.uri)
   endif
 
-  return join([g:vundle#bundle_dir, self.name], '/')
+  return s:expand_path(g:vundle#bundle_dir.'/'.self.name)
 endf
 
 func! s:bundle.rtpath()
-  return has_key(self, 'rtp') ? join([self.path(), self.rtp], '/') : self.path()
+  return has_key(self, 'rtp') ? s:expand_path(self.path().'/'.self.rtp) : self.path()
 endf

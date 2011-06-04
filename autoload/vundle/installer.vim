@@ -102,7 +102,11 @@ func! s:has_doc(rtp) abort
 endf
 
 func! s:helptags(rtp) abort
-  helptags `=a:rtp.'/doc/'`
+  try
+    helptags `=a:rtp.'/doc/'`
+  catch
+    echohl Error | echo "Error generating helptags in ".a:rtp | echohl None
+  endtry
 endf
 
 func! vundle#installer#sync(bang, bundle) abort
@@ -110,6 +114,11 @@ func! vundle#installer#sync(bang, bundle) abort
   if a:bundle.installed()
     if !(a:bang) | return 0 | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+
+    if (has('win32') || has('win64'))
+      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
+      let cmd = '"'.cmd.'"'                          " enclose in quotes
+    endif
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif

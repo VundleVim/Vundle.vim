@@ -6,13 +6,13 @@ syntax on
 silent exec 'e '.expand('<sfile>')
 
 let branch = split(filter(split(system('git branch'),'\n'),'v:val[0]=="*"')[0],'\s\+')[1]
+let root = '/tmp/'.branch.'/vundle_bundles'
+"let src = 'http://github.com/gmarik/vundle.git' 
+let src = '~/.vim/bundle/vundle/.git' 
 
-let root = '/tmp/vundle_bundles_'.branch
-if !isdirectory(expand(root.'/vundle'))
-  exec '!git clone -b '.branch.' http://github.com/gmarik/vundle.git '.root.'/vundle'
+if !isdirectory(expand(root).'/vundle')
+  exec '!git clone '.src.' '.root.'/vundle'
 endif
-
-filetype off
 
 runtime macros/matchit.vim
 
@@ -35,7 +35,9 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'nelstrom/vim-mac-classic-theme.git'
 
 " full uri
-" Bundle 'git@github.com:gmarik/ingretu.git'
+Bundle 'https://github.com/vim-scripts/vim-game-of-life'
+" full uri
+Bundle 'git@github.com:gmarik/ingretu.git'
 " short uri
 Bundle 'gh:gmarik/snipmate.vim.git'
 Bundle 'github:mattn/gist-vim.git'
