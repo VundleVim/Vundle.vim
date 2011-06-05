@@ -16,6 +16,7 @@
 
      ```vim
      set nocompatible               " be iMproved
+     filetype on                    " required on OS X!
      filetype off                   " required!
 
      set rtp+=~/.vim/bundle/vundle/
