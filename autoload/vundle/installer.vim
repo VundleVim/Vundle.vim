@@ -66,17 +66,17 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
-  let git_dir = expand(a:bundle.path().'/.git/')
-  if isdirectory(git_dir)
+  let repo_dir = expand(a:bundle.path().'/.'.a:bundle.vcs.'/')
+  if isdirectory(repo_dir)
     if !(a:bang) | return 0 | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && '.a:bundle.vcs.' pull'
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
       let cmd = '"'.cmd.'"'                          " enclose in quotes
     endif
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd = a:bundle.vcs.' clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
   silent exec '!'.cmd
   return 1
