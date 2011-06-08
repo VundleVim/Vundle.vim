@@ -22,7 +22,8 @@
      call vundle#rc()
 
      " let Vundle manage Vundle
-     Bundle 'gmarik/vundle'         " required! 
+     " required! 
+     Bundle 'gmarik/vundle'
 
      " My Bundles here:
      "
@@ -55,6 +56,7 @@
      " :BundleClean!   - remove without confirmation
      "
      " see :h vundle for more details
+     " Note: comments after Bundle command are not allowed..
 
      ```
 
