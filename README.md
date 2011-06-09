@@ -96,22 +96,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 ## FAQ
 
--   **Q** Why am I asked for username/pass?
-
-    **A** This is the case of invalid name used with `Bundle`, which leads to attempt to clone nonexistent repo:
-
-    ```
-    git clone http://github.com/gmarik/non_existin_repo
-    Cloning into non_existin_repo...
-    Username: 
-    Password: 
-    fatal: Authentication failed
-    ```
-
-
--   **Q** My configuration is bundle dependant, so when I try to install plugins for the first time I get errors. How do I fix that?
-
-    **A** [Fix your Chicken or Egg dilemma](http://gmarik.info/blog/2011/05/17/chicken-or-egg-dilemma)
+see [wiki](/gmarik/vundle/wiki)
 
 ## Contributors
 
