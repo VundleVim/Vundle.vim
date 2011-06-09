@@ -29,7 +29,7 @@
      "
      " original repos on github
      Bundle 'tpope/vim-fugitive'
-     Bundle 'lokaltog/vim-easymotion'
+     Bundle 'Lokaltog/vim-easymotion'
      Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
      " vim-scripts repos
      Bundle 'L9'
