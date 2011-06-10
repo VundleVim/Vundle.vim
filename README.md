@@ -40,9 +40,6 @@
      " ...
 
      filetype plugin indent on     " required! 
-     " or 
-     " filetype plugin on          " to not use the indentation settings set by plugins
-
      "
      " Brief help
      "
@@ -56,6 +53,7 @@
      " :BundleClean!   - remove without confirmation
      "
      " see :h vundle for more details
+     " or wiki for FAQ
      " Note: comments after Bundle command are not allowed..
 
      ```
