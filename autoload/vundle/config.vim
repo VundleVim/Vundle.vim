@@ -40,6 +40,7 @@ endf
 
 func! s:parse_name(arg)
   let arg = a:arg
+  let vcs = 'git'
   if    arg =~? '^\s*\(gh\|github\):\S\+'
   \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
     let uri = 'https://github.com/'.split(arg, ':')[-1]
@@ -49,11 +50,15 @@ func! s:parse_name(arg)
   \   || arg =~? '\.git\s*$'
     let uri = arg
     let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
+  elseif arg =~? '^lp:'
+    let uri = arg
+	let name = split (uri, ':')[-1]
+	let vcs = 'bzr'
   else
     let name = arg
     let uri  = 'https://github.com/vim-scripts/'.name.'.git'
   endif
-  return {'name': name, 'uri': uri }
+  return {'name': name, 'uri': uri, 'vcs': vcs }
 endf
 
 func! s:rtp_rm_a()
