@@ -4,8 +4,8 @@ func! vundle#installer#install(bang, ...) abort
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
-  let installed = s:install(a:bang, bundles)
-  redraw!
+  let [installed, errors] = s:install(a:bang, bundles)
+  if empty(errors) | redraw! | end
   " TODO: handle error: let user know hen they need to restart Vim
   call vundle#config#require(bundles)
 
@@ -78,12 +78,27 @@ func! s:sync(bang, bundle) abort
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
+
   silent exec '!'.cmd
-  return 1
+
+  if 0 != v:shell_error
+    echohl Error | echo 'Error installing "'.a:bundle.name.'". Failed cmd: '.cmd | echohl None
+    return v:shell_error
+  end
+  return 0
 endf
 
 func! s:install(bang, bundles) abort
-  return filter(copy(a:bundles), 's:sync(a:bang, v:val)')
+  let [installed, errors] = [[],[]]
+
+  for b in a:bundles 
+    if 0 == s:sync(a:bang, b)
+      if a:bang | call add(installed, b) | endif
+    else
+      call add(errors, b)
+    endif
+  endfor
+  return [installed, errors]
 endf
 
 " TODO: make it pause after output in console mode
