@@ -60,24 +60,26 @@ func! s:display(headers, results)
 endf
 
 func! s:fetch_scripts(to)
-  let temp = shellescape(tempname())
-  if has('win32') || has('win64')
-    let scripts_dir = fnamemodify(expand(a:to), ":h")
-    if !isdirectory(scripts_dir)
-      call mkdir(scripts_dir, "p")
-    endif
-    exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
-      \  '&& move /Y '.temp.' '.shellescape(a:to)
-  else
-    exec '!curl http://vim-scripts.org/api/scripts.json > '.temp.
-      \  '&& mkdir -p $(dirname  '.shellescape(a:to).') && mv -f '.temp.' '.shellescape(a:to)
+  let scripts_dir = fnamemodify(expand(a:to), ":h")
+  if !isdirectory(scripts_dir)
+    call mkdir(scripts_dir, "p")
   endif
+
+  silent exec '!curl --fail -s -o '.shellescape(a:to).' http://vim-scripts.org/api/scripts.json'
+
+  if (0 != v:shell_error)
+    echoerr 'Error fetching scripts!'
+    return v:shell_error
+  endif
+  return 0
 endf
 
 func! s:load_scripts(bang)
   let f = expand('$HOME/.vim-vundle/vim-scripts.org.json')
   if a:bang || !filereadable(f)
-    call s:fetch_scripts(f)
+    if 0 != s:fetch_scripts(f)
+      return []
+    end
   endif
   return eval(readfile(f, 'b')[0])
 endf
