@@ -30,6 +30,9 @@ Bundle 'vim-scripts/ragtag.vim'
 Bundle 'altercation/vim-colors-solarized'
 " with extension
 Bundle 'nelstrom/vim-mac-classic-theme.git'
+"
+"  invalid uri
+Bundle 'nonexistinguser/yupppierepo.git'
 
 " full uri
 Bundle 'https://github.com/vim-scripts/vim-game-of-life'
