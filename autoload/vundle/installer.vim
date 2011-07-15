@@ -9,9 +9,11 @@ func! vundle#installer#install(bang, ...) abort
   " TODO: handle error: let user know hen they need to restart Vim
   call vundle#config#require(bundles)
 
-  call s:log("Installed bundles:\n".join((empty(installed) ? 
-  \      ['no new bundles installed'] : 
-  \      map(installed, 'v:val.name')),"\n"))
+  let msg = 'No new bundles were installed'
+  if (!empty(installed))
+    let msg = "Installed bundles:\n".join(map(installed, 'v:val.name'),"\n")
+  endif
+  call s:log(msg)
 
   call vundle#installer#helptags(bundles)
 endf
@@ -21,7 +23,7 @@ func! vundle#installer#helptags(bundles) abort
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
   if !empty(help_dirs)
-    call s:log('Helptags: done. '.len(help_dirs).' bundles processed')
+    call s:log('Helptags: '.len(help_dirs).' bundles processed')
   endif
   return help_dirs
 endf
