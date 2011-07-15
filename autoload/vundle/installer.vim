@@ -70,7 +70,7 @@ endf
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
   if isdirectory(git_dir)
-    if !(a:bang) | return 0 | endif
+    if !(a:bang) | return [0, 'skip'] | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
     if (has('win32') || has('win64'))
@@ -85,17 +85,18 @@ func! s:sync(bang, bundle) abort
 
   if 0 != v:shell_error
     echohl Error | echo 'Error installing "'.a:bundle.name.'". Failed cmd: '.cmd | echohl None
-    return v:shell_error
+    return [v:shell_error, 'error']
   end
-  return 0
+  return [0, 'ok']
 endf
 
 func! s:install(bang, bundles) abort
   let [installed, errors] = [[],[]]
 
   for b in a:bundles 
-    if 0 == s:sync(a:bang, b)
-      if a:bang | call add(installed, b) | endif
+    let err_code, status = s:sync(a:bang, b)
+    if 0 == err_code
+      if 'ok' == status | call add(installed, b) | endif
     else
       call add(errors, b)
     endif
