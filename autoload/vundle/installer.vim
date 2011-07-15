@@ -94,7 +94,7 @@ func! s:install(bang, bundles) abort
   let [installed, errors] = [[],[]]
 
   for b in a:bundles 
-    let err_code, status = s:sync(a:bang, b)
+    let [err_code, status] = s:sync(a:bang, b)
     if 0 == err_code
       if 'ok' == status | call add(installed, b) | endif
     else
