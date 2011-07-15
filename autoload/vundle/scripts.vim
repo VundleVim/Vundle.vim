@@ -12,6 +12,7 @@ func! vundle#scripts#all(bang, ...)
     setl hls
     let b:match = a:1
   endif
+  redraw!
   echo len(matches).' bundles found'
 endf
 
