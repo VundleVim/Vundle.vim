@@ -66,7 +66,15 @@ func! s:fetch_scripts(to)
     call mkdir(scripts_dir, "p")
   endif
 
-  silent exec '!curl --fail -s -o '.shellescape(a:to).' http://vim-scripts.org/api/scripts.json'
+  let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts.json'
+  if executable("curl")
+    silent exec '!curl --fail -s -o '.shellescape(a:to).' '.l:vim_scripts_json
+  elseif executable("wget")
+    silent exec '!wget -q -O '.shellescape(a:to).' '.l:vim_scripts_json
+  else
+    echoerr 'Error curl or wget is not available!'
+    return 1
+  endif
 
   if (0 != v:shell_error)
     echoerr 'Error fetching scripts!'
