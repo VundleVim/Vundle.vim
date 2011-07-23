@@ -28,14 +28,12 @@ func! vundle#config#init_bundle(name, opts)
 endf
 
 func! s:parse_options(opts)
-  " TODO: improve this
-  if len(a:opts) != 1 | return {} | endif
-
-  if type(a:opts[0]) == type({})
+  " ignore everything except first argument
+  " which supposed to be option hash
+  if len(a:opts) == 1 && type(a:opts[0]) == type({})
     return a:opts[0]
-  else
-    return {'rev': a:opts[0]}
   endif
+  return {}
 endf
 
 func! s:parse_name(arg)
