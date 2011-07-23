@@ -43,7 +43,7 @@ func! s:parse_name(arg)
 
   if len(args) == 2
     let revision = args[1]
-    let opts = {'v': revision}
+    let opts['v'] = revision
   end
 
   if    arg =~? '^\s*\(gh\|github\):\S\+'
