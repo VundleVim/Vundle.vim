@@ -39,7 +39,7 @@ endf
 func! s:parse_name(arg)
   let args = split(a:arg, '\s\+')
   let arg = args[0]
-  let opts = {}
+  let opts = {'spec': a:arg}
 
   if len(args) == 2
     let revision = args[1]

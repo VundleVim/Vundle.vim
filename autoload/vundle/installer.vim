@@ -11,7 +11,7 @@ func! vundle#installer#install(bang, ...) abort
 
   let msg = 'No new bundles were installed'
   if (!empty(installed))
-    let msg = "Installed bundles:\n".join(map(installed, 'v:val.name'),"\n")
+    let msg = "Installed bundles:\n".join(map(installed, 'v:val.spec'),"\n")
   endif
   call s:log(msg)
 
