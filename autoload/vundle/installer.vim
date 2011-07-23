@@ -85,6 +85,24 @@ func! s:sync(bang, bundle) abort
     return [v:shell_error, 'error']
   end
 
+  " checkout revision
+  " master by default
+  let revision = 'master'
+
+  if has_key(a:bundle, 'v') && !empty(a:bundle['v'])
+    let revision = a:bundle['v']
+  end
+
+  lcd `=a:bundle.path()`
+  let cmd = 'git checkout '.revision
+
+  silent exec '!'.cmd
+
+  if 0 != v:shell_error
+    echohl Error | echo 'Error checking out "'.a:bundle.name.'   '.revision.'". Failed cmd: '.cmd | echohl None
+    return [v:shell_error, 'error']
+  end
+
   return [0, 'ok']
 endf
 
