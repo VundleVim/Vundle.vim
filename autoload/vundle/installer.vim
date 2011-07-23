@@ -73,7 +73,7 @@ func! s:sync(bang, bundle) abort
   if isdirectory(git_dir)
     if !(a:bang) | return [0, 'skip'] | endif
     lcd `=a:bundle.path()`
-    let cmd = 'git pull'
+    let cmd = 'git pull '.a:bundle.uri.' master:master'
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
