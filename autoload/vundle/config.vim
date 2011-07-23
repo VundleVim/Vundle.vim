@@ -37,7 +37,15 @@ func! s:parse_options(opts)
 endf
 
 func! s:parse_name(arg)
-  let arg = a:arg
+  let args = split(a:arg, '\s\+')
+  let arg = args[0]
+  let opts = {}
+
+  if len(args) == 2
+    let revision = args[1]
+    let opts = {'v': revision}
+  end
+
   if    arg =~? '^\s*\(gh\|github\):\S\+'
   \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
     let uri = 'https://github.com/'.split(arg, ':')[-1]
@@ -51,7 +59,7 @@ func! s:parse_name(arg)
     let name = arg
     let uri  = 'https://github.com/vim-scripts/'.name.'.git'
   endif
-  return {'name': name, 'uri': uri }
+  return extend(opts, {'name': name, 'uri': uri })
 endf
 
 func! s:rtp_rm_a()
