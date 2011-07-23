@@ -69,14 +69,11 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
+
   if isdirectory(git_dir)
     if !(a:bang) | return [0, 'skip'] | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
-
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
-    endif
+    lcd `=a:bundle.path()`
+    let cmd = 'git pull'
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
@@ -87,6 +84,7 @@ func! s:sync(bang, bundle) abort
     echohl Error | echo 'Error installing "'.a:bundle.name.'". Failed cmd: '.cmd | echohl None
     return [v:shell_error, 'error']
   end
+
   return [0, 'ok']
 endf
 
@@ -94,7 +92,13 @@ func! s:install(bang, bundles) abort
   let [installed, errors] = [[],[]]
 
   for b in a:bundles 
-    let [err_code, status] = s:sync(a:bang, b)
+    let cwd = getcwd()
+    try
+      let [err_code, status] = s:sync(a:bang, b)
+    finally
+      lcd `=cwd`
+    endtry
+
     if 0 == err_code
       if 'ok' == status | call add(installed, b) | endif
     else
