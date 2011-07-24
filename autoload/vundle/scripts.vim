@@ -71,8 +71,12 @@ func! s:fetch_scripts(to)
     silent exec '!curl --fail -s -o '.shellescape(a:to).' '.l:vim_scripts_json
   elseif executable("wget")
     let temp = shellescape(tempname())
-    let switch = (has('win32') || has('win64')) ? ' /Y ' : ' -f '
-    silent exec '!wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv '.switch.' '.temp.' '.shellescape(a:to)
+    let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.shellescape(a:to)
+    if (has('win32') || has('win64')) 
+      let cmd = substitute(cmd, 'mv -f ', 'mv /Y ') " change force flag
+      let cmd = '"'.cmd.'"'                         " enclose in quotes so && joined cmds work
+    end
+    silent exec '!'.cmd
   else
     echoerr 'Error curl or wget is not available!'
     return 1
