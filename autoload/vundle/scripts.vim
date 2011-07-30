@@ -25,23 +25,19 @@ func! vundle#scripts#complete(a,c,d)
   return join(s:load_scripts(0),"\n")
 endf
 
-func! vundle#scripts#install() abort
-  let l = getline('.')
-  if l !~ '^Bundle '
-    echohl Error | echo 'Select Bundle to install'| echohl None
-    return 0
-  end
-  let line = substitute(substitute(l, '\s*Bundle\s*','','g'), "'",'','g')
-  call vundle#installer#install(0, line)
-endf
-
 func! vundle#scripts#setup_view() abort
+  setl cursorline norelativenumber nonu
   setl hls ro noma ignorecase syntax=vim
 
   syn keyword vimCommand Bundle
 
+	sign define VuEr text=!  texthl=Error
+	sign define VuOk text=*  texthl=String
+
+  com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
+
   nnoremap <buffer> q :wincmd q<CR>
-  nnoremap <buffer> i :call vundle#scripts#install()<CR>
+  nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
   nnoremap <buffer> r :Bundles 
   nnoremap <buffer> c :BundleClean<CR>
   nnoremap <buffer> C :BundleClean!<CR>

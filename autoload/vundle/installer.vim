@@ -1,30 +1,72 @@
-func! vundle#installer#install(bang, ...) abort
-  if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+func! vundle#installer#new(bang, ...) abort
   let bundles = (a:1 == '') ?
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
-  let [installed, errors] = s:install(a:bang, bundles)
-  if empty(errors) | redraw! | end
-  " TODO: handle error: let user know hen they need to restart Vim
-  call vundle#config#require(bundles)
+  let names = map(copy(bundles), 'v:val.name')
+  call s:display(['" Installing'], names)
 
-  let msg = 'No new bundles were installed'
-  if (!empty(installed))
-    let msg = "Installed bundles:\n".join(map(installed, 'v:val.name'),"\n")
+  setl cursorline norelativenumber nonu
+  exec ":1"
+  redraw!
+
+  for l in range(1,len(names))
+    exec ":+1"
+    redraw!
+    exec 'Install'.getline('.')
+    sleep 1m
+  endfor
+
+  redraw!
+
+  let helptags = vundle#installer#helptags(bundles)
+  echo 'Done! Helptags: '.len(helptags).' bundles processed'
+endf
+
+func! s:display(headers, results)
+  if !exists('s:browse') | let s:browse = tempname() | endif
+  let results = reverse(map(a:results, ' printf("Bundle! ' ."'%s'".'", v:val) '))
+  call writefile(a:headers + results, s:browse)
+  silent pedit `=s:browse`
+
+  wincmd P | wincmd H
+
+  setl ft=vundle
+  call vundle#scripts#setup_view()
+endf
+
+func! vundle#installer#install(bang, name) abort
+  if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+
+  let b = vundle#config#init_bundle(a:name, {})
+
+  echo 'Installing '.b.name
+
+  let [err_code, status] = s:sync(a:bang, b)
+
+  redraw!
+
+  if 0 == err_code
+    if 'ok' == status 
+      echo b.name.' installed'
+      exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
+    elseif 'skip' == status
+      echo b.name.' already installed'
+      exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
+    endif
+  else
+    echohl Error
+    echo 'Error installing "'.b.name
+    echohl None
+    exe ":sign place ".line('.')." line=".line('.')." name=VuEr buffer=" . bufnr("$")
+    sleep 1
   endif
-  call s:log(msg)
-
-  call vundle#installer#helptags(bundles)
 endf
 
 func! vundle#installer#helptags(bundles) abort
   let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
   call map(copy(help_dirs), 's:helptags(v:val)')
-  if !empty(help_dirs)
-    call s:log('Helptags: '.len(help_dirs).' bundles processed')
-  endif
   return help_dirs
 endf
 
@@ -34,7 +76,7 @@ func! vundle#installer#clean(bang) abort
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
   if empty(x_dirs)
-    call s:log("All clean!")
+    echo "All clean!"
     return
   end
 
@@ -81,30 +123,10 @@ func! s:sync(bang, bundle) abort
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
 
-  silent exec '!'.cmd
+  call system(cmd)
 
   if 0 != v:shell_error
-    echohl Error | echo 'Error installing "'.a:bundle.name.'". Failed cmd: '.cmd | echohl None
     return [v:shell_error, 'error']
   end
   return [0, 'ok']
-endf
-
-func! s:install(bang, bundles) abort
-  let [installed, errors] = [[],[]]
-
-  for b in a:bundles 
-    let [err_code, status] = s:sync(a:bang, b)
-    if 0 == err_code
-      if 'ok' == status | call add(installed, b) | endif
-    else
-      call add(errors, b)
-    endif
-  endfor
-  return [installed, errors]
-endf
-
-" TODO: make it pause after output in console mode
-func! s:log(msg)
-  echo a:msg
 endf
