@@ -12,7 +12,7 @@ func! vundle#installer#new(bang, ...) abort
   for l in range(1,len(names))
     exec ":+1"
     redraw!
-    exec 'Install'.getline('.')
+    exec ':norm i'
     sleep 1m
   endfor
 

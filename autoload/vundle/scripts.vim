@@ -38,9 +38,10 @@ func! vundle#scripts#setup_view() abort
 
   nnoremap <buffer> q :wincmd q<CR>
   nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
-  nnoremap <buffer> r :Bundles 
+  
   nnoremap <buffer> c :BundleClean<CR>
   nnoremap <buffer> C :BundleClean!<CR>
+  nnoremap <buffer> r :Bundles 
   nnoremap <buffer> R :call vundle#scripts#reload()<CR>
 endf
 
