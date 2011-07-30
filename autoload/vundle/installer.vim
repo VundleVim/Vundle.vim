@@ -6,7 +6,6 @@ func! vundle#installer#new(bang, ...) abort
   let names = map(copy(bundles), 'v:val.name')
   call s:display(['" Installing'], names)
 
-  setl cursorline norelativenumber nonu
   exec ":1"
   redraw!
 
