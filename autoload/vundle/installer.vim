@@ -24,7 +24,7 @@ endf
 
 func! s:display(headers, results)
   if !exists('s:browse') | let s:browse = tempname() | endif
-  let results = reverse(map(a:results, ' printf("Bundle! ' ."'%s'".'", v:val) '))
+  let results = map(a:results, ' printf("Bundle! ' ."'%s'".'", v:val) ')
   call writefile(a:headers + results, s:browse)
   silent pedit `=s:browse`
 
