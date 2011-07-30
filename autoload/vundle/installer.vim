@@ -122,10 +122,14 @@ func! s:sync(bang, bundle) abort
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
 
-  call system(cmd)
+  call s:system(cmd)
 
   if 0 != v:shell_error
     return [v:shell_error, 'error']
   end
   return [0, 'ok']
+endf
+
+func! s:system(cmd) abort
+  let output = system(a:cmd)
 endf
