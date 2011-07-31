@@ -35,14 +35,25 @@ func! vundle#scripts#setup_view() abort
   sign define VuOk text=*  texthl=String
 
   com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
+  com! -buffer -nargs=0 VundleLog call s:view_log()
 
   nnoremap <buffer> q :wincmd q<CR>
   nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
-  
+
+  nnoremap <buffer> l :VundleLog<CR>
+
   nnoremap <buffer> c :BundleClean<CR>
   nnoremap <buffer> C :BundleClean!<CR>
   nnoremap <buffer> r :Bundles 
   nnoremap <buffer> R :call vundle#scripts#reload()<CR>
+endf
+
+func! s:view_log()
+  if !exists('b:log_file') | let b:log_file = tempname() | endif
+  call writefile(g:vundle_log, b:log_file)
+  silent pedit `=b:log_file`
+
+  wincmd P | wincmd H
 endf
 
 func! s:display(headers, results)

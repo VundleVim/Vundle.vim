@@ -132,4 +132,10 @@ endf
 
 func! s:system(cmd) abort
   let output = system(a:cmd)
+  call s:log(output)
+endf
+
+func! s:log(str) abort
+  if !exists('g:vundle_log') | let g:vundle_log = [] | endif
+  call add(g:vundle_log, a:str)
 endf
