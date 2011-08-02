@@ -7,9 +7,10 @@ func! vundle#scripts#all(bang, ...)
   else
     let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:1,'"').'"')
     call s:display(info + ['"Search results for: '.a:1], matches)
-    let @/=a:1
-    " TODO: highlight doesn't work
-    setl hls
+    if &hls
+      " TODO: search doesn't get highlighted for me
+      let @/=a:1
+    endif
     let b:match = a:1
   endif
   redraw!
@@ -36,7 +37,7 @@ func! vundle#scripts#install() abort
 endf
 
 func! vundle#scripts#setup_view() abort
-  setl hls ro noma ignorecase syntax=vim
+  setl ro noma ignorecase syntax=vim
 
   syn keyword vimCommand Bundle
 
