@@ -3,7 +3,7 @@ func! vundle#installer#new(bang, ...) abort
         \ s:reload_bundles() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
-  let names = map(copy(bundles), 'v:val.name')
+  let names = map(copy(bundles), 'v:val.name_spec')
   call s:display(['" Installing'], names)
 
   exec ":1"
