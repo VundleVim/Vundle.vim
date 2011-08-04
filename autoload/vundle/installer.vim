@@ -53,10 +53,10 @@ func! vundle#installer#install(bang, name) abort
 
   if 'updated' == status 
     echo b.name.' installed'
-    exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
+    exe ":sign place ".line('.')." line=".line('.')." name=VuUp buffer=" . bufnr("$")
   elseif 'uptodate' == status
     echo b.name.' already installed'
-    exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
+    exe ":sign place ".line('.')." line=".line('.')." name=VuCu buffer=" . bufnr("$")
   elseif 'error' == status
     echohl Error
     echo 'Error installing "'.b.name

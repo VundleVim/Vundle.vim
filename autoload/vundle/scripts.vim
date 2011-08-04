@@ -32,9 +32,6 @@ func! vundle#scripts#setup_view() abort
 
   syn keyword vimCommand Bundle
 
-  sign define VuEr text=!  texthl=Error
-  sign define VuOk text=*  texthl=String
-
   com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
   com! -buffer -nargs=0 VundleLog call s:view_log()
 

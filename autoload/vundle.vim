@@ -27,6 +27,10 @@ com! -nargs=? -bang   BundleSearch
 au Filetype  vundle    call vundle#scripts#setup_view()
 au Syntax    vim       syn keyword vimCommand Bundle
 
+sign define VuEr text=!  texthl=Error
+sign define VuCu text=.  texthl=Comment
+sign define VuUp text=*  texthl=Comment
+
 
 func! vundle#rc(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
