@@ -37,6 +37,7 @@ func! vundle#scripts#setup_view() abort
 
   nnoremap <buffer> q :bd!<CR>
   nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
+  nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
 
   nnoremap <buffer> l :VundleLog<CR>
 

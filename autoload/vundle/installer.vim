@@ -12,7 +12,7 @@ func! vundle#installer#new(bang, ...) abort
   for l in range(1,len(names))
     exec ":+1"
     redraw!
-    exec ':norm i'
+    exec ':norm '.(a:bang ? 'I' : 'i')
     sleep 1m
   endfor
 
@@ -27,7 +27,7 @@ func! s:display(headers, results)
     exec g:vundle_view.'bd!'
   endif
 
-  let results = map(a:results, ' printf("Bundle! ' ."'%s'".'", v:val) ')
+  let results = map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) ')
   silent pedit [Vundle] installer
 
   wincmd P | wincmd H
