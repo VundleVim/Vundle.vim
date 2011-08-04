@@ -58,12 +58,18 @@ func! s:view_log()
 endf
 
 func! s:display(headers, results)
-  if !exists('s:browse') | let s:browse = tempname() | endif
+  if exists('g:vundle_view')
+    exec g:vundle_view.'bd!'
+  endif
+
   let results = reverse(map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) '))
-  call writefile(a:headers + results, s:browse)
-  silent pedit `=s:browse`
+  silent pedit [Vundle] search
 
   wincmd P | wincmd H
+
+  let g:vundle_view = bufnr('%')
+
+  call append(0, a:headers + results)
 
   setl ft=vundle
   call vundle#scripts#setup_view()
