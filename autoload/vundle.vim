@@ -28,8 +28,9 @@ au Filetype  vundle    call vundle#scripts#setup_view()
 au Syntax    vim       syn keyword vimCommand Bundle
 
 sign define VuEr text=!  texthl=Error
+sign define VuAc text=>  texthl=Comment
 sign define VuCu text=.  texthl=Comment
-sign define VuUp text=*  texthl=Comment
+sign define VuUp text=+  texthl=Comment
 
 
 func! vundle#rc(...) abort

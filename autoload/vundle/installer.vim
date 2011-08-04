@@ -46,6 +46,7 @@ func! vundle#installer#install(bang, name) abort
   let b = vundle#config#init_bundle(a:name, {})
 
   echo 'Installing '.b.name
+  exe ":sign place ".line('.')." line=".line('.')." name=VuAc buffer=" . bufnr("$")
 
   let status = s:sync(a:bang, b)
 
