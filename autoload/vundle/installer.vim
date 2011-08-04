@@ -8,6 +8,7 @@ func! vundle#installer#new(bang, ...) abort
 
   exec ":1"
   redraw!
+  sleep 1m
 
   for l in range(1,len(names))
     exec ":+1"
@@ -48,9 +49,9 @@ func! vundle#installer#install(bang, name) abort
   echo 'Installing '.b.name
   exe ":sign place ".line('.')." line=".line('.')." name=VuAc buffer=" . bufnr("$")
 
-  let status = s:sync(a:bang, b)
+  sleep 1m
 
-  redraw!
+  let status = s:sync(a:bang, b)
 
   if 'updated' == status 
     echo b.name.' installed'
