@@ -27,8 +27,9 @@ func! vundle#scripts#complete(a,c,d)
 endf
 
 func! vundle#scripts#setup_view() abort
-  setl cursorline norelativenumber nonu
+  setl cursorline nonu
   setl ro noma ignorecase syntax=vim
+  if (exists('&relativenumber')) | setl norelativenumber | endif
 
   syn keyword vimCommand Bundle
 
