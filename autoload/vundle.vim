@@ -27,10 +27,12 @@ com! -nargs=? -bang   BundleSearch
 au Filetype  vundle    call vundle#scripts#setup_view()
 au Syntax    vim       syn keyword vimCommand Bundle
 
+if (has('signs'))
 sign define VuEr text=!  texthl=Error
 sign define VuAc text=>  texthl=Comment
 sign define VuCu text=.  texthl=Comment
 sign define VuUp text=+  texthl=Comment
+endif
 
 
 func! vundle#rc(...) abort

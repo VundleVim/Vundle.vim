@@ -41,29 +41,37 @@ func! s:display(headers, results)
   call vundle#scripts#setup_view()
 endf
 
+func! s:sign(status) 
+  if (!has('signs'))
+    return
+  endif
+
+  let markers = {'updated': 'VuUp', 'uptodate': 'VuCu', 'error': 'VuEr', 'active': 'VuAc' }
+  let marker = markers[a:status]
+  exe ":sign place ".line('.')." line=".line('.')." name=". marker ." buffer=" . bufnr("%")
+endf
+
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
   let b = vundle#config#init_bundle(a:name, {})
 
   echo 'Installing '.b.name
-  exe ":sign place ".line('.')." line=".line('.')." name=VuAc buffer=" . bufnr("$")
-
+  call s:sign('active')
   sleep 1m
 
   let status = s:sync(a:bang, b)
 
+  call s:sign(status)
+
   if 'updated' == status 
     echo b.name.' installed'
-    exe ":sign place ".line('.')." line=".line('.')." name=VuUp buffer=" . bufnr("$")
   elseif 'uptodate' == status
     echo b.name.' already installed'
-    exe ":sign place ".line('.')." line=".line('.')." name=VuCu buffer=" . bufnr("$")
   elseif 'error' == status
     echohl Error
     echo 'Error installing "'.b.name
     echohl None
-    exe ":sign place ".line('.')." line=".line('.')." name=VuEr buffer=" . bufnr("$")
     sleep 1
   else
     throw 'whoops, unknown status:'.status
