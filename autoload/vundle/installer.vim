@@ -63,6 +63,8 @@ func! vundle#installer#install(bang, name) abort
     echohl None
     exe ":sign place ".line('.')." line=".line('.')." name=VuEr buffer=" . bufnr("$")
     sleep 1
+  else
+    throw 'whoops, unknown status:'.status
   endif
 endf
 
