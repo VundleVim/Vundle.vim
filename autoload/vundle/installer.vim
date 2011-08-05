@@ -46,7 +46,7 @@ func! s:sign(status)
     return
   endif
 
-  let markers = {'updated': 'VuUp', 'uptodate': 'VuCu', 'error': 'VuEr', 'active': 'VuAc' }
+  let markers = {'updated': 'VuUp', 'todate': 'VuCu', 'error': 'VuEr', 'active': 'VuAc' }
   let marker = markers[a:status]
   exe ":sign place ".line('.')." line=".line('.')." name=". marker ." buffer=" . bufnr("%")
 endf
@@ -66,7 +66,7 @@ func! vundle#installer#install(bang, name) abort
 
   if 'updated' == status 
     echo b.name.' installed'
-  elseif 'uptodate' == status
+  elseif 'todate' == status
     echo b.name.' already installed'
   elseif 'error' == status
     echohl Error
@@ -127,7 +127,7 @@ endf
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
   if isdirectory(git_dir)
-    if !(a:bang) | return 'uptodate' | endif
+    if !(a:bang) | return 'todate' | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
     if (has('win32') || has('win64'))
@@ -145,7 +145,7 @@ func! s:sync(bang, bundle) abort
   end
 
   if out =~# 'up-to-date'
-    return 'uptodate'
+    return 'todate'
   end
 
   return 'updated'
