@@ -52,10 +52,10 @@ func! vundle#installer#install(bang, name) abort
   redraw!
 
   if 0 == err_code
-    if 'ok' == status 
+    if 'updated' == status 
       echo b.name.' installed'
       exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
-    elseif 'skip' == status
+    elseif 'uptodate' == status
       echo b.name.' already installed'
       exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
     endif
@@ -117,7 +117,7 @@ endf
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
   if isdirectory(git_dir)
-    if !(a:bang) | return [0, 'skip'] | endif
+    if !(a:bang) | return [0, 'uptodate'] | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
     if (has('win32') || has('win64'))
@@ -128,17 +128,23 @@ func! s:sync(bang, bundle) abort
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
   endif
 
-  call s:system(cmd)
+  let out = s:system(cmd)
 
   if 0 != v:shell_error
     return [v:shell_error, 'error']
   end
-  return [0, 'ok']
+
+  if out =~# 'up-to-date'
+    return [0, 'uptodate']
+  end
+
+  return [0, 'updated']
 endf
 
 func! s:system(cmd) abort
   let output = system(a:cmd)
   call s:log(output)
+  return output
 endf
 
 func! s:log(str) abort
