@@ -47,19 +47,17 @@ func! vundle#installer#install(bang, name) abort
 
   echo 'Installing '.b.name
 
-  let [err_code, status] = s:sync(a:bang, b)
+  let status = s:sync(a:bang, b)
 
   redraw!
 
-  if 0 == err_code
-    if 'updated' == status 
-      echo b.name.' installed'
-      exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
-    elseif 'uptodate' == status
-      echo b.name.' already installed'
-      exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
-    endif
-  else
+  if 'updated' == status 
+    echo b.name.' installed'
+    exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
+  elseif 'uptodate' == status
+    echo b.name.' already installed'
+    exe ":sign place ".line('.')." line=".line('.')." name=VuOk buffer=" . bufnr("$")
+  elseif 'error' == status
     echohl Error
     echo 'Error installing "'.b.name
     echohl None
@@ -117,7 +115,7 @@ endf
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
   if isdirectory(git_dir)
-    if !(a:bang) | return [0, 'uptodate'] | endif
+    if !(a:bang) | return 'uptodate' | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
     if (has('win32') || has('win64'))
@@ -131,14 +129,14 @@ func! s:sync(bang, bundle) abort
   let out = s:system(cmd)
 
   if 0 != v:shell_error
-    return [v:shell_error, 'error']
+    return 'error'
   end
 
   if out =~# 'up-to-date'
-    return [0, 'uptodate']
+    return 'uptodate'
   end
 
-  return [0, 'updated']
+  return 'updated'
 endf
 
 func! s:system(cmd) abort
