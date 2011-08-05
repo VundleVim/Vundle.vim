@@ -28,10 +28,10 @@ au Filetype  vundle    call vundle#scripts#setup_view()
 au Syntax    vim       syn keyword vimCommand Bundle
 
 if (has('signs'))
-sign define VuEr text=!  texthl=Error
-sign define VuAc text=>  texthl=Comment
-sign define VuCu text=.  texthl=Comment
-sign define VuUp text=+  texthl=Comment
+sign define Vu_error    text=!  texthl=Error
+sign define Vu_active   text=>  texthl=Comment
+sign define Vu_todate   text=.  texthl=Comment
+sign define Vu_updated  text=+  texthl=Comment
 endif
 
 

@@ -46,9 +46,7 @@ func! s:sign(status)
     return
   endif
 
-  let markers = {'updated': 'VuUp', 'todate': 'VuCu', 'error': 'VuEr', 'active': 'VuAc' }
-  let marker = markers[a:status]
-  exe ":sign place ".line('.')." line=".line('.')." name=". marker ." buffer=" . bufnr("%")
+  exe ":sign place ".line('.')." line=".line('.')." name=Vu_". a:status ." buffer=" . bufnr("%")
 endf
 
 func! vundle#installer#install(bang, name) abort
