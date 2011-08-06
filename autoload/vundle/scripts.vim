@@ -32,7 +32,7 @@ func! vundle#scripts#setup_view() abort
   com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
   com! -buffer -nargs=0 VundleLog call s:view_log()
 
-  nnoremap <buffer> q :bd!<CR>
+  nnoremap <buffer> q :silent bd!<CR>
   nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
   nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
 
