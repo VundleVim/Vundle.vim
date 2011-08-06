@@ -10,6 +10,9 @@ com! -nargs=+         Bundle
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
 
+com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleSearch
+\ call vundle#scripts#all('!'=='<bang>', <q-args>)
+
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles
 \ call vundle#scripts#all('!'=='<bang>', <q-args>)
 
@@ -21,10 +24,6 @@ com! -nargs=? -bang   BundleClean
 
 com! -nargs=0         BundleDocs 
 \ call vundle#installer#helptags(g:bundles)
-
-" deprecated in favor of Bundles
-com! -nargs=? -bang   BundleSearch
-\ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
 
 au Filetype  vundle    call vundle#scripts#setup_view()

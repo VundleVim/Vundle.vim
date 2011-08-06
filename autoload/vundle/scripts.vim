@@ -14,7 +14,7 @@ func! vundle#scripts#all(bang, ...)
 endf
 
 func! vundle#scripts#reload() abort
-  silent exec ':Bundles! '.(exists('b:match') ? b:match : '')
+  silent exec ':BundleSearch! '.(exists('b:match') ? b:match : '')
   redraw!
 endf
 
@@ -40,7 +40,7 @@ func! vundle#scripts#setup_view() abort
 
   nnoremap <buffer> c :BundleClean<CR>
   nnoremap <buffer> C :BundleClean!<CR>
-  nnoremap <buffer> r :Bundles 
+  nnoremap <buffer> r :BundleSearch
   nnoremap <buffer> R :call vundle#scripts#reload()<CR>
 endf
 
