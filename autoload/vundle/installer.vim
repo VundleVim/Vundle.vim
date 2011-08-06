@@ -65,6 +65,14 @@ func! vundle#installer#helptags(bundles) abort
   return help_dirs
 endf
 
+func! vundle#installer#list(bang) abort
+  let bundles = (a:bang) ? s:reload_bundles() : g:bundles
+  call vundle#scripts#view('list', ['" My Bundles'], map(copy(g:bundles), 'v:val.name_spec'))
+  redraw!
+  echo len(g:bundles).' bundles configured'
+endf
+
+
 func! vundle#installer#clean(bang) abort
   let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
   let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")

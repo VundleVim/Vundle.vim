@@ -13,6 +13,9 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles
 \ call vundle#scripts#all('!'=='<bang>', <q-args>)
 
+com! -nargs=0 -bang BundleList
+\ call vundle#installer#list('!'=='<bang>')
+
 com! -nargs=? -bang   BundleClean
 \ call vundle#installer#clean('!' == '<bang>')
 
