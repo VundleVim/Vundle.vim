@@ -6,7 +6,6 @@ func! vundle#installer#new(bang, ...) abort
   let names = map(copy(bundles), 'v:val.name_spec')
   call vundle#scripts#view('Installer',['" Installing'], names)
 
-  exec ":1"
   redraw!
   sleep 1m
 

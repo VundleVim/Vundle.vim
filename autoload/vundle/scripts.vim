@@ -68,6 +68,7 @@ func! vundle#scripts#view(title, headers, results)
 
   setl ft=vundle
   call vundle#scripts#setup_view()
+  exec ':1'
 endf
 
 func! s:fetch_scripts(to)
