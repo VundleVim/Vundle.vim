@@ -75,6 +75,9 @@ func! vundle#installer#clean(bang) abort
     return
   end
 
+  call vundle#scripts#view('clean', ['"Remove those bundles?'], map(copy(x_dirs), 'fnamemodify(v:val, ":t")'))
+  redraw!
+
   if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles? [ y/n ]:') =~? 'y')
     let cmd = (has('win32') || has('win64')) ?
     \           'rmdir /S /Q' :
