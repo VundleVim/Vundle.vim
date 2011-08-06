@@ -4,7 +4,7 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = map(copy(bundles), 'v:val.name_spec')
-  call s:display(['" Installing'], names)
+  call vundle#scripts#view('Installer',['" Installing'], names)
 
   exec ":1"
   redraw!
@@ -21,24 +21,6 @@ func! vundle#installer#new(bang, ...) abort
 
   let helptags = vundle#installer#helptags(bundles)
   echo 'Done! Helptags: '.len(helptags).' bundles processed'
-endf
-
-func! s:display(headers, results)
-  if exists('g:vundle_view')
-    exec g:vundle_view.'bd!'
-  endif
-
-  let results = map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) ')
-  silent pedit [Vundle] installer
-
-  wincmd P | wincmd H
-
-  let g:vundle_view = bufnr('%')
-
-  call append(0, a:headers + results)
-
-  setl ft=vundle
-  call vundle#scripts#setup_view()
 endf
 
 func! s:sign(status) 

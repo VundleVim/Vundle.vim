@@ -1,18 +1,14 @@
 func! vundle#scripts#all(bang, ...)
   let b:match = ''
   let info = ['"Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list']
-  if a:1== '' " whether refine search string given
-    let matches = s:load_scripts(a:bang)
-    call s:display(info, matches)
-  else
+  let matches = s:load_scripts(a:bang)
+  if !empty(a:1)
     let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:1,'"').'"')
-    call s:display(info + ['"Search results for: '.a:1], matches)
-    if &hls
-      " TODO: search doesn't get highlighted for me
-      let @/=a:1
-    endif
+    let info += ['"Search results for: '.a:1]
+    " TODO: highlight matches
     let b:match = a:1
   endif
+  call vundle#scripts#view('search',info, reverse(matches))
   redraw!
   echo len(matches).' bundles found'
 endf
@@ -56,13 +52,13 @@ func! s:view_log()
   wincmd P | wincmd H
 endf
 
-func! s:display(headers, results)
+func! vundle#scripts#view(title, headers, results)
   if exists('g:vundle_view')
     exec g:vundle_view.'bd!'
   endif
 
-  let results = reverse(map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) '))
-  silent pedit [Vundle] search
+  let results = map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) ')
+  exec 'silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
 
