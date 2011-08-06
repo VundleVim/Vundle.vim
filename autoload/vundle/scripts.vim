@@ -3,7 +3,7 @@ func! vundle#scripts#all(bang, ...)
   let info = ['"Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list']
   let matches = s:load_scripts(a:bang)
   if !empty(a:1)
-    let matches = filter(s:load_scripts(a:bang), 'v:val =~? "'.escape(a:1,'"').'"')
+    let matches = filter(matches, 'v:val =~? "'.escape(a:1,'"').'"')
     let info += ['"Search results for: '.a:1]
     " TODO: highlight matches
     let b:match = a:1
