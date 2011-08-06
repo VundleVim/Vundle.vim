@@ -18,6 +18,8 @@ func! vundle#installer#new(bang, ...) abort
 
   redraw!
 
+  call vundle#config#require(bundles)
+
   let helptags = vundle#installer#helptags(bundles)
   echo 'Done! Helptags: '.len(helptags).' bundles processed'
 endf
