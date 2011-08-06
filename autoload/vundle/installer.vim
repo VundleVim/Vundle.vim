@@ -132,12 +132,11 @@ func! s:sync(bang, bundle) abort
 endf
 
 func! s:system(cmd) abort
-  let output = system(a:cmd)
-  call s:log(output)
-  return output
+  return s:log(system(a:cmd))
 endf
 
 func! s:log(str) abort
   if !exists('g:vundle_log') | let g:vundle_log = [] | endif
   call add(g:vundle_log, a:str)
+  return a:str
 endf
