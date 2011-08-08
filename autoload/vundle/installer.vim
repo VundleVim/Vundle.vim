@@ -57,6 +57,7 @@ func! vundle#installer#install(bang, name) abort
   else
     throw 'whoops, unknown status:'.status
   endif
+  set nomodified
 endf
 
 func! vundle#installer#helptags(bundles) abort
