@@ -51,7 +51,7 @@ func! vundle#installer#install(bang, name) abort
     echo b.name.' already installed'
   elseif 'error' == status
     echohl Error
-    echo 'Error installing "'.b.name
+    echo 'Error installing '.b.name_spec
     echohl None
     sleep 1
   else
