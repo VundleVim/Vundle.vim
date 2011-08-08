@@ -10,10 +10,10 @@ func! vundle#installer#new(bang, ...) abort
   sleep 1m
 
   for l in range(1,len(names))
-    exec ":+1"
     redraw!
     exec ':norm '.(a:bang ? 'I' : 'i')
     sleep 1m
+    exec ":+1"
   endfor
 
   redraw!
