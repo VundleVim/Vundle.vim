@@ -131,6 +131,10 @@ func! s:sync(bang, bundle) abort
   endif
 
   let out = s:system(cmd)
+  call s:log('')
+  call s:log('Bundle '.a:bundle.name_spec)
+  call s:log('$ '.cmd)
+  call s:log('> '.out)
 
   if 0 != v:shell_error
     return 'error'
@@ -144,7 +148,7 @@ func! s:sync(bang, bundle) abort
 endf
 
 func! s:system(cmd) abort
-  return s:log(system(a:cmd))
+  return system(a:cmd)
 endf
 
 func! s:log(str) abort
