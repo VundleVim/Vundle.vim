@@ -68,6 +68,7 @@ func! vundle#scripts#view(title, headers, results)
 
   setl ft=vundle
   call vundle#scripts#setup_view()
+  " goto first line after headers
   exec ':'.(len(a:headers) + 1)
 endf
 

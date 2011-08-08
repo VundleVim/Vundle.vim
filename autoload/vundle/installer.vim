@@ -13,7 +13,8 @@ func! vundle#installer#new(bang, ...) abort
     redraw!
     exec ':norm '.(a:bang ? 'I' : 'i')
     sleep 1m
-    exec ":+1"
+    " goto next one
+    exec ':+1'
   endfor
 
   redraw!
