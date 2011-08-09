@@ -4,17 +4,42 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = map(copy(bundles), 'v:val.name_spec')
-  call vundle#scripts#view('Installer',['" Installing'], names)
+  call vundle#scripts#view('Installer',['" Installing'], copy(names))
 
   redraw!
   sleep 1m
 
-  for l in range(1,len(names))
+  for n in names
     redraw!
-    exec ':norm '.(a:bang ? 'I' : 'i')
+
+    echo 'Processing '.n
+    call s:sign('active')
+
     sleep 1m
+
+    let status = call('vundle#installer#install', [a:bang, n])
+
+    call s:sign(status)
+
+    if 'updated' == status 
+      echo n.' installed'
+    elseif 'todate' == status
+      echo n.' already installed'
+    elseif 'deleted' == status
+      echo n.' deleted'
+    elseif 'error' == status
+      echohl Error
+      echo 'Error processing '.n
+      echohl None
+      sleep 1
+    else
+      throw 'whoops, unknown status:'.status
+    endif
+
     " goto next one
     exec ':+1'
+
+    setl nomodified
   endfor
 
   redraw!
@@ -38,27 +63,7 @@ func! vundle#installer#install(bang, name) abort
 
   let b = vundle#config#init_bundle(a:name, {})
 
-  echo 'Installing '.b.name
-  call s:sign('active')
-  sleep 1m
-
-  let status = s:sync(a:bang, b)
-
-  call s:sign(status)
-
-  if 'updated' == status 
-    echo b.name.' installed'
-  elseif 'todate' == status
-    echo b.name.' already installed'
-  elseif 'error' == status
-    echohl Error
-    echo 'Error installing '.b.name_spec
-    echohl None
-    sleep 1
-  else
-    throw 'whoops, unknown status:'.status
-  endif
-  set nomodified
+  return s:sync(a:bang, b)
 endf
 
 func! vundle#installer#helptags(bundles) abort
@@ -123,10 +128,8 @@ func! vundle#installer#delete(bang, dir_name) abort
   call s:log('> '.out)
 
   if 0 != v:shell_error
-    call s:sign('error')
     return 'error'
   else
-    call s:sign('deleted')
     return 'deleted'
   endif
 endf
