@@ -89,10 +89,44 @@ func! vundle#installer#clean(bang) abort
   redraw!
 
   if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles? [ y/n ]:') =~? 'y')
-    let cmd = (has('win32') || has('win64')) ?
-    \           'rmdir /S /Q' :
-    \           'rm -rf'
-    exec '!'.cmd.' '.join(map(x_dirs, 'shellescape(v:val)'), ' ')
+
+    for l in range(1,len(x_dirs))
+      redraw!
+      exec ':norm d'
+      sleep 1m
+      " goto next one
+      exec ':+1'
+    endfor
+
+    redraw!
+
+    echo 'Done!'
+  endif
+endf
+
+
+func! vundle#installer#delete(bang, dir_name) abort
+
+  let cmd = (has('win32') || has('win64')) ?
+  \           'rmdir /S /Q' :
+  \           'rm -rf'
+
+  let path = shellescape(expand(g:bundle_dir.'/'.a:dir_name))
+  let cmd .= ' '.path
+
+  let out = s:system(cmd)
+
+  call s:log('')
+  call s:log('Bundle '.a:dir_name)
+  call s:log('$ '.cmd)
+  call s:log('> '.out)
+
+  if 0 != v:shell_error
+    call s:sign('error')
+    return 'error'
+  else
+    call s:sign('deleted')
+    return 'deleted'
   endif
 endf
 
