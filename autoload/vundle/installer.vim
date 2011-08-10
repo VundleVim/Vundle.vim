@@ -6,10 +6,20 @@ func! vundle#installer#new(bang, ...) abort
   let names = map(copy(bundles), 'v:val.name_spec')
   call vundle#scripts#view('Installer',['" Installing'], copy(names))
 
+  call s:process(a:bang, 'vundle#installer#install', names)
+
+  call vundle#config#require(bundles)
+
+  let helptags = vundle#installer#helptags(bundles)
+  echo 'Done! Helptags: '.len(helptags).' bundles processed'
+endf
+
+
+func! s:process(bang, func_name, items)
   redraw!
   sleep 1m
 
-  for n in names
+  for n in a:items
     redraw!
 
     echo 'Processing '.n
@@ -17,7 +27,7 @@ func! vundle#installer#new(bang, ...) abort
 
     sleep 1m
 
-    let status = call('vundle#installer#install', [a:bang, n])
+    let status = call(a:func_name, [a:bang, n])
 
     call s:sign(status)
 
@@ -43,11 +53,6 @@ func! vundle#installer#new(bang, ...) abort
   endfor
 
   redraw!
-
-  call vundle#config#require(bundles)
-
-  let helptags = vundle#installer#helptags(bundles)
-  echo 'Done! Helptags: '.len(helptags).' bundles processed'
 endf
 
 func! s:sign(status) 
@@ -96,15 +101,7 @@ func! vundle#installer#clean(bang) abort
 
   if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles? [ y/n ]:') =~? 'y')
 
-    for l in range(1,len(x_dirs))
-      redraw!
-      exec ':norm d'
-      sleep 1m
-      " goto next one
-      exec ':+1'
-    endfor
-
-    redraw!
+    call s:process(a:bang, 'vundle#installer#delete', x_dirs)
 
     echo 'Done!'
   endif
