@@ -96,12 +96,13 @@ func! vundle#installer#clean(bang) abort
     return
   end
 
-  call vundle#scripts#view('clean', ['"Remove those bundles?'], map(copy(x_dirs), 'fnamemodify(v:val, ":t")'))
+  let names = map(copy(x_dirs), 'fnamemodify(v:val, ":t")')
+  call vundle#scripts#view('clean', ['"Remove those bundles?'], names)
   redraw!
 
-  if (a:bang || input('Are you sure you want to remove '.len(x_dirs).' bundles? [ y/n ]:') =~? 'y')
+  if (a:bang || input('Are you sure you want to remove '.len(names).' bundles? [ y/n ]:') =~? 'y')
 
-    call s:process(a:bang, 'vundle#installer#delete', x_dirs)
+    call s:process(a:bang, 'vundle#installer#delete', names)
 
     echo 'Done!'
   endif
