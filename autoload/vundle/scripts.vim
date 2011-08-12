@@ -60,7 +60,7 @@ func! vundle#scripts#view(title, headers, results)
     exec g:vundle_view.'bd!'
   endif
 
-  let results = map(a:results, ' printf("Bundle ' ."'%s'".'", v:val) ')
+  let results = map(copy(a:results), ' printf("Bundle ' ."'%s'".'", v:val) ')
   exec 'silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
