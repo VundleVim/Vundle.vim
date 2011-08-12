@@ -67,9 +67,13 @@ func! vundle#scripts#view(title, headers, results)
 
   let g:vundle_view = bufnr('%')
 
+
   call append(0, a:headers + results)
 
   setl ft=vundle
+  setl buftype=nofile
+  setl noswapfile
+
   call vundle#scripts#setup_view()
   " goto first line after headers
   exec ':'.(len(a:headers) + 1)
