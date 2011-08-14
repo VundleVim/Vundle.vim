@@ -4,7 +4,7 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = map(copy(bundles), 'v:val.name_spec')
-  call vundle#scripts#view('Installer',['" Installing'], names)
+  call vundle#scripts#view('Installer',['" Installing bundles'], names)
 
   call s:process(a:bang, 'install', names)
 
@@ -95,14 +95,14 @@ func! vundle#installer#clean(bang) abort
     let headers = ['" All clean!']
     let names = []
   else
-    let headers = ['"Remove those bundles?']
+    let headers = ['" Removing bundles:']
     let names = map(copy(x_dirs), 'fnamemodify(v:val, ":t")')
   end
 
   call vundle#scripts#view('clean', headers, names)
   redraw!
 
-  if (a:bang || empty(names) || input('Are you sure you want to remove '.len(names).' bundles? [ y/n ]:') =~? 'y')
+  if (a:bang || empty(names) || input('Continute ? [ y/n ]:') =~? 'y')
     call s:process(a:bang, 'delete', names)
     echo 'Done!'
   endif
