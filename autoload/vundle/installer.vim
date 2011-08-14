@@ -16,6 +16,8 @@ endf
 
 
 func! s:process(bang, func_name, items)
+  let msg = ''
+
   redraw!
   sleep 1m
 
@@ -30,6 +32,7 @@ func! s:process(bang, func_name, items)
     let status = call('vundle#installer#'.a:func_name, [a:bang, n])
 
     call s:sign(status)
+    redraw!
 
     if 'updated' == status 
       echo n.' installed'
@@ -42,6 +45,7 @@ func! s:process(bang, func_name, items)
       echo 'Error processing '.n
       echohl None
       sleep 1
+      let msg = 'With errors, press `l` to view log'
     else
       throw 'whoops, unknown status:'.status
     endif
@@ -53,6 +57,7 @@ func! s:process(bang, func_name, items)
   endfor
 
   redraw!
+  echo 'Done! '.msg
 endf
 
 func! s:sign(status) 
@@ -104,7 +109,6 @@ func! vundle#installer#clean(bang) abort
 
   if (a:bang || empty(names) || input('Continute ? [ y/n ]:') =~? 'y')
     call s:process(a:bang, 'delete', names)
-    echo 'Done!'
   endif
 endf
 
