@@ -92,18 +92,18 @@ func! vundle#installer#clean(bang) abort
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
   if empty(x_dirs)
-    echo "All clean!"
-    return
+    let headers = ['" All clean!']
+    let names = []
+  else
+    let headers = ['"Remove those bundles?']
+    let names = map(copy(x_dirs), 'fnamemodify(v:val, ":t")')
   end
 
-  let names = map(copy(x_dirs), 'fnamemodify(v:val, ":t")')
-  call vundle#scripts#view('clean', ['"Remove those bundles?'], names)
+  call vundle#scripts#view('clean', headers, names)
   redraw!
 
-  if (a:bang || input('Are you sure you want to remove '.len(names).' bundles? [ y/n ]:') =~? 'y')
-
+  if (a:bang || empty(names) || input('Are you sure you want to remove '.len(names).' bundles? [ y/n ]:') =~? 'y')
     call s:process(a:bang, 'delete', names)
-
     echo 'Done!'
   endif
 endf
