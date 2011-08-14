@@ -10,8 +10,7 @@ func! vundle#installer#new(bang, ...) abort
 
   call vundle#config#require(bundles)
 
-  let helptags = vundle#installer#helptags(bundles)
-  echo 'Done! Helptags: '.len(helptags).' bundles processed'
+  call vundle#installer#helptags(bundles)
 endf
 
 
@@ -79,7 +78,14 @@ endf
 func! vundle#installer#helptags(bundles) abort
   let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
+
+  call s:log('')
+  call s:log('Helptags:')
+
   call map(copy(help_dirs), 's:helptags(v:val)')
+
+  call s:log('Helptags: '.len(help_dirs).' bundles processed')
+
   return help_dirs
 endf
 
@@ -150,10 +156,12 @@ func! s:has_doc(rtp) abort
 endf
 
 func! s:helptags(rtp) abort
+  let doc_path = a:rtp.'/doc/'
+  call s:log(':helptags '.doc_path)
   try
-    helptags `=a:rtp.'/doc/'`
+    helptags `=doc_path`
   catch
-    echohl Error | echo "Error generating helptags in ".a:rtp | echohl None
+    call s:log("> Error running :helptags ".doc_path)
   endtry
 endf
 
