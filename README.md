@@ -126,12 +126,12 @@ see [wiki](/gmarik/vundle/wiki)
 * √ vim documentation
 * √ put vundle to bundles/ too(will fix vundle help)
 * √ tests
-* improve error handling
+* √ improve error handling
 * handle dependencies
 * allow specify revision/version?
 * search by description as well
 * show description in search results
-* instead sourcing .vimrc before installation come up with another solution
+* [REMOVE] instead sourcing .vimrc before installation come up with another solution
 * make it rock!
 
 [Vundle]:http://github.com/gmarik/vundle
