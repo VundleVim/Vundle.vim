@@ -1,6 +1,6 @@
 func! vundle#installer#new(bang, ...) abort
   let bundles = (a:1 == '') ?
-        \ s:reload_bundles() :
+        \ g:bundles :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = map(copy(bundles), 'v:val.name_spec')
