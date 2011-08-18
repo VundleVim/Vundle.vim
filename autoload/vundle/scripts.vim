@@ -42,17 +42,17 @@ func! vundle#scripts#view(title, headers, results)
 
   let g:vundle_view = bufnr('%')
 
-
   call append(0, a:headers + results)
 
-  setl ft=vundle
   setl buftype=nofile
   setl noswapfile
 
-  setl cursorline nonu
-  setl ro noma ignorecase syntax=vim
+  setl cursorline
+  setl nonu ro noma ignorecase 
   if (exists('&relativenumber')) | setl norelativenumber | endif
 
+  setl ft=vundle
+  setl syntax=vim
   syn keyword vimCommand Bundle
 
   com! -buffer -bang -nargs=1 DeleteBundle call vundle#installer#delete('!' == '<bang>', <args>)
