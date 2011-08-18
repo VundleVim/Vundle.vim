@@ -26,9 +26,6 @@ com! -nargs=0         BundleDocs
 \ call vundle#installer#helptags(g:bundles)
 
 
-au Filetype  vundle    call vundle#scripts#setup_view()
-au Syntax    vim       syn keyword vimCommand Bundle
-
 if (has('signs'))
 sign define Vu_error    text=!  texthl=Error
 sign define Vu_active   text=>  texthl=Comment

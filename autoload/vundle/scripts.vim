@@ -22,31 +22,6 @@ func! vundle#scripts#complete(a,c,d)
   return join(s:load_scripts(0),"\n")
 endf
 
-func! vundle#scripts#setup_view() abort
-  setl cursorline nonu
-  setl ro noma ignorecase syntax=vim
-  if (exists('&relativenumber')) | setl norelativenumber | endif
-
-  syn keyword vimCommand Bundle
-
-  com! -buffer -bang -nargs=1 DeleteBundle call vundle#installer#delete('!' == '<bang>', <args>)
-  com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
-  com! -buffer -nargs=0 VundleLog call s:view_log()
-
-  nnoremap <buffer> q :silent bd!<CR>
-  nnoremap <buffer> d :exec 'Delete'.getline('.')<CR>
-
-  nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
-  nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
-
-  nnoremap <buffer> l :VundleLog<CR>
-
-  nnoremap <buffer> c :BundleClean<CR>
-  nnoremap <buffer> C :BundleClean!<CR>
-  nnoremap <buffer> r :BundleSearch
-  nnoremap <buffer> R :call vundle#scripts#reload()<CR>
-endf
-
 func! s:view_log()
   if !exists('b:log_file') | let b:log_file = tempname() | endif
   call writefile(g:vundle_log, b:log_file)
@@ -74,7 +49,29 @@ func! vundle#scripts#view(title, headers, results)
   setl buftype=nofile
   setl noswapfile
 
-  call vundle#scripts#setup_view()
+  setl cursorline nonu
+  setl ro noma ignorecase syntax=vim
+  if (exists('&relativenumber')) | setl norelativenumber | endif
+
+  syn keyword vimCommand Bundle
+
+  com! -buffer -bang -nargs=1 DeleteBundle call vundle#installer#delete('!' == '<bang>', <args>)
+  com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
+  com! -buffer -nargs=0 VundleLog call s:view_log()
+
+  nnoremap <buffer> q :silent bd!<CR>
+  nnoremap <buffer> d :exec 'Delete'.getline('.')<CR>
+
+  nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
+  nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
+
+  nnoremap <buffer> l :VundleLog<CR>
+
+  nnoremap <buffer> c :BundleClean<CR>
+  nnoremap <buffer> C :BundleClean!<CR>
+  nnoremap <buffer> r :BundleSearch
+  nnoremap <buffer> R :call vundle#scripts#reload()<CR>
+
   " goto first line after headers
   exec ':'.(len(a:headers) + 1)
 endf
