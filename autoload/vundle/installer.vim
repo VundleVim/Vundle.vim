@@ -201,7 +201,6 @@ func! s:system(cmd) abort
 endf
 
 func! s:log(str) abort
-  if !exists('g:vundle_log') | let g:vundle_log = [] | endif
   call add(g:vundle_log, a:str)
   return a:str
 endf

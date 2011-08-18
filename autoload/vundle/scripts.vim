@@ -48,9 +48,12 @@ func! vundle#scripts#setup_view() abort
 endf
 
 func! s:view_log()
-  if !exists('b:log_file') | let b:log_file = tempname() | endif
-  call writefile(g:vundle_log, b:log_file)
-  silent pedit `=b:log_file`
+  if !exists('g:vundle_log_file') 
+    let g:vundle_log_file = expand('$HOME/.vim-vundle/vundle.log') 
+  endif
+
+  call writefile(g:vundle_log, g:vundle_log_file)
+  silent pedit `=g:vundle_log_file`
 
   wincmd P | wincmd H
 endf

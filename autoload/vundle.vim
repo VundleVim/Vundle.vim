@@ -40,5 +40,6 @@ endif
 
 func! vundle#rc(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
+  let g:vundle_log = []
   call vundle#config#init()
 endf
