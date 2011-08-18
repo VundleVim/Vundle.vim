@@ -131,7 +131,6 @@ see [wiki](/gmarik/vundle/wiki)
 * allow specify revision/version?
 * search by description as well
 * show description in search results
-* [REMOVE] instead sourcing .vimrc before installation come up with another solution
 * make it rock!
 
 [Vundle]:http://github.com/gmarik/vundle

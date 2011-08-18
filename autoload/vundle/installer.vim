@@ -90,7 +90,6 @@ func! vundle#installer#helptags(bundles) abort
 endf
 
 func! vundle#installer#list(bang) abort
-  let bundles = (a:bang) ? s:reload_bundles() : g:bundles
   call vundle#scripts#view('list', ['" My Bundles'], map(copy(g:bundles), 'v:val.name_spec'))
   redraw!
   echo len(g:bundles).' bundles configured'
@@ -140,13 +139,6 @@ func! vundle#installer#delete(bang, dir_name) abort
   else
     return 'deleted'
   endif
-endf
-
-func! s:reload_bundles()
-  " TODO: obtain Bundles without sourcing .vimrc
-  if filereadable($MYVIMRC)| silent source $MYVIMRC | endif
-  if filereadable($MYGVIMRC)| silent source $MYGVIMRC | endif
-  return g:bundles
 endf
 
 func! s:has_doc(rtp) abort
