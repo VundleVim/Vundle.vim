@@ -3,10 +3,10 @@ func! vundle#installer#new(bang, ...) abort
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
-  let names = map(copy(bundles), 'v:val.name_spec')
-  call vundle#scripts#view('Installer',['" Installing bundles'], names)
+  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  call vundle#scripts#view('Installer',['" Installing bundles'], names +  ['Helptags'])
 
-  call s:process(a:bang, 'install', names)
+  call s:process(a:bang, (a:bang ? 'I':'i'))
 
   call vundle#config#require(bundles)
 
@@ -14,39 +14,21 @@ func! vundle#installer#new(bang, ...) abort
 endf
 
 
-func! s:process(bang, func_name, items)
+func! s:process(bang, cmd)
   let msg = ''
 
   redraw!
   sleep 1m
 
-  for n in a:items
+  let lines = (getline('.','$')[0:-2])
+
+  for line in lines
     redraw!
 
-    echo 'Processing '.n
-    call s:sign('active')
+    exec ':norm '.a:cmd
 
-    sleep 1m
-
-    let status = call('vundle#installer#'.a:func_name, [a:bang, n])
-
-    call s:sign(status)
-    redraw!
-
-    if 'updated' == status 
-      echo n.' installed'
-    elseif 'todate' == status
-      echo n.' already installed'
-    elseif 'deleted' == status
-      echo n.' deleted'
-    elseif 'error' == status
-      echohl Error
-      echo 'Error processing '.n
-      echohl None
-      sleep 1
-      let msg = 'With errors, press `l` to view log'
-    else
-      throw 'whoops, unknown status:'.status
+    if 'error' == g:vundle_last_status
+      let msg = 'With erros; press l to view log'
     endif
 
     " goto next one
@@ -57,6 +39,40 @@ func! s:process(bang, func_name, items)
 
   redraw!
   echo 'Done! '.msg
+endf
+
+func! vundle#installer#run(func_name, name, ...) abort
+  let n = a:name
+
+  echo 'Processing '.n
+  call s:sign('active')
+
+  sleep 1m
+
+  let status = call(a:func_name, a:1)
+
+  call s:sign(status)
+
+  redraw!
+
+  if 'updated' == status 
+    echo n.' installed'
+  elseif 'todate' == status
+    echo n.' already installed'
+  elseif 'deleted' == status
+    echo n.' deleted'
+  elseif 'error' == status
+    echohl Error
+    echo 'Error processing '.n
+    echohl None
+    sleep 1
+  else
+    throw 'whoops, unknown status:'.status
+  endif
+
+  let g:vundle_last_status = status
+
+  return status
 endf
 
 func! s:sign(status) 
@@ -75,6 +91,11 @@ func! vundle#installer#install(bang, name) abort
   return s:sync(a:bang, b)
 endf
 
+func! vundle#installer#docs() abort
+  call vundle#installer#helptags(g:bundles)
+  return 'updated'
+endf
+
 func! vundle#installer#helptags(bundles) abort
   let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
@@ -90,7 +111,8 @@ func! vundle#installer#helptags(bundles) abort
 endf
 
 func! vundle#installer#list(bang) abort
-  call vundle#scripts#view('list', ['" My Bundles'], map(copy(g:bundles), 'v:val.name_spec'))
+  let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
+  call vundle#scripts#view('list', ['" My Bundles'], bundles)
   redraw!
   echo len(g:bundles).' bundles configured'
 endf
@@ -106,14 +128,14 @@ func! vundle#installer#clean(bang) abort
     let names = []
   else
     let headers = ['" Removing bundles:']
-    let names = map(copy(x_dirs), 'fnamemodify(v:val, ":t")')
+    let names = vundle#scripts#bundle_names(map(copy(x_dirs), 'fnamemodify(v:val, ":t")'))
   end
 
   call vundle#scripts#view('clean', headers, names)
   redraw!
 
   if (a:bang || empty(names) || input('Continute ? [ y/n ]:') =~? 'y')
-    call s:process(a:bang, 'delete', names)
+    call s:process(a:bang, 'd')
   endif
 endf
 

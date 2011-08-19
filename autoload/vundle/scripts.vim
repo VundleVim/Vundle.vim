@@ -8,7 +8,7 @@ func! vundle#scripts#all(bang, ...)
     " TODO: highlight matches
     let b:match = a:1
   endif
-  call vundle#scripts#view('search',info, reverse(matches))
+  call vundle#scripts#view('search',info, vundle#scripts#bundle_names(reverse(matches)))
   redraw!
   echo len(matches).' bundles found'
 endf
@@ -33,19 +33,22 @@ func! s:view_log()
   wincmd P | wincmd H
 endf
 
+func vundle#scripts#bundle_names(names)
+  return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
+endf
+
 func! vundle#scripts#view(title, headers, results)
   if exists('g:vundle_view')
     exec g:vundle_view.'bd!'
   endif
 
-  let results = map(copy(a:results), ' printf("Bundle ' ."'%s'".'", v:val) ')
   exec 'silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
 
   let g:vundle_view = bufnr('%')
 
-  call append(0, a:headers + results)
+  call append(0, a:headers + a:results)
 
   setl buftype=nofile
   setl noswapfile
@@ -57,9 +60,12 @@ func! vundle#scripts#view(title, headers, results)
   setl ft=vundle
   setl syntax=vim
   syn keyword vimCommand Bundle
+  syn keyword vimCommand Helptags
 
-  com! -buffer -bang -nargs=1 DeleteBundle call vundle#installer#delete('!' == '<bang>', <args>)
-  com! -buffer -bang -nargs=? InstallBundle call vundle#installer#install('!' == '<bang>', <q-args>)
+  com! -buffer -bang -nargs=1 DeleteBundle    call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
+  com! -buffer -bang -nargs=? InstallBundle   call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+  com! -buffer -bang -nargs=? InstallHelptags call vundle#installer#run('vundle#installer#docs', 'helptags', [])
+
   com! -buffer -nargs=0 VundleLog call s:view_log()
 
   nnoremap <buffer> q :silent bd!<CR>
