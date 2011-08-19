@@ -9,8 +9,6 @@ func! vundle#installer#new(bang, ...) abort
   call s:process(a:bang, (a:bang ? 'I':'i'))
 
   call vundle#config#require(bundles)
-
-  call vundle#installer#helptags(bundles)
 endf
 
 
