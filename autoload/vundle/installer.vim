@@ -193,6 +193,6 @@ func! s:system(cmd) abort
 endf
 
 func! s:log(str) abort
-  call add(g:vundle_log, a:str)
+  call add(g:vundle_log, '['.strftime("%y%m%d %T").'] '.a:str)
   return a:str
 endf
