@@ -23,8 +23,8 @@ func! vundle#scripts#complete(a,c,d)
 endf
 
 func! s:view_log()
-  if !exists('g:vundle_log_file') 
-    let g:vundle_log_file = expand('$HOME/.vim-vundle/vundle.log') 
+  if !exists('g:vundle_log_file')
+    let g:vundle_log_file = tempname()
   endif
 
   call writefile(g:vundle_log, g:vundle_log_file)
