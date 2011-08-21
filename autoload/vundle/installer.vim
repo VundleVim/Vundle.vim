@@ -4,7 +4,7 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing bundles'], names +  ['Helptags'])
+  call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'I':'i'))
 
