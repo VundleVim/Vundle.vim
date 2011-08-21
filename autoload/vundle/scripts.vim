@@ -115,7 +115,7 @@ func! s:fetch_scripts(to)
 endf
 
 func! s:load_scripts(bang)
-  let f = expand('$HOME/.vim-vundle/vim-scripts.org.json')
+  let f = expand(g:bundle_dir.'/.vundle/vim-scripts.org.json')
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []
