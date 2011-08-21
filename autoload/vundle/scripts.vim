@@ -38,7 +38,7 @@ func vundle#scripts#bundle_names(names)
 endf
 
 func! vundle#scripts#view(title, headers, results)
-  if exists('g:vundle_view')
+  if exists('g:vundle_view') && bufloaded(g:vundle_view)
     exec g:vundle_view.'bd!'
   endif
 
