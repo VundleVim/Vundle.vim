@@ -69,7 +69,7 @@ func! vundle#scripts#view(title, headers, results)
   com! -buffer -nargs=0 VundleLog call s:view_log()
 
   nnoremap <buffer> q :silent bd!<CR>
-  nnoremap <buffer> d :exec 'Delete'.getline('.')<CR>
+  nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
 
   nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
   nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
