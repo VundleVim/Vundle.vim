@@ -12,7 +12,8 @@ CONTENTS ~
    4.2. Installing scripts                         |vundle-scripts-install|
    4.3. Updating scripts                           |vundle-scripts-update|
    4.4. Searching scripts                          |vundle-scripts-search|
-   4.5. Cleanup                                    |vundle-scripts-cleanup|
+   4.5. Listing scripts                            |vundle-scripts-list|
+   4.6. Cleanup                                    |vundle-scripts-cleanup|
 5. Interactive mode                                |vundle-interactive|
 
 ===========================================================================
@@ -154,7 +155,15 @@ it will display all known scripts
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
-4.5 CLEANING UP ~
+4.5 LISTING BUNDLES ~
+                                     *vundle-scripts-list* *BundleList*
+
+To quickly pull list of configured bundles use >
+
+    :BundleList
+
+
+4.6 CLEANING UP ~
                                      *vundle-scripts-cleanup* *BundleClean*
 run >
 
@@ -167,6 +176,7 @@ requires confirmation before removal of unused script-dirs from your `.vim/bundl
     :BundleClean! 
 
 removes unused scripts with no questions.
+
 
                                      *vundle-interactive*
 5. INTERACTIVE MODE ~
