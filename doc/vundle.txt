@@ -15,6 +15,7 @@ CONTENTS ~
    4.5. Listing scripts                            |vundle-scripts-list|
    4.6. Cleanup                                    |vundle-scripts-cleanup|
 5. Interactive mode                                |vundle-interactive|
+6. Key mappings                                    |vundle-keymappings|
 
 ===========================================================================
 
@@ -198,19 +199,24 @@ content: >
     Bundle 'unite-font'
     Bundle 'unite-colorscheme'
 
-As the first line(starting with `"Keymap:`) shows 
-certain Vundle commands can be triggered with single keypress, ie:
+As the first line(starting with `"Keymap:`) shows certain actions can be applied
+to selected bundles (see |vundle-keymappings| for more details). 
+Move cursor over line `Bundle 'unite.vim'` and press i key(install). 
+After unite.vim script is installed - `:Unite file` command should be
+available to prove 'unite.vim' availability.
+
+                                     *vundle-keymappings*
+6. KEY MAPPINGS ~
 
 KEY | DESCRIPTION
 ----|-------------------------- >
  i  |  run :BundleInstall with name taken from line cursor is positioned on
+ I  |  same as i, but runs :BundleInstall! to update bundle
+ D  |  delete selected bundle( be careful not to remove local modifications)
  c  |  run :BundleCleanup
  r  |  refine list; requires a string to refine list with
  R  |  fetch fresh script list from server
 
-Now move cursor over line `Bundle 'unite.vim'` and press i key(install). 
-After unite.vim script is installed - `:Unite file` command should be
-available to prove 'unite.vim' availability.
 
 NOTE: Interactive installation doesn't update your .vimrc configuration.
 
