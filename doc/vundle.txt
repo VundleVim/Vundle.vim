@@ -185,7 +185,7 @@ removes unused scripts with no questions.
 Vundle provides simple interactive mode to help you explore new scripts easily.
 Interactive mode is available as result of :Bundles command. For instance, running: >
 
-    :Bundles! unite
+    :BundleSearch! unite
 
 triggers search for scripts matching 'unite' and yields a split window with
 content: >
