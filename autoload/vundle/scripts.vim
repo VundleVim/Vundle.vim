@@ -23,8 +23,8 @@ func! vundle#scripts#complete(a,c,d)
 endf
 
 func! s:view_log()
-  if !exists('g:vundle_log_file') 
-    let g:vundle_log_file = expand('$HOME/.vim-vundle/vundle.log') 
+  if !exists('g:vundle_log_file')
+    let g:vundle_log_file = tempname()
   endif
 
   call writefile(g:vundle_log, g:vundle_log_file)
@@ -38,7 +38,7 @@ func vundle#scripts#bundle_names(names)
 endf
 
 func! vundle#scripts#view(title, headers, results)
-  if exists('g:vundle_view')
+  if exists('g:vundle_view') && bufloaded(g:vundle_view)
     exec g:vundle_view.'bd!'
   endif
 
@@ -69,7 +69,7 @@ func! vundle#scripts#view(title, headers, results)
   com! -buffer -nargs=0 VundleLog call s:view_log()
 
   nnoremap <buffer> q :silent bd!<CR>
-  nnoremap <buffer> d :exec 'Delete'.getline('.')<CR>
+  nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
 
   nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
   nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
@@ -115,7 +115,7 @@ func! s:fetch_scripts(to)
 endf
 
 func! s:load_scripts(bang)
-  let f = expand('$HOME/.vim-vundle/vim-scripts.org.json')
+  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json')
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []

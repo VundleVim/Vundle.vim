@@ -4,7 +4,7 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing bundles'], names +  ['Helptags'])
+  call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'I':'i'))
 
@@ -132,8 +132,8 @@ func! vundle#installer#clean(bang) abort
   call vundle#scripts#view('clean', headers, names)
   redraw!
 
-  if (a:bang || empty(names) || input('Continute ? [ y/n ]:') =~? 'y')
-    call s:process(a:bang, 'd')
+  if (a:bang || empty(names) || input('Continue ? [ y/n ]:') =~? 'y')
+    call s:process(a:bang, 'D')
   endif
 endf
 
