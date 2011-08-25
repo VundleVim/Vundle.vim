@@ -145,7 +145,7 @@ func! vundle#installer#delete(bang, dir_name) abort
   \           'rm -rf'
 
   let bundle = vundle#config#init_bundle(a:dir_name, {})
-  let cmd .= ' '.bundle.path()
+  let cmd .= ' '.shellescape(bundle.path())
 
   let out = s:system(cmd)
 
