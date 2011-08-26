@@ -121,10 +121,10 @@ see [wiki](/gmarik/vundle/wiki)
 * √ put vundle to bundles/ too(will fix vundle help)
 * √ tests
 * √ improve error handling
-* handle dependencies
 * allow specify revision/version?
-* search by description as well
+* handle dependencies
 * show description in search results
+* search by description as well
 * make it rock!
 
 [Vundle]:http://github.com/gmarik/vundle
