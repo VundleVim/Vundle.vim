@@ -202,9 +202,10 @@ content: >
 As the first line(starting with `"Keymap:`) shows, certain actions may be applied
 to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i 
 key(install, see |vundle-keymappings| for more details). 
-TODO: this is broken
 After unite.vim is installed - `:Unite file` command should be
 available to prove 'unite.vim' availability.
+
+NOTE: Interactive installation doesn't update your .vimrc configuration.
 
                                      *vundle-keymappings*
 6. KEY MAPPINGS ~
@@ -218,7 +219,5 @@ KEY | DESCRIPTION
  s  |  run :BundleSearch
  R  |  fetch fresh script list from server
 
-
-NOTE: Interactive installation doesn't update your .vimrc configuration.
 
 vim:tw=78:ts=8:ft=help:norl:
