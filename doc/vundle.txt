@@ -135,7 +135,7 @@ installs or updates configured scripts.
 4.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
 run >
-    :Bundles foo                " NOTE: plural Bundles not singular Bundle
+    :BundleSearch foo
 
 lists bundles matching 'foo' in new a new split window, ie:
 >
@@ -144,13 +144,13 @@ lists bundles matching 'foo' in new a new split window, ie:
 >
 and >
 
-    :Bundles! foo
+    :BundleSearch! foo
 
 refreshes script list before performing actual search.
 
 If command is run without argument: >
 
-    :Bundles!
+    :BundleSearch!
 
 it will display all known scripts
 
@@ -183,7 +183,8 @@ removes unused scripts with no questions.
 5. INTERACTIVE MODE ~
 
 Vundle provides simple interactive mode to help you explore new scripts easily.
-Interactive mode is available as result of :Bundles command. For instance, running: >
+Interactive mode is available as result of any commands that display list of
+bundles. For instance, running: >
 
     :BundleSearch! unite
 
