@@ -42,7 +42,7 @@
      filetype plugin indent on     " required! 
      "
      " Brief help
-     " :BundleList          - list bundles
+     " :BundleList          - list configured bundles
      " :BundleInstall(!)    - install(update) bundles
      " :BundleSearch(!) foo - search(or refresh cache first) for foo
      " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
