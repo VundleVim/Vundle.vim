@@ -26,7 +26,7 @@ func! s:process(bang, cmd)
     exec ':norm '.a:cmd
 
     if 'error' == g:vundle_last_status
-      let msg = 'With erros; press l to view log'
+      let msg = 'With errors; press l to view log'
     endif
 
     " goto next one
