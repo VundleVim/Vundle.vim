@@ -1,6 +1,6 @@
 func! vundle#scripts#all(bang, ...)
   let b:match = ''
-  let info = ['"Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list']
+  let info = ['"Keymap: i - Install bundle; c - Cleanup; s - Search; R - Reload list']
   let matches = s:load_scripts(a:bang)
   if !empty(a:1)
     let matches = filter(matches, 'v:val =~? "'.escape(a:1,'"').'"')
