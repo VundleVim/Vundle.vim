@@ -135,7 +135,7 @@ see [wiki](/gmarik/vundle/wiki)
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
 [install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L110-124
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L126-131
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L133-155
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L157-169
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L172-205
+[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L128-133
+[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L135-157
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L167-179
+[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L183-209
