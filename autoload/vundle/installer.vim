@@ -6,7 +6,7 @@ func! vundle#installer#new(bang, ...) abort
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names +  ['Helptags'])
 
-  call s:process(a:bang, (a:bang ? 'I':'i'))
+  call s:process(a:bang, (a:bang ? 'add!' : 'add'))
 
   call vundle#config#require(bundles)
 endf
@@ -79,6 +79,13 @@ func! s:sign(status)
   endif
 
   exe ":sign place ".line('.')." line=".line('.')." name=Vu_". a:status ." buffer=" . bufnr("%")
+endf
+
+func! vundle#installer#install_and_require(bang, name) abort
+  let result = vundle#installer#install(a:bang, a:name)
+  let b = vundle#config#init_bundle(a:name, {})
+  call vundle#config#require([b])
+  return result
 endf
 
 func! vundle#installer#install(bang, name) abort

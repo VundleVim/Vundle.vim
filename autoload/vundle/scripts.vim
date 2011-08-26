@@ -62,23 +62,38 @@ func! vundle#scripts#view(title, headers, results)
   syn keyword vimCommand Bundle
   syn keyword vimCommand Helptags
 
-  com! -buffer -bang -nargs=1 DeleteBundle    call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
-  com! -buffer -bang -nargs=? InstallBundle   call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
-  com! -buffer -bang -nargs=? InstallHelptags call vundle#installer#run('vundle#installer#docs', 'helptags', [])
+  com! -buffer -bang -nargs=1 DeleteBundle
+    \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
+
+  com! -buffer -bang -nargs=? InstallAndRequireBundle   
+    \ call vundle#installer#run('vundle#installer#install_and_require', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+
+  com! -buffer -bang -nargs=? InstallBundle
+    \ call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+
+  com! -buffer -bang -nargs=0 InstallHelptags 
+    \ call vundle#installer#run('vundle#installer#docs', 'helptags', [])
 
   com! -buffer -nargs=0 VundleLog call s:view_log()
+
 
   nnoremap <buffer> q :silent bd!<CR>
   nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
 
-  nnoremap <buffer> i :exec 'Install'.getline('.')<CR>
-  nnoremap <buffer> I :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
+  nnoremap <buffer> add  :exec 'Install'.getline('.')<CR>
+  nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
+
+  nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')<CR>
+  nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
 
   nnoremap <buffer> l :VundleLog<CR>
+  nnoremap <buffer> h :h vundle<CR>
+  nnoremap <buffer> ? :norm h<CR>
 
   nnoremap <buffer> c :BundleClean<CR>
   nnoremap <buffer> C :BundleClean!<CR>
-  nnoremap <buffer> r :BundleSearch
+
+  nnoremap <buffer> s :BundleSearch
   nnoremap <buffer> R :call vundle#scripts#reload()<CR>
 
   " goto first line after headers
