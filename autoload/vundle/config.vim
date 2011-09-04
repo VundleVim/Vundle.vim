@@ -1,30 +1,30 @@
-func! vundle#config#bundle(arg, ...)
-  let bundle = vundle#config#init_bundle(a:arg, a:000)
+func! vundle#config#vundle(arg, ...)
+  let vundle = vundle#config#init_vundle(a:arg, a:000)
   call s:rtp_rm_a()
-  call add(g:bundles, bundle)
+  call add(g:vundles, vundle)
   call s:rtp_add_a()
 endf
 
 func! vundle#config#init()
-  if !exists('g:bundles') | let g:bundles = [] | endif
+  if !exists('g:vundles') | let g:vundles = [] | endif
   call s:rtp_rm_a()
-  let g:bundles = []
+  let g:vundles = []
 endf
 
-func! vundle#config#require(bundles) abort
-  for b in a:bundles
+func! vundle#config#require(vundles) abort
+  for b in a:vundles
     call s:rtp_add(b.rtpath())
-    call s:rtp_add(g:bundle_dir)
-    " TODO: it has to be relative rtpath, not bundle.name
+    call s:rtp_add(g:vundle_dir)
+    " TODO: it has to be relative rtpath, not vundle.name
     exec 'runtime! '.b.name.'/plugin/*.vim'
     exec 'runtime! '.b.name.'/after/*.vim'
-    call s:rtp_rm(g:bundle_dir)
+    call s:rtp_rm(g:vundle_dir)
   endfor
 endf
 
-func! vundle#config#init_bundle(name, opts)
+func! vundle#config#init_vundle(name, opts)
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
-  return extend(opts, copy(s:bundle))
+  return extend(opts, copy(s:vundle))
 endf
 
 func! s:parse_options(opts)
@@ -61,11 +61,11 @@ func! s:parse_name(arg)
 endf
 
 func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
+  call filter(copy(g:vundles), 's:rtp_rm(v:val.rtpath())')
 endf
 
 func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
+  call filter(reverse(copy(g:vundles)), 's:rtp_add(v:val.rtpath())')
 endf
 
 func! s:rtp_rm(dir) abort
@@ -82,12 +82,12 @@ func! s:expand_path(path) abort
   return simplify(expand(a:path))
 endf
 
-let s:bundle = {}
+let s:vundle = {}
 
-func! s:bundle.path()
-  return s:expand_path(g:bundle_dir.'/'.self.name)
+func! s:vundle.path()
+  return s:expand_path(g:vundle_dir.'/'.self.name)
 endf
 
-func! s:bundle.rtpath()
+func! s:vundle.rtpath()
   return has_key(self, 'rtp') ? s:expand_path(self.path().'/'.self.rtp) : self.path()
 endf

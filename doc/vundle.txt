@@ -21,14 +21,14 @@ CONTENTS ~
 
 ABOUT                                              *vundle-about*
 
-Vundle is a short cut for Vim bundle and is the Vim plug-in manager.
+Vundle is a short cut for Vim vundle and is the Vim plug-in manager.
 
 2. WHY VUNDLE ~
                                                    *vundle-why-vundle*
 Vundle allows to:
 
 - keep track and configure your scripts right in `.vimrc`
-- install configured scripts (aka bundle)
+- install configured scripts (aka vundle)
 - update configured scripts
 - search [all available vim scripts] by name
 - clean up from unused scripts
@@ -47,7 +47,7 @@ in order to install/search [all available vim scripts]
 
     git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
-2) Configure bundles:
+2) Configure vundles:
 
    Sample `.vimrc`: >
 
@@ -58,123 +58,123 @@ in order to install/search [all available vim scripts]
      call vundle#rc()
 
      " let Vundle manage Vundle
-     Bundle 'gmarik/vundle'
+     Vundle 'gmarik/vundle'
 
-     " My Bundles here:
+     " My Vundles here:
      "
      " original repos on github
-     Bundle 'tpope/vim-fugitive'
-     Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+     Vundle 'tpope/vim-fugitive'
+     Vundle 'Lokaltog/vim-easymotion'
+     Vundle 'rstacruz/sparkup', {'rtp': 'vim/'}
      " vim-scripts repos
-     Bundle 'L9'
-     Bundle 'FuzzyFinder'
-     Bundle 'rails.vim'
+     Vundle 'L9'
+     Vundle 'FuzzyFinder'
+     Vundle 'rails.vim'
      " non github repos
-     Bundle 'git://git.wincent.com/command-t.git'
+     Vundle 'git://git.wincent.com/command-t.git'
      " ...
 
      filetype plugin indent on     " required!
      " or
      " filetype plugin on          " to not use the indentation settings set by plugins
 
-3) Install configured bundles:
+3) Install configured vundles:
 
    Launch `vim`, run >
 
-    :BundleInstall
+    :VundleInstall
 
 Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for
-each configured repo to `~/.vim/bundle/`.
+each configured repo to `~/.vim/vundle/`.
 
 4. SCRIPTS ~
                                                     *vundle-scripts*
 4.1 CONFIGURE SCRIPTS ~
-                                      *vundle-scripts-configure* *Bundle*
-Before installing scripts they need to be configured. It's done using `Bundle`
+                                      *vundle-scripts-configure* *Vundle*
+Before installing scripts they need to be configured. It's done using `Vundle`
 command in `.vimrc`: >
 
-    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository
+    Vundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository
 or >
-    Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
+    Vundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
 
 Vundle loves Github, that's why short uris can be used with commands: >
 
-    Bundle 'tpope/vim-fugitive'
+    Vundle 'tpope/vim-fugitive'
 
 equals full uri >
 
-    Bundle 'http://github.com/tpope/vim-fugitive.git'
+    Vundle 'http://github.com/tpope/vim-fugitive.git'
 
 NOTE: Vundle defaults to http:// protocol for the short URIs
 
 
 4.2 INSTALL SCRIPTS ~
-                                      *vundle-scripts-install* *BundleInstall*
+                                      *vundle-scripts-install* *VundleInstall*
 run >
-    :BundleInstall
+    :VundleInstall
 
 installs configured scripts. Newly installed scripts will be automatically
 enabled. Except special cases requiring compilation or pre-configuration.
 
-BundleInstall allows to install scripts by name:>
+VundleInstall allows to install scripts by name:>
 
-    :BundleInstall unite.vim
+    :VundleInstall unite.vim
 
 installs and activates unite.vim. You can use Tab to auto-complete known script names.
 NOTE: installation, as just described, doesn't automatically configure scripts;
 you have to configure them manually.
 
 4.3 UPDATE SCRIPTS ~
-                                      *vundle-scripts-update* *BundleInstall!*
+                                      *vundle-scripts-update* *VundleInstall!*
 run >
-    :BundleInstall!             " NOTE: bang(!)
+    :VundleInstall!             " NOTE: bang(!)
 
 installs or updates configured scripts.
 
 4.4 SEARCHING ~
-                                       *vundle-scripts-search* *BundleSearch*
+                                       *vundle-scripts-search* *VundleSearch*
 run >
-    :BundleSearch foo
+    :VundleSearch foo
 
-lists bundles matching 'foo' in new a new split window, ie:
+lists vundles matching 'foo' in new a new split window, ie:
 >
-    Bundle "VimFootnotes"
-    Bundle "foo.vim"
+    Vundle "VimFootnotes"
+    Vundle "foo.vim"
 >
 and >
 
-    :BundleSearch! foo
+    :VundleSearch! foo
 
 refreshes script list before performing actual search.
 
 If command is run without argument: >
 
-    :BundleSearch!
+    :VundleSearch!
 
 it will display all known scripts
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
-4.5 LISTING BUNDLES ~
-                                     *vundle-scripts-list* *BundleList*
+4.5 LISTING vundleS ~
+                                     *vundle-scripts-list* *VundleList*
 
-To quickly pull list of configured bundles use >
+To quickly pull list of configured vundles use >
 
-    :BundleList
+    :VundleList
 
 
 4.6 CLEANING UP ~
-                                     *vundle-scripts-cleanup* *BundleClean*
+                                     *vundle-scripts-cleanup* *VundleClean*
 run >
 
-    :BundleClean
+    :VundleClean
 
-requires confirmation before removal of unused script-dirs from your `.vim/bundle`.
+requires confirmation before removal of unused script-dirs from your `.vim/vundle`.
 
-                                                            *BundleClean!*
+                                                            *VundleClean!*
 >
-    :BundleClean!
+    :VundleClean!
 
 removes unused scripts with no questions.
 
@@ -184,24 +184,24 @@ removes unused scripts with no questions.
 
 Vundle provides simple interactive mode to help you explore new scripts easily.
 Interactive mode is available as result of any commands that display list of
-bundles. For instance, running: >
+vundles. For instance, running: >
 
-    :BundleSearch! unite
+    :VundleSearch! unite
 
 triggers search for scripts matching 'unite' and yields a split window with
 content: >
 
-    "Keymap: i - Install bundle; c - Cleanup; r - Refine list; R - Reload list
+    "Keymap: i - Install vundle; c - Cleanup; r - Refine list; R - Reload list
     "Search results for: unite
-    Bundle 'unite.vim'
-    Bundle 'unite-yarm'
-    Bundle 'unite-gem'
-    Bundle 'unite-locate'
-    Bundle 'unite-font'
-    Bundle 'unite-colorscheme'
+    Vundle 'unite.vim'
+    Vundle 'unite-yarm'
+    Vundle 'unite-gem'
+    Vundle 'unite-locate'
+    Vundle 'unite-font'
+    Vundle 'unite-colorscheme'
 
 As the first line(starting with `"Keymap:`) shows, certain actions may be applied
-to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i
+to selected vundles .  Move cursor over line `Vundle 'unite.vim'` and press i
 key(install, see |vundle-keymappings| for more details).
 After unite.vim is installed - `:Unite file` command should be
 available to prove 'unite.vim' availability.
@@ -213,11 +213,11 @@ NOTE: Interactive installation doesn't update your .vimrc configuration.
 
 KEY | DESCRIPTION
 ----|-------------------------- >
- i  |  run :BundleInstall with name taken from line cursor is positioned on
- I  |  same as i, but runs :BundleInstall! to update bundle
- D  |  delete selected bundle( be careful not to remove local modifications)
- c  |  run :BundleClean
- s  |  run :BundleSearch
+ i  |  run :VundleInstall with name taken from line cursor is positioned on
+ I  |  same as i, but runs :VundleInstall! to update vundle
+ D  |  delete selected vundle( be careful not to remove local modifications)
+ c  |  run :VundleClean
+ s  |  run :VundleSearch
  R  |  fetch fresh script list from server
 
 

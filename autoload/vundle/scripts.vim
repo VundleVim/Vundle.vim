@@ -1,6 +1,6 @@
 func! vundle#scripts#all(bang, ...)
   let b:match = ''
-  let info = ['"Keymap: i - Install bundle; c - Cleanup; s - Search; R - Reload list']
+  let info = ['"Keymap: i - Install vundle; c - Cleanup; s - Search; R - Reload list']
   let matches = s:load_scripts(a:bang)
   if !empty(a:1)
     let matches = filter(matches, 'v:val =~? "'.escape(a:1,'"').'"')
@@ -8,13 +8,13 @@ func! vundle#scripts#all(bang, ...)
     " TODO: highlight matches
     let b:match = a:1
   endif
-  call vundle#scripts#view('search',info, vundle#scripts#bundle_names(reverse(matches)))
+  call vundle#scripts#view('search',info, vundle#scripts#vundle_names(reverse(matches)))
   redraw!
-  echo len(matches).' bundles found'
+  echo len(matches).' vundles found'
 endf
 
 func! vundle#scripts#reload() abort
-  silent exec ':BundleSearch! '.(exists('b:match') ? b:match : '')
+  silent exec ':VundleSearch! '.(exists('b:match') ? b:match : '')
   redraw!
 endf
 
@@ -33,8 +33,8 @@ func! s:view_log()
   wincmd P | wincmd H
 endf
 
-func vundle#scripts#bundle_names(names)
-  return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
+func vundle#scripts#vundle_names(names)
+  return map(copy(a:names), ' printf("Vundle ' ."'%s'".'", v:val) ')
 endf
 
 func! vundle#scripts#view(title, headers, results)
@@ -59,16 +59,16 @@ func! vundle#scripts#view(title, headers, results)
 
   setl ft=vundle
   setl syntax=vim
-  syn keyword vimCommand Bundle
+  syn keyword vimCommand Vundle
   syn keyword vimCommand Helptags
 
-  com! -buffer -bang -nargs=1 DeleteBundle
+  com! -buffer -bang -nargs=1 DeleteVundle
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
 
-  com! -buffer -bang -nargs=? InstallAndRequireBundle
+  com! -buffer -bang -nargs=? InstallAndRequireVundle
     \ call vundle#installer#run('vundle#installer#install_and_require', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
 
-  com! -buffer -bang -nargs=? InstallBundle
+  com! -buffer -bang -nargs=? InstallVundle
     \ call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
 
   com! -buffer -bang -nargs=0 InstallHelptags
@@ -81,19 +81,19 @@ func! vundle#scripts#view(title, headers, results)
   nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
 
   nnoremap <buffer> add  :exec 'Install'.getline('.')<CR>
-  nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
+  nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Vundle ', 'Vundle! ', '')<CR>
 
   nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')<CR>
-  nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
+  nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Vundle ', 'Vundle! ', '')<CR>
 
   nnoremap <buffer> l :VundleLog<CR>
   nnoremap <buffer> h :h vundle<CR>
   nnoremap <buffer> ? :norm h<CR>
 
-  nnoremap <buffer> c :BundleClean<CR>
-  nnoremap <buffer> C :BundleClean!<CR>
+  nnoremap <buffer> c :VundleClean<CR>
+  nnoremap <buffer> C :VundleClean!<CR>
 
-  nnoremap <buffer> s :BundleSearch
+  nnoremap <buffer> s :VundleSearch
   nnoremap <buffer> R :call vundle#scripts#reload()<CR>
 
   " goto first line after headers
@@ -130,7 +130,7 @@ func! s:fetch_scripts(to)
 endf
 
 func! s:load_scripts(bang)
-  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json')
+  let f = expand(g:vundle_dir.'/.vundle/script-names.vim-scripts.org.json')
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []

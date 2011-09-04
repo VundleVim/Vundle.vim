@@ -9,10 +9,10 @@
 1. Setup [Vundle]:
 
      ```
-     $ git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+     $ git clone http://github.com/gmarik/vundle.git ~/.vim/vundle/vundle
      ```
 
-2. Configure bundles:
+2. Configure vundles:
 
      Sample `.vimrc`:
 
@@ -20,47 +20,47 @@
      set nocompatible               " be iMproved
      filetype off                   " required!
 
-     set rtp+=~/.vim/bundle/vundle/
+     set rtp+=~/.vim/vundle/vundle/
      call vundle#rc()
 
      " let Vundle manage Vundle
      " required!
-     Bundle 'gmarik/vundle'
+     Vundle 'gmarik/vundle'
 
-     " My Bundles here:
+     " My Vundles here:
      "
      " original repos on github
-     Bundle 'tpope/vim-fugitive'
-     Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+     Vundle 'tpope/vim-fugitive'
+     Vundle 'Lokaltog/vim-easymotion'
+     Vundle 'rstacruz/sparkup', {'rtp': 'vim/'}
      " vim-scripts repos
-     Bundle 'L9'
-     Bundle 'FuzzyFinder'
-     Bundle 'rails.vim'
+     Vundle 'L9'
+     Vundle 'FuzzyFinder'
+     Vundle 'rails.vim'
      " non github repos
-     Bundle 'git://git.wincent.com/command-t.git'
+     Vundle 'git://git.wincent.com/command-t.git'
      " ...
 
      filetype plugin indent on     " required!
      "
      " Brief help
-     " :BundleList          - list configured bundles
-     " :BundleInstall(!)    - install(update) bundles
-     " :BundleSearch(!) foo - search(or refresh cache first) for foo
-     " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+     " :VundleList          - list configured vundles
+     " :VundleInstall(!)    - install(update) vundles
+     " :VundleSearch(!) foo - search(or refresh cache first) for foo
+     " :VundleClean(!)      - confirm(or auto-approve) removal of unused vundles
      "
      " see :h vundle for more details or wiki for FAQ
-     " NOTE: comments after Bundle command are not allowed..
+     " NOTE: comments after Vundle command are not allowed..
 
      ```
 
-3. Install configured bundles:
+3. Install configured vundles:
 
-     Launch `vim`, run `:BundleInstall`.
+     Launch `vim`, run `:VundleInstall`.
 
      *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
-     Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
+     Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/vundle/`.
 
 ## Why Vundle
 
@@ -117,10 +117,10 @@ see [wiki](/gmarik/vundle/wiki)
 ## TODO:
 [Vundle] is a work in progress so any ideas/patches appreciated
 
-* √ activate newly added bundles on .vimrc reload or after :BundleInstall
+* √ activate newly added vundles on .vimrc reload or after :VundleInstall
 * √ use preview window for search results
 * √ vim documentation
-* √ put vundle to bundles/ too(will fix vundle help)
+* √ put vundle to vundles/ too(will fix vundle help)
 * √ tests
 * √ improve error handling
 * allow specify revision/version?

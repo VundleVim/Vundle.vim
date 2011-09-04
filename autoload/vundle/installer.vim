@@ -1,14 +1,14 @@
 func! vundle#installer#new(bang, ...) abort
-  let bundles = (a:1 == '') ?
-        \ g:bundles :
-        \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
+  let vundles = (a:1 == '') ?
+        \ g:vundles :
+        \ map(copy(a:000), 'vundle#config#init_vundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names +  ['Helptags'])
+  let names = vundle#scripts#vundle_names(map(copy(vundles), 'v:val.name_spec'))
+  call vundle#scripts#view('Installer',['" Installing vundles to '.expand(g:vundle_dir)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
 
-  call vundle#config#require(bundles)
+  call vundle#config#require(vundles)
 endf
 
 
@@ -83,57 +83,57 @@ endf
 
 func! vundle#installer#install_and_require(bang, name) abort
   let result = vundle#installer#install(a:bang, a:name)
-  let b = vundle#config#init_bundle(a:name, {})
+  let b = vundle#config#init_vundle(a:name, {})
   call vundle#config#require([b])
   return result
 endf
 
 func! vundle#installer#install(bang, name) abort
-  if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+  if !isdirectory(g:vundle_dir) | call mkdir(g:vundle_dir, 'p') | endif
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let b = vundle#config#init_vundle(a:name, {})
 
   return s:sync(a:bang, b)
 endf
 
 func! vundle#installer#docs() abort
-  call vundle#installer#helptags(g:bundles)
+  call vundle#installer#helptags(g:vundles)
   return 'updated'
 endf
 
-func! vundle#installer#helptags(bundles) abort
-  let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
-  let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
+func! vundle#installer#helptags(vundles) abort
+  let vundle_dirs = map(copy(a:vundles),'v:val.rtpath()')
+  let help_dirs = filter(vundle_dirs, 's:has_doc(v:val)')
 
   call s:log('')
   call s:log('Helptags:')
 
   call map(copy(help_dirs), 's:helptags(v:val)')
 
-  call s:log('Helptags: '.len(help_dirs).' bundles processed')
+  call s:log('Helptags: '.len(help_dirs).' vundles processed')
 
   return help_dirs
 endf
 
 func! vundle#installer#list(bang) abort
-  let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('list', ['" My Bundles'], bundles)
+  let vundles = vundle#scripts#vundle_names(map(copy(g:vundles), 'v:val.name_spec'))
+  call vundle#scripts#view('list', ['" My Vundles'], vundles)
   redraw!
-  echo len(g:bundles).' bundles configured'
+  echo len(g:vundles).' vundles configured'
 endf
 
 
 func! vundle#installer#clean(bang) abort
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()')
-  let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
-  let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
+  let vundle_dirs = map(copy(g:vundles), 'v:val.path()')
+  let all_dirs = split(globpath(g:vundle_dir, '*'), "\n")
+  let x_dirs = filter(all_dirs, '0 > index(vundle_dirs, v:val)')
 
   if empty(x_dirs)
     let headers = ['" All clean!']
     let names = []
   else
-    let headers = ['" Removing bundles:']
-    let names = vundle#scripts#bundle_names(map(copy(x_dirs), 'fnamemodify(v:val, ":t")'))
+    let headers = ['" Removing vundles:']
+    let names = vundle#scripts#vundle_names(map(copy(x_dirs), 'fnamemodify(v:val, ":t")'))
   end
 
   call vundle#scripts#view('clean', headers, names)
@@ -151,13 +151,13 @@ func! vundle#installer#delete(bang, dir_name) abort
   \           'rmdir /S /Q' :
   \           'rm -rf'
 
-  let bundle = vundle#config#init_bundle(a:dir_name, {})
-  let cmd .= ' '.shellescape(bundle.path())
+  let vundle = vundle#config#init_vundle(a:dir_name, {})
+  let cmd .= ' '.shellescape(vundle.path())
 
   let out = s:system(cmd)
 
   call s:log('')
-  call s:log('Bundle '.a:dir_name)
+  call s:log('Vundle '.a:dir_name)
   call s:log('$ '.cmd)
   call s:log('> '.out)
 
@@ -184,23 +184,23 @@ func! s:helptags(rtp) abort
   endtry
 endf
 
-func! s:sync(bang, bundle) abort
-  let git_dir = expand(a:bundle.path().'/.git/')
+func! s:sync(bang, vundle) abort
+  let git_dir = expand(a:vundle.path().'/.git/')
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.shellescape(a:vundle.path()).' && git pull'
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
       let cmd = '"'.cmd.'"'                          " enclose in quotes
     endif
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd = 'git clone '.a:vundle.uri.' '.shellescape(a:vundle.path())
   endif
 
   let out = s:system(cmd)
   call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
+  call s:log('Vundle '.a:vundle.name_spec)
   call s:log('$ '.cmd)
   call s:log('> '.out)
 
