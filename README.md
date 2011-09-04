@@ -24,7 +24,7 @@
      call vundle#rc()
 
      " let Vundle manage Vundle
-     " required! 
+     " required!
      Bundle 'gmarik/vundle'
 
      " My Bundles here:
@@ -41,7 +41,7 @@
      Bundle 'git://git.wincent.com/command-t.git'
      " ...
 
-     filetype plugin indent on     " required! 
+     filetype plugin indent on     " required!
      "
      " Brief help
      " :BundleList          - list configured bundles
@@ -56,7 +56,7 @@
 
 3. Install configured bundles:
 
-     Launch `vim`, run `:BundleInstall`. 
+     Launch `vim`, run `:BundleInstall`.
 
      *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
@@ -67,7 +67,7 @@
 [Vundle] allows to:
 
 - keep track and configure your scripts right in `.vimrc`
-- [install] configured scripts (aka bundle) 
+- [install] configured scripts (aka bundle)
 - [update] configured scripts
 - [search] by name [all available vim scripts]
 - [clean] unused scripts up

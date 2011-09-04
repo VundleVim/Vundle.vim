@@ -2,8 +2,8 @@
 set nocompatible
 
 let root = '/tmp/vundle_bundles/'
-let src = 'http://github.com/gmarik/vundle.git' 
-" let src = '~/.vim/bundle/vundle/.git' 
+let src = 'http://github.com/gmarik/vundle.git'
+" let src = '~/.vim/bundle/vundle/.git'
 
 if !isdirectory(expand(root).'/vundle')
   exec '!git clone '.src.' '.root.'/vundle'

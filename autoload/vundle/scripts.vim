@@ -54,7 +54,7 @@ func! vundle#scripts#view(title, headers, results)
   setl noswapfile
 
   setl cursorline
-  setl nonu ro noma ignorecase 
+  setl nonu ro noma ignorecase
   if (exists('&relativenumber')) | setl norelativenumber | endif
 
   setl ft=vundle
@@ -65,13 +65,13 @@ func! vundle#scripts#view(title, headers, results)
   com! -buffer -bang -nargs=1 DeleteBundle
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
 
-  com! -buffer -bang -nargs=? InstallAndRequireBundle   
+  com! -buffer -bang -nargs=? InstallAndRequireBundle
     \ call vundle#installer#run('vundle#installer#install_and_require', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
 
   com! -buffer -bang -nargs=? InstallBundle
     \ call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
 
-  com! -buffer -bang -nargs=0 InstallHelptags 
+  com! -buffer -bang -nargs=0 InstallHelptags
     \ call vundle#installer#run('vundle#installer#docs', 'helptags', [])
 
   com! -buffer -nargs=0 VundleLog call s:view_log()
@@ -112,7 +112,7 @@ func! s:fetch_scripts(to)
   elseif executable("wget")
     let temp = shellescape(tempname())
     let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.shellescape(a:to)
-    if (has('win32') || has('win64')) 
+    if (has('win32') || has('win64'))
       let cmd = substitute(cmd, 'mv -f ', 'mv /Y ') " change force flag
       let cmd = '"'.cmd.'"'                         " enclose in quotes so && joined cmds work
     end

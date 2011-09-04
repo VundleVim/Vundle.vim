@@ -53,7 +53,7 @@ func! vundle#installer#run(func_name, name, ...) abort
 
   redraw!
 
-  if 'updated' == status 
+  if 'updated' == status
     echo n.' installed'
   elseif 'todate' == status
     echo n.' already installed'
@@ -73,7 +73,7 @@ func! vundle#installer#run(func_name, name, ...) abort
   return status
 endf
 
-func! s:sign(status) 
+func! s:sign(status)
   if (!has('signs'))
     return
   endif
@@ -124,7 +124,7 @@ endf
 
 
 func! vundle#installer#clean(bang) abort
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
+  let bundle_dirs = map(copy(g:bundles), 'v:val.path()')
   let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 

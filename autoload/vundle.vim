@@ -22,7 +22,7 @@ com! -nargs=0 -bang BundleList
 com! -nargs=? -bang   BundleClean
 \ call vundle#installer#clean('!' == '<bang>')
 
-com! -nargs=0         BundleDocs 
+com! -nargs=0         BundleDocs
 \ call vundle#installer#helptags(g:bundles)
 
 
