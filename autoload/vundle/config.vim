@@ -9,6 +9,9 @@ func! vundle#config#init()
   if !exists('g:vundles') | let g:vundles = [] | endif
   call s:rtp_rm_a()
   let g:vundles = []
+  if !exists('g:Vundle_no_full_repo')
+    let g:Vundle_no_full_repo=0
+  endif
 endf
 
 func! vundle#config#require(vundles) abort

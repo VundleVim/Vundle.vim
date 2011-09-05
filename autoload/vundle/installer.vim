@@ -198,11 +198,24 @@ func! s:sync(bang, vundle) abort
     let cmd = 'git clone '.a:vundle.uri.' '.shellescape(a:vundle.path())
   endif
 
-  let out = s:system(cmd)
-  call s:log('')
-  call s:log('Vundle '.a:vundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  if (g:Vundle_no_full_repo) && (isdirectory(expand(a:vundle.path())))
+    let cmd = 'rm -rf '.shellescape(git_dir)
+    let tmp = s:system(cmd)
+    call s:log('')
+    call s:log('Vundle '.a:vundle.name_spec)
+    call s:log('# update skipped because of Vundle_no_full_repo')
+    let out = 'up-to-date'
+  else
+    let out = s:system(cmd)
+    call s:log('')
+    call s:log('Vundle '.a:vundle.name_spec)
+    call s:log('$ '.cmd)
+    call s:log('> '.out)
+    if (g:Vundle_no_full_repo)
+      let cmd = 'rm -rf '.shellescape(git_dir)
+      let tmp = s:system(cmd)
+    endif
+  endif
 
   if 0 != v:shell_error
     return 'error'
