@@ -1,9 +1,9 @@
 " vim -u test/vimrc
 set nocompatible
 
-let root = '/tmp/vundle_bundles/'
-let src = 'http://github.com/gmarik/vundle.git' 
-" let src = '~/.vim/bundle/vundle/.git' 
+let root = '/tmp/vundle_vundles/'
+let src = 'http://github.com/gmarik/vundle.git'
+" let src = '~/.vim/vundle/vundle/.git'
 
 if !isdirectory(expand(root).'/vundle')
   exec '!git clone '.src.' '.root.'/vundle'
@@ -18,53 +18,53 @@ exec 'set rtp+='.root.'/vundle'
 
 call vundle#rc(root)
 
-Bundle "gmarik/vundle"
+Vundle "gmarik/vundle"
 
 " vim-scripts name
-Bundle 'molokai'
+Vundle 'molokai'
 
 " github username with dashes
-Bundle 'vim-scripts/ragtag.vim'
+Vundle 'vim-scripts/ragtag.vim'
 
 " original repo
-Bundle 'altercation/vim-colors-solarized'
+Vundle 'altercation/vim-colors-solarized'
 " with extension
-Bundle 'nelstrom/vim-mac-classic-theme.git'
+Vundle 'nelstrom/vim-mac-classic-theme.git'
 "
 "  invalid uri
-Bundle 'nonexistinguser/yupppierepo.git'
+Vundle 'nonexistinguser/yupppierepo.git'
 
 " full uri
-Bundle 'https://github.com/vim-scripts/vim-game-of-life'
+Vundle 'https://github.com/vim-scripts/vim-game-of-life'
 " full uri
-Bundle 'git@github.com:gmarik/ingretu.git'
+Vundle 'git@github.com:gmarik/ingretu.git'
 " short uri
-Bundle 'gh:gmarik/snipmate.vim.git'
-Bundle 'github:mattn/gist-vim.git'
+Vundle 'gh:gmarik/snipmate.vim.git'
+Vundle 'github:mattn/gist-vim.git'
 
 " local uri stuff
-Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
-" Bundle 'file://Dropbox/.gitrepos/utilz.vim.git'
+Vundle '~/Dropbox/.gitrepos/utilz.vim.git'
+" Vundle 'file://Dropbox/.gitrepos/utilz.vim.git'
 
 " with options
-Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+Vundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 
 " Camel case
-Bundle 'vim-scripts/RubySinatra'
+Vundle 'vim-scripts/RubySinatra'
 
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
 set wildignore+=.git             " should not break clone
 
-BundleInstall
+VundleInstall
 
-func! s:assert_bundles() abort
-  for b in g:bundles
+func! s:assert_vundles() abort
+  for b in g:vundles
     if (!isdirectory(b.path().'/.git/'))
       throw b.name.' not installed'
     endif
   endfor
 endf
 
-call s:assert_bundles()
+call s:assert_vundles()

@@ -4,26 +4,26 @@
 " Readme:       http://github.com/gmarik/vundle/blob/master/README.md
 " Version:      0.8
 
-com! -nargs=+         Bundle
-\ call vundle#config#bundle(<args>)
+com! -nargs=+         Vundle
+\ call vundle#config#vundle(<args>)
 
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
+com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
 
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleSearch
+com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleSearch
 \ call vundle#scripts#all('!'=='<bang>', <q-args>)
 
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles
+com! -nargs=? -bang -complete=custom,vundle#scripts#complete Vundles
 \ call vundle#scripts#all('!'=='<bang>', <q-args>)
 
-com! -nargs=0 -bang BundleList
+com! -nargs=0 -bang VundleList
 \ call vundle#installer#list('!'=='<bang>')
 
-com! -nargs=? -bang   BundleClean
+com! -nargs=? -bang   VundleClean
 \ call vundle#installer#clean('!' == '<bang>')
 
-com! -nargs=0         BundleDocs 
-\ call vundle#installer#helptags(g:bundles)
+com! -nargs=0         VundleDocs
+\ call vundle#installer#helptags(g:vundles)
 
 
 if (has('signs'))
@@ -36,7 +36,7 @@ endif
 
 
 func! vundle#rc(...) abort
-  let g:bundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/bundle')
+  let g:vundle_dir = len(a:000) > 0 ? expand(a:1) : expand('$HOME/.vim/vundle')
   let g:vundle_log = []
   call vundle#config#init()
 endf
