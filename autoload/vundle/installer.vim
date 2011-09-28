@@ -186,16 +186,17 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/')
+  let dest_dir = shellescape(a:bundle.path())
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.dest_dir.' && git pull'
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
       let cmd = '"'.cmd.'"'                          " enclose in quotes
     endif
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd = 'git clone '.a:bundle.uri.' '.dest_dir.' && cd '.dest_dir.' && git submodule init && git submodule update'
   endif
 
   let out = s:system(cmd)
