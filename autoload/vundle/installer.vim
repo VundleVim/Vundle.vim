@@ -189,7 +189,7 @@ func! s:sync(bang, bundle) abort
   let dest_dir = shellescape(a:bundle.path())
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.dest_dir.' && git pull'
+    let cmd = 'cd '.dest_dir.' && git pull && git submodule foreach ''git checkout master; git pull'' && git submodule update'
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
