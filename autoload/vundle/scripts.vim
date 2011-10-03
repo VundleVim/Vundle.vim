@@ -9,13 +9,13 @@ func! vundle#scripts#all(bang, ...)
     let b:match = a:1
   endif
   call vundle#scripts#view('search',info, vundle#scripts#bundle_names(reverse(matches)))
-  redraw!
+  redraw
   echo len(matches).' bundles found'
 endf
 
 func! vundle#scripts#reload() abort
   silent exec ':BundleSearch! '.(exists('b:match') ? b:match : '')
-  redraw!
+  redraw
 endf
 
 func! vundle#scripts#complete(a,c,d)

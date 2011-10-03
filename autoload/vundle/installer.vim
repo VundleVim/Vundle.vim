@@ -15,13 +15,13 @@ endf
 func! s:process(bang, cmd)
   let msg = ''
 
-  redraw!
+  redraw
   sleep 1m
 
   let lines = (getline('.','$')[0:-2])
 
   for line in lines
-    redraw!
+    redraw
 
     exec ':norm '.a:cmd
 
@@ -35,7 +35,7 @@ func! s:process(bang, cmd)
     setl nomodified
   endfor
 
-  redraw!
+  redraw
   echo 'Done! '.msg
 endf
 
@@ -51,7 +51,7 @@ func! vundle#installer#run(func_name, name, ...) abort
 
   call s:sign(status)
 
-  redraw!
+  redraw
 
   if 'updated' == status 
     echo n.' installed'
@@ -118,7 +118,7 @@ endf
 func! vundle#installer#list(bang) abort
   let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
   call vundle#scripts#view('list', ['" My Bundles'], bundles)
-  redraw!
+  redraw
   echo len(g:bundles).' bundles configured'
 endf
 
@@ -137,7 +137,7 @@ func! vundle#installer#clean(bang) abort
   end
 
   call vundle#scripts#view('clean', headers, names)
-  redraw!
+  redraw
 
   if (a:bang || empty(names) || input('Continue ? [ y/n ]:') =~? 'y')
     call s:process(a:bang, 'D')
