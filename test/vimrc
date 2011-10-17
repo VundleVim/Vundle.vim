@@ -52,6 +52,10 @@ Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
 
+Bundle 'wincent/Command-T.git'
+BundleMake :ruby puts( cmd = "cd #{File.expand_path($LOAD_PATH.grep(/command-?t/i).first)}/command-t/ && git checkout -f master && ruby extconf.rb && make clean && make");
+          \ system(cmd)
+
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags

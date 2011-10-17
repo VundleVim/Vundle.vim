@@ -27,6 +27,11 @@ func! vundle#config#init_bundle(name, opts)
   return extend(opts, copy(s:bundle))
 endf
 
+func! vundle#config#add_make_cmd(cmd)
+  " TODO: handle error
+  call g:bundles[-1].set_make_cmd(a:cmd)
+endf
+
 func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
@@ -83,6 +88,10 @@ func! s:expand_path(path) abort
 endf
 
 let s:bundle = {}
+
+func! s:bundle.set_make_cmd(cmd)
+  call extend(self, {'make_cmd': a:cmd})
+endf
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)

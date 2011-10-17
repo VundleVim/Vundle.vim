@@ -4,13 +4,13 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names +  ['Helptags'])
+  let make_cmds = vundle#scripts#bundle_make_cmds(bundles)
+  call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names + make_cmds +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
 
   call vundle#config#require(bundles)
 endf
-
 
 func! s:process(bang, cmd)
   let msg = ''
@@ -94,6 +94,20 @@ func! vundle#installer#install(bang, name) abort
   let b = vundle#config#init_bundle(a:name, {})
 
   return s:sync(a:bang, b)
+endf
+
+func! vundle#installer#make(name) abort
+  call s:log(' ')
+  call s:log('Make: '.a:name)
+
+  let b = filter(copy(g:bundles), 'v:val.name_spec ==? "'.a:name.'"')[0]
+
+  try
+    silent exec b.make_cmd
+    return 'updated'
+  catch 
+    return 'error'
+  endtry
 endf
 
 func! vundle#installer#docs() abort

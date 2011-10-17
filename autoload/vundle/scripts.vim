@@ -33,8 +33,13 @@ func! s:view_log()
   wincmd P | wincmd H
 endf
 
-func vundle#scripts#bundle_names(names)
+func! vundle#scripts#bundle_names(names)
   return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
+endf
+
+func! vundle#scripts#bundle_make_cmds(bundles)
+  let bundles_with_make = filter(copy(a:bundles), 'has_key(v:val, "make_cmd")')
+  return map(bundles_with_make, ' printf("Make ' ."'%s'".' '.'", v:val.name_spec) ')
 endf
 
 func! vundle#scripts#view(title, headers, results)
@@ -61,6 +66,7 @@ func! vundle#scripts#view(title, headers, results)
   setl syntax=vim
   syn keyword vimCommand Bundle
   syn keyword vimCommand Helptags
+  syn keyword vimCommand Make
 
   com! -buffer -bang -nargs=1 DeleteBundle
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
@@ -70,6 +76,9 @@ func! vundle#scripts#view(title, headers, results)
 
   com! -buffer -bang -nargs=? InstallBundle
     \ call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+
+  com! -buffer -bar -bang -nargs=1 InstallMake 
+    \ call vundle#installer#run('vundle#installer#make', split(<q-args>,',')[0], [split(<args>,',')[0]])
 
   com! -buffer -bang -nargs=0 InstallHelptags 
     \ call vundle#installer#run('vundle#installer#docs', 'helptags', [])

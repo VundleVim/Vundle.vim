@@ -16,6 +16,9 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleSearch
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles
 \ call vundle#scripts#all('!'=='<bang>', <q-args>)
 
+com! -nargs=1 -bang BundleMake
+\ call vundle#config#add_make_cmd(<q-args>)
+
 com! -nargs=0 -bang BundleList
 \ call vundle#installer#list('!'=='<bang>')
 
