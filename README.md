@@ -41,6 +41,11 @@
     Bundle 'git://git.wincent.com/command-t.git'
     " ...
 
+    " Slow scripts which will not be bound and loaded at Vim startup.
+    " When needed, you can manually bind them via `BundleBind!` command,
+    " run `:help Bundle-option-bind` and `:help BundleBind!` for more details.
+    Bundle 'c.vim', {'bind': 0, 'tags': ['c']}
+
     filetype plugin indent on     " required!
     "
     " Brief help

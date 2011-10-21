@@ -3,10 +3,16 @@ func! vundle#config#bundle(arg, ...)
   call add(g:bundles, bundle)
 endf
 
-func! vundle#config#bind()
-  call s:rtp_rm(g:bundles)
-  let bind_bundles = filter(copy(g:bundles), 'v:val.bind')
-  call vundle#config#require(bind_bundles)
+func! vundle#config#bind(...)
+  if a:0 == 0
+    call s:rtp_rm(g:bundles)
+    let bind_bundles = filter(copy(g:bundles), 'v:val.bind')
+    call vundle#config#require(bind_bundles)
+  else
+    let matched_bundles = filter(copy(g:bundles),
+          \ 's:is_tags_matched(v:val, '.string(a:000).')')
+    call vundle#config#require(matched_bundles)
+  end
 endf
 
 func! vundle#config#init()
@@ -77,6 +83,23 @@ func! s:rtp_add(bundles) abort
     exec 'set rtp^='.bundle.escaped_rtpath
     exec 'set rtp+='.bundle.escaped_rtpath_after
   endfor
+endf
+
+func! s:is_tags_matched(bundle, tags)
+  if !has_key(a:bundle, 'tags')
+    return 0
+  endif
+
+  let is_matched = 0
+  for tag in a:bundle.tags
+     let is_matched = index(a:tags, tag) != -1
+
+     if is_matched
+       break
+     endif
+  endfor
+
+  return is_matched
 endf
 
 func! s:expand_path(path) abort
