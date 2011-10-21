@@ -108,6 +108,17 @@ equals full uri >
 
 NOTE: Vundle defaults to http:// protocol for the short URIs
 
+                                                            *BundleBind!*
+`Bundle` command just tell Vundle which scripts you want to use, it doesn't
+tell Vim load them, i.e, it doesn't update the 'runtimepath' option of Vim.
+
+To tell Vim load your scripts, `BundleBind!` must be executed. But Vundle will
+do it automatically, so usually you don't need to do it yourself.
+
+The benefit of use an extra command to update 'runtimepath' is, we can make
+Vim startup much faster while keeping 'runtimepath' ordered according to the
+bundles declarations.
+
 
 4.2 INSTALL SCRIPTS ~
                                       *vundle-scripts-install* *BundleInstall*
