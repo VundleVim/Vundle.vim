@@ -5,7 +5,8 @@ endf
 
 func! vundle#config#bind()
   call s:rtp_rm(g:bundles)
-  call vundle#config#require(g:bundles)
+  let bind_bundles = filter(copy(g:bundles), 'v:val.bind')
+  call vundle#config#require(bind_bundles)
 endf
 
 func! vundle#config#init()
@@ -24,7 +25,7 @@ endf
 
 func! vundle#config#init_bundle(name, opts)
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
-  let bundle = extend(opts, copy(s:bundle))
+  let bundle = extend(copy(s:bundle), opts)
 
   let bundle.escaped_rtpath = fnameescape(expand(bundle.rtpath()))
   let bundle.escaped_rtpath_after = fnameescape(expand(bundle.rtpath().'/after'))
@@ -82,7 +83,7 @@ func! s:expand_path(path) abort
   return simplify(expand(a:path))
 endf
 
-let s:bundle = {}
+let s:bundle = {'bind': 1}
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
