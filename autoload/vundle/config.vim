@@ -64,14 +64,6 @@ func! s:parse_name(arg)
   return {'name': name, 'uri': uri, 'name_spec': arg }
 endf
 
-func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val)')
-endf
-
-func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val)')
-endf
-
 func! s:rtp_rm(bundles) abort
   for bundle in a:bundles
     exec 'set rtp-='.bundle.escaped_rtpath
