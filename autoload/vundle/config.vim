@@ -15,12 +15,10 @@ endf
 func! vundle#config#require(bundles) abort
   for b in a:bundles
     call s:rtp_add(b.rtpath())
-    call s:rtp_add(g:bundle_dir)
-    " TODO: it has to be relative rtpath, not bundle.name
-    exec 'runtime! '.b.name.'/plugin/*.vim'
-    exec 'runtime! '.b.name.'/after/*.vim'
-    call s:rtp_rm(g:bundle_dir)
   endfor
+  " It's OK to do this since every plugin prevent itself be loaded twice
+  runtime! plugin/*.vim
+  runtime! after/*.vim
 endf
 
 func! vundle#config#init_bundle(name, opts)
