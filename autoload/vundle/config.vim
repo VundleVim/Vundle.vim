@@ -6,8 +6,9 @@ func! vundle#config#bundle(arg, ...)
 endf
 
 func! vundle#config#init()
-  if !exists('g:bundles') | let g:bundles = [] | endif
-  call s:rtp_rm_a()
+  if exists('g:bundles')
+    call s:rtp_rm_a()
+  endif
   let g:bundles = []
 endf
 
