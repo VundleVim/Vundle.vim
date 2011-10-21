@@ -14,7 +14,7 @@ endf
 
 func! vundle#config#require(bundles) abort
   for b in a:bundles
-    call s:rtp_add(b.rtpath())
+    call s:rtp_add(b)
   endfor
   " It's OK to do this since every plugin prevent itself be loaded twice
   runtime! plugin/*.vim
@@ -23,7 +23,11 @@ endf
 
 func! vundle#config#init_bundle(name, opts)
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
-  return extend(opts, copy(s:bundle))
+  let bundle = extend(opts, copy(s:bundle))
+
+  let bundle.escaped_rtpath = fnameescape(expand(bundle.rtpath()))
+  let bundle.escaped_rtpath_after = fnameescape(expand(bundle.rtpath().'/after'))
+  return bundle
 endf
 
 func! s:parse_options(opts)
@@ -60,21 +64,21 @@ func! s:parse_name(arg)
 endf
 
 func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
+  call filter(copy(g:bundles), 's:rtp_rm(v:val)')
 endf
 
 func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
+  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val)')
 endf
 
-func! s:rtp_rm(dir) abort
-  exec 'set rtp-='.fnameescape(expand(a:dir))
-  exec 'set rtp-='.fnameescape(expand(a:dir.'/after'))
+func! s:rtp_rm(bundle) abort
+  exec 'set rtp-='.a:bundle.escaped_rtpath
+  exec 'set rtp-='.a:bundle.escaped_rtpath_after
 endf
 
-func! s:rtp_add(dir) abort
-  exec 'set rtp^='.fnameescape(expand(a:dir))
-  exec 'set rtp+='.fnameescape(expand(a:dir.'/after'))
+func! s:rtp_add(bundle) abort
+  exec 'set rtp^='.a:bundle.escaped_rtpath
+  exec 'set rtp+='.a:bundle.escaped_rtpath_after
 endf
 
 func! s:expand_path(path) abort
