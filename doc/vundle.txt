@@ -28,7 +28,7 @@ Vundle is a short cut for Vim bundle and is the Vim plug-in manager.
 Vundle allows to:
 
 - keep track and configure your scripts right in `.vimrc`
-- install configured scripts (aka bundle) 
+- install configured scripts (aka bundle)
 - update configured scripts
 - search [all available vim scripts] by name
 - clean up from unused scripts
@@ -38,7 +38,7 @@ Also *Vundle* :
 - manages runtime path of your installed scripts
 - regenerates helptags automatically
 
-Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org) 
+Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org)
 in order to install/search [all available vim scripts]
 
 3. QUICK START ~
@@ -51,32 +51,32 @@ in order to install/search [all available vim scripts]
 
    Sample `.vimrc`: >
 
-     set nocompatible               " be iMproved
-     filetype off                   " required!
+    set nocompatible               " be iMproved
+    filetype off                   " required!
 
-     set rtp+=~/.vim/vundle.git/ 
-     call vundle#rc()
+    set rtp+=~/.vim/vundle.git/
+    call vundle#rc()
 
-     " let Vundle manage Vundle
-     Bundle 'gmarik/vundle'
+    " let Vundle manage Vundle
+    Bundle 'gmarik/vundle'
 
-     " My Bundles here:
-     "
-     " original repos on github
-     Bundle 'tpope/vim-fugitive'
-     Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-     " vim-scripts repos
-     Bundle 'L9'
-     Bundle 'FuzzyFinder'
-     Bundle 'rails.vim'
-     " non github repos
-     Bundle 'git://git.wincent.com/command-t.git'
-     " ...
+    " My Bundles here:
+    "
+    " original repos on github
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'Lokaltog/vim-easymotion'
+    Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+    " vim-scripts repos
+    Bundle 'L9'
+    Bundle 'FuzzyFinder'
+    Bundle 'rails.vim'
+    " non github repos
+    Bundle 'git://git.wincent.com/command-t.git'
+    " ...
 
-     filetype plugin indent on     " required!
-     " or 
-     " filetype plugin on          " to not use the indentation settings set by plugins
+    filetype plugin indent on     " required!
+    " or
+    " filetype plugin on          " to not use the indentation settings set by plugins
 
 3) Install configured bundles:
 
@@ -84,7 +84,7 @@ in order to install/search [all available vim scripts]
 
     :BundleInstall
 
-Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for 
+Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for
 each configured repo to `~/.vim/bundle/`.
 
 4. SCRIPTS ~
@@ -94,7 +94,7 @@ each configured repo to `~/.vim/bundle/`.
 Before installing scripts they need to be configured. It's done using `Bundle`
 command in `.vimrc`: >
 
-    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository 
+    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository
 or >
     Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
 
@@ -122,7 +122,7 @@ BundleInstall allows to install scripts by name:>
     :BundleInstall unite.vim
 
 installs and activates unite.vim. You can use Tab to auto-complete known script names.
-NOTE: installation, as just described, doesn't automatically configure scripts; 
+NOTE: installation, as just described, doesn't automatically configure scripts;
 you have to configure them manually.
 
 4.3 UPDATE SCRIPTS ~
@@ -170,11 +170,11 @@ run >
 
     :BundleClean
 
-requires confirmation before removal of unused script-dirs from your `.vim/bundle`. 
+requires confirmation before removal of unused script-dirs from your `.vim/bundle`.
 
                                                             *BundleClean!*
 >
-    :BundleClean! 
+    :BundleClean!
 
 removes unused scripts with no questions.
 
@@ -201,8 +201,8 @@ content: >
     Bundle 'unite-colorscheme'
 
 As the first line(starting with `"Keymap:`) shows, certain actions may be applied
-to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i 
-key(install, see |vundle-keymappings| for more details). 
+to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i
+key(install, see |vundle-keymappings| for more details).
 After unite.vim is installed - `:Unite file` command should be
 available to prove 'unite.vim' availability.
 
