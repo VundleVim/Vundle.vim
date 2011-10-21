@@ -4,21 +4,19 @@ func! vundle#config#bundle(arg, ...)
 endf
 
 func! vundle#config#bind()
-  call s:rtp_rm_a()
+  call s:rtp_rm(g:bundles)
   call vundle#config#require(g:bundles)
 endf
 
 func! vundle#config#init()
   if exists('g:bundles')
-    call s:rtp_rm_a()
+    call s:rtp_rm(g:bundles)
   endif
   let g:bundles = []
 endf
 
 func! vundle#config#require(bundles) abort
-  for b in a:bundles
-    call s:rtp_add(b)
-  endfor
+  call s:rtp_add(a:bundles)
   " It's OK to do this since every plugin prevent itself be loaded twice
   runtime! plugin/*.vim
   runtime! after/*.vim
@@ -74,14 +72,18 @@ func! s:rtp_add_a()
   call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val)')
 endf
 
-func! s:rtp_rm(bundle) abort
-  exec 'set rtp-='.a:bundle.escaped_rtpath
-  exec 'set rtp-='.a:bundle.escaped_rtpath_after
+func! s:rtp_rm(bundles) abort
+  for bundle in a:bundles
+    exec 'set rtp-='.bundle.escaped_rtpath
+    exec 'set rtp-='.bundle.escaped_rtpath_after
+  endfor
 endf
 
-func! s:rtp_add(bundle) abort
-  exec 'set rtp^='.a:bundle.escaped_rtpath
-  exec 'set rtp+='.a:bundle.escaped_rtpath_after
+func! s:rtp_add(bundles) abort
+  for bundle in reverse(copy(a:bundles))
+    exec 'set rtp^='.bundle.escaped_rtpath
+    exec 'set rtp+='.bundle.escaped_rtpath_after
+  endfor
 endf
 
 func! s:expand_path(path) abort
