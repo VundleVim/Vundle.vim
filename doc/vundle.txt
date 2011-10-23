@@ -28,7 +28,7 @@ Vundle is a short cut for Vim bundle and is the Vim plug-in manager.
 Vundle allows to:
 
 - keep track and configure your scripts right in `.vimrc`
-- install configured scripts (aka bundle) 
+- install configured scripts (aka bundle)
 - update configured scripts
 - search [all available vim scripts] by name
 - clean up from unused scripts
@@ -38,7 +38,7 @@ Also *Vundle* :
 - manages runtime path of your installed scripts
 - regenerates helptags automatically
 
-Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org) 
+Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org)
 in order to install/search [all available vim scripts]
 
 3. QUICK START ~
@@ -51,32 +51,38 @@ in order to install/search [all available vim scripts]
 
    Sample `.vimrc`: >
 
-     set nocompatible               " be iMproved
-     filetype off                   " required!
+    set nocompatible               " be iMproved
+    filetype off                   " required!
 
-     set rtp+=~/.vim/vundle.git/ 
-     call vundle#rc()
+    set rtp+=~/.vim/vundle.git/
+    call vundle#rc()
 
-     " let Vundle manage Vundle
-     Bundle 'gmarik/vundle'
+    " let Vundle manage Vundle
+    Bundle 'gmarik/vundle'
 
-     " My Bundles here:
-     "
-     " original repos on github
-     Bundle 'tpope/vim-fugitive'
-     Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-     " vim-scripts repos
-     Bundle 'L9'
-     Bundle 'FuzzyFinder'
-     Bundle 'rails.vim'
-     " non github repos
-     Bundle 'git://git.wincent.com/command-t.git'
-     " ...
+    " My Bundles here:
+    "
+    " original repos on github
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'Lokaltog/vim-easymotion'
+    Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+    " vim-scripts repos
+    Bundle 'L9'
+    Bundle 'FuzzyFinder'
+    Bundle 'rails.vim'
+    " non github repos
+    Bundle 'git://git.wincent.com/command-t.git'
+    " ...
 
-     filetype plugin indent on     " required!
-     " or 
-     " filetype plugin on          " to not use the indentation settings set by plugins
+    " Slow scripts which will not be bound and loaded at Vim startup.
+    " When needed, you can manually bind them via `BundleBind!` command,
+    " run `:help |Bundle-option-bind|` and `:help |BundleBind!|` for more
+    " details.
+    Bundle 'c.vim', {'bind': 0, 'tags': ['c']}
+
+    filetype plugin indent on     " required!
+    " or
+    " filetype plugin on          " to not use the indentation settings set by plugins
 
 3) Install configured bundles:
 
@@ -84,7 +90,7 @@ in order to install/search [all available vim scripts]
 
     :BundleInstall
 
-Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for 
+Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for
 each configured repo to `~/.vim/bundle/`.
 
 4. SCRIPTS ~
@@ -94,7 +100,7 @@ each configured repo to `~/.vim/bundle/`.
 Before installing scripts they need to be configured. It's done using `Bundle`
 command in `.vimrc`: >
 
-    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository 
+    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository
 or >
     Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
 
@@ -108,6 +114,42 @@ equals full uri >
 
 NOTE: Vundle defaults to http:// protocol for the short URIs
 
+                                                            *Bundle-option-bind*
+If some of your scripts will slow down your Vim startup, and you don't really
+often need them, you have an option to disable bind them at Vim startup: >
+
+    Bundle 'c.vim', {'bind': 0}
+
+When you need, these scripts can be bound manually via |BundleBind!| command.
+
+                                                            *Bundle-option-tags*
+Scripts can be grouped via tags option: >
+
+    Bundle 'c.vim', {'tags', ['c', 'slow']}
+    Bundle 'bash-support.vim', {'tags', ['bash', 'slow']}
+
+Currently the only usage of tags is to allow you manually bind slow scripts
+when needed, but group scripts by tags should be useful in the future.
+
+                                                            *BundleBind!*
+`Bundle` command just tell Vundle which scripts you want to use, it doesn't
+tell Vim load them, i.e, it doesn't update the 'runtimepath' option of Vim.
+
+To tell Vim load your scripts, `BundleBind!` must be executed. But Vundle will
+do it automatically, so usually you don't need to do it yourself.
+
+The benefit of use an extra command to update 'runtimepath' is, we can make
+Vim startup much faster while keeping 'runtimepath' ordered according to the
+bundles declarations.
+
+You can run `BundleBind!` manually to bind and load those scripts which
+haven't get bound and loaded at Vim startup: >
+
+    :BundleBind! slow
+
+`BundleBind!` can accept any number of tags, just use space to separate them:
+>
+    :BundleBind! c bash ruby javascript
 
 4.2 INSTALL SCRIPTS ~
                                       *vundle-scripts-install* *BundleInstall*
@@ -122,7 +164,7 @@ BundleInstall allows to install scripts by name:>
     :BundleInstall unite.vim
 
 installs and activates unite.vim. You can use Tab to auto-complete known script names.
-NOTE: installation, as just described, doesn't automatically configure scripts; 
+NOTE: installation, as just described, doesn't automatically configure scripts;
 you have to configure them manually.
 
 4.3 UPDATE SCRIPTS ~
@@ -170,11 +212,11 @@ run >
 
     :BundleClean
 
-requires confirmation before removal of unused script-dirs from your `.vim/bundle`. 
+requires confirmation before removal of unused script-dirs from your `.vim/bundle`.
 
                                                             *BundleClean!*
 >
-    :BundleClean! 
+    :BundleClean!
 
 removes unused scripts with no questions.
 
@@ -201,8 +243,8 @@ content: >
     Bundle 'unite-colorscheme'
 
 As the first line(starting with `"Keymap:`) shows, certain actions may be applied
-to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i 
-key(install, see |vundle-keymappings| for more details). 
+to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i
+key(install, see |vundle-keymappings| for more details).
 After unite.vim is installed - `:Unite file` command should be
 available to prove 'unite.vim' availability.
 

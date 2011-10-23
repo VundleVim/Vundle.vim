@@ -1,30 +1,41 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
-  call s:rtp_rm_a()
   call add(g:bundles, bundle)
-  call s:rtp_add_a()
+endf
+
+func! vundle#config#bind(...)
+  if a:0 == 0
+    call s:rtp_rm(g:bundles)
+    let bind_bundles = filter(copy(g:bundles), 'v:val.bind')
+    call vundle#config#require(bind_bundles)
+  else
+    let matched_bundles = filter(copy(g:bundles),
+          \ 's:is_tags_matched(v:val, '.string(a:000).')')
+    call vundle#config#require(matched_bundles)
+  end
 endf
 
 func! vundle#config#init()
-  if !exists('g:bundles') | let g:bundles = [] | endif
-  call s:rtp_rm_a()
+  if exists('g:bundles')
+    call s:rtp_rm(g:bundles)
+  endif
   let g:bundles = []
 endf
 
 func! vundle#config#require(bundles) abort
-  for b in a:bundles
-    call s:rtp_add(b.rtpath())
-    call s:rtp_add(g:bundle_dir)
-    " TODO: it has to be relative rtpath, not bundle.name
-    exec 'runtime! '.b.name.'/plugin/*.vim'
-    exec 'runtime! '.b.name.'/after/*.vim'
-    call s:rtp_rm(g:bundle_dir)
-  endfor
+  call s:rtp_add(a:bundles)
+  " It's OK to do this since every plugin prevent itself be loaded twice
+  runtime! plugin/*.vim
+  runtime! after/*.vim
 endf
 
 func! vundle#config#init_bundle(name, opts)
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
-  return extend(opts, copy(s:bundle))
+  let bundle = extend(copy(s:bundle), opts)
+
+  let bundle.escaped_rtpath = fnameescape(expand(bundle.rtpath()))
+  let bundle.escaped_rtpath_after = fnameescape(expand(bundle.rtpath().'/after'))
+  return bundle
 endf
 
 func! s:parse_options(opts)
@@ -60,29 +71,42 @@ func! s:parse_name(arg)
   return {'name': name, 'uri': uri, 'name_spec': arg }
 endf
 
-func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
+func! s:rtp_rm(bundles) abort
+  for bundle in a:bundles
+    exec 'set rtp-='.bundle.escaped_rtpath
+    exec 'set rtp-='.bundle.escaped_rtpath_after
+  endfor
 endf
 
-func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
+func! s:rtp_add(bundles) abort
+  for bundle in reverse(copy(a:bundles))
+    exec 'set rtp^='.bundle.escaped_rtpath
+    exec 'set rtp+='.bundle.escaped_rtpath_after
+  endfor
 endf
 
-func! s:rtp_rm(dir) abort
-  exec 'set rtp-='.fnameescape(expand(a:dir))
-  exec 'set rtp-='.fnameescape(expand(a:dir.'/after'))
-endf
+func! s:is_tags_matched(bundle, tags)
+  if !has_key(a:bundle, 'tags')
+    return 0
+  endif
 
-func! s:rtp_add(dir) abort
-  exec 'set rtp^='.fnameescape(expand(a:dir))
-  exec 'set rtp+='.fnameescape(expand(a:dir.'/after'))
+  let is_matched = 0
+  for tag in a:bundle.tags
+     let is_matched = index(a:tags, tag) != -1
+
+     if is_matched
+       break
+     endif
+  endfor
+
+  return is_matched
 endf
 
 func! s:expand_path(path) abort
   return simplify(expand(a:path))
 endf
 
-let s:bundle = {}
+let s:bundle = {'bind': 1}
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
