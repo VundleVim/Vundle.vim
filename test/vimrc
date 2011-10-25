@@ -19,6 +19,7 @@ runtime macros/matchit.vim
 exec 'set rtp+='.root.'/vundle'
 
 call vundle#rc(root)
+" let g:vundle_default_git_proto = 'git'
 
 Bundle "gmarik/vundle"
 
