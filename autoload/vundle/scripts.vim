@@ -47,6 +47,10 @@ func! vundle#scripts#view(title, headers, results)
   wincmd P | wincmd H
 
   let g:vundle_view = bufnr('%')
+  "
+  " make buffer modifiable 
+  " to append without errors
+  set modifiable
 
   call append(0, a:headers + a:results)
 
