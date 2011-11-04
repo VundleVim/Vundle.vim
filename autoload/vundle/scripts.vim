@@ -33,7 +33,7 @@ func! s:view_log()
   wincmd P | wincmd H
 endf
 
-func vundle#scripts#bundle_names(names)
+func! vundle#scripts#bundle_names(names)
   return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
 endf
 
