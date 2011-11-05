@@ -139,8 +139,15 @@ func! vundle#installer#clean(bang) abort
   call vundle#scripts#view('clean', headers, names)
   redraw
 
-  if (a:bang || empty(names) || input('Continue ? [ y/n ]:') =~? 'y')
+  if (a:bang || empty(names))
     call s:process(a:bang, 'D')
+  else
+    call inputsave()
+    let response = input('Continue? [Y/n]: ')
+    call inputrestore()
+    if (response =~? 'y' || response == '')
+      call s:process(a:bang, 'D')
+    endif
   endif
 endf
 
