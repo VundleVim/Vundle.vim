@@ -93,7 +93,7 @@ func! vundle#scripts#view(title, headers, results)
   nnoremap <buffer> c :BundleClean<CR>
   nnoremap <buffer> C :BundleClean!<CR>
 
-  nnoremap <buffer> s :BundleSearch
+  nnoremap <buffer> s :BundleSearch 
   nnoremap <buffer> R :call vundle#scripts#reload()<CR>
 
   " goto first line after headers
