@@ -67,6 +67,8 @@ func! vundle#installer#run(func_name, name, ...) abort
     echo n.' deleted'
   elseif 'helptags' == status
     echo n.' regenerated'
+  elseif 'pinned' == status
+    echo n.' pinned'
   elseif 'error' == status
     echohl Error
     echo 'Error processing '.n
@@ -219,6 +221,11 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
+  " Do not sync if this bundle is pinned
+  if a:bundle.is_pinned()
+    return 'pinned'
+  endif
+
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
