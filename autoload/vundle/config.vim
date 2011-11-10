@@ -38,7 +38,7 @@ func! vundle#config#init_bundle(spec, opts)
 
   " Combine info derived from the spec with the options from the Bundle
   " command.
-  let opts = extend(s:parse_options(a:opts), s:parse_spec(spec))
+  let opts = extend(s:parse_options(a:opts), s:parse_spec(spec), 'keep')
 
   " Include generic bundle methods
   return extend(opts, copy(s:bundle))
