@@ -1,9 +1,9 @@
 func! vundle#installer#new(bang, ...) abort
   let bundles = (a:1 == '') ?
-        \ g:bundles :
+        \ g:bundles.get_sorted_list() :
         \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.spec'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
@@ -53,7 +53,7 @@ func! vundle#installer#run(func_name, name, ...) abort
 
   redraw
 
-  if 'updated' == status 
+  if 'updated' == status
     echo n.' installed'
   elseif 'todate' == status
     echo n.' already installed'
@@ -73,7 +73,7 @@ func! vundle#installer#run(func_name, name, ...) abort
   return status
 endf
 
-func! s:sign(status) 
+func! s:sign(status)
   if (!has('signs'))
     return
   endif
@@ -88,10 +88,12 @@ func! vundle#installer#install_and_require(bang, name) abort
   return result
 endf
 
-func! vundle#installer#install(bang, name) abort
+func! vundle#installer#install(bang, spec) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let spec = substitute(a:spec,"['".'"]\+','','g')
+
+  let b = g:bundles.has_bundle(spec) ? g:bundles.get(spec) : vundle#config#init_bundle(a:spec, {})
 
   return s:sync(a:bang, b)
 endf
@@ -102,7 +104,7 @@ func! vundle#installer#docs() abort
 endf
 
 func! vundle#installer#helptags(bundles) abort
-  let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
+  let bundle_dirs = map(a:bundles.get_sorted_list(),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
 
   call s:log('')
@@ -116,15 +118,15 @@ func! vundle#installer#helptags(bundles) abort
 endf
 
 func! vundle#installer#list(bang) abort
-  let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
+  let bundles = vundle#scripts#bundle_names(map(g:bundles.get_sorted_list(), 'v:val.spec'))
   call vundle#scripts#view('list', ['" My Bundles'], bundles)
   redraw
-  echo len(g:bundles).' bundles configured'
+  echo g:bundles.size().' bundles configured'
 endf
 
 
 func! vundle#installer#clean(bang) abort
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
+  let bundle_dirs = map(copy(g:bundles.get_sorted_list()), 'v:val.path()')
   let all_dirs = split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
@@ -207,7 +209,7 @@ func! s:sync(bang, bundle) abort
 
   let out = s:system(cmd)
   call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
+  call s:log('Bundle '.a:bundle.spec)
   call s:log('$ '.cmd)
   call s:log('> '.out)
 
