@@ -105,7 +105,7 @@ func! vundle#scripts#view(title, headers, results)
 endf
 
 func! s:fetch_scripts(to)
-  let scripts_dir = fnamemodify(expand(a:to), ":h")
+  let scripts_dir = fnamemodify(expand(a:to, 1), ":h")
   if !isdirectory(scripts_dir)
     call mkdir(scripts_dir, "p")
   endif
@@ -134,7 +134,7 @@ func! s:fetch_scripts(to)
 endf
 
 func! s:load_scripts(bang)
-  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json')
+  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []
