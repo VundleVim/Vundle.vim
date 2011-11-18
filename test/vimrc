@@ -57,7 +57,7 @@ filetype plugin indent on      " Automatically detect file types.
 set wildignore+=doc              " should not break helptags
 set wildignore+=.git             " should not break clone
 
-BundleInstall
+" BundleInstall
 
 func! s:assert_bundles() abort
   for b in g:bundles
