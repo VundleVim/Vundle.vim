@@ -1,7 +1,7 @@
 " vim -u test/vimrc
 set nocompatible
 
-let root = '/tmp/vundle_bundles/'
+let root = '/tmp/vundle-test/bundles/'
 let src = 'http://github.com/gmarik/vundle.git' 
 " let src = '~/.vim/bundle/vundle/.git' 
 
