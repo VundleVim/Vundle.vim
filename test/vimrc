@@ -62,7 +62,7 @@ set wildignore+=*/.git/*
 " set wildignore+=doc/*             " should not break clone
 " set wildignore+=*/doc/*
 
-" BundleInstall
+au VimEnter * BundleInstall
 
 func! s:assert_bundles() abort
   for b in g:bundles
