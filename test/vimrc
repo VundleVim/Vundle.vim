@@ -1,12 +1,12 @@
 " vim -u test/vimrc
 set nocompatible
 
-let root = '/tmp/vundle-test/bundles/'
+let root = '/tmp/!vundle-test/bundles/'
 let src = 'http://github.com/gmarik/vundle.git' 
 " let src = '~/.vim/bundle/vundle/.git' 
 
 if !isdirectory(expand(root, 1).'/vundle')
-  exec '!git clone '.src.' '.root.'/vundle'
+  exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
 endif
 
 filetype off
