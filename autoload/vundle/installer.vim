@@ -202,7 +202,15 @@ func! s:sync(bang, bundle) abort
       let cmd = '"'.cmd.'"'                          " enclose in quotes
     endif
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    call s:system('cd '.shellescape(g:bundle_dir).'; git status')
+    if v:shell_error
+      let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    else
+      let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-toplevel'), '\n', '', 'g')
+      let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-prefix'), '\n', '', 'g')
+      let relative_path = prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
+      let cmd = 'cd '.shellescape(top_level).'; git submodule add '.a:bundle.uri.' '.shellescape(relative_path)
+    endif
   endif
 
   let out = s:system(cmd)
