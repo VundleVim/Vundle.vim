@@ -221,7 +221,7 @@ func! s:sync(bang, bundle) abort
     let relative_path = prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
     if isdirectory(git_dir)
       if !(a:bang) | return 'todate' | endif
-      let cmd = 'cd '.shellescape(top_level).' && git submodule update '.shellescape(relative_path)
+      let cmd = 'cd '.shellescape(top_level).' && git submodule update --merge '.shellescape(relative_path)
     else
       let cmd = 'cd '.shellescape(top_level).' && git submodule add '.a:bundle.uri.' '.shellescape(relative_path).' && git submodule init'
     endif
