@@ -206,24 +206,30 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
-  if isdirectory(git_dir)
-    if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
+  call s:system('cd '.shellescape(g:bundle_dir).' && git status')
+  if v:shell_error
+    if isdirectory(git_dir)
+      if !(a:bang) | return 'todate' | endif
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    else
+      let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
     endif
   else
-    call s:system('cd '.shellescape(g:bundle_dir).'; git status')
-    if v:shell_error
-      let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).' && git rev-parse --show-toplevel'), '\n', '', 'g')
+    let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).' && git rev-parse --show-prefix'), '\n', '', 'g')
+    let relative_path = prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
+    if isdirectory(git_dir)
+      if !(a:bang) | return 'todate' | endif
+      let cmd = 'cd '.shellescape(top_level).' && git submodule update '.shellescape(relative_path)
     else
-      let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-toplevel'), '\n', '', 'g')
-      let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-prefix'), '\n', '', 'g')
-      let relative_path = prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
-      let cmd = 'cd '.shellescape(top_level).'; git submodule add '.a:bundle.uri.' '.shellescape(relative_path).'; git submodule init'
+      let cmd = 'cd '.shellescape(top_level).' && git submodule add '.a:bundle.uri.' '.shellescape(relative_path).' && git submodule init'
     endif
+  end
+
+  if (has('win32') || has('win64'))
+    let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
+    let cmd = '"'.cmd.'"'                          " enclose in quotes
   endif
 
   let out = s:system(cmd)
