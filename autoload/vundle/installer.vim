@@ -151,14 +151,27 @@ func! vundle#installer#clean(bang) abort
   endif
 endf
 
-
 func! vundle#installer#delete(bang, dir_name) abort
+  let bundle = vundle#config#init_bundle(a:dir_name, {})
 
-  let cmd = (has('win32') || has('win64')) ?
+  call s:system('cd '.shellescape(g:bundle_dir).'; git status')
+  if v:shell_error
+    let cmd = ''
+  else
+    let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-toplevel'), '\n', '', 'g')
+    let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-prefix'), '\n', '', 'g')
+    let relative_path = prefix.substitute(bundle.path(), g:bundle_dir.'/', '', '')
+
+    let cmd = 'cd '.shellescape(top_level)
+    let cmd .= '; git config -f .git/config --remove-section submodule.'.shellescape(relative_path)
+    let cmd .= '; git config -f .gitmodules --remove-section submodule.'.shellescape(relative_path)
+    let cmd .= '; git rm --cached '.shellescape(relative_path).'; '
+  endif
+
+  let cmd .= (has('win32') || has('win64')) ?
   \           'rmdir /S /Q' :
   \           'rm -rf'
 
-  let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.shellescape(bundle.path())
 
   let out = s:system(cmd)
