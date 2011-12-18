@@ -3,6 +3,7 @@ func! vundle#config#bundle(arg, ...)
   call s:rtp_rm_a()
   call add(g:bundles, bundle)
   call s:rtp_add_a()
+  return bundle
 endf
 
 func! vundle#config#init()

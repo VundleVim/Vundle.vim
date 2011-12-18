@@ -1,7 +1,7 @@
 func! vundle#installer#new(bang, ...) abort
   let bundles = (a:1 == '') ?
         \ g:bundles :
-        \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
+        \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
@@ -83,7 +83,8 @@ endf
 
 func! vundle#installer#install_and_require(bang, name) abort
   let result = vundle#installer#install(a:bang, a:name)
-  let b = vundle#config#init_bundle(a:name, {})
+  let b = vundle#config#bundle(a:name, {})
+  call vundle#installer#helptags([b])
   call vundle#config#require([b])
   return result
 endf
