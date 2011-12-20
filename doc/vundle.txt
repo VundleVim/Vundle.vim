@@ -16,6 +16,7 @@ CONTENTS ~
    4.6. Cleanup                                    |vundle-scripts-cleanup|
 5. Interactive mode                                |vundle-interactive|
 6. Key mappings                                    |vundle-keymappings|
+7. Options                                         |vundle-options|
 
 ===========================================================================
 
@@ -219,6 +220,15 @@ KEY | DESCRIPTION
  c  |  run :BundleClean
  s  |  run :BundleSearch
  R  |  fetch fresh script list from server
+.
+
+                                     *vundle-options*
+7. OPTIONS ~
+
+>
+  let g:vundle_default_git_proto = 'git'
+
+makes Vundle use `git` instead default `https` when building absolute repo URIs
 
 
 vim:tw=78:ts=8:ft=help:norl:
