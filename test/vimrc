@@ -5,7 +5,11 @@ set nowrap
 
 let root = '/tmp/!vundle-test/bundles/'
 let src = 'http://github.com/gmarik/vundle.git' 
+
 " let src = '~/.vim/bundle/vundle/.git' 
+
+" Vundle Options
+" let g:vundle_default_git_proto = 'git'
 
 if !isdirectory(expand(root, 1).'/vundle')
   exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
@@ -19,7 +23,6 @@ runtime macros/matchit.vim
 exec 'set rtp+='.root.'/vundle'
 
 call vundle#rc(root)
-" let g:vundle_default_git_proto = 'git'
 
 Bundle "gmarik/vundle"
 
