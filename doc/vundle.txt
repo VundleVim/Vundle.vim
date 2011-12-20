@@ -159,7 +159,7 @@ Searching requires [`curl`](http://curl.haxx.se/)
 4.5 LISTING BUNDLES ~
                                      *vundle-scripts-list* *BundleList*
 
-To quickly pull list of configured bundles use >
+To quickly pull list of installed bundles use >
 
     :BundleList
 
@@ -170,13 +170,13 @@ run >
 
     :BundleClean
 
-requires confirmation before removal of unused script-dirs from your `.vim/bundle`. 
+confirms removal of unused script-dirs from `.vim/bundle/`.
 
                                                             *BundleClean!*
 >
     :BundleClean! 
 
-removes unused scripts with no questions.
+removes unused dirs with no questions.
 
 
                                      *vundle-interactive*
