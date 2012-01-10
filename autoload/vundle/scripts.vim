@@ -42,7 +42,7 @@ func! vundle#scripts#view(title, headers, results)
     exec g:vundle_view.'bd!'
   endif
 
-  exec 'silent pedit [Vundle] '.a:title
+  exec 'noautocmd silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
 
