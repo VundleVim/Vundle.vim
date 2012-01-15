@@ -56,7 +56,8 @@
 
 3. Install configured bundles:
 
-     Launch `vim`, run `:BundleInstall`. 
+     Launch `vim`, run `:BundleInstall` 
+     (or `vim +BundleInstall +qall` for CLI lovers)
 
      *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
