@@ -11,6 +11,16 @@ func! vundle#installer#new(bang, ...) abort
   call vundle#config#require(bundles)
 endf
 
+func! vundle#installer#load(...)
+    echom join(a:000,'')
+  let bundles = (a:0 == '') ?
+        \ g:bundles :
+        \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+  call vundle#config#require(bundles)
+  " apply newly loaded ftbundles to currently open buffers
+  echom join(bundles,'')
+  doautoall BufRead
+endf
 
 func! s:process(bang, cmd)
   let msg = ''

@@ -7,6 +7,9 @@
 com! -nargs=+         Bundle
 \ call vundle#config#bundle(<args>)
 
+com! -nargs=+         BundleLoad
+\ call vundle#installer#load(<args>)
+
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
 
