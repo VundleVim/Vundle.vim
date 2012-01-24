@@ -71,18 +71,29 @@ func! s:rtp_add_a()
 endf
 
 func! s:rtp_rm(dir) abort
-  exec 'set rtp-='.fnameescape(expand(a:dir, 1))
-  exec 'set rtp-='.fnameescape(expand(a:dir.'/after', 1))
+  exec 'set rtp-='.s:fnameescape(expand(a:dir, 1))
+  exec 'set rtp-='.s:fnameescape(expand(a:dir.'/after', 1))
 endf
 
 func! s:rtp_add(dir) abort
-  exec 'set rtp^='.fnameescape(expand(a:dir, 1))
-  exec 'set rtp+='.fnameescape(expand(a:dir.'/after', 1))
+  exec 'set rtp^='.s:fnameescape(expand(a:dir, 1))
+  exec 'set rtp+='.s:fnameescape(expand(a:dir.'/after', 1))
 endf
 
 func! s:expand_path(path) abort
   return simplify(expand(a:path, 1))
 endf
+
+" Backport of fnameescape().
+function! s:fnameescape(string)
+  if exists('*fnameescape')
+    return fnameescape(a:string)
+  elseif a:string ==# '-'
+    return '\-'
+  else
+    return substitute(escape(a:string," \t\n*?[{`$\\%#'\"|!<"),'^[+>]','\\&','')
+  endif
+endfunction
 
 let s:bundle = {}
 
