@@ -40,27 +40,49 @@ func! s:parse_options(opts)
 endf
 
 func! s:parse_name(arg)
-  let arg = a:arg
+
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
 
-  if    arg =~? '^\s*\(gh\|github\):\S\+'
-  \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
-    let uri = git_proto.'://github.com/'.split(arg, ':')[-1]
-    if uri !~? '\.git$'
-      let uri .= '.git'
-    endif
-    let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
-  elseif arg =~? '^\s*\(git@\|git://\)\S\+' 
-  \   || arg =~? '\(file\|https\?\)://'
-  \   || arg =~? '\.git\s*$'
-    let uri = arg
-    let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
+  " default to git
+  let type = 'git'
+
+  " mercurial
+  if a:arg[:3] ==# 'bit:'
+      " bit:{N}/{repo}      {"type": "hg", "uri": "http://bitbucket.org/{Name}/{repo}}
+      let uri = 'https://bitbucket.org/'.a:arg[len('bit:'):]
+      let name = split(uri,'\/')[-1]
+      let type = 'hg'
+  elseif a:arg[:2]==#'hg:'
+      " hg:{uri}          {"type": "hg", "uri": {uri}}
+      let uri = a:arg[len('hg:'):]
+      let name = split(uri,'\/')[-1]
+      let type = 'hg'
+      " bazaar
+  elseif a:arg[:2]==#'lp:'
+      let uri = a:arg
+      let name = split (uri, ':')[-1]
+      let type = 'bzr'
+      " git
+  elseif a:arg =~? '^\s*\(gh\|github\):\S\+'
+              \  || a:arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
+      " github|gh:{N}/{Repo}  {"type": "git", "uri": "git://github.com/{N}/{Repo}"}
+      let uri = git_proto.'://github.com/'.split(a:arg, ':')[-1]
+      if uri !~? '\.git$'
+          let uri .= '.git'
+      endif
+      let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
+  elseif a:arg =~? '^\s*\(git@\|git://\)\S\+' 
+              \   || a:arg =~? '\(file\|https\?\)://'
+              \   || a:arg =~? '\.git\s*$'
+      " git|https:{uri}          {"type": "git", "uri": {uri}}
+      let uri = a:arg
+      let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
   else
-    let name = arg
-    let uri  = git_proto.'://github.com/vim-scripts/'.name.'.git'
+      let name = a:arg
+      let uri  = git_proto.'://github.com/vim-scripts/'.name.'.git'
   endif
-  return {'name': name, 'uri': uri, 'name_spec': arg }
-endf
+  return {'name': name, 'uri': uri, 'name_spec': a:arg, 'type':type }
+  endf
 
 func! s:rtp_rm_a()
   call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')

@@ -195,17 +195,49 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
-  let git_dir = expand(a:bundle.path().'/.git/', 1)
-  if isdirectory(git_dir)
-    if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
+  let types = {'.git' : 'git', '.hg' : 'hg', '.bzr' : 'bzr', '.svn': 'svn' }
+  " not sure if necessary, will detect DVCS type from directory
+  if empty(a:bundle.type)
+    for [k,t] in items(types)
+      let repo_dir = expand(a:bundle.path().'/.'.k.'/')
+      if isdirectory(repo_dir) | let type = t | break | endif
+    endfor
+  else
+    let type = a:bundle.type
+    let repo_dir = expand(a:bundle.path().'/.'.a:bundle.type.'/')
+  endif
+
+  let dir = shellescape(a:bundle.path())
+
+  let vcs_update = {
+        \'git': 'cd '.dir.' && git pull',
+        \'hg':  'hg pull -u -R '.dir,
+        \'bzr': 'bzr pull -d '.dir,
+        \'svn': 'cd '.dir.' && svn update'}  
+
+  let vcs_checkout = {
+        \'git':  'git clone '.a:bundle.uri.' '.dir.'',
+        \'hg':   'hg clone '.a:bundle.uri.' '.dir.'',
+        \'bzr':  'bzr branch '.a:bundle.uri.' '.dir.'',
+        \'svn':  ''}
+  
+  if type =~ '^\%(git\|hg\|bzr\|svn\)$'
+    " if folder already exists, just pull
+    if isdirectory(repo_dir)
+      if !(a:bang) | return 'todate' | endif
+      let cmd = vcs_update[type]
+    else
+      let cmd = vcs_checkout[type]
     endif
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    " how did we get here?
+    return
+  endif
+
+  if s:iswindows()
+    let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
+    let cmd = '"'.cmd.'"'                          " enclose in quotes
   endif
 
   let out = s:system(cmd)
@@ -233,4 +265,8 @@ func! s:log(str) abort
   let fmt = '%y%m%d %H:%M:%S'
   call add(g:vundle_log, '['.strftime(fmt).'] '.a:str)
   return a:str
+endf
+
+func! s:iswindows() abort
+  return has("win16") || has("win32") || has("win64")
 endf
