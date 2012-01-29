@@ -12,15 +12,27 @@ func! vundle#installer#new(bang, ...) abort
 endf
 
 func! vundle#installer#load(...)
-    echom join(a:000,'')
+  " echom join(a:000,'')
   let bundles = (a:0 == '') ?
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
   call vundle#config#require(bundles)
+
+  " check for parameter function
+  for v in bundles
+      :call s:settings(v.name)
+  endfor
   " apply newly loaded ftbundles to currently open buffers
-  echom join(bundles,'')
+  " echom join(bundles,'')
   doautoall BufRead
 endf
+
+func! s:settings(name)
+      exec "echom 'Param_".a:name."'"
+  if exists("*Params_".a:name)
+      exec "call Param_".a:name
+  endif
+endfunc
 
 func! s:process(bang, cmd)
   let msg = ''
@@ -133,18 +145,26 @@ func! vundle#installer#list(bang) abort
   echo len(g:bundles).' bundles configured'
 endf
 
-
-func! vundle#installer#clean(bang) abort
+func! vundle#installer#unloaded() abort
   let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
   let all_dirs = v:version >= 702 ? split(globpath(g:bundle_dir, '*', 1), "\n") : split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
+  return map(copy(x_dirs), 'fnamemodify(v:val, ":t")')
+endfunc
 
-  if empty(x_dirs)
+func! vundle#installer#clean(bang, name) abort
+
+  let unloaded = vundle#installer#unloaded()
+
+  if empty(unloaded)
     let headers = ['" All clean!']
     let names = []
+  elseif a:name =~ join(unloaded,'\|')
+    let headers = ['" Removing bundle:']
+    let names = vundle#scripts#bundle_names([a:name])
   else
     let headers = ['" Removing bundles:']
-    let names = vundle#scripts#bundle_names(map(copy(x_dirs), 'fnamemodify(v:val, ":t")'))
+    let names = vundle#scripts#bundle_names(unloaded)
   end
 
   call vundle#scripts#view('clean', headers, names)

@@ -7,7 +7,7 @@
 com! -nargs=+         Bundle
 \ call vundle#config#bundle(<args>)
 
-com! -nargs=+         BundleLoad
+com! -nargs=+ -complete=custom,vundle#scripts#unloaded BundleLoad
 \ call vundle#installer#load(<args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
@@ -22,8 +22,8 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles
 com! -nargs=0 -bang BundleList
 \ call vundle#installer#list('!'=='<bang>')
 
-com! -nargs=? -bang   BundleClean
-\ call vundle#installer#clean('!' == '<bang>')
+com! -nargs=? -bang -complete=custom,vundle#scripts#unloaded BundleClean
+\ call vundle#installer#clean('!' == '<bang>', <args>)
 
 com! -nargs=0         BundleDocs 
 \ call vundle#installer#helptags(g:bundles)
