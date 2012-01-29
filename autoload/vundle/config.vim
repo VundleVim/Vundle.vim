@@ -65,11 +65,19 @@ func! s:parse_name(arg)
 endf
 
 func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath)')
+  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let prepends = join(paths, ',')
+  let appends = join(paths, '/after,').'/after'
+  exec 'set rtp-='.fnameescape(prepends)
+  exec 'set rtp-='.fnameescape(appends)
 endf
 
 func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath)')
+  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let prepends = join(paths, ',')
+  let appends = join(paths, '/after,').'/after'
+  exec 'set rtp^='.fnameescape(prepends)
+  exec 'set rtp+='.fnameescape(appends)
 endf
 
 func! s:rtp_rm(dir) abort
