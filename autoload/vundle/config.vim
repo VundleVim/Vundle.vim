@@ -14,7 +14,7 @@ endf
 
 func! vundle#config#require(bundles) abort
   for b in a:bundles
-    call s:rtp_add(b.rtpath())
+    call s:rtp_add(b.rtpath)
     call s:rtp_add(g:bundle_dir)
     " TODO: it has to be relative rtpath, not bundle.name
     exec 'runtime! '.b.name.'/plugin/*.vim'
@@ -25,7 +25,9 @@ endf
 
 func! vundle#config#init_bundle(name, opts)
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
-  return extend(opts, copy(s:bundle))
+  let b = extend(opts, copy(s:bundle))
+  let b.rtpath = s:rtpath(opts)
+  return b
 endf
 
 func! s:parse_options(opts)
@@ -63,11 +65,11 @@ func! s:parse_name(arg)
 endf
 
 func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
+  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath)')
 endf
 
 func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
+  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath)')
 endf
 
 func! s:rtp_rm(dir) abort
@@ -84,12 +86,13 @@ func! s:expand_path(path) abort
   return simplify(expand(a:path, 1))
 endf
 
+func! s:rtpath(opts)
+  return has_key(a:opts, 'rtp') ? s:expand_path(a:opts.path().'/'.a:opts.rtp) : a:opts.path()
+endf
+
 let s:bundle = {}
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
 endf
 
-func! s:bundle.rtpath()
-  return has_key(self, 'rtp') ? s:expand_path(self.path().'/'.self.rtp) : self.path()
-endf
