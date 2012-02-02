@@ -9,7 +9,7 @@
 1. Setup [Vundle]:
 
      ```
-     $ git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+     $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
      ```
 
 2. Configure bundles:
