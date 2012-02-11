@@ -38,11 +38,11 @@ func! s:parse_options(opts)
 endf
 
 func! s:parse_name(arg)
-  let opts = {}
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
   let args = split(a:arg, '\s\+')
   let arg = args[0]
 
+  let opts = {'v': 'master'}
   " Bundle 'gmarik/vundle v0.8'
   if len(args) == 2
     let revision = args[1]
@@ -66,7 +66,7 @@ func! s:parse_name(arg)
     let uri  = git_proto.'://github.com/vim-scripts/'.name.'.git'
   endif
 
-  return extend(opts, {'name': name, 'uri': uri, 'name_spec': arg })
+  return extend(opts, {'name': name, 'uri': uri, 'name_spec': a:arg })
 endf
 
 func! s:rtp_rm_a()

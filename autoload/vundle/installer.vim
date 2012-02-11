@@ -196,23 +196,28 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
+  let is_dir = isdirectory(git_dir)
 
-  let revision = 'master'
-
-  if has_key(a:bundle, 'v') && !empty(a:bundle['v'])
-    let revision = a:bundle['v']
+  if is_dir && !(a:bang)
+    return 'todate'
   end
 
-  if isdirectory(git_dir)
-    if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull '.a:bundle.uri.' '.revision.':'.revision
+  let cd_cmd = 'cd '.shellescape(a:bundle.path())
+  if (has('win32') || has('win64'))
+    let cd_cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
+  endif
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
-    endif
+  if is_dir
+    let cmd = cd_cmd.' && git pull '.a:bundle.uri
   else
-    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path()).' && '.cd_cmd
+  endif
+
+  let v = a:bundle['v']
+  let cmd .= ' && git checkout '.v
+
+  if (has('win32') || has('win64'))
+    let cmd = '"'.cmd.'"'                          " enclose in quotes
   endif
 
   let out = s:system(cmd)
