@@ -196,9 +196,16 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
+
+  let revision = 'master'
+
+  if has_key(a:bundle, 'v') && !empty(a:bundle['v'])
+    let revision = a:bundle['v']
+  end
+
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull '.a:bundle.uri.' '.revision.':'.revision
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
@@ -221,6 +228,24 @@ func! s:sync(bang, bundle) abort
   if out =~# 'up-to-date'
     return 'todate'
   end
+
+
+" " checkout revision
+" " master by default
+"
+" lcd `=a:bundle.path()`
+" let cmd = 'git checkout '.revision
+"
+" silent exec '!'.cmd
+"
+" if 0 != v:shell_error
+"   echohl Error | echo 'Error checking out "'.a:bundle.name.'   '.revision.'". Failed cmd: '.cmd | echohl None
+"   return [v:shell_error, 'error']
+" end
+"
+"   return [0, 'ok']
+" endf
+
 
   return 'updated'
 endf

@@ -24,24 +24,29 @@ func! vundle#config#require(bundles) abort
 endf
 
 func! vundle#config#init_bundle(name, opts)
-  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
+  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')), 'keep')
   return extend(opts, copy(s:bundle))
 endf
 
 func! s:parse_options(opts)
-  " TODO: improve this
-  if len(a:opts) != 1 | return {} | endif
-
-  if type(a:opts[0]) == type({})
+  " ignore everything except first argument
+  " which supposed to be option hash
+  if len(a:opts) == 1 && type(a:opts[0]) == type({})
     return a:opts[0]
-  else
-    return {'rev': a:opts[0]}
   endif
+  return {}
 endf
 
 func! s:parse_name(arg)
-  let arg = a:arg
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
+  let args = split(a:arg, '\s\+')
+  let arg = args[0]
+
+  " Bundle 'gmarik/vundle v0.8'
+  if len(args) == 2
+    let revision = args[1]
+    let opts['v'] = revision
+  end
 
   if    arg =~? '^\s*\(gh\|github\):\S\+'
   \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
@@ -59,7 +64,8 @@ func! s:parse_name(arg)
     let name = arg
     let uri  = git_proto.'://github.com/vim-scripts/'.name.'.git'
   endif
-  return {'name': name, 'uri': uri, 'name_spec': arg }
+
+  return extend(opts, {'name': name, 'uri': uri, 'name_spec': arg })
 endf
 
 func! s:rtp_rm_a()
