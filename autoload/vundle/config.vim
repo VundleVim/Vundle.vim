@@ -38,6 +38,7 @@ func! s:parse_options(opts)
 endf
 
 func! s:parse_name(arg)
+  let opts = {}
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
   let args = split(a:arg, '\s\+')
   let arg = args[0]
