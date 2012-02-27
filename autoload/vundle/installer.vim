@@ -198,11 +198,12 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'git --git-dir='.shellescape(git_dir).' pull'
 
     if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
+      " For Windows, enclose in quotes.
+      " http://groups.google.com/group/vim_use/browse_thread/thread/bab99ec9253c59ed
+      let cmd = '"'.cmd.'"'
     endif
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
