@@ -202,7 +202,8 @@ func! s:sync(bang, bundle) abort
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
+      " Bad case. this is double and double quoting...
+      "let cmd = '"'.cmd.'"'                          " enclose in quotes
     endif
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
