@@ -69,13 +69,3 @@ set wildignore+=*/.git/*
 " set wildignore+=*/doc/*
 
 au VimEnter * BundleInstall
-
-func! s:assert_bundles() abort
-  for b in g:bundles
-    if (!isdirectory(b.path().'/.git/'))
-      throw b.name.' not installed'
-    endif
-  endfor
-endf
-
-call s:assert_bundles()
