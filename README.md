@@ -82,7 +82,7 @@
 Also [Vundle]:
 
 - manages runtime path of your installed scripts
-- regenerates helptag atomatically
+- regenerates helptag automatically
 
 ## Docs
 
