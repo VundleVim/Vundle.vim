@@ -35,11 +35,15 @@ endf
 
 func! s:create_changelog() abort
   for bundle in g:updated_bundles
+    let update_sha = system('cd '.shellescape(bundle.path()).' && git rev-list -1 vundle_update')[0:9]
     let updates = system('cd '.shellescape(bundle.path()).
           \              ' && git log --pretty=format:"%s   %an, %ar" --graph'.
           \              ' vundle_update..HEAD')
     call add(g:vundle_changelog, '')
     call add(g:vundle_changelog, 'Updated Bundle: '.bundle.name)
+    if bundle.uri =~ "https://github.com"
+      call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.update_sha.'...HEAD')
+    endif
     for update in split(updates, '\n')
       let update = substitute(update, '\s\+$', '', '')
       call add(g:vundle_changelog, '  '.update)
