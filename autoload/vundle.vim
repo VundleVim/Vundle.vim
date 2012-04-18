@@ -30,7 +30,8 @@ if (has('signs'))
 sign define Vu_error    text=!  texthl=Error
 sign define Vu_active   text=>  texthl=Comment
 sign define Vu_todate   text=.  texthl=Comment
-sign define Vu_updated  text=+  texthl=Comment
+sign define Vu_new      text=+  texthl=Comment
+sign define Vu_updated  text=*  texthl=Comment
 sign define Vu_deleted  text=-  texthl=Comment
 endif
 

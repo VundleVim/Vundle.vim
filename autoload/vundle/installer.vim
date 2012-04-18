@@ -53,8 +53,10 @@ func! vundle#installer#run(func_name, name, ...) abort
 
   redraw
 
-  if 'updated' == status 
+  if 'new' == status
     echo n.' installed'
+  elseif 'updated' == status
+    echo n.' updated'
   elseif 'todate' == status
     echo n.' already installed'
   elseif 'deleted' == status
@@ -218,9 +220,11 @@ func! s:sync(bang, bundle) abort
     return 'error'
   end
 
-  if out =~# 'up-to-date'
+  if out =~# 'Cloning into '
+    return 'new'
+  elseif out =~# 'up-to-date'
     return 'todate'
-  end
+  endif
 
   return 'updated'
 endf
