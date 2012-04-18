@@ -227,7 +227,7 @@ func! s:sync(bang, bundle) abort
     return 'todate'
   endif
 
-  call s:add_to_updated_bundle_list(a:bundle)
+  call add(g:updated_bundles, a:bundle)
   return 'updated'
 endf
 
@@ -238,14 +238,6 @@ endf
 func! s:add_update_tag(bundle) abort
   call s:system('cd '.shellescape(a:bundle.path()).
         \  ' && git tag -a vundle_update -m "Last Vundle Update" -f')
-endfunc
-
-func! s:add_to_updated_bundle_list(bundle) abort
-  let current_commit = s:system('cd '.shellescape(a:bundle.path()).' && git rev-list HEAD')
-  let initial_commit = s:system('cd '.shellescape(a:bundle.path()).' && git rev-list vundle_update')
-  if (0 == v:shell_error) && (initial_commit != current_commit)
-    call add(g:updated_bundles, a:bundle)
-  endif
 endfunc
 
 func! s:log(str) abort
