@@ -132,6 +132,7 @@ run >
     :BundleInstall!             " NOTE: bang(!)
 
 installs or updates configured scripts.
+press u after updates complete to see the changelog of all updated bundles.
 
 4.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
@@ -175,7 +176,7 @@ confirms removal of unused script-dirs from `.vim/bundle/`.
 
                                                             *BundleClean!*
 >
-    :BundleClean! 
+    :BundleClean!
 
 removes unused dirs with no questions.
 

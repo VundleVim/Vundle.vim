@@ -41,7 +41,7 @@
      Bundle 'git://git.wincent.com/command-t.git'
      " ...
 
-     filetype plugin indent on     " required! 
+     filetype plugin indent on     " required!
      "
      " Brief help
      " :BundleList          - list configured bundles
@@ -62,7 +62,7 @@
      *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
      Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
-     
+
 4. Consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T44EJZX8RBUWY)
 
 [*Thank you*](http://j.mp/rSbm01) for supporting this project! )
@@ -145,7 +145,7 @@ see [wiki](/gmarik/vundle/wiki)
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
 [install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L110-124
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L128-133
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L135-157
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L167-179
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L183-209
+[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L128-134
+[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L136-158
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L168-180
+[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L184-210
