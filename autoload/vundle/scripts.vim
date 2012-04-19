@@ -34,16 +34,19 @@ func! s:view_log()
 endf
 
 func! s:create_changelog() abort
-  for bundle in g:updated_bundles
+  for bundle_data in g:updated_bundles
+    let initial_sha = bundle_data[0]
+    let updated_sha = bundle_data[1]
+    let bundle      = bundle_data[2]
+
     let updates = system('cd '.shellescape(bundle.path()).
-          \              ' && git log --pretty=format:"%s   %an, %ar" --graph'.
-          \              ' vundle_update..HEAD')
+          \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
+          \               initial_sha.'..'.updated_sha)
     call add(g:vundle_changelog, '')
     call add(g:vundle_changelog, 'Updated Bundle: '.bundle.name)
 
     if bundle.uri =~ "https://github.com"
-      let update_sha = system('cd '.shellescape(bundle.path()).' && git rev-list -1 vundle_update')[0:9]
-      call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.update_sha.'...HEAD')
+      call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
     endif
 
     for update in split(updates, '\n')
