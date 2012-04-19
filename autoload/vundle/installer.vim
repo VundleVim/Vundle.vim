@@ -29,6 +29,10 @@ func! s:process(bang, cmd)
       let msg = 'With errors; press l to view log'
     endif
 
+    if 'updated' == g:vundle_last_status && empty(msg)
+      let msg = 'Bundles updated; press u to view changelog'
+    endif
+
     " goto next one
     exec ':+1'
 
@@ -226,12 +230,21 @@ func! s:sync(bang, bundle) abort
     return 'todate'
   endif
 
+  call s:add_to_updated_bundles(out, a:bundle)
   return 'updated'
 endf
 
 func! s:system(cmd) abort
   return system(a:cmd)
 endf
+
+func! s:add_to_updated_bundles(out, bundle) abort
+  let git_pull_shas = matchlist(a:out, 'Updating \(\w\+\)..\(\w\+\)')
+  let initial_sha = git_pull_shas[1]
+  let updated_sha = git_pull_shas[2]
+
+  call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
+endfunc
 
 func! s:log(str) abort
   let fmt = '%y%m%d %H:%M:%S'
