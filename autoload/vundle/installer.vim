@@ -240,6 +240,9 @@ endf
 
 func! s:add_to_updated_bundles(out, bundle) abort
   let git_pull_shas = matchlist(a:out, 'Updating \(\w\+\)..\(\w\+\)')
+
+  if (empty(git_pull_shas)) | return | endif
+
   let initial_sha = git_pull_shas[1]
   let updated_sha = git_pull_shas[2]
 
