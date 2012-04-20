@@ -212,7 +212,7 @@ func! s:sync(bang, bundle) abort
     if (has('win32') || has('win64'))
       let change_cmd = substitute(change_cmd, '^cd ','cd /d ','')  " add /d switch to change drives
       let change_cmd = '"'.change_cmd.'"'                          " enclose in quotes
-  endif
+    endif
 
     let cmd = change_cmd.' && git rev-parse HEAD'
     let initial_sha = s:system(cmd)
