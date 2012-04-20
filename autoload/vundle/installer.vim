@@ -65,6 +65,8 @@ func! vundle#installer#run(func_name, name, ...) abort
     echo n.' already installed'
   elseif 'deleted' == status
     echo n.' deleted'
+  elseif 'helptags' == status
+    echo n.' regenerated'
   elseif 'error' == status
     echohl Error
     echo 'Error processing '.n
@@ -105,7 +107,7 @@ endf
 
 func! vundle#installer#docs() abort
   call vundle#installer#helptags(g:bundles)
-  return 'updated'
+  return 'helptags'
 endf
 
 func! vundle#installer#helptags(bundles) abort
