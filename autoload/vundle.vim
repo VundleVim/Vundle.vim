@@ -38,7 +38,7 @@ endif
 
 
 func! vundle#rc(...) abort
-  let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
+  let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : globpath(&rtp, "bundle")
   let g:updated_bundles = []
   let g:vundle_log = []
   let g:vundle_changelog = ['Updated Bundles:']
