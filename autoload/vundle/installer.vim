@@ -212,8 +212,12 @@ func! s:sync(bang, bundle) abort
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
       let cmd = '"'.cmd.'"'                          " enclose in quotes
     endif
+
+    let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
+    let initial_sha = s:system(get_current_sha)[0:15]
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let initial_sha = ''
   endif
 
   let out = s:system(cmd)
@@ -226,30 +230,23 @@ func! s:sync(bang, bundle) abort
     return 'error'
   end
 
-  if out =~# 'Cloning into '
+  if empty(initial_sha)
     return 'new'
-  elseif out =~# 'up-to-date'
+  endif
+
+  let updated_sha = s:system(get_current_sha)[0:15]
+
+  if initial_sha == updated_sha
     return 'todate'
   endif
 
-  call s:add_to_updated_bundles(out, a:bundle)
+  call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
   return 'updated'
 endf
 
 func! s:system(cmd) abort
   return system(a:cmd)
 endf
-
-func! s:add_to_updated_bundles(out, bundle) abort
-  let git_pull_shas = matchlist(a:out, 'Updating \(\w\+\)..\(\w\+\)')
-
-  if (empty(git_pull_shas)) | return | endif
-
-  let initial_sha = git_pull_shas[1]
-  let updated_sha = git_pull_shas[2]
-
-  call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
-endfunc
 
 func! s:log(str) abort
   let fmt = '%y%m%d %H:%M:%S'
