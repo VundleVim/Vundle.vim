@@ -170,7 +170,7 @@ func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.shellescape(bundle.path())
 
-  let out = s:system(cmd)
+  let out = g:windows_safe_cd_system(cmd)
 
   call s:log('')
   call s:log('Bundle '.a:dir_name)
@@ -208,19 +208,14 @@ func! s:sync(bang, bundle) abort
     if !(a:bang) | return 'todate' | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
-    endif
-
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
-    let initial_sha = s:system(get_current_sha)[0:15]
+    let initial_sha = g:windows_safe_cd_system(get_current_sha)[0:15]
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
     let initial_sha = ''
   endif
 
-  let out = s:system(cmd)
+  let out = g:windows_safe_cd_system(cmd)
   call s:log('')
   call s:log('Bundle '.a:bundle.name_spec)
   call s:log('$ '.cmd)
@@ -234,7 +229,7 @@ func! s:sync(bang, bundle) abort
     return 'new'
   endif
 
-  let updated_sha = s:system(get_current_sha)[0:15]
+  let updated_sha = g:windows_safe_cd_system(get_current_sha)[0:15]
 
   if initial_sha == updated_sha
     return 'todate'
@@ -244,8 +239,14 @@ func! s:sync(bang, bundle) abort
   return 'updated'
 endf
 
-func! s:system(cmd) abort
-  return system(a:cmd)
+func! g:windows_safe_cd_system(cmd) abort
+  if (has('win32') || has('win64'))
+    let cmd = substitute(a:cmd, '^cd ','cd /d ','')  " add /d switch to change drives
+    let cmd = '"'.cmd.'"'                          " enclose in quotes
+    return system(cmd)
+  else
+    return system(a:cmd)
+  endif
 endf
 
 func! s:log(str) abort
