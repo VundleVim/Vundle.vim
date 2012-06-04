@@ -265,32 +265,36 @@ endf
 
 fun! s:update_local() abort "{{{
 
+    let local_dir = shellescape(g:vundle_local_dir)
+    let bundle_dir = shellescape(g:bundle_dir)
     call s:log('')
     call s:log('Remove dir of localbundle')
     if has('win32') || has('win64')
-        let cmd = "rd /S /Q ".g:vundle_local_dir
+        let cmd = "rd /S /Q ".local_dir
         let out = s:system(cmd)
     else
-        let cmd = "rm -rf ".g:vundle_local_dir
+        let cmd = "rm -rf ".local_dir
     endif
     let out = s:system(cmd)
     call s:log('$ '.cmd)
     call s:log('> '.out)
 
-    call mkdir(g:vundle_local_dir, "p")
+    call mkdir(local_dir, "p")
 
     call s:log('')
     call s:log('copy to localbundle ')
     if has('win32') || has('win64')
-        let dirs = split(glob(g:bundle_dir."/*/"),"\n")
+        let dirs = split(glob(bundle_dir.'/*/'),'\n')
         for dir in dirs
-            let cmd = "cd /d " . shellescape(dir) . " && xcopy /E /Y /C /I * ".g:vundle_local_dir
+            let cmd = 'cd /d ' . shellescape(dir) . ' && xcopy /E /Y /C /I * '.local_dir
+            let cmd = '"'.cmd.'"' 
+            
             let out = s:system(cmd)
             call s:log('$ '.cmd)
             call s:log('> '.out)
         endfor
     else
-        let cmd = "cp -rnl ".g:bundle_dir."/*/* ".g:vundle_local_dir
+        let cmd = "cp -rnl ".bundle_dir."/*/* ".local_dir
         let out = s:system(cmd)
         call s:log('$ '.cmd)
         call s:log('> '.out)
