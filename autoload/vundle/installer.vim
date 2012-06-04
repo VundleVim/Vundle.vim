@@ -287,7 +287,7 @@ fun! s:update_local() abort "{{{
         let dirs = split(glob(g:bundle_dir.'/*/'),'\n')
         for dir in dirs
             let cmd = 'cd /d ' . shellescape(dir) . ' && xcopy /E /Y /C /I * '.local_dir
-            let cmd = "'".cmd."'"
+            " let cmd = "'".cmd."'"
             let out = s:system(cmd)
             call s:log('$ '.cmd)
             call s:log('> '.out)
