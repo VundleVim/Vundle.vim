@@ -286,9 +286,7 @@ fun! s:update_local() abort "{{{
     if has('win32') || has('win64')
         let dirs = split(glob(g:bundle_dir.'/*/'),'\n')
         for dir in dirs
-            echo dir shellescape(dir."*")
             let cmd =   'xcopy /E /Y /C /I '.shellescape(dir."*").' '.local_dir
-            " let cmd = "'".cmd."'"
             let out = s:system(cmd)
             call s:log('$ '.cmd)
             call s:log('> '.out)
