@@ -58,7 +58,7 @@
 
     ```vim
 
-    " only load once
+    " load only once to improve vimrc reloading speed
     if !exists("g:vimrc_bundle_loaded")
         let g:vimrc_bundle_loaded=1
         set nocompatible
