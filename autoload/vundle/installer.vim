@@ -279,7 +279,7 @@ fun! s:update_local() abort "{{{
     call s:log('$ '.cmd)
     call s:log('> '.out)
 
-    call mkdir(local_dir, "p")
+    call mkdir(g:vundle_local_dir, "p")
 
     call s:log('')
     call s:log('copy to localbundle ')
