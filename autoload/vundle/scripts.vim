@@ -109,6 +109,7 @@ func! vundle#scripts#view(title, headers, results)
   setl syntax=vim
   syn keyword vimCommand Bundle
   syn keyword vimCommand Helptags
+  syn keyword vimCommand LocalBundle LocalHelptags
 
   com! -buffer -bang -nargs=1 DeleteBundle
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
@@ -121,6 +122,12 @@ func! vundle#scripts#view(title, headers, results)
 
   com! -buffer -bang -nargs=0 InstallHelptags 
     \ call vundle#installer#run('vundle#installer#docs', 'helptags', [])
+
+  com! -buffer -bang -nargs=0 InstallLocalHelptags 
+    \ call vundle#installer#run('vundle#installer#localdocs', 'localhelptags', [])
+
+  com! -buffer -bang -nargs=0 InstallLocalBundle
+    \ call vundle#installer#run('vundle#installer#local', 'localbundle', [])
 
   com! -buffer -nargs=0 VundleLog call s:view_log()
 

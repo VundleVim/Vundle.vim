@@ -253,3 +253,68 @@ func! s:log(str) abort
   call add(g:vundle_log, '['.strftime(fmt).'] '.a:str)
   return a:str
 endf
+
+fun! vundle#installer#localdocs() abort
+    call s:helptags(g:bundle_local_dir)
+    return 'helptags'
+endfun
+
+func! vundle#installer#local() abort
+    return s:update_local()
+endf
+
+fun! s:update_local() abort "{{{
+
+    call s:log('')
+    call s:log('Remove dir of localbundle')
+    if has('win32') || has('win64')
+        let cmd = "rd /S /Q ".g:bundle_local_dir
+        let out = s:system(cmd)
+    else
+        let cmd = "rm -rf ".g:bundle_local_dir
+    endif
+    let out = s:system(cmd)
+    call s:log('$ '.cmd)
+    call s:log('> '.out)
+
+    call mkdir(g:bundle_local_dir, "p")
+
+    call s:log('')
+    call s:log('copy to localbundle ')
+    if has('win32') || has('win64')
+        let dirs = split(glob(g:bundle_dir."/*/"),"\n")
+        for dir in dirs
+            exe "cd /d ".dir
+            let cmd = "xcopy /E /Y /C /I * ".g:bundle_local_dir
+            let out = s:system(cmd)
+            call s:log('$ '.cmd)
+            call s:log('> '.out)
+        endfor
+    else
+        let cmd = "cp -rnl ".g:bundle_dir."/*/* ".g:bundle_local_dir
+        let out = s:system(cmd)
+        call s:log('$ '.cmd)
+        call s:log('> '.out)
+    endif
+
+    if 0 != v:shell_error
+        return 'error'
+    else
+        return 'updated'
+    end
+    
+endfun "}}}
+
+function! vundle#installer#update_local(bang,...) "{{{
+  let bundles = (a:1 == '') ?
+        \ g:bundles :
+        \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+
+    let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+    call vundle#scripts#view('Installer',['" Update Bundle and install to '.expand(g:bundle_local_dir, 1)], names +  ['LocalBundle','LocalHelptags'])
+
+    call s:process(a:bang, (a:bang ? 'add!' : 'add'))
+
+    call vundle#config#require(bundles)
+
+endfunction "}}}
