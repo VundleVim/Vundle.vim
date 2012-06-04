@@ -39,12 +39,19 @@ endif
 
 
 func! vundle#rc(...) abort
-  let g:vundle_local_dir = exists("g:vundle_local_dir") ? 
-              \ expand(g:vundle_local_dir) : expand('$HOME/.vim/localbundle', 1)
-  let g:vundle_local = exists("g:vundle_local") ? g:vundle_local : 0
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
   let g:updated_bundles = []
   let g:vundle_log = []
   let g:vundle_changelog = ['Updated Bundles:']
+
+  let g:vundle_local = exists("g:vundle_local") ? g:vundle_local : 0
+  let g:vundle_local_dir = exists("g:vundle_local_dir") ? 
+              \ expand(g:vundle_local_dir) : expand('$HOME/.vim/localbundle', 1)
+  if filereadable(g:vundle_local_dir."/autoload/vundle.vim") && g:vundle_local
+      exe 'set rtp^='.g:vundle_local_dir
+      exe 'set rtp+='.g:vundle_local_dir.'/after'
+      set rtp-=~/.vim/bundle/vundle
+  endif
+
   call vundle#config#init()
 endf

@@ -60,39 +60,28 @@
 
     " only load once
     if !exists("g:vimrc_bundle_loaded")
+        let g:vimrc_bundle_loaded=1
         set nocompatible
         syntax on
         filetype off 
         
-        " set it to 1 then vundle will only adding the localbundle dir to &rtp.
+        " set it to 1 to enable it
+        " then vundle will only adding the localbundle dir to &rtp.
         let g:vundle_local = 1
-        " set the default localbundle directory
-        let g:vundle_local_dir = '~/.vim/localbundle'
+        " set the localbundle directory
+        " let g:vundle_local_dir = '~/.vim/localbundle'
 
-        if filereadable(expand(g:vundle_local_dir)."/autoload/vundle.vim")
-            exe 'set rtp^='.g:vundle_local_dir
-            exe 'set rtp+='.g:vundle_local_dir.'/after'
-        else
-            " make sure it's there
-            " otherwise clone it
-            " git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-            set rtp+=~/.vim/bundle/vundle
-        endif
-
+        set rtp+=~/.vim/bundle/vundle
         call vundle#rc()
         Bundle 'gmarik/vundle'
 
-        Bundle 'majutsushi/tagbar'
-        Bundle 'sjl/gundo.vim'
-
         Bundle 'scrooloose/nerdtree'
-        Bundle 'scrooloose/syntastic'
+
         Bundle 'Rykka/colorv.vim'
         Bundle 'Rykka/galaxy.vim'
 
         " ...
         filetype plugin indent on     " required!
-        let g:vimrc_bundle_loaded=1
     endif "}}}
 
     ```
