@@ -48,8 +48,8 @@ func! vundle#rc(...) abort
   let g:vundle_local_dir = exists("g:vundle_local_dir") ? 
               \ expand(g:vundle_local_dir) : expand('$HOME/.vim/localbundle', 1)
   if filereadable(g:vundle_local_dir."/autoload/vundle.vim") && g:vundle_local
-      exe 'set rtp^='.g:vundle_local_dir
-      exe 'set rtp+='.g:vundle_local_dir.'/after'
+      exe 'set rtp^='.fnameescape(g:vundle_local_dir)
+      exe 'set rtp+='.fnameescape(g:vundle_local_dir.'/after')
       set rtp-=~/.vim/bundle/vundle
   endif
 
