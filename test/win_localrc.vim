@@ -38,13 +38,9 @@ runtime macros/matchit.vim
 " set it to 1 then vundle will only adding the localbundle dir to &rtp.
 let g:vundle_local = 1
 " set the default localbundle directory
-let g:vundle_local_dir = '~/.vim/localbundle'
-if filereadable(expand(g:vundle_local_dir)."/autoload/vundle.vim")
-    exe 'set rtp^='.g:vundle_local_dir
-    exe 'set rtp+='.g:vundle_local_dir.'/after'
-else
-    exec 'set rtp+='.root.'/vundle'
-endif
+"let g:vundle_local_dir = '~/.vim/localbundle'
+
+exec 'set rtp+='.root.'/vundle'
 
 call vundle#rc(root)
 
