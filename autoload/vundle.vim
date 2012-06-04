@@ -39,8 +39,8 @@ endif
 
 
 func! vundle#rc(...) abort
-  let g:bundle_local_dir = exists("g:bundle_local_dir") ? 
-              \ expand(g:bundle_local_dir) : expand('$HOME/.vim/localbundle', 1)
+  let g:vundle_local_dir = exists("g:vundle_local_dir") ? 
+              \ expand(g:vundle_local_dir) : expand('$HOME/.vim/localbundle', 1)
   let g:vundle_local = exists("g:vundle_local") ? g:vundle_local : 0
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
   let g:updated_bundles = []

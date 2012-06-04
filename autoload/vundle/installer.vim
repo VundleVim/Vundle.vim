@@ -255,7 +255,7 @@ func! s:log(str) abort
 endf
 
 fun! vundle#installer#localdocs() abort
-    call s:helptags(g:bundle_local_dir)
+    call s:helptags(g:vundle_local_dir)
     return 'helptags'
 endfun
 
@@ -268,16 +268,16 @@ fun! s:update_local() abort "{{{
     call s:log('')
     call s:log('Remove dir of localbundle')
     if has('win32') || has('win64')
-        let cmd = "rd /S /Q ".g:bundle_local_dir
+        let cmd = "rd /S /Q ".g:vundle_local_dir
         let out = s:system(cmd)
     else
-        let cmd = "rm -rf ".g:bundle_local_dir
+        let cmd = "rm -rf ".g:vundle_local_dir
     endif
     let out = s:system(cmd)
     call s:log('$ '.cmd)
     call s:log('> '.out)
 
-    call mkdir(g:bundle_local_dir, "p")
+    call mkdir(g:vundle_local_dir, "p")
 
     call s:log('')
     call s:log('copy to localbundle ')
@@ -285,13 +285,13 @@ fun! s:update_local() abort "{{{
         let dirs = split(glob(g:bundle_dir."/*/"),"\n")
         for dir in dirs
             exe "cd /d ".dir
-            let cmd = "xcopy /E /Y /C /I * ".g:bundle_local_dir
+            let cmd = "xcopy /E /Y /C /I * ".g:vundle_local_dir
             let out = s:system(cmd)
             call s:log('$ '.cmd)
             call s:log('> '.out)
         endfor
     else
-        let cmd = "cp -rnl ".g:bundle_dir."/*/* ".g:bundle_local_dir
+        let cmd = "cp -rnl ".g:bundle_dir."/*/* ".g:vundle_local_dir
         let out = s:system(cmd)
         call s:log('$ '.cmd)
         call s:log('> '.out)
@@ -311,7 +311,7 @@ function! vundle#installer#update_local(bang,...) "{{{
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
     let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-    call vundle#scripts#view('Installer',['" Update Bundle and install to '.expand(g:bundle_local_dir, 1)], names +  ['LocalBundle','LocalHelptags'])
+    call vundle#scripts#view('Installer',['" Update Bundle and install to '.expand(g:vundle_local_dir, 1)], names +  ['LocalBundle','LocalHelptags'])
 
     call s:process(a:bang, (a:bang ? 'add!' : 'add'))
 
