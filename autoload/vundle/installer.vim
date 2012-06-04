@@ -284,8 +284,7 @@ fun! s:update_local() abort "{{{
     if has('win32') || has('win64')
         let dirs = split(glob(g:bundle_dir."/*/"),"\n")
         for dir in dirs
-            exe "cd /d " . shellescape(dir)
-            let cmd = "xcopy /E /Y /C /I * ".g:vundle_local_dir
+            let cmd = "cd /d " . shellescape(dir) . " && xcopy /E /Y /C /I * ".g:vundle_local_dir
             let out = s:system(cmd)
             call s:log('$ '.cmd)
             call s:log('> '.out)
