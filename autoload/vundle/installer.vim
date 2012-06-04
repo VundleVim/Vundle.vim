@@ -284,7 +284,7 @@ fun! s:update_local() abort "{{{
     call s:log('')
     call s:log('copy to localbundle ')
     if has('win32') || has('win64')
-        let dirs = split(glob(bundle_dir.'/*/'),'\n')
+        let dirs = split(glob(g:bundle_dir.'/*/'),'\n')
         for dir in dirs
             let cmd = 'cd /d ' . shellescape(dir) . ' && xcopy /E /Y /C /I * '.local_dir
             let out = s:system(cmd)
