@@ -20,6 +20,10 @@ func! vundle#config#require(bundles) abort
     exec 'runtime! '.b.name.'/plugin/*.vim'
     exec 'runtime! '.b.name.'/after/*.vim'
     call s:rtp_rm(g:bundle_dir)
+    if g:vundle_local!=0 
+        exec 'runtime! '.b.name.'/autoload/*.vim'
+        call s:rtp_rm(b.rtpath) 
+    endif
   endfor
 endf
 
