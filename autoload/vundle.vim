@@ -50,7 +50,7 @@ func! vundle#rc(...) abort
   if filereadable(g:vundle_local_dir."/autoload/vundle.vim") && g:vundle_local
       exe 'set rtp^='.fnameescape(g:vundle_local_dir)
       exe 'set rtp+='.fnameescape(g:vundle_local_dir.'/after')
-      set rtp-=~/.vim/bundle/vundle
+      exe 'set rtp-='.fnameescape(g:bundle_dir)
   endif
 
   call vundle#config#init()
