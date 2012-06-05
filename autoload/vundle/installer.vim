@@ -271,7 +271,6 @@ fun! s:update_local() abort "{{{
     call s:log('Remove dir of localbundle')
     if has('win32') || has('win64')
         let cmd = "rd /S /Q ".local_dir
-        let out = s:system(cmd)
     else
         let cmd = "rm -rf ".local_dir
     endif
