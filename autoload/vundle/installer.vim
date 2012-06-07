@@ -206,7 +206,7 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
