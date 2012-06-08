@@ -3,7 +3,7 @@ func! vundle#installer#new(bang, ...) abort
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  let names = vundle#scripts#bundle_names(map(values(bundles), 'v:val.name_spec'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
@@ -39,7 +39,7 @@ func! s:process(bang, cmd)
     setl nomodified
   endfor
 
-  redraw
+   redraw
   echo 'Done! '.msg
 endf
 
@@ -89,18 +89,27 @@ func! s:sign(status)
   exe ":sign place ".line('.')." line=".line('.')." name=Vu_". a:status ." buffer=" . bufnr("%")
 endf
 
-func! vundle#installer#install_and_require(bang, name) abort
-  let result = vundle#installer#install(a:bang, a:name)
-  let b = vundle#config#bundle(a:name, {})
+func! vundle#installer#install_and_require(bang, name_spec) abort
+  let result = vundle#installer#install(a:bang, a:name_spec)
+  let opts = vundle#config#parse_name_spec(a:name_spec)
+  if    !has_key(g:bundles, opts.name) 
+  \  || g:bundles[opts.name].name_spec != opts.name_spec
+    let b = vundle#config#bundle(opts.name, opts)
+  endif
   call vundle#installer#helptags([b])
   call vundle#config#require([b])
   return result
 endf
 
-func! vundle#installer#install(bang, name) abort
+func! vundle#installer#install(bang, name_spec) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
-
-  let b = vundle#config#init_bundle(a:name, {})
+  let opts = vundle#config#parse_name_spec(a:name_spec)
+  if    has_key(g:bundles, opts.name)
+  \  && g:bundles[opts.name].name_spec == opts.name_spec
+    let b = g:bundles[opts.name]
+  else
+    let b = vundle#config#init_bundle(opts.name, opts)
+  endif
 
   return s:sync(a:bang, b)
 endf
@@ -111,7 +120,7 @@ func! vundle#installer#docs() abort
 endf
 
 func! vundle#installer#helptags(bundles) abort
-  let bundle_dirs = map(copy(a:bundles),'v:val.rtpath')
+  let bundle_dirs = map(values(a:bundles),'v:val.rtpath()')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
 
   call s:log('')
@@ -133,7 +142,7 @@ endf
 
 
 func! vundle#installer#clean(bang) abort
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
+  let bundle_dirs = map(values(g:bundles), 'v:val.path()') 
   let all_dirs = v:version >= 702 ? split(globpath(g:bundle_dir, '*', 1), "\n") : split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
@@ -158,6 +167,7 @@ func! vundle#installer#clean(bang) abort
       call s:process(a:bang, 'D')
     endif
   endif
+  "TODO add checks to ensure bundle's remote origin is same as specified uri
 endf
 
 
@@ -203,10 +213,16 @@ func! s:helptags(rtp) abort
 endf
 
 func! s:sync(bang, bundle) abort
+  "bundle dev friendly:
+  "if bundle has local flag - skip it as it's files is not managed by vundle
+  if get(a:bundle, 'local', 0) == 1
+    return 'todate'
+  endif
   let git_dir = expand(a:bundle.path().'/.git/', 1)
+  let target_treeish = get(a:bundle, 'tree-ish', '')
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout master && git pull --ff-only --all'
 
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
@@ -215,6 +231,8 @@ func! s:sync(bang, bundle) abort
 
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let initial_sha = s:system(get_current_sha)[0:15]
+    "make sure non-hash will not be accidentally matched
+    if (len(target_treeish) > 5 && stridx(initial_sha, target_treeish) == 0) | return 'todate' | endif
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
     let initial_sha = ''
@@ -229,6 +247,19 @@ func! s:sync(bang, bundle) abort
   if 0 != v:shell_error
     return 'error'
   end
+
+  if (!empty(target_treeish))
+    let checkout_cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout '.shellescape(target_treeish)
+    let out = s:system(checkout_cmd)
+    call s:log('')
+    call s:log('Checkout tree-ish: '. target_treeish)
+    call s:log('$ '.checkout_cmd)
+    call s:log('> '.out)
+
+    if 0 != v:shell_error
+      return 'error'
+    end
+  endif
 
   if empty(initial_sha)
     return 'new'
