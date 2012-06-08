@@ -219,23 +219,27 @@ func! s:sync(bang, bundle) abort
     return 'todate'
   endif
   let git_dir = expand(a:bundle.path().'/.git/', 1)
-  let target_treeish = get(a:bundle, 'tree-ish', '')
+  let target_treeish = get(a:bundle, 'tree-ish', 'master')
+  let cd = 'cd '
+  if (has('win32') || has('win64'))
+    let cd = 'cd /d ' " add /d switch to change drives
+  endif
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout master && git pull --ff-only --all'
+    let cmd = cd . shellescape(a:bundle.path()).' && git fetch --all && git checkout '.shellescape(target_treeish)
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
-    endif
-
-    let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
+    let get_current_sha = cd . shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let initial_sha = s:system(get_current_sha)[0:15]
     "make sure non-hash will not be accidentally matched
     if (len(target_treeish) > 5 && stridx(initial_sha, target_treeish) == 0) | return 'todate' | endif
   else
     let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let cmd .= ' && '. cd . shellescape(a:bundle.path()).' && git checkout '.shellescape(target_treeish) 
     let initial_sha = ''
+  endif
+
+  if (has('win32') || has('win64'))
+    let cmd = '"'.cmd.'"'   " enclose in quotesi
   endif
 
   let out = s:system(cmd)
@@ -247,19 +251,6 @@ func! s:sync(bang, bundle) abort
   if 0 != v:shell_error
     return 'error'
   end
-
-  if (!empty(target_treeish))
-    let checkout_cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout '.shellescape(target_treeish)
-    let out = s:system(checkout_cmd)
-    call s:log('')
-    call s:log('Checkout tree-ish: '. target_treeish)
-    call s:log('$ '.checkout_cmd)
-    call s:log('> '.out)
-
-    if 0 != v:shell_error
-      return 'error'
-    end
-  endif
 
   if empty(initial_sha)
     return 'new'
