@@ -226,7 +226,7 @@ func! s:sync(bang, bundle) abort
   endif
   if isdirectory(git_dir)
     if !(a:bang) | return 'todate' | endif
-    let cmd = cd . shellescape(a:bundle.path()).' && git fetch --all && git checkout '.shellescape(target_treeish)
+    let cmd = cd . shellescape(a:bundle.path()).' && git checkout master && git pull --ff-only --all && git checkout '.shellescape(target_treeish)
 
     let get_current_sha = cd . shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let initial_sha = s:system(get_current_sha)[0:15]

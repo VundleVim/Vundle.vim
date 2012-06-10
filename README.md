@@ -23,6 +23,7 @@
      set rtp+=~/.vim/bundle/vundle/
      call vundle#rc()
 
+     " format: Bundle (git_url)|([vendor/]name)[ as alternate_install_name][, tree-ish][, {options}] 
      " let Vundle manage Vundle
      " required! 
      Bundle 'gmarik/vundle'
@@ -32,13 +33,15 @@
      " original repos on github
      Bundle 'tpope/vim-fugitive'
      Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-     Bundle 'tpope/vim-rails.git'
      " vim-scripts repos
      Bundle 'L9'
      Bundle 'FuzzyFinder'
      " non github repos
      Bundle 'git://git.wincent.com/command-t.git'
+     " alternate install name 
+     Bundle 'rstacruz/sparkup as sparky', {'rtp': 'vim/'}
+     " specific tree-ish, in this case commit hash
+     Bundle 'tpope/vim-rails.git', '257bed767d589e2fcda59732d79fc871365cb0ef'
      " ...
 
      filetype plugin indent on     " required!
@@ -131,7 +134,7 @@ see [wiki](/gmarik/vundle/wiki)
 * √ put vundle to bundles/ too(will fix vundle help)
 * √ tests
 * √ improve error handling
-* allow specify revision/version?
+* √ allow specify git tree-ish (commit/branch/tag)
 * handle dependencies
 * show description in search results
 * search by description as well
