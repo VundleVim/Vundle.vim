@@ -24,7 +24,7 @@ func! vundle#config#require(bundles) abort
 endf
 
 func! vundle#config#init_bundle(name, opts)
-  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
+  let opts = extend(s:parse_options(split( substitute( join(a:opts),"['".'"]\+','','g') )), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
   let b = extend(opts, copy(s:bundle))
   let b.rtpath = s:rtpath(opts)
   return b
@@ -32,13 +32,25 @@ endf
 
 func! s:parse_options(opts)
   " TODO: improve this
-  if len(a:opts) != 1 | return {} | endif
-
-  if type(a:opts[0]) == type({})
-    return a:opts[0]
-  else
-    return {'rev': a:opts[0]}
-  endif
+  let parsed_opts = {}
+  for opt in a:opts
+    if type(opt) == type({})
+      " already a dict
+      call extend( parsed_opts, opt )
+    elseif type(opt) == type("")
+      " a string. detect delimiter
+      if opt =~? '\S\+=\S\+'             " is it a '='
+        let [key,val] = split( opt, '=' )
+      elseif opt =~? '\S\+:\S\+'        " is it a ':'
+        let [key,val] = split( opt, ':' )
+      else
+       let key = 'could_not_parse'
+       let val = opt
+      endif
+      let parsed_opts[key] = val
+    endif
+  endfor
+  return parsed_opts
 endf
 
 func! s:parse_name(arg)
@@ -95,7 +107,14 @@ func! s:expand_path(path) abort
 endf
 
 func! s:rtpath(opts)
-  return has_key(a:opts, 'rtp') ? s:expand_path(a:opts.path().'/'.a:opts.rtp) : a:opts.path()
+  if has_key(a:opts, 'rtp')  " check if user set rtp
+    return s:expand_path(a:opts.path().'/'.a:opts.rtp)
+  elseif has_key(a:opts, 'rtpath')  " check if user set rtpath
+    return s:expand_path(a:opts.path().'/'.a:opts.rtpath)
+  else
+    " default to the bundles path
+    return has_key(a:opts, 'rtp') ? s:expand_path(a:opts.path().'/'.a:opts.rtp) : a:opts.path()
+  endif
 endf
 
 let s:bundle = {}

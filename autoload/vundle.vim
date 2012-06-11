@@ -5,7 +5,7 @@
 " Version:      0.9
 
 com! -nargs=+         Bundle
-\ call vundle#config#bundle(<args>)
+\ call vundle#config#bundle(<f-args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
