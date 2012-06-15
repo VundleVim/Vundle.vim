@@ -43,6 +43,8 @@
      " specific tree-ish, in this case commit hash
      Bundle 'tpope/vim-rails.git', '257bed767d589e2fcda59732d79fc871365cb0ef'
      " ...
+     " option 'local': 1 tells Vundle not to install/update this bundle, but still register its resources. 
+     " Bundle 'some-local-bundle', {'local': 1}
 
      filetype plugin indent on     " required!
      "
