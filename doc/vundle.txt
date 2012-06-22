@@ -79,6 +79,18 @@ in order to install/search [all available vim scripts]
      " or 
      " filetype plugin on          " to not use the indentation settings set by plugins
 
+   Options
+
+     Options can specified by passing a dictionary to the second argument of the Bundle command. In the
+     example above, the 'rtp' option, which specifies the directory that a bundles runtime files are located
+     in relative to the bundle's top directory, is passed to the 'rstacruz/sparkup' bundle. Options can be
+     used to override the default parameters that are extracted from the bundle name. Note, multiple options
+     are passed through a *single* dictionary. Options that can be set:
+
+        rtp       : The directory (relative to the bundle's main directory) that contains the plugin's runtime files.
+        uri       : The bundle's uri for a 'git clone'. This can be used to specify a ssh:// uri, which vundle does not support directly
+        name      : The bundle's name, the bundle will be cloned into a subdirectory of the bundle directory with this name
+
 3) Install configured bundles:
 
    Launch `vim`, run >
