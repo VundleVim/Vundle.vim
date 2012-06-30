@@ -44,3 +44,7 @@ func! vundle#rc(...) abort
   let g:vundle_changelog = ['Updated Bundles:']
   call vundle#config#init()
 endf
+
+func! vundle#hasBundle(bundle_install_name)
+  return exists('g:bundles') && has_key(g:bundles, a:bundle_install_name)
+endf
