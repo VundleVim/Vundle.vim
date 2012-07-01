@@ -204,7 +204,7 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
-  if isdirectory(git_dir)
+  if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
 
