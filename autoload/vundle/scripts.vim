@@ -163,7 +163,7 @@ func! s:fetch_scripts(to)
     let temp = shellescape(tempname())
     let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.shellescape(a:to)
     if (has('win32') || has('win64')) 
-      let cmd = substitute(cmd, 'mv -f ', 'mv /Y ') " change force flag
+      let cmd = substitute(cmd, 'mv -f ', 'move /Y ', '') " change force flag
       let cmd = '"'.cmd.'"'                         " enclose in quotes so && joined cmds work
     end
   else
