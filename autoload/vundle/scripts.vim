@@ -43,12 +43,7 @@ func! s:create_changelog() abort
           \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
-    endif
-
-    let updates = system(cmd)
+    let updates = g:windows_safe_cd_system(cmd)
 
     call add(g:vundle_changelog, '')
     call add(g:vundle_changelog, 'Updated Bundle: '.bundle.name)
