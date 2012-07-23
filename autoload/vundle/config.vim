@@ -1,14 +1,14 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
-  call s:rtp_rm_a()
+  if g:vundle_local==0 | call s:rtp_rm_a() | endif
   call add(g:bundles, bundle)
-  call s:rtp_add_a()
+  if g:vundle_local==0 | call s:rtp_add_a() | endif
   return bundle
 endf
 
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
-  call s:rtp_rm_a()
+  if g:vundle_local==0 | call s:rtp_rm_a() | endif
   let g:bundles = []
 endf
 
@@ -20,6 +20,10 @@ func! vundle#config#require(bundles) abort
     exec 'runtime! '.b.name.'/plugin/*.vim'
     exec 'runtime! '.b.name.'/after/*.vim'
     call s:rtp_rm(g:bundle_dir)
+    if g:vundle_local!=0 
+        exec 'runtime! '.b.name.'/autoload/*.vim'
+        call s:rtp_rm(b.rtpath) 
+    endif
   endfor
 endf
 

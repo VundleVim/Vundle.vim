@@ -53,6 +53,38 @@
      " NOTE: comments after Bundle command are not allowed..
 
      ```
+    
+    Sample `.vimrc` for the using of `localbundle` 
+
+    ```vim
+
+    " load only once to improve vimrc reloading speed
+    if !exists("g:vimrc_bundle_loaded")
+        let g:vimrc_bundle_loaded=1
+        set nocompatible
+        syntax on
+        filetype off 
+        
+        " set it to 1 to enable it
+        " then vundle will only adding the localbundle dir to &rtp.
+        let g:vundle_local = 1
+        " set the localbundle directory
+        " let g:vundle_local_dir = '~/.vim/localbundle'
+
+        set rtp+=~/.vim/bundle/vundle
+        call vundle#rc()
+        Bundle 'gmarik/vundle'
+
+        Bundle 'scrooloose/nerdtree'
+
+        Bundle 'Rykka/colorv.vim'
+        Bundle 'Rykka/galaxy.vim'
+
+        " ...
+        filetype plugin indent on     " required!
+    endif "}}}
+
+    ```
 
 3. Install configured bundles:
 

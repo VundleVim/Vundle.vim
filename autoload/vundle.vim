@@ -25,6 +25,7 @@ com! -nargs=? -bang   BundleClean
 com! -nargs=0         BundleDocs 
 \ call vundle#installer#helptags(g:bundles)
 
+com! -bang BundleUpdateLocal call vundle#installer#update_local('!' == '<bang>', <q-args>)
 
 if (has('signs'))
 sign define Vu_error    text=!  texthl=Error
@@ -42,5 +43,15 @@ func! vundle#rc(...) abort
   let g:updated_bundles = []
   let g:vundle_log = []
   let g:vundle_changelog = ['Updated Bundles:']
+
+  let g:vundle_local = exists("g:vundle_local") ? g:vundle_local : 0
+  let g:vundle_local_dir = exists("g:vundle_local_dir") ? 
+              \ expand(g:vundle_local_dir) : expand('$HOME/.vim/localbundle', 1)
+  if filereadable(g:vundle_local_dir."/autoload/vundle.vim") && g:vundle_local
+      exe 'set rtp^='.fnameescape(g:vundle_local_dir)
+      exe 'set rtp+='.fnameescape(g:vundle_local_dir.'/after')
+      exe 'set rtp-='.fnameescape(g:bundle_dir)
+  endif
+
   call vundle#config#init()
 endf
