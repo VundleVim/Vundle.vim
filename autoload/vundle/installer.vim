@@ -100,7 +100,8 @@ endf
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let n = substitute(a:name,"['".'"]\+','','g')
+  let b = filter(copy(g:bundles), 'v:val.name_spec == n')[0]
 
   return s:sync(a:bang, b)
 endf

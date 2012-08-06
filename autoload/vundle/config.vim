@@ -101,6 +101,11 @@ endf
 let s:bundle = {}
 
 func! s:bundle.path()
-  return s:expand_path(g:bundle_dir.'/'.self.name)
+  if exists('self.dir')
+      let dir = self.dir
+  else
+      let dir = self.name
+  endif
+  return s:expand_path(g:bundle_dir.'/'.dir)
 endf
 
