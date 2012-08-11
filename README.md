@@ -90,11 +90,7 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 ## People Using Vundle
 
-   * [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136)
-   * [mutewinter's Vim Config of Champions](https://github.com/mutewinter/dot_vim)
-   * [vimified - Ultimate, kick-ass VIM configuration on top of Vundle](https://github.com/zaiste/vimified)
-
-   If you have an interesting example, feel free to send a pull request with link to your config. Thx!
+see [Examples](/gmarik/vundle/wiki/Examples)
 
 ## FAQ
 
