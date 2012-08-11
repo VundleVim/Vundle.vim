@@ -102,12 +102,7 @@ see [wiki](/gmarik/vundle/wiki)
 
 ## Contributors
 
-* [redlinesoftware](http://redlinesoftware.com) - for lending me 24" monitor!
-* [Marc Jeanson](https://github.com/marcjeanson) - vim dude I always bug for help...;)
-* [Brad Anderson](http://github.com/eco) (windows support)
-* [Ryan W](http://github.com/rygwdn)
-* [termac](http://github.com/termac)
-* and others
+  see [vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 
 *Thank you!*
 
