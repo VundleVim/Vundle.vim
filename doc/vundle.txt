@@ -64,8 +64,8 @@ in order to install/search [all available vim scripts]
      " My Bundles here:
      "
      " original repos on github
-     Bundle 'tpope/vim-fugitive'
-     Bundle 'Lokaltog/vim-easymotion'
+     Bundle 'tpope/vim-fugitive', {'dir': 'plugin-fugitive'}
+     Bundle 'Lokaltog/vim-easymotion', {'dir': 'plugin-easymotion'}
      Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
      " vim-scripts repos
      Bundle 'L9'
@@ -98,6 +98,12 @@ command in `.vimrc`: >
     Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository 
 or >
     Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
+
+If you want install script into a specific directory under bundle, a dictionary
+contains the desired directory name with key 'dir' could be appended to the
+`Bundle` command.
+
+    Bundle 'git_repo_uri', {'dir':'install_dir'}  " the script will be installed at 'bundle/install_dir'
 
 Vundle loves Github, that's why short uris can be used with commands: >
 
