@@ -2,7 +2,7 @@
 
 [Vundle] is short for **V**imb**undle** and is a [Vim] plugin manager.
 
-![Vundle-installer](https://lh3.googleusercontent.com/-4EnLqLpEZlk/TlqXWpgWxOI/AAAAAAAAHRw/oBAl6s1hj7U/vundle-install2.png)
+![Vundle-installer](http://25.media.tumblr.com/tumblr_m8m96w06G81r39828o1_1280.png)
 
 ## Quick start
 
