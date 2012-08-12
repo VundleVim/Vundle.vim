@@ -100,7 +100,15 @@ endf
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
-  let b = vundle#config#init_bundle(a:name, {})
+  "let b = vundle#config#init_bundle(a:name, {})
+  "we've already initialized all these bundles.
+  "we just need to find the one we that corresponds to a:name
+  for bb in g:bundles
+    if ( bb.name_spec == substitute(a:name,"['".'"]\+','','g') )
+      let b = bb
+      break
+    endif
+  endfor
 
   return s:sync(a:bang, b)
 endf

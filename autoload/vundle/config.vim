@@ -23,7 +23,7 @@ func! vundle#config#require(bundles) abort
 endf
 
 func! vundle#config#init_bundle(name, opts)
-  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
+  let opts = extend(s:parse_name(substitute(a:name,"['".'"]\+','','g')), s:parse_options(a:opts))
   let b = extend(opts, copy(s:bundle))
   let b.rtpath = s:rtpath(opts)
   return b
