@@ -1,13 +1,14 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
-  call s:rtp_rm(bundle.rtpath)
+  call s:rtp_rm_a()
   call add(g:bundles, bundle)
-  call s:rtp_add(bundle.rtpath)
+  call s:rtp_add_a()
   return bundle
 endf
 
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
+  call s:rtp_rm_a()
   let g:bundles = []
 endf
 
@@ -63,17 +64,30 @@ func! s:parse_name(arg)
   return {'name': name, 'uri': uri, 'name_spec': arg }
 endf
 
+func! s:rtp_rm_a()
+  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let prepends = join(paths, ',')
+  let appends = join(paths, '/after,').'/after'
+  exec 'set rtp-='.fnameescape(prepends)
+  exec 'set rtp-='.fnameescape(appends)
+endf
+
+func! s:rtp_add_a()
+  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let prepends = join(paths, ',')
+  let appends = join(paths, '/after,').'/after'
+  exec 'set rtp^='.fnameescape(prepends)
+  exec 'set rtp+='.fnameescape(appends)
+endf
+
 func! s:rtp_rm(dir) abort
   exec 'set rtp-='.fnameescape(expand(a:dir, 1))
   exec 'set rtp-='.fnameescape(expand(a:dir.'/after', 1))
 endf
 
 func! s:rtp_add(dir) abort
-  exec 'set rtp+='.fnameescape(expand(a:dir, 1))
-  let after_dir = expand(a:dir.'/after', 1)
-  if isdirectory(after_dir)
-    exec 'set rtp+='.fnameescape(after_dir)
-  end
+  exec 'set rtp^='.fnameescape(expand(a:dir, 1))
+  exec 'set rtp+='.fnameescape(expand(a:dir.'/after', 1))
 endf
 
 func! s:expand_path(path) abort
