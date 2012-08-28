@@ -206,6 +206,7 @@ endf
 
 func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
+  let hg_dir = expand(a:bundle.path().'/.hg/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
     let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
@@ -217,6 +218,9 @@ func! s:sync(bang, bundle) abort
 
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let initial_sha = s:system(get_current_sha)[0:15]
+  else if isdirectory(hg_dir)
+    " Do nothing -- let the user manually install mercurial directories.
+    let cmd = ''
   else
     let cmd = 'git clone --recursive '.a:bundle.uri.' '.shellescape(a:bundle.path())
     let initial_sha = ''
