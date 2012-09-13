@@ -25,6 +25,8 @@ com! -nargs=? -bang   BundleClean
 com! -nargs=0         BundleDocs 
 \ call vundle#installer#helptags(g:bundles)
 
+" Aliases
+com! BundleUpdate BundleInstall!
 
 if (has('signs'))
 sign define Vu_error    text=!  texthl=Error
