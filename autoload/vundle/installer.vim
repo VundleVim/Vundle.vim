@@ -218,7 +218,10 @@ func! s:sync(bang, bundle) abort
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let initial_sha = s:system(get_current_sha)[0:15]
   else
-    let cmd = 'git clone --recursive '.a:bundle.uri.' '.shellescape(a:bundle.path())
+    let push_uri = substitute(a:bundle.uri, 'https://', 'git@', '')
+    let push_uri = substitute(push_uri, 'github.com/', 'github.com:', '')
+    let cmd = 'git clone --recursive '.a:bundle.uri.' '.shellescape(a:bundle.path()).' && '. 
+      \ 'git --git-dir='.shellescape(a:bundle.path().'/.git').' remote set-url --push origin '.push_uri
     let initial_sha = ''
   endif
 
