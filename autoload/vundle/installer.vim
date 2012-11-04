@@ -172,11 +172,6 @@ func! vundle#installer#delete(bang, dir_name) abort
     let unlink_target = expand("$HOME/.vim/ftdetect/", 1)
     let unlink_files = glob(bundle.path().'/ftdetect/*.vim', 1, 1)
 
-    call s:log('bundle path: ' . bundle.path())
-    call s:log('glob path: ' . bundle.path().'/ftdetect/*.vim')
-    call s:log('unlink target: ' . unlink_target)
-    call s:log('unlink files: ' . join(unlink_files, ', '))
-
     for file in unlink_files
       let cmd = 'rm -f '. unlink_target .fnamemodify(file, ':p:t')
       let out = s:system(cmd)
