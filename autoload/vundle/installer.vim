@@ -165,11 +165,33 @@ endf
 
 func! vundle#installer#delete(bang, dir_name) abort
 
+  let bundle = vundle#config#init_bundle(a:dir_name, {})
+
+  " unlink ftdetect files again
+  if !(has('win32') || has('win64'))
+    let unlink_target = expand("$HOME/.vim/ftdetect/", 1)
+    let unlink_files = glob(bundle.path().'/ftdetect/*.vim', 1, 1)
+
+    call s:log('bundle path: ' . bundle.path())
+    call s:log('glob path: ' . bundle.path().'/ftdetect/*.vim')
+    call s:log('unlink target: ' . unlink_target)
+    call s:log('unlink files: ' . join(unlink_files, ', '))
+
+    for file in unlink_files
+      let cmd = 'rm -f '. unlink_target .fnamemodify(file, ':p:t')
+      let out = s:system(cmd)
+
+      call s:log('')
+      call s:log('unlink script file: '.file)
+      call s:log('$ '.cmd)
+      call s:log('> '.out)
+    endfor
+  endif
+
   let cmd = (has('win32') || has('win64')) ?
   \           'rmdir /S /Q' :
   \           'rm -rf'
 
-  let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.shellescape(bundle.path())
 
   let out = s:system(cmd)
@@ -231,6 +253,32 @@ func! s:sync(bang, bundle) abort
   if 0 != v:shell_error
     return 'error'
   end
+
+  " link ftdetect/*.vim in UNIX systems
+  if !(has('win32') || has('win64'))
+    let link_target = expand("$HOME/.vim/ftdetect/", 1)
+    let link_files = glob(a:bundle.path().'/ftdetect/*.vim', 1, 1)
+
+    if !isdirectory(link_target)
+      let cmd = 'mkdir -p ' . link_target
+      let out = s:system(cmd)
+
+      call s:log('')
+      call s:log('create ftdetect dir')
+      call s:log('$ '.cmd)
+      call s:log('> '.out)
+    endif
+
+    for file in link_files
+      let cmd = 'ln -sf '. file .' '. link_target
+      let out = s:system(cmd)
+
+      call s:log('')
+      call s:log('link script file: '.file)
+      call s:log('$ '.cmd)
+      call s:log('> '.out)
+    endfor
+  endif
 
   if empty(initial_sha)
     return 'new'
