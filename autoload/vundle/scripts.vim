@@ -40,7 +40,7 @@ func! s:create_changelog() abort
     let bundle      = bundle_data[2]
 
     let cmd = 'cd '.shellescape(bundle.path()).
-          \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
+          \              ' && ' . git . ' log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 
     if (has('win32') || has('win64'))

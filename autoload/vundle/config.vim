@@ -104,3 +104,6 @@ func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
 endf
 
+func! s:vundle_git_exec()
+  return shellescape(g:vundle_git_exec)
+endf
