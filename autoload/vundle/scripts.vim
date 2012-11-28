@@ -43,10 +43,7 @@ func! s:create_changelog() abort
           \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 
-    if (has('win32') || has('win64'))
-      let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-      let cmd = '"'.cmd.'"'                          " enclose in quotes
-    endif
+    let cmd = g:shellesc_cd(cmd)
 
     let updates = system(cmd)
 
@@ -164,7 +161,7 @@ func! s:fetch_scripts(to)
     let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.shellescape(a:to)
     if (has('win32') || has('win64')) 
       let cmd = substitute(cmd, 'mv -f ', 'move /Y ', '') " change force flag
-      let cmd = '"'.cmd.'"'                         " enclose in quotes so && joined cmds work
+      let cmd = g:shellesc(cmd)
     end
   else
     echoerr 'Error curl or wget is not available!'
