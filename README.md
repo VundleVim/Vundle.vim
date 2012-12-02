@@ -131,7 +131,7 @@ see [wiki](/gmarik/vundle/wiki)
 [Vundle]:http://github.com/gmarik/vundle
 [Pathogen]:http://github.com/tpope/vim-pathogen/
 [Bundler]:http://github.com/wycats/bundler/
-[Vim]:http://vim.org
+[Vim]:http://www.vim.org
 [Git]:http://git-scm.com
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
