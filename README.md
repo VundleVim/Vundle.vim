@@ -1,6 +1,6 @@
 ## About
 
-[Vundle] is short for **V**imb**undle** and is a [Vim] plugin manager.
+[Vundle] is short for _Vim bundle_ and is a [Vim] plugin manager.
 
 ![Vundle-installer](http://25.media.tumblr.com/tumblr_m8m96w06G81r39828o1_1280.png)
 
