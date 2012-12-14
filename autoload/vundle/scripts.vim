@@ -3,12 +3,12 @@ func! vundle#scripts#all(bang, ...)
   let info = ['"Keymap: i - Install bundle; c - Cleanup; s - Search; R - Reload list']
   let matches = s:load_scripts(a:bang)
   if !empty(a:1)
-    let matches = filter(matches, 'v:val =~? "'.escape(a:1,'"').'"')
+    let matches = filter(matches, 'v:val["n"] =~? "'.escape(a:1,'"').'"')
     let info += ['"Search results for: '.a:1]
     " TODO: highlight matches
     let b:match = a:1
   endif
-  call vundle#scripts#view('search',info, vundle#scripts#bundle_names(reverse(matches)))
+  call vundle#scripts#view('search',info, vundle#scripts#bundle_results(reverse(matches)))
   redraw
   echo len(matches).' bundles found'
 endf
@@ -78,6 +78,10 @@ func! vundle#scripts#bundle_names(names)
   return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
 endf
 
+func! vundle#scripts#bundle_results(names)
+  return map(copy(a:names), ' printf("Bundle ' ."'%s'".' \" '."%s".'", v:val["n"], v:val["s"]) ')
+endf
+
 func! vundle#scripts#view(title, headers, results)
   if exists('g:vundle_view') && bufloaded(g:vundle_view)
     exec g:vundle_view.'bd!'
@@ -111,7 +115,7 @@ func! vundle#scripts#view(title, headers, results)
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
 
   com! -buffer -bang -nargs=? InstallAndRequireBundle   
-    \ call vundle#installer#run('vundle#installer#install_and_require', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+    \ call vundle#installer#run('vundle#installer#install_and_require', split(<q-args>,',')[0], ['!' == '<bang>', split(<q-args>,' "')[0]])
 
   com! -buffer -bang -nargs=? InstallBundle
     \ call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
@@ -153,7 +157,7 @@ func! s:fetch_scripts(to)
     call mkdir(scripts_dir, "p")
   endif
 
-  let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts.json'
+  let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts_recent.json'
   if executable("curl")
     let cmd = 'curl --fail -s -o '.shellescape(a:to).' '.l:vim_scripts_json
   elseif executable("wget")
@@ -178,7 +182,7 @@ func! s:fetch_scripts(to)
 endf
 
 func! s:load_scripts(bang)
-  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
+  let f = expand(g:bundle_dir.'/.vundle/script_recent.vim-scripts.org.json', 1)
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []

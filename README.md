@@ -124,7 +124,7 @@ see [wiki](/gmarik/vundle/wiki)
 * √ improve error handling
 * allow specify revision/version?
 * handle dependencies
-* show description in search results
+* √ show description in search results
 * search by description as well
 * make it rock!
 
