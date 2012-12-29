@@ -205,14 +205,14 @@ func! s:sync(bang, bundle) abort
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
     let cmd  = g:shellesc_cd('cd '.bundle_path)
-    let cmd .= ' && git pull'
+    let cmd .= ' && git pull --depth=1'
     let cmd .= ' && git submodule update --init --recursive'
 
     let get_current_sha  = g:shellesc_cd('cd '.bundle_path)
     let get_current_sha .= ' && git rev-parse HEAD'
     let initial_sha = system(get_current_sha)[0:15]
   else
-    let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.bundle_path
+    let cmd = 'git clone --depth=1 --recursive '.shellescape(a:bundle.uri).' '.bundle_path
     let initial_sha = ''
   endif
 
