@@ -3,7 +3,9 @@ func! vundle#installer#new(bang, ...) abort
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  let names = vundle#scripts#bundle_names(map(copy(bundles),
+        \ '{ "name": v:val.name_spec, '.
+        \ '"rtp": has_key(v:val, "rtp") ? v:val.rtp : "" }'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
@@ -100,9 +102,13 @@ endf
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let arg_list = split(a:name, ',')
+  let rtp = len(arg_list) > 1 ? arg_list[1] : ''
+  let rtp = substitute(rtp, "['".'"]\+','','g')
+  let name = arg_list[0]
+  let b = vundle#config#init_bundle(name, {})
 
-  return s:sync(a:bang, b)
+  return s:sync(a:bang, b, rtp)
 endf
 
 func! vundle#installer#docs() abort
@@ -199,23 +205,34 @@ func! s:helptags(rtp) abort
   endtry
 endf
 
-func! s:sync(bang, bundle) abort
+func! s:sync(bang, bundle, rtp) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   let bundle_path = shellescape(a:bundle.path())
+  let cmd = g:shellesc_cd('cd '.bundle_path)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
-    let cmd  = g:shellesc_cd('cd '.bundle_path)
-    let cmd .= ' && git pull --depth=1'
-    let cmd .= ' && git submodule update --init --recursive'
-
     let get_current_sha  = g:shellesc_cd('cd '.bundle_path)
     let get_current_sha .= ' && git rev-parse HEAD'
     let initial_sha = system(get_current_sha)[0:15]
   else
-    let cmd = 'git clone --depth=1 --recursive '.shellescape(a:bundle.uri).' '.bundle_path
+    call mkdir(a:bundle.path(), 'p')
+    let cmd .= ' && git init'
+    let cmd .= ' && git remote add origin '.shellescape(a:bundle.uri)
+    if !empty(a:rtp)
+      " TODO: This requires a feature introduced by git 1.7.0,
+      " so it might be better to check the version before using it
+      let cmd .= ' && git config core.sparseCheckout true'
+      let cmd .= ' && echo '.shellescape(a:rtp).' >> .git/info/sparse-checkout'
+    endif
     let initial_sha = ''
   endif
 
+  let cmd .= ' && git pull --depth=1 origin master'
+  if empty(a:rtp)
+    " TODO: It causes error when using rtp because no .gitmodule
+    " is checked out
+    let cmd .= ' && git submodule update --init --recursive'
+  endif
   call s:system(a:bundle.name_spec, cmd)
 
   if 0 != v:shell_error
