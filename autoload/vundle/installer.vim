@@ -172,12 +172,7 @@ func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.shellescape(bundle.path())
 
-  let out = s:system(cmd)
-
-  call s:log('')
-  call s:log('Bundle '.a:dir_name)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:system(dir_name, cmd)
 
   if 0 != v:shell_error
     return 'error'
@@ -214,17 +209,13 @@ func! s:sync(bang, bundle) abort
 
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let get_current_sha = g:shellesc_cd(get_current_sha)
-    let initial_sha = s:system(get_current_sha)[0:15]
+    let initial_sha = system(get_current_sha)[0:15]
   else
     let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
     let initial_sha = ''
   endif
 
-  let out = s:system(cmd)
-  call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:system(a:bundle.name_spec, cmd)
 
   if 0 != v:shell_error
     return 'error'
@@ -234,7 +225,7 @@ func! s:sync(bang, bundle) abort
     return 'new'
   endif
 
-  let updated_sha = s:system(get_current_sha)[0:15]
+  let updated_sha = system(get_current_sha)[0:15]
 
   if initial_sha == updated_sha
     return 'todate'
@@ -263,8 +254,13 @@ func! g:shellesc_cd(cmd) abort
   endif
 endf
 
-func! s:system(cmd) abort
-  return system(a:cmd)
+func! s:system(dir_name, cmd) abort
+  let out = system(a:cmd)
+  call s:log('')
+  call s:log('Bundle '.a:dir_name)
+  call s:log('$ '.a:cmd)
+  call s:log('> '.out)
+  return out
 endf
 
 func! s:log(str) abort
