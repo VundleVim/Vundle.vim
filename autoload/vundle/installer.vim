@@ -102,7 +102,7 @@ endf
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
-  let arg_list = split(a:name, ',')
+  let arg_list = split(a:name, ',\s*')
   let rtp = len(arg_list) > 1 ? arg_list[1] : ''
   let rtp = substitute(rtp, "['".'"]\+','','g')
   let name = arg_list[0]

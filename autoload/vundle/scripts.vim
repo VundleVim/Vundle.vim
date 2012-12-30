@@ -77,7 +77,7 @@ endf
 func! vundle#scripts#bundle_names(names)
   return map(copy(a:names), 'empty(v:val.rtp) ? '.
               \ 'printf("Bundle ' ."'%s'".'", v:val.name) : '.
-              \ 'printf("Bundle ' ."'%s','%s'".'", v:val.name, v:val.rtp)')
+              \ 'printf("Bundle ' ."'%s', '%s'".'", v:val.name, v:val.rtp)')
 endf
 
 func! vundle#scripts#view(title, headers, results)
