@@ -214,6 +214,7 @@ func! s:sync(bang, bundle, rtp) abort
     let get_current_sha  = g:shellesc_cd('cd '.bundle_path)
     let get_current_sha .= ' && git rev-parse HEAD'
     let initial_sha = system(get_current_sha)[0:15]
+    let cmd .= ' && git pull origin master'
   else
     call mkdir(a:bundle.path(), 'p')
     let cmd .= ' && git init'
@@ -225,9 +226,9 @@ func! s:sync(bang, bundle, rtp) abort
       let cmd .= ' && echo '.shellescape(a:rtp).' >> .git/info/sparse-checkout'
     endif
     let initial_sha = ''
+    let cmd .= ' && git pull --depth=1 origin master'
   endif
 
-  let cmd .= ' && git pull --depth=1 origin master'
   if empty(a:rtp)
     " TODO: It causes error when using rtp because no .gitmodule
     " is checked out
