@@ -28,7 +28,7 @@ func! s:view_log()
   endif
 
   call writefile(g:vundle_log, g:vundle_log_file)
-  silent pedit `=g:vundle_log_file`
+  execute 'silent pedit ' . g:vundle_log_file
 
   wincmd P | wincmd H
 endf
@@ -69,7 +69,7 @@ func! s:view_changelog()
   endif
 
   call writefile(g:vundle_changelog, g:vundle_changelog_file)
-  silent pedit `=g:vundle_changelog_file`
+  execute 'silent pedit ' . g:vundle_changelog_file
 
   wincmd P | wincmd H
 endf
