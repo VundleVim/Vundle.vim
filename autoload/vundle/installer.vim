@@ -198,7 +198,7 @@ func! s:helptags(rtp) abort
   let doc_path = a:rtp.'/doc/'
   call s:log(':helptags '.doc_path)
   try
-    helptags `=doc_path`
+    execute 'helptags ' . doc_path
   catch
     call s:log("> Error running :helptags ".doc_path)
   endtry
