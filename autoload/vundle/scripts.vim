@@ -89,7 +89,19 @@ func! vundle#scripts#get_bundles()
 endf
 
 func! vundle#scripts#bundle_names(names)
-  return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
+  return map(copy(a:names), ' s:split_name(v:val) ')
+endf
+
+func! s:split_name(name)
+  let split_n = split(a:name, ', ')
+  if len(split_n) > 1
+    let ret_val = printf("Bundle '%s', '%s'", split_n[0], split_n[1])
+  else
+    let ret_val = printf("Bundle '%s'", split_n[0])
+  endif
+  echom 'Retval:' ret_val
+
+  return ret_val
 endf
 
 func! vundle#scripts#view(title, headers, results)
