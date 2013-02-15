@@ -225,6 +225,13 @@ func! s:sync(bang, bundle) abort
 
   call s:run_and_log(a:bundle, cmd)
 
+  if has_rev
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout '.a:bundle.rev
+    let cmd = g:shellesc_cd(cmd)
+
+    call s:run_and_log(a:bundle, cmd)
+  endif
+
   if 0 != v:shell_error
     return 'error'
   end
