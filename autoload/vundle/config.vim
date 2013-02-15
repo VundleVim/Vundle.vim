@@ -36,10 +36,7 @@ func! s:parse_options(opts)
   if type(a:opts[0]) == type({})
     return a:opts[0]
   else
-    let foo = split(a:opts[0], ':')
-    let type = foo[0]
-    let name = foo[1]
-    return {type : name}
+    return {'rev' : a:opts[0]}
   endif
 endf
 

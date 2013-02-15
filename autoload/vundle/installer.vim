@@ -99,8 +99,10 @@ endf
 
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+  let args = split(a:name,', ')
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let opts = (len(args) > 1) ? [substitute(args[1],"'",'','g')] : {}
+  let b = vundle#config#init_bundle(args[0], opts)
 
   return s:sync(a:bang, b)
 endf
