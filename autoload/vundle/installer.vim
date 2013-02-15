@@ -223,11 +223,7 @@ func! s:sync(bang, bundle) abort
     let initial_sha = ''
   endif
 
-  let out = s:system(cmd)
-  call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:run_and_log(a:bundle, cmd)
 
   if 0 != v:shell_error
     return 'error'
@@ -245,6 +241,15 @@ func! s:sync(bang, bundle) abort
 
   call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
   return 'updated'
+endf
+
+func! s:run_and_log(bundle, cmd)
+  let out = s:system(a:cmd)
+
+  call s:log('')
+  call s:log('Bundle '.a:bundle.name_spec)
+  call s:log('$ '.a:cmd)
+  call s:log('> '.out)
 endf
 
 func! g:shellesc(cmd) abort
