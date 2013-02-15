@@ -211,13 +211,33 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
 
-    let cmd = g:shellesc_cd(cmd)
+    let has_rev = has_key(a:bundle, 'rev')
 
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let get_current_sha = g:shellesc_cd(get_current_sha)
-    let initial_sha = s:system(get_current_sha)[0:15]
+
+    if !has_rev
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout master'
+      let cmd = g:shellesc_cd(cmd)
+
+      let initial_sha = s:system(get_current_sha)[0:15]
+      call s:run_and_log(a:bundle, cmd)
+
+      let on_branch = ''
+    else
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git branch --contains | grep \* | grep "no branch"'
+      let cmd = g:shellesc_cd(cmd)
+      let on_branch = s:system(cmd)
+
+      let initial_sha = s:system(get_current_sha)[0:15]
+    endif
+
+    if len(on_branch) == 0
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
+      let cmd = g:shellesc_cd(cmd)
+    endif
+
   else
     let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
     let initial_sha = ''
