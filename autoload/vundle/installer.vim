@@ -3,7 +3,7 @@ func! vundle#installer#new(bang, ...) abort
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  let names = vundle#scripts#bundle_names(vundle#scripts#get_bundles())
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
@@ -125,7 +125,8 @@ func! vundle#installer#helptags(bundles) abort
 endf
 
 func! vundle#installer#list(bang) abort
-  let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
+
+  let bundles = vundle#scripts#bundle_names(vundle#scripts#get_bundles())
   call vundle#scripts#view('list', ['" My Bundles'], bundles)
   redraw
   echo len(g:bundles).' bundles configured'
