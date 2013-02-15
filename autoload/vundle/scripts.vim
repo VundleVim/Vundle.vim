@@ -103,7 +103,6 @@ func! s:split_name(name)
   else
     let ret_val = printf("Bundle '%s'", split_n[0])
   endif
-  echom 'Retval:' ret_val
 
   return ret_val
 endf
