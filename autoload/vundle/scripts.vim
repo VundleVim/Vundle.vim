@@ -34,31 +34,30 @@ func! s:view_log()
 endf
 
 func! s:create_changelog() abort
-  for bundle_data in g:updated_bundles
-    let initial_sha = bundle_data[0]
-    let updated_sha = bundle_data[1]
-    let bundle      = bundle_data[2]
+	for bundle_data in g:updated_bundles
+    	let initial_sha = bundle_data[0]
+	    let updated_sha = bundle_data[1]
+	    let bundle      = bundle_data[2]
 
-    let cmd = 'cd '.shellescape(bundle.path()).
-          \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
-          \               initial_sha.'..'.updated_sha
+		call add(g:vundle_changelog, '')
+		call add(g:vundle_changelog, 'Updated Bundle: '.bundle.name)
 
-    let cmd = g:shellesc_cd(cmd)
-
-    let updates = system(cmd)
-
-    call add(g:vundle_changelog, '')
-    call add(g:vundle_changelog, 'Updated Bundle: '.bundle.name)
-
-    if bundle.uri =~ "https://github.com"
-      call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
-    endif
-
-    for update in split(updates, '\n')
-      let update = substitute(update, '\s\+$', '', '')
-      call add(g:vundle_changelog, '  '.update)
-    endfor
-  endfor
+		if bundle.plugin != ''
+			let updates = call("vundle#plugin#" . bundle.plugin . "#create_changelog", [bundle, initial_sha, updated_sha])
+		else
+			let cmd = 'cd ' . shellescape(bundle.path()) . ' && git log --pretty=format:"%s   %an, %ar" --graph ' . initial_sha . '..' . updated_sha
+			let cmd = g:shellesc_cd(cmd)
+			let updates = system(cmd)
+			if bundle.uri =~ "https://github.com"
+    	 		call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
+			endif
+		endif
+			
+		for update in split(updates, '\n')
+			let update = substitute(update, '\s\+$', '', '')
+			call add(g:vundle_changelog, '  '.update)
+		endfor
+	endfor
 endf
 
 func! s:view_changelog()

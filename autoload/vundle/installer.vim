@@ -114,12 +114,12 @@ func! vundle#installer#helptags(bundles) abort
   let bundle_dirs = map(copy(a:bundles),'v:val.rtpath')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
 
-  call s:log('')
-  call s:log('Helptags:')
+  call vundle#installer#log('')
+  call vundle#installer#log('Helptags:')
 
   call map(copy(help_dirs), 's:helptags(v:val)')
 
-  call s:log('Helptags: '.len(help_dirs).' bundles processed')
+  call vundle#installer#log('Helptags: '.len(help_dirs).' bundles processed')
 
   return help_dirs
 endf
@@ -172,12 +172,12 @@ func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.shellescape(bundle.path())
 
-  let out = s:system(cmd)
+  let out = vundle#installer#system(cmd)
 
-  call s:log('')
-  call s:log('Bundle '.a:dir_name)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call vundle#installer#log('')
+  call vundle#installer#log('Bundle '.a:dir_name)
+  call vundle#installer#log('$ '.cmd)
+  call vundle#installer#log('> '.out)
 
   if 0 != v:shell_error
     return 'error'
@@ -196,52 +196,56 @@ endf
 
 func! s:helptags(rtp) abort
   let doc_path = a:rtp.'/doc/'
-  call s:log(':helptags '.doc_path)
+  call vundle#installer#log(':helptags '.doc_path)
   try
     execute 'helptags ' . doc_path
   catch
-    call s:log("> Error running :helptags ".doc_path)
+    call vundle#installer#log("> Error running :helptags ".doc_path)
   endtry
 endf
 
 func! s:sync(bang, bundle) abort
-  let git_dir = expand(a:bundle.path().'/.git/', 1)
-  if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
-    if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
+    if a:bundle.plugin != ''
+		return call("vundle#plugin#" . a:bundle.plugin . "#sync", [a:bang, a:bundle])
+	else
+		let git_dir = expand(a:bundle.path().'/.git/', 1)
+		if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
+			if !(a:bang) | return 'todate' | endif
+			let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
 
-    let cmd = g:shellesc_cd(cmd)
+			let cmd = g:shellesc_cd(cmd)
 
-    let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
-    let get_current_sha = g:shellesc_cd(get_current_sha)
-    let initial_sha = s:system(get_current_sha)[0:15]
-  else
-    let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
-    let initial_sha = ''
-  endif
+			let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
+			let get_current_sha = g:shellesc_cd(get_current_sha)
+			let initial_sha = vundle#installer#system(get_current_sha)[0:15]
+		else
+			let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
+			let initial_sha = ''
+		endif
 
-  let out = s:system(cmd)
-  call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+		let out = vundle#installer#system(cmd)
+		call vundle#installer#log('')
+		call vundle#installer#log('Bundle '.a:bundle.name_spec)
+		call vundle#installer#log('$ '.cmd)
+		call vundle#installer#log('> '.out)
 
-  if 0 != v:shell_error
-    return 'error'
-  end
+		if 0 != v:shell_error
+			return 'error'
+		end
 
-  if empty(initial_sha)
-    return 'new'
-  endif
+		if empty(initial_sha)
+			return 'new'
+		endif
 
-  let updated_sha = s:system(get_current_sha)[0:15]
+		let updated_sha = vundle#installer#system(get_current_sha)[0:15]
 
-  if initial_sha == updated_sha
-    return 'todate'
-  endif
+		if initial_sha == updated_sha
+			return 'todate'
+		endif
 
-  call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
-  return 'updated'
+		call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
+		return 'updated'
+	endif
 endf
 
 func! g:shellesc(cmd) abort
@@ -263,11 +267,11 @@ func! g:shellesc_cd(cmd) abort
   endif
 endf
 
-func! s:system(cmd) abort
+func! vundle#installer#system(cmd) abort
   return system(a:cmd)
 endf
 
-func! s:log(str) abort
+func! vundle#installer#log(str) abort
   let fmt = '%y%m%d %H:%M:%S'
   call add(g:vundle_log, '['.strftime(fmt).'] '.a:str)
   return a:str
