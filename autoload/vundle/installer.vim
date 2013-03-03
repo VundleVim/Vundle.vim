@@ -1,7 +1,7 @@
 func! vundle#installer#new(bang, ...) abort
   let bundles = (a:1 == '') ?
         \ g:bundles :
-        \ map(copy(a:000), 'vundle#config#init_bundle(v:val, {})')
+        \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
@@ -29,6 +29,10 @@ func! s:process(bang, cmd)
       let msg = 'With errors; press l to view log'
     endif
 
+    if 'updated' == g:vundle_last_status && empty(msg)
+      let msg = 'Bundles updated; press u to view changelog'
+    endif
+
     " goto next one
     exec ':+1'
 
@@ -53,12 +57,16 @@ func! vundle#installer#run(func_name, name, ...) abort
 
   redraw
 
-  if 'updated' == status 
+  if 'new' == status
     echo n.' installed'
+  elseif 'updated' == status
+    echo n.' updated'
   elseif 'todate' == status
     echo n.' already installed'
   elseif 'deleted' == status
     echo n.' deleted'
+  elseif 'helptags' == status
+    echo n.' regenerated'
   elseif 'error' == status
     echohl Error
     echo 'Error processing '.n
@@ -83,7 +91,8 @@ endf
 
 func! vundle#installer#install_and_require(bang, name) abort
   let result = vundle#installer#install(a:bang, a:name)
-  let b = vundle#config#init_bundle(a:name, {})
+  let b = vundle#config#bundle(a:name, {})
+  call vundle#installer#helptags([b])
   call vundle#config#require([b])
   return result
 endf
@@ -98,11 +107,11 @@ endf
 
 func! vundle#installer#docs() abort
   call vundle#installer#helptags(g:bundles)
-  return 'updated'
+  return 'helptags'
 endf
 
 func! vundle#installer#helptags(bundles) abort
-  let bundle_dirs = map(copy(a:bundles),'v:val.rtpath()')
+  let bundle_dirs = map(copy(a:bundles),'v:val.rtpath')
   let help_dirs = filter(bundle_dirs, 's:has_doc(v:val)')
 
   call s:log('')
@@ -125,7 +134,9 @@ endf
 
 func! vundle#installer#clean(bang) abort
   let bundle_dirs = map(copy(g:bundles), 'v:val.path()') 
-  let all_dirs = split(globpath(g:bundle_dir, '*', 1), "\n")
+  let all_dirs = (v:version > 702 || (v:version == 702 && has("patch51")))
+  \   ? split(globpath(g:bundle_dir, '*', 1), "\n")
+  \   : split(globpath(g:bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
   if empty(x_dirs)
@@ -191,45 +202,55 @@ endf
 func! s:has_doc(rtp) abort
   return isdirectory(a:rtp.'/doc')
   \   && (!filereadable(a:rtp.'/doc/tags') || filewritable(a:rtp.'/doc/tags'))
-  \   && !(empty(glob(a:rtp.'/doc/*.txt', 1)) && empty(glob(a:rtp.'/doc/*.??x', 1)))
+  \   && (v:version > 702 || (v:version == 702 && has("patch51")))
+  \     ? !(empty(glob(a:rtp.'/doc/*.txt', 1)) && empty(glob(a:rtp.'/doc/*.??x', 1)))
+  \     : !(empty(glob(a:rtp.'/doc/*.txt')) && empty(glob(a:rtp.'/doc/*.??x')))
 endf
 
 func! s:helptags(rtp) abort
   let doc_path = a:rtp.'/doc/'
   call s:log(':helptags '.doc_path)
   try
-    helptags `=doc_path`
+    execute 'helptags ' . doc_path
   catch
     call s:log("> Error running :helptags ".doc_path)
   endtry
 endf
 
 func! s:sync(bang, bundle) abort
-  let git_dir = expand(a:bundle.path().'/.git/', 1)
+  let git_dir = expand(a:bundle.path().'/.git', 1)
+  let is_submodule = isdirectory(git_dir) || filereadable(git_dir)
 
   call s:system('cd '.shellescape(g:bundle_dir).' && git status')
   if v:shell_error
-    if isdirectory(git_dir)
-      if !(a:bang) | return 'todate' | endif
-      let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull'
-    else
-      let cmd = 'git clone '.a:bundle.uri.' '.shellescape(a:bundle.path())
-    endif
+    " Not within a git repo, all bundles must be cloned normally.
+    let within_repo = 0
   else
+    " Within a git repo, all bundles must be added as submodules.
+    let within_repo = 1
+
     let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).' && git rev-parse --show-toplevel'), '\n', '', 'g')
     let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).' && git rev-parse --show-prefix'), '\n', '', 'g')
     let relative_path = prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
-    if isdirectory(git_dir)
-      if !(a:bang) | return 'todate' | endif
-      let cmd = 'cd '.shellescape(top_level).' && git submodule update --merge '.shellescape(relative_path)
-    else
-      let cmd = 'cd '.shellescape(top_level).' && git submodule add '.a:bundle.uri.' '.shellescape(relative_path).' && git submodule init'
-    endif
-  end
+  endif
 
-  if (has('win32') || has('win64'))
-    let cmd = substitute(cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-    let cmd = '"'.cmd.'"'                          " enclose in quotes
+  if is_submodule
+    if !(a:bang) | return 'todate' | endif
+
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --merge --recursive'
+    let cmd = g:shellesc_cd(cmd)
+
+    let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
+    let get_current_sha = g:shellesc_cd(get_current_sha)
+    let initial_sha = s:system(get_current_sha)[0:15]
+  else
+    if within_repo
+      let cmd = 'cd '.shellescape(top_level).' && git submodule add '.a:bundle.uri.' '.shellescape(relative_path).' && git submodule init'
+    else
+      let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
+    endif
+
+    let initial_sha = ''
   endif
 
   let out = s:system(cmd)
@@ -242,11 +263,37 @@ func! s:sync(bang, bundle) abort
     return 'error'
   end
 
-  if out =~# 'up-to-date'
-    return 'todate'
-  end
+  if empty(initial_sha)
+    return 'new'
+  endif
 
+  let updated_sha = s:system(get_current_sha)[0:15]
+
+  if initial_sha == updated_sha
+    return 'todate'
+  endif
+
+  call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
   return 'updated'
+endf
+
+func! g:shellesc(cmd) abort
+  if (has('win32') || has('win64'))
+    if &shellxquote != '('                           " workaround for patch #445
+      return '"'.a:cmd.'"'                          " enclose in quotes so && joined cmds work
+    endif
+  endif
+  return a:cmd
+endf
+
+func! g:shellesc_cd(cmd) abort
+  if (has('win32') || has('win64'))
+    let cmd = substitute(a:cmd, '^cd ','cd /d ','')  " add /d switch to change drives
+    let cmd = g:shellesc(cmd)
+    return cmd
+  else
+    return a:cmd
+  endif
 endf
 
 func! s:system(cmd) abort

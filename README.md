@@ -1,15 +1,15 @@
 ## About
 
-[Vundle] is short for **V**imb**undle** and is a [Vim] plugin manager.
+[Vundle] is short for _Vim bundle_ and is a [Vim] plugin manager.
 
-![Vundle-installer](https://lh3.googleusercontent.com/-4EnLqLpEZlk/TlqXWpgWxOI/AAAAAAAAHRw/oBAl6s1hj7U/vundle-install2.png)
+![Vundle-installer](http://25.media.tumblr.com/tumblr_m8m96w06G81r39828o1_1280.png)
 
 ## Quick start
 
 1. Setup [Vundle]:
 
      ```
-     $ git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+     $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
      ```
 
 2. Configure bundles:
@@ -33,15 +33,15 @@
      Bundle 'tpope/vim-fugitive'
      Bundle 'Lokaltog/vim-easymotion'
      Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+     Bundle 'tpope/vim-rails.git'
      " vim-scripts repos
      Bundle 'L9'
      Bundle 'FuzzyFinder'
-     Bundle 'rails.vim'
      " non github repos
      Bundle 'git://git.wincent.com/command-t.git'
      " ...
 
-     filetype plugin indent on     " required! 
+     filetype plugin indent on     " required!
      "
      " Brief help
      " :BundleList          - list configured bundles
@@ -56,15 +56,16 @@
 
 3. Install configured bundles:
 
-     Launch `vim`, run `:BundleInstall`. 
+     Launch `vim`, run `:BundleInstall` 
+     (or `vim +BundleInstall +qall` for CLI lovers)
 
      *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
 
      Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
-     
+
 4. Consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T44EJZX8RBUWY)
 
-*Thank you* for supporting this project! )
+[*Thank you*](http://j.mp/rSbm01) for supporting this project! )
 
 
 ## Why Vundle
@@ -81,7 +82,7 @@
 Also [Vundle]:
 
 - manages runtime path of your installed scripts
-- regenerates helptag atomatically
+- regenerates helptag automatically
 
 ## Docs
 
@@ -89,23 +90,15 @@ see [`:h vundle`](vundle/blob/master/doc/vundle.txt#L1) vimdoc for more details.
 
 ## People Using Vundle
 
-   * [gmarik's vimrc](https://github.com/gmarik/vimfiles/blob/1f4f26d42f54443f1158e0009746a56b9a28b053/vimrc#L136)
-   * [mutewinter's Vim Config of Champions](https://github.com/mutewinter/dot_vim)
-
-   If you have an interesting example, feel free to send a pull request with link to your config. Thx!
+see [Examples](https://github.com/gmarik/vundle/wiki/Examples)
 
 ## FAQ
 
-see [wiki](/gmarik/vundle/wiki)
+see [wiki](https://github.com/gmarik/vundle/wiki)
 
 ## Contributors
 
-* [redlinesoftware](http://redlinesoftware.com) - for lending me 24" monitor!
-* [Marc Jeanson](https://github.com/marcjeanson) - vim dude I always bug for help...;)
-* [Brad Anderson](http://github.com/eco) (windows support)
-* [Ryan W](http://github.com/rygwdn)
-* [termac](http://github.com/termac)
-* and others
+  see [vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 
 *Thank you!*
 
@@ -138,12 +131,12 @@ see [wiki](/gmarik/vundle/wiki)
 [Vundle]:http://github.com/gmarik/vundle
 [Pathogen]:http://github.com/tpope/vim-pathogen/
 [Bundler]:http://github.com/wycats/bundler/
-[Vim]:http://vim.org
+[Vim]:http://www.vim.org
 [Git]:http://git-scm.com
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
 
 [install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L110-124
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L128-133
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L135-157
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L167-179
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L183-209
+[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L128-134
+[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L136-158
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L168-180
+[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L184-210

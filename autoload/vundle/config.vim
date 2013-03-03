@@ -3,6 +3,7 @@ func! vundle#config#bundle(arg, ...)
   call s:rtp_rm_a()
   call add(g:bundles, bundle)
   call s:rtp_add_a()
+  return bundle
 endf
 
 func! vundle#config#init()
@@ -13,7 +14,7 @@ endf
 
 func! vundle#config#require(bundles) abort
   for b in a:bundles
-    call s:rtp_add(b.rtpath())
+    call s:rtp_add(b.rtpath)
     call s:rtp_add(g:bundle_dir)
     " TODO: it has to be relative rtpath, not bundle.name
     exec 'runtime! '.b.name.'/plugin/*.vim'
@@ -24,7 +25,9 @@ endf
 
 func! vundle#config#init_bundle(name, opts)
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
-  return extend(opts, copy(s:bundle))
+  let b = extend(opts, copy(s:bundle))
+  let b.rtpath = s:rtpath(opts)
+  return b
 endf
 
 func! s:parse_options(opts)
@@ -40,10 +43,11 @@ endf
 
 func! s:parse_name(arg)
   let arg = a:arg
+  let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
 
   if    arg =~? '^\s*\(gh\|github\):\S\+'
   \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
-    let uri = 'https://github.com/'.split(arg, ':')[-1]
+    let uri = git_proto.'://github.com/'.split(arg, ':')[-1]
     if uri !~? '\.git$'
       let uri .= '.git'
     endif
@@ -55,17 +59,25 @@ func! s:parse_name(arg)
     let name = split( substitute(uri,'/\?\.git\s*$','','i') ,'\/')[-1]
   else
     let name = arg
-    let uri  = 'https://github.com/vim-scripts/'.name.'.git'
+    let uri  = git_proto.'://github.com/vim-scripts/'.name.'.git'
   endif
   return {'name': name, 'uri': uri, 'name_spec': arg }
 endf
 
 func! s:rtp_rm_a()
-  call filter(copy(g:bundles), 's:rtp_rm(v:val.rtpath())')
+  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let prepends = join(paths, ',')
+  let appends = join(paths, '/after,').'/after'
+  exec 'set rtp-='.fnameescape(prepends)
+  exec 'set rtp-='.fnameescape(appends)
 endf
 
 func! s:rtp_add_a()
-  call filter(reverse(copy(g:bundles)), 's:rtp_add(v:val.rtpath())')
+  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let prepends = join(paths, ',')
+  let appends = join(paths, '/after,').'/after'
+  exec 'set rtp^='.fnameescape(prepends)
+  exec 'set rtp+='.fnameescape(appends)
 endf
 
 func! s:rtp_rm(dir) abort
@@ -82,12 +94,13 @@ func! s:expand_path(path) abort
   return simplify(expand(a:path, 1))
 endf
 
+func! s:rtpath(opts)
+  return has_key(a:opts, 'rtp') ? s:expand_path(a:opts.path().'/'.a:opts.rtp) : a:opts.path()
+endf
+
 let s:bundle = {}
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
 endf
 
-func! s:bundle.rtpath()
-  return has_key(self, 'rtp') ? s:expand_path(self.path().'/'.self.rtp) : self.path()
-endf

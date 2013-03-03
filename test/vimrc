@@ -5,7 +5,11 @@ set nowrap
 
 let root = '/tmp/!vundle-test/bundles/'
 let src = 'http://github.com/gmarik/vundle.git' 
+
 " let src = '~/.vim/bundle/vundle/.git' 
+
+" Vundle Options
+" let g:vundle_default_git_proto = 'git'
 
 if !isdirectory(expand(root, 1).'/vundle')
   exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
@@ -54,6 +58,9 @@ Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
 
+" syntax issue #203
+Bundle 'jimenezrick/vimerl'
+
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc              " should not break helptags
@@ -66,12 +73,4 @@ set wildignore+=*/.git/*
 
 au VimEnter * BundleInstall
 
-func! s:assert_bundles() abort
-  for b in g:bundles
-    if (!isdirectory(b.path().'/.git/'))
-      throw b.name.' not installed'
-    endif
-  endfor
-endf
-
-call s:assert_bundles()
+" e test/files/erlang.erl

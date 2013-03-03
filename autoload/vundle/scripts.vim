@@ -28,7 +28,48 @@ func! s:view_log()
   endif
 
   call writefile(g:vundle_log, g:vundle_log_file)
-  silent pedit `=g:vundle_log_file`
+  execute 'silent pedit ' . g:vundle_log_file
+
+  wincmd P | wincmd H
+endf
+
+func! s:create_changelog() abort
+  for bundle_data in g:updated_bundles
+    let initial_sha = bundle_data[0]
+    let updated_sha = bundle_data[1]
+    let bundle      = bundle_data[2]
+
+    let cmd = 'cd '.shellescape(bundle.path()).
+          \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
+          \               initial_sha.'..'.updated_sha
+
+    let cmd = g:shellesc_cd(cmd)
+
+    let updates = system(cmd)
+
+    call add(g:vundle_changelog, '')
+    call add(g:vundle_changelog, 'Updated Bundle: '.bundle.name)
+
+    if bundle.uri =~ "https://github.com"
+      call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
+    endif
+
+    for update in split(updates, '\n')
+      let update = substitute(update, '\s\+$', '', '')
+      call add(g:vundle_changelog, '  '.update)
+    endfor
+  endfor
+endf
+
+func! s:view_changelog()
+  call s:create_changelog()
+
+  if !exists('g:vundle_changelog_file')
+    let g:vundle_changelog_file = tempname()
+  endif
+
+  call writefile(g:vundle_changelog, g:vundle_changelog_file)
+  execute 'silent pedit ' . g:vundle_changelog_file
 
   wincmd P | wincmd H
 endf
@@ -80,6 +121,7 @@ func! vundle#scripts#view(title, headers, results)
 
   com! -buffer -nargs=0 VundleLog call s:view_log()
 
+  com! -buffer -nargs=0 VundleChangelog call s:view_changelog()
 
   nnoremap <buffer> q :silent bd!<CR>
   nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
@@ -91,6 +133,7 @@ func! vundle#scripts#view(title, headers, results)
   nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
 
   nnoremap <buffer> l :VundleLog<CR>
+  nnoremap <buffer> u :VundleChangelog<CR>
   nnoremap <buffer> h :h vundle<CR>
   nnoremap <buffer> ? :norm h<CR>
 
@@ -117,8 +160,8 @@ func! s:fetch_scripts(to)
     let temp = shellescape(tempname())
     let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.shellescape(a:to)
     if (has('win32') || has('win64')) 
-      let cmd = substitute(cmd, 'mv -f ', 'mv /Y ') " change force flag
-      let cmd = '"'.cmd.'"'                         " enclose in quotes so && joined cmds work
+      let cmd = substitute(cmd, 'mv -f ', 'move /Y ', '') " change force flag
+      let cmd = g:shellesc(cmd)
     end
   else
     echoerr 'Error curl or wget is not available!'
