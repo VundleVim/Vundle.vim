@@ -6,6 +6,23 @@ func! vundle#config#bundle(arg, ...)
   return bundle
 endf
 
+func! vundle#config#bundle_if(arg, ...)
+  let versions = split(a:arg, '\.')
+  if len(versions) == 2
+    if v:version == versions[0] && has(join(['patch',versions[1]],''))
+      echom 'installing bundle'
+      echom join(a:000)
+      call vundle#config#bundle(join(a:000))
+    endif
+  else
+    if v:version == versions[0]
+      echom 'installing bundle'
+      echom join(a:000)
+      call vundle#config#bundle(join(a:000))
+    endif
+  endif
+endf
+
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
   call s:rtp_rm_a()
@@ -33,11 +50,10 @@ endf
 func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
-
   if type(a:opts[0]) == type({})
     return a:opts[0]
   else
-    return {'rev': a:opts[0]}
+    return {'rev' : a:opts[0]}
   endif
 endf
 

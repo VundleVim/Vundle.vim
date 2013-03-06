@@ -41,6 +41,9 @@
      Bundle 'git://git.wincent.com/command-t.git'
      " ...
 
+     " Installs bundle only if vim version matches
+     BundleIf '703.584', 'Valloric/YouCompleteMe'
+
      filetype plugin indent on     " required!
      "
      " Brief help

@@ -74,8 +74,37 @@ func! s:view_changelog()
   wincmd P | wincmd H
 endf
 
+func! vundle#scripts#get_bundles()
+  "let branch_bundles = filter(copy(g:bundles), "has_key(v:val, 'branch')")
+  "let commit_bundles = filter(copy(g:bundles), "has_key(v:val, 'commit')")
+  "let tag_bundles = filter(copy(g:bundles), "has_key(v:val, 'tag')")
+  "let plain_bundles = filter(copy(g:bundles), "! has_key(v:val, 'tag') && ! has_key(v:val, 'commit') && ! has_key(v:val, 'branch')")
+  let plain_bundles = filter(copy(g:bundles), "! has_key(v:val, 'rev')")
+  let rev_bundles = filter(copy(g:bundles), "has_key(v:val, 'rev')")
+
+  "let branch_bundle_names = map(copy(branch_bundles), 'printf("%s, branch:%s", v:val.name_spec, v:val.branch )')
+  "let commit_bundle_names = map(copy(commit_bundles), 'printf("%s, commit:%s", v:val.name_spec, v:val.commit )')
+  "let tag_bundle_names    = map(copy(tag_bundles)   , 'printf("%s, tag:%s", v:val.name_spec, v:val.tag )')
+  let plain_bundle_names  = map(copy(plain_bundles) , 'v:val.name_spec')
+  let rev_bundle_names  = map(copy(rev_bundles) , 'printf("%s, %s", v:val.name_spec, v:val.rev )')
+
+  "return extend(extend(extend(plain_bundle_names, branch_bundle_names), commit_bundle_names), tag_bundle_names)
+  return extend(plain_bundle_names, rev_bundle_names)
+endf
+
 func! vundle#scripts#bundle_names(names)
-  return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
+  return map(copy(a:names), ' s:split_name(v:val) ')
+endf
+
+func! s:split_name(name)
+  let split_n = split(a:name, ', ')
+  if len(split_n) > 1
+    let ret_val = printf("Bundle '%s', '%s'", split_n[0], split_n[1])
+  else
+    let ret_val = printf("Bundle '%s'", split_n[0])
+  endif
+
+  return ret_val
 endf
 
 func! vundle#scripts#view(title, headers, results)
