@@ -7,6 +7,10 @@
 com! -nargs=+         Bundle
 \ call vundle#config#bundle(<args>)
 
+com! -nargs=+         BundleIf
+\ call vundle#config#bundle_if(<args>)
+
+
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
 

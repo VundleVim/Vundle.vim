@@ -6,6 +6,15 @@ func! vundle#config#bundle(arg, ...)
   return bundle
 endf
 
+func! vundle#config#bundle_if(arg, ...)
+  let versions = split(a:arg, '\.')
+  if v:version == versions[0] && has(join(['patch',versions[1]],''))
+    echom 'installing bundle'
+    echom join(a:000)
+    call vundle#config#bundle(join(a:000))
+  endif
+endf
+
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
   call s:rtp_rm_a()
