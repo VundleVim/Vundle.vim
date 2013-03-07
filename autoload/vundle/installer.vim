@@ -174,9 +174,12 @@ func! vundle#installer#delete(bang, dir_name) abort
     let relative_path = prefix.substitute(bundle.path(), g:bundle_dir.'/', '', '')
 
     let cmd = 'cd '.shellescape(top_level)
-    let cmd .= '; git config -f .git/config --remove-section submodule.'.shellescape(relative_path)
     let cmd .= '; git config -f .gitmodules --remove-section submodule.'.shellescape(relative_path)
-    let cmd .= '; git rm --cached '.shellescape(relative_path).'; '
+    let cmd .= '; git config -f .git/config --remove-section submodule.'.shellescape(relative_path)
+    let cmd .= '; git rm --cached '.shellescape(relative_path)
+    let cmd .= '; rm -rf '.shellescape(relative_path)
+    let cmd .= '; rm -rf '.shellescape('.git/modules/'.relative_path)
+    let cmd .= ';'
   endif
 
   let cmd .= (has('win32') || has('win64')) ?
