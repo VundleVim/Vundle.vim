@@ -9,15 +9,11 @@ endf
 func! vundle#config#bundle_if(arg, ...)
   let versions = split(a:arg, '\.')
   if len(versions) == 2
-    if v:version == versions[0] && has(join(['patch',versions[1]],''))
-      echom 'installing bundle'
-      echom join(a:000)
+    if v:version > versions[0] || v:version == versions[0] && has(join(['patch',versions[1]],''))
       call vundle#config#bundle(join(a:000))
     endif
   else
-    if v:version == versions[0]
-      echom 'installing bundle'
-      echom join(a:000)
+    if v:version >= versions[0]
       call vundle#config#bundle(join(a:000))
     endif
   endif
