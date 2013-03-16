@@ -106,7 +106,10 @@ func! vundle#installer#install(bang, name) abort
 endf
 
 func! vundle#installer#docs() abort
-  call vundle#installer#helptags(g:bundles)
+  let error_count = vundle#installer#helptags(g:bundles)
+  if error_count > 0
+      return 'error'
+  endif
   return 'helptags'
 endf
 
@@ -117,11 +120,12 @@ func! vundle#installer#helptags(bundles) abort
   call s:log('')
   call s:log('Helptags:')
 
-  call map(copy(help_dirs), 's:helptags(v:val)')
+  let statuses = map(copy(help_dirs), 's:helptags(v:val)')
+  let errors = filter(statuses, 'v:val == 0')
 
   call s:log('Helptags: '.len(help_dirs).' bundles processed')
 
-  return help_dirs
+  return len(errors)
 endf
 
 func! vundle#installer#list(bang) abort
@@ -201,7 +205,9 @@ func! s:helptags(rtp) abort
     execute 'helptags ' . doc_path
   catch
     call s:log("> Error running :helptags ".doc_path)
+    return 0
   endtry
+  return 1
 endf
 
 func! s:sync(bang, bundle) abort
