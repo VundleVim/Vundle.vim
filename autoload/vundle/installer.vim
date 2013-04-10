@@ -260,7 +260,7 @@ func! g:shellesc(cmd) abort
 endf
 
 func! g:shellesc_cd(cmd) abort
-  if (has('win32') || has('win64'))
+  if ((has('win32') || has('win64')) && match(&shellcmdflag, "/") != -1)
     let cmd = substitute(a:cmd, '^cd ','cd /d ','')  " add /d switch to change drives
     let cmd = g:shellesc(cmd)
     return cmd
