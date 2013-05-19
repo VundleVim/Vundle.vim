@@ -81,6 +81,8 @@ func! s:rtp_add_a()
   let appends = join(paths, '/after,').'/after'
   exec 'set rtp^='.fnameescape(prepends)
   exec 'set rtp+='.fnameescape(appends)
+  set rtp-=~/.vim
+  set rtp^=~/.vim
 endf
 
 func! s:rtp_rm(dir) abort
