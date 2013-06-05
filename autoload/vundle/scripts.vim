@@ -78,6 +78,16 @@ func! vundle#scripts#bundle_names(names)
   return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
 endf
 
+func! vundle#scripts#openGithubPage(page)
+  let base = 'http://github.com/'
+  if match(a:page, '/') != -1
+    let url = base . a:page
+  else
+    let url = base . 'vim-scripts/' . a:page
+  endif
+  exec '!o '.url
+endfunc
+
 func! vundle#scripts#view(title, headers, results)
   if exists('g:vundle_view') && bufloaded(g:vundle_view)
     exec g:vundle_view.'bd!'
@@ -123,11 +133,15 @@ func! vundle#scripts#view(title, headers, results)
 
   com! -buffer -nargs=0 VundleChangelog call s:view_changelog()
 
+  com! -buffer -bang -nargs=1 OpenGithubPage call vundle#scripts#openGithubPage(<q-args>)
+
   nnoremap <buffer> q :silent bd!<CR>
   nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
 
   nnoremap <buffer> add  :exec 'Install'.getline('.')<CR>
   nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
+
+  nnoremap <buffer> o :silent call vundle#scripts#openGithubPage(split(getline('.'))[1])<CR>
 
   nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')<CR>
   nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')<CR>
