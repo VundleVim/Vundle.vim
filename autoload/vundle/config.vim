@@ -76,7 +76,7 @@ func! s:rtp_rm_a()
 endf
 
 func! s:rtp_add_a()
-  " Try to move the default directories in sensible places. By resetting the
+  " Try to move the default directories in sensible places.  By resetting the
   " option, we are using the correct values no matter on which OS we are.
   let old_rtp = &rtp
   set rtp&
@@ -85,7 +85,8 @@ func! s:rtp_add_a()
   let part_one = default_rtp[: middle - 1]
   call reverse(part_one)
   let part_two = default_rtp[middle :]
-  " Reset &rtp to the old value
+  " Reset &rtp to the old value, if we don't do this we might lose changes
+  " made by the user.
   let &rtp = old_rtp
   " add the vundles
   let paths = map(copy(g:bundles), 'v:val.rtpath')
