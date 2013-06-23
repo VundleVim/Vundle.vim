@@ -4,7 +4,7 @@ set nocompatible
 set nowrap
 
 let root = '/tmp/!vundle-test/bundles/'
-let src = 'http://github.com/gmarik/vundle.git' 
+let src = 'https://github.com/gmarik/vundle.git' 
 
 " let src = '~/.vim/bundle/vundle/.git' 
 
