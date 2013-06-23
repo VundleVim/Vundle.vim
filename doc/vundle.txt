@@ -46,7 +46,7 @@ in order to install/search [all available vim scripts]
                                                     *vundle-quickstart*
 1) Setup Vundle: >
 
-    git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
+    git clone https://github.com/gmarik/vundle.git ~/.vim/vundle.git
 
 2) Configure bundles:
 
@@ -107,9 +107,9 @@ Vundle loves Github, that's why short uris can be used with commands: >
 
 equals full uri >
 
-    Bundle 'http://github.com/tpope/vim-fugitive.git'
+    Bundle 'https://github.com/tpope/vim-fugitive.git'
 
-NOTE: Vundle defaults to http:// protocol for the short URIs
+NOTE: Vundle defaults to https:// protocol for the short URIs
 
 
 4.2 INSTALL SCRIPTS ~

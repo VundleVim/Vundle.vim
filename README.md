@@ -67,7 +67,7 @@
 
 4. Consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T44EJZX8RBUWY)
 
-[*Thank you*](http://j.mp/rSbm01) for supporting this project! )
+[*Thank you*](https://j.mp/rSbm01) for supporting this project! )
 
 
 ## Why Vundle
@@ -108,12 +108,12 @@ see [wiki](https://github.com/gmarik/vundle/wiki)
 
 * [pathogen]
 * [bundler]
-* [Scott Bronson](http://github.com/bronson)
+* [Scott Bronson](https://github.com/bronson)
 
 ## Also
 
 * Vundle was developed and tested with [Vim] 7.3 on `OSX`, `Linux` and `Windows`
-* Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
+* Vundle tries to be as [KISS](https://en.wikipedia.org/wiki/KISS_principle) as possible
 
 ## TODO:
 [Vundle] is a work in progress so any ideas/patches appreciated
@@ -130,9 +130,9 @@ see [wiki](https://github.com/gmarik/vundle/wiki)
 * search by description as well
 * make it rock!
 
-[Vundle]:http://github.com/gmarik/vundle
-[Pathogen]:http://github.com/tpope/vim-pathogen/
-[Bundler]:http://github.com/wycats/bundler/
+[Vundle]:https://github.com/gmarik/vundle
+[Pathogen]:https://github.com/tpope/vim-pathogen/
+[Bundler]:https://github.com/wycats/bundler/
 [Vim]:http://www.vim.org
 [Git]:http://git-scm.com
 [all available vim scripts]:http://vim-scripts.org/vim/scripts.html
