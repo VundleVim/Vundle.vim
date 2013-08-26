@@ -62,6 +62,9 @@
      (or `vim +BundleInstall +qall` for CLI lovers)
 
      *Windows users* see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
+     and set vim runtime directory in your _vimrc using
+     
+         set rtp+=$HOME/vimfiles/bundle/vundle/
 
      Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
 
