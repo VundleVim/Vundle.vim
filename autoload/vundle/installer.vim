@@ -270,7 +270,8 @@ func! g:shellesc_cd(cmd) abort
 endf
 
 func! s:system(cmd) abort
-  return system(a:cmd)
+  let cmd = iconv(a:cmd, &encoding, &termencoding)
+  return system(cmd)
 endf
 
 func! s:log(str) abort
