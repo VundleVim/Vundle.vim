@@ -270,7 +270,12 @@ func! g:shellesc_cd(cmd) abort
 endf
 
 func! s:system(cmd) abort
-  let cmd = iconv(a:cmd, &encoding, &termencoding)
+  let cmd = a:cmd
+  if !empty(&encoding) && !empty(&termencoding)
+    if &encoding !=? &termencoding
+      let cmd = iconv(a:cmd, &encoding, &termencoding)
+    endif
+  endif
   return system(cmd)
 endf
 
