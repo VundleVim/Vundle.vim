@@ -43,6 +43,9 @@
      Bundle 'file:///Users/gmarik/path/to/plugin'
      " ...
 
+     " Installs bundle only if vim version matches
+     BundleIf '703.584', 'Valloric/YouCompleteMe'
+
      filetype plugin indent on     " required!
      "
      " Brief help
