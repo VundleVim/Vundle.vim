@@ -166,13 +166,15 @@ func! vundle#installer#clean(bang) abort
   endif
 endf
 
+func! vundle#installer#should_use_submodules() abort
+  call s:system('cd '.shellescape(g:bundle_dir).'; git clean -Xnd `pwd` 2>/dev/null | grep "Would remove \./" > /dev/null')
+  return v:shell_error != 0
+endf
+
 func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
 
-  call s:system('cd '.shellescape(g:bundle_dir).'; git status')
-  if v:shell_error
-    let cmd = ''
-  else
+  if vundle#installer#should_use_submodules()
     let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-toplevel'), '\n', '', 'g')
     let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).'; git rev-parse --show-prefix'), '\n', '', 'g')
     let relative_path = prefix.substitute(bundle.path(), g:bundle_dir.'/', '', '')
@@ -184,6 +186,8 @@ func! vundle#installer#delete(bang, dir_name) abort
     let cmd .= '; rm -rf '.shellescape(relative_path)
     let cmd .= '; rm -rf '.shellescape('.git/modules/'.relative_path)
     let cmd .= ';'
+  else
+    let cmd = ''
   endif
 
   let cmd .= (has('win32') || has('win64')) ?
@@ -230,14 +234,7 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git', 1)
   let is_submodule = isdirectory(git_dir) || filereadable(git_dir)
 
-  call s:system('cd '.shellescape(g:bundle_dir).' && git status')
-  if v:shell_error
-    " Not within a git repo, all bundles must be cloned normally.
-    let within_repo = 0
-  else
-    " Within a git repo, all bundles must be added as submodules.
-    let within_repo = 1
-
+  if vundle#installer#should_use_submodules()
     let top_level = substitute(s:system('cd '.shellescape(g:bundle_dir).' && git rev-parse --show-toplevel'), '\n', '', 'g')
     let prefix    = substitute(s:system('cd '.shellescape(g:bundle_dir).' && git rev-parse --show-prefix'), '\n', '', 'g')
     let relative_path = prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
@@ -253,7 +250,7 @@ func! s:sync(bang, bundle) abort
     let get_current_sha = g:shellesc_cd(get_current_sha)
     let initial_sha = s:system(get_current_sha)[0:15]
   else
-    if within_repo
+    if vundle#installer#should_use_submodules()
       let cmd = 'cd '.shellescape(top_level).' && git submodule add '.a:bundle.uri.' '.shellescape(relative_path).' && git submodule init'
     else
       let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
