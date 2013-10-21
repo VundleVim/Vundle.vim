@@ -46,7 +46,7 @@ in order to install/search [all available vim scripts]
                                                     *vundle-quickstart*
 1) Setup Vundle: >
 
-    git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 
 2) Configure bundles:
 
@@ -73,6 +73,8 @@ in order to install/search [all available vim scripts]
      Bundle 'rails.vim'
      " non github repos
      Bundle 'git://git.wincent.com/command-t.git'
+     " git repos on your local machine (ie. when working on your own plugin)
+     Bundle 'file:///Users/gmarik/path/to/plugin'
      " ...
 
      filetype plugin indent on     " required!
