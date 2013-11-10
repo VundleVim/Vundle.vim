@@ -1,3 +1,6 @@
+" MAYBE: also provide fnameescape()
+"  (first appeared in a major release in vim-7.2)
+
 " this abstracts the operation:
 "  exec 'set runtimepath-='.fnameescape(LIST)
 "
@@ -132,11 +135,6 @@ endf
 
 func! vundle#compat#has_dos_windows_paths()
   return exists('+shellslash')
-  " previous implementation:
-  " return 0
-  "       \ || has('win32') || has('win64')
-  "       \ || has('win16') || has('win95')
-  "       \ || has('dos16') || has('dos32')
 endf
 
 " provides the same functionality as shellescape()
