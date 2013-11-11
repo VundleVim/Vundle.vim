@@ -174,7 +174,7 @@ func! vundle#installer#delete(bang, dir_name) abort
   \           'rm -rf'
 
   let bundle = vundle#config#init_bundle(a:dir_name, {})
-  let cmd .= ' '.shellescape(bundle.path())
+  let cmd .= ' '.vundle#compat#shellescape(bundle.path())
 
   let out = s:system(cmd)
 
@@ -214,15 +214,15 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
+    let cmd = 'cd '.vundle#compat#shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
 
     let cmd = g:shellesc_cd(cmd)
 
-    let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
+    let get_current_sha = 'cd '.vundle#compat#shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let get_current_sha = g:shellesc_cd(get_current_sha)
     let initial_sha = s:system(get_current_sha)[0:15]
   else
-    let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
+    let cmd = 'git clone --recursive '.vundle#compat#shellescape(a:bundle.uri).' '.vundle#compat#shellescape(a:bundle.path())
     let initial_sha = ''
   endif
 

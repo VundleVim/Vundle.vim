@@ -39,7 +39,7 @@ func! s:create_changelog() abort
     let updated_sha = bundle_data[1]
     let bundle      = bundle_data[2]
 
-    let cmd = 'cd '.shellescape(bundle.path()).
+    let cmd = 'cd '.vundle#compat#shellescape(bundle.path()).
           \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 
@@ -155,10 +155,10 @@ func! s:fetch_scripts(to)
 
   let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts.json'
   if executable("curl")
-    let cmd = 'curl --fail -s -o '.shellescape(a:to).' '.l:vim_scripts_json
+    let cmd = 'curl --fail -s -o '.vundle#compat#shellescape(a:to).' '.l:vim_scripts_json
   elseif executable("wget")
-    let temp = shellescape(tempname())
-    let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.shellescape(a:to)
+    let temp = vundle#compat#shellescape(tempname())
+    let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.vundle#compat#shellescape(a:to)
     if (has('win32') || has('win64')) 
       let cmd = substitute(cmd, 'mv -f ', 'move /Y ', '') " change force flag
       let cmd = g:shellesc(cmd)

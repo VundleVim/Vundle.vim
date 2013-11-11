@@ -12,7 +12,7 @@ let src = 'http://github.com/gmarik/vundle.git'
 " let g:vundle_default_git_proto = 'git'
 
 if !isdirectory(expand(root, 1).'/vundle')
-  exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
+  exec '!git clone '.src.' '.vundle#compat#shellescape(root, 1).'/vundle'
 endif
 
 filetype off
