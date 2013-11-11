@@ -1,5 +1,4 @@
-" MAYBE: also provide fnameescape()
-"  (first appeared in a major release in vim-7.2)
+" vundle - vim compatibility support module
 
 " this abstracts the operation:
 "  exec 'set runtimepath-='.fnameescape(LIST)
@@ -45,11 +44,9 @@ func! vundle#compat#rtp_rm_entry(dirs)
         " a bit costly, but more compatible
         let l:runtimepath_list = split(&rtp, l:elem_separator, 1)
 
-        unlet! g:vundle_config_compat_rtp_rm_entry_dir
-        for g:vundle_config_compat_rtp_rm_entry_dir in split(a:dirs, l:elem_separator, 1)
-          let l:runtimepath_list = filter(l:runtimepath_list, 'v:val != g:vundle_config_compat_rtp_rm_entry_dir')
+        for l:entry_dir in split(a:dirs, l:elem_separator, 1)
+          let l:runtimepath_list = filter(l:runtimepath_list, 'v:val != l:entry_dir')
         endfor
-        unlet! g:vundle_config_compat_rtp_rm_entry_dir
         " assemble the runtime variable from the list
         let &rtp = join(l:runtimepath_list, l:elem_separator)
         let l:processed_flag = 1
@@ -108,11 +105,9 @@ func! vundle#compat#rtp_addset_entry(dirs, addset_operator)
       if exists('*split') && exists('*filter') && exists('*join')
         " a bit costly, but more compatible
         let l:dirs_list = split(a:dirs, l:elem_separator, 1)
-        unlet! g:vundle_config_compat_rtp_addset_entry_dir
-        for g:vundle_config_compat_rtp_addset_entry_dir in split(&rtp, l:elem_separator, 1)
-          let l:dirs_list = filter(l:dirs_list, 'v:val != g:vundle_config_compat_rtp_addset_entry_dir')
+        for l:entry_dir in split(&rtp, l:elem_separator, 1)
+          let l:dirs_list = filter(l:dirs_list, 'v:val != l:entry_dir')
         endfor
-        unlet! g:vundle_config_compat_rtp_addset_entry_dir
         let l:dirs = join(l:dirs_list, l:elem_separator)
       else
         " nothing we can do about this: we'll take the input as is
@@ -156,4 +151,7 @@ func! vundle#compat#shellescape(string_value)
     return "'" . substitute(a:string_value,"'","'".'\\'."''",'g') . "'"
   endif
 endf
+
+" MAYBE: also provide fnameescape()
+"  (first appeared in a major release in vim-7.2)
 
