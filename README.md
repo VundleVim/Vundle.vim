@@ -20,7 +20,7 @@
    set nocompatible              " be iMproved
    filetype off                  " required!
    
-   set rtp+=~/.vim/bundle/vundle/
+   set rtp+=~/.vim/bundle/vundle/ "Use ~/vimfiles/bundle/vundle if you're following instruction for Windows
    call vundle#rc()
    
    " let Vundle manage Vundle
