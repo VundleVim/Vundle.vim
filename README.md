@@ -64,10 +64,6 @@
 
    Installation requires [Git] and triggers [`git clone`](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
 
-4. Consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T44EJZX8RBUWY)
-
-   [*Thank you*](http://j.mp/rSbm01) for supporting this project!
-
 
 ## Why Vundle
 
