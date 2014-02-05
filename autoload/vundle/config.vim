@@ -36,11 +36,10 @@ endf
 func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
-
   if type(a:opts[0]) == type({})
     return a:opts[0]
   else
-    return {'rev': a:opts[0]}
+    return {'rev' : a:opts[0]}
   endif
 endf
 

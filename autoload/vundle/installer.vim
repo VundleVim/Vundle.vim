@@ -3,7 +3,7 @@ func! vundle#installer#new(bang, ...) abort
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  let names = vundle#scripts#bundle_names(vundle#scripts#get_bundles())
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
@@ -99,8 +99,10 @@ endf
 
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+  let args = split(a:name,', ')
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let opts = (len(args) > 1) ? [substitute(args[1],"'",'','g')] : {}
+  let b = vundle#config#init_bundle(args[0], opts)
 
   return s:sync(a:bang, b)
 endf
@@ -129,7 +131,8 @@ func! vundle#installer#helptags(bundles) abort
 endf
 
 func! vundle#installer#list(bang) abort
-  let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
+
+  let bundles = vundle#scripts#bundle_names(vundle#scripts#get_bundles())
   call vundle#scripts#view('list', ['" My Bundles'], bundles)
   redraw
   echo len(g:bundles).' bundles configured'
@@ -214,23 +217,46 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
 
-    let cmd = g:shellesc_cd(cmd)
+    let has_rev = has_key(a:bundle, 'rev')
 
     let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
     let get_current_sha = g:shellesc_cd(get_current_sha)
-    let initial_sha = s:system(get_current_sha)[0:15]
+
+    if !has_rev
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout master'
+      let cmd = g:shellesc_cd(cmd)
+
+      let initial_sha = s:system(get_current_sha)[0:15]
+      call s:run_and_log(a:bundle, cmd)
+
+      let on_branch = ''
+    else
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git branch --contains | grep \* | grep "no branch"'
+      let cmd = g:shellesc_cd(cmd)
+      let on_branch = s:system(cmd)
+
+      let initial_sha = s:system(get_current_sha)[0:15]
+    endif
+
+    if len(on_branch) == 0
+      let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
+      let cmd = g:shellesc_cd(cmd)
+    endif
+
   else
     let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
     let initial_sha = ''
   endif
 
-  let out = s:system(cmd)
-  call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:run_and_log(a:bundle, cmd)
+
+  if has_rev
+    let cmd = 'cd '.shellescape(a:bundle.path()).' && git checkout '.a:bundle.rev
+    let cmd = g:shellesc_cd(cmd)
+
+    call s:run_and_log(a:bundle, cmd)
+  endif
 
   if 0 != v:shell_error
     return 'error'
@@ -248,6 +274,15 @@ func! s:sync(bang, bundle) abort
 
   call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
   return 'updated'
+endf
+
+func! s:run_and_log(bundle, cmd)
+  let out = s:system(a:cmd)
+
+  call s:log('')
+  call s:log('Bundle '.a:bundle.name_spec)
+  call s:log('$ '.a:cmd)
+  call s:log('> '.out)
 endf
 
 func! g:shellesc(cmd) abort
