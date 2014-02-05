@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vundle by gmarik</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/gmarik/vundle">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/gmarik/vundle/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/gmarik/vundle/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Vundle</h1>
+          <p>Vundle, the plug-in manager for Vim</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/gmarik">gmarik</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p><a href="http://github.com/gmarik/vundle">Vundle</a> is short for <em>Vim bundle</em> and is a <a href="http://www.vim.org">Vim</a> plugin manager.</p>
+
+<p><img src="http://25.media.tumblr.com/tumblr_m8m96w06G81r39828o1_1280.png" alt="Vundle-installer"></p>
+
+<h2>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick start</h2>
+
+<ol>
+<li>
+<p>Set up <a href="http://github.com/gmarik/vundle">Vundle</a>:</p>
+
+<pre><code>$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+</code></pre>
+</li>
+<li>
+<p>Configure bundles:</p>
+
+<p>Sample <code>.vimrc</code>:</p>
+
+<div class="highlight highlight-vim"><pre><span class="k">set</span> <span class="nb">nocompatible</span>              <span class="c">" be iMproved</span>
+<span class="k">filetype</span> off                  <span class="c">" required!</span>
+
+<span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle<span class="sr">/vundle/</span>
+<span class="k">call</span> vundle#rc<span class="p">()</span>
+
+<span class="c">" let Vundle manage Vundle</span>
+<span class="c">" required! </span>
+Bundle <span class="s1">'gmarik/vundle'</span>
+
+<span class="c">" My bundles here:</span>
+<span class="c">"</span>
+<span class="c">" original repos on GitHub</span>
+Bundle <span class="s1">'tpope/vim-fugitive'</span>
+Bundle <span class="s1">'Lokaltog/vim-easymotion'</span>
+Bundle <span class="s1">'rstacruz/sparkup'</span><span class="p">,</span> {<span class="s1">'rtp'</span>: <span class="s1">'vim/'</span>}
+Bundle <span class="s1">'tpope/vim-rails.git'</span>
+<span class="c">" vim-scripts repos</span>
+Bundle <span class="s1">'L9'</span>
+Bundle <span class="s1">'FuzzyFinder'</span>
+<span class="c">" non-GitHub repos</span>
+Bundle <span class="s1">'git://git.wincent.com/command-t.git'</span>
+<span class="c">" Git repos on your local machine (i.e. when working on your own plugin)</span>
+Bundle <span class="s1">'file:///Users/gmarik/path/to/plugin'</span>
+<span class="c">" ...</span>
+
+<span class="k">filetype</span> plugin indent <span class="k">on</span>     <span class="c">" required!</span>
+<span class="c">"</span>
+<span class="c">" Brief help</span>
+<span class="c">" :BundleList          - list configured bundles</span>
+<span class="c">" :BundleInstall(!)    - install (update) bundles</span>
+<span class="c">" :BundleSearch(!) foo - search (or refresh cache first) for foo</span>
+<span class="c">" :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles</span>
+<span class="c">"</span>
+<span class="c">" see :h vundle for more details or wiki for FAQ</span>
+<span class="c">" NOTE: comments after Bundle commands are not allowed.</span>
+</pre></div>
+</li>
+<li>
+<p>Install configured bundles:</p>
+
+<p>Launch <code>vim</code>, run <code>:BundleInstall</code> 
+(or <code>vim +BundleInstall +qall</code> for CLI lovers)</p>
+
+<p><em>Windows users</em>: see <a href="https://github.com/gmarik/vundle/wiki/Vundle-for-Windows">Vundle for Windows</a></p>
+
+<p>Installation requires <a href="http://git-scm.com">Git</a> and triggers <a href="http://gitref.org/creating/#clone"><code>git clone</code></a> for each configured repo to <code>~/.vim/bundle/</code>.</p>
+</li>
+</ol><h2>
+<a name="why-vundle" class="anchor" href="#why-vundle"><span class="octicon octicon-link"></span></a>Why Vundle</h2>
+
+<p><a href="http://github.com/gmarik/vundle">Vundle</a> allows you to:</p>
+
+<ul>
+<li>keep track of and configure your scripts right in <code>.vimrc</code>
+</li>
+<li>
+<a href="https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L115-129">install</a> configured scripts (a.k.a. bundle) </li>
+<li>
+<a href="https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L131-137">update</a> configured scripts</li>
+<li>
+<a href="https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L139-161">search</a> by name <a href="http://vim-scripts.org/vim/scripts.html">all available Vim scripts</a>
+</li>
+<li>
+<a href="https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L171-L183">clean</a> unused scripts up</li>
+<li>run the above actions in a <em>single keypress</em> with <a href="https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L186-213">interactive mode</a>
+</li>
+</ul><p><a href="http://github.com/gmarik/vundle">Vundle</a> also:</p>
+
+<ul>
+<li>manages the <a href="http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27">runtime path</a> of your installed scripts</li>
+<li>
+<a href="http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags">regenerates help tags</a> automatically</li>
+</ul><h2>
+<a name="docs" class="anchor" href="#docs"><span class="octicon octicon-link"></span></a>Docs</h2>
+
+<p>See the <a href="https://github.com/gmarik/vundle/blob/master/doc/vundle.txt"><code>:h vundle</code></a> Vimdoc for more details.</p>
+
+<h2>
+<a name="people-using-vundle" class="anchor" href="#people-using-vundle"><span class="octicon octicon-link"></span></a>People using Vundle</h2>
+
+<p>see <a href="https://github.com/gmarik/vundle/wiki/Examples">Examples</a></p>
+
+<h2>
+<a name="faq" class="anchor" href="#faq"><span class="octicon octicon-link"></span></a>FAQ</h2>
+
+<p>see <a href="https://github.com/gmarik/vundle/wiki#faq">the wiki</a></p>
+
+<h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+<p>see <a href="https://github.com/gmarik/vundle/graphs/contributors">Vundle contributors</a></p>
+
+<p><em>Thank you!</em></p>
+
+<h2>
+<a name="inspiration-and-ideas-from" class="anchor" href="#inspiration-and-ideas-from"><span class="octicon octicon-link"></span></a>Inspiration and ideas from</h2>
+
+<ul>
+<li><a href="http://github.com/tpope/vim-pathogen/">pathogen.vim</a></li>
+<li><a href="https://github.com/bundler/bundler">Bundler</a></li>
+<li><a href="http://github.com/bronson">Scott Bronson</a></li>
+</ul><h2>
+<a name="also" class="anchor" href="#also"><span class="octicon octicon-link"></span></a>Also</h2>
+
+<ul>
+<li>Vundle was developed and tested with <a href="http://www.vim.org">Vim</a> 7.3 on OS X, Linux and Windows</li>
+<li>Vundle tries to be as <a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a> as possible</li>
+</ul><h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO:</h2>
+
+<p><a href="http://github.com/gmarik/vundle">Vundle</a> is a work in progress, so any ideas and patches are appreciated.</p>
+
+<ul>
+<li>✓ activate newly added bundles on <code>.vimrc</code> reload or after <code>:BundleInstall</code>
+</li>
+<li>✓ use preview window for search results</li>
+<li>✓ Vim documentation</li>
+<li>✓ put Vundle in <code>bundles/</code> too (will fix Vundle help)</li>
+<li>✓ tests</li>
+<li>✓ improve error handling</li>
+<li>allow specifying revision/version?</li>
+<li>handle dependencies</li>
+<li>show description in search results</li>
+<li>search by description as well</li>
+<li>make it rock!</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
