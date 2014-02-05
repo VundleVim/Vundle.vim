@@ -3,7 +3,9 @@ func! vundle#installer#new(bang, ...) abort
         \ g:bundles :
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+  let names = vundle#scripts#bundle_names(map(copy(bundles),
+        \ '{ "name": v:val.name_spec, '.
+        \ '"rtp": has_key(v:val, "rtp") ? v:val.rtp : "" }'))
   call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
@@ -100,9 +102,13 @@ endf
 func! vundle#installer#install(bang, name) abort
   if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
 
-  let b = vundle#config#init_bundle(a:name, {})
+  let arg_list = split(a:name, ',\s*')
+  let rtp = len(arg_list) > 1 ? arg_list[1] : ''
+  let rtp = substitute(rtp, "['".'"]\+','','g')
+  let name = arg_list[0]
+  let b = vundle#config#init_bundle(name, {})
 
-  return s:sync(a:bang, b)
+  return s:sync(a:bang, b, rtp)
 endf
 
 func! vundle#installer#docs() abort
@@ -176,12 +182,7 @@ func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.shellescape(bundle.path())
 
-  let out = s:system(cmd)
-
-  call s:log('')
-  call s:log('Bundle '.a:dir_name)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:system(dir_name, cmd)
 
   if 0 != v:shell_error
     return 'error'
@@ -210,27 +211,36 @@ func! s:helptags(rtp) abort
   return 1
 endf
 
-func! s:sync(bang, bundle) abort
+func! s:sync(bang, bundle, rtp) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
+  let bundle_path = shellescape(a:bundle.path())
+  let cmd = g:shellesc_cd('cd '.bundle_path)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.shellescape(a:bundle.path()).' && git pull && git submodule update --init --recursive'
-
-    let cmd = g:shellesc_cd(cmd)
-
-    let get_current_sha = 'cd '.shellescape(a:bundle.path()).' && git rev-parse HEAD'
-    let get_current_sha = g:shellesc_cd(get_current_sha)
-    let initial_sha = s:system(get_current_sha)[0:15]
+    let get_current_sha  = g:shellesc_cd('cd '.bundle_path)
+    let get_current_sha .= ' && git rev-parse HEAD'
+    let initial_sha = system(get_current_sha)[0:15]
+    let cmd .= ' && git pull origin master'
   else
-    let cmd = 'git clone --recursive '.shellescape(a:bundle.uri).' '.shellescape(a:bundle.path())
+    call mkdir(a:bundle.path(), 'p')
+    let cmd .= ' && git init'
+    let cmd .= ' && git remote add origin '.shellescape(a:bundle.uri)
+    if !empty(a:rtp)
+      " TODO: This requires a feature introduced by git 1.7.0,
+      " so it might be better to check the version before using it
+      let cmd .= ' && git config core.sparseCheckout true'
+      let cmd .= ' && echo '.shellescape(a:rtp).' >> .git/info/sparse-checkout'
+    endif
     let initial_sha = ''
+    let cmd .= ' && git pull --depth=1 origin master'
   endif
 
-  let out = s:system(cmd)
-  call s:log('')
-  call s:log('Bundle '.a:bundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  if empty(a:rtp)
+    " TODO: It causes error when using rtp because no .gitmodule
+    " is checked out
+    let cmd .= ' && git submodule update --init --recursive'
+  endif
+  call s:system(a:bundle.name_spec, cmd)
 
   if 0 != v:shell_error
     return 'error'
@@ -240,7 +250,7 @@ func! s:sync(bang, bundle) abort
     return 'new'
   endif
 
-  let updated_sha = s:system(get_current_sha)[0:15]
+  let updated_sha = system(get_current_sha)[0:15]
 
   if initial_sha == updated_sha
     return 'todate'
@@ -269,8 +279,13 @@ func! g:shellesc_cd(cmd) abort
   endif
 endf
 
-func! s:system(cmd) abort
-  return system(a:cmd)
+func! s:system(dir_name, cmd) abort
+  let out = system(a:cmd)
+  call s:log('')
+  call s:log('Bundle '.a:dir_name)
+  call s:log('$ '.a:cmd)
+  call s:log('> '.out)
+  return out
 endf
 
 func! s:log(str) abort
