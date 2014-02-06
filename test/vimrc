@@ -4,27 +4,26 @@ set nocompatible
 set nowrap
 
 let root = '/tmp/!vundle-test/bundles/'
-let src = 'http://github.com/gmarik/vundle.git' 
+" let src = 'http://github.com/gmarik/vundle.git' 
 
 " let src = '~/.vim/bundle/vundle/.git' 
 
 " Vundle Options
 " let g:vundle_default_git_proto = 'git'
 
-if !isdirectory(expand(root, 1).'/vundle')
-  exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
-endif
+" if !isdirectory(expand(root, 1).'/vundle')
+"   exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
+" endif
 
 filetype off
 syntax on
 
 runtime macros/matchit.vim
 
-exec 'set rtp+='.root.'/vundle'
+" This test should be executed in "test" directory
+set rtp+=..
 
 call vundle#rc(root)
-
-Bundle "gmarik/vundle"
 
 " vim-scripts name
 Bundle 'molokai'
