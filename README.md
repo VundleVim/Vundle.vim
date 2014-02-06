@@ -1,3 +1,7 @@
+### Halp
+
+[Help maintain Vundle](https://github.com/gmarik/Vundle.vim/issues/241)
+
 ## About
 
 [Vundle] is short for _Vim bundle_ and is a [Vim] plugin manager.
