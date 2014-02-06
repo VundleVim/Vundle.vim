@@ -252,9 +252,7 @@ endf
 
 func! vundle#installer#shellesc(cmd) abort
   if ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh')))
-    if &shellxquote != '('                          " workaround for patch #445
-      return '"'.a:cmd.'"'                          " enclose in quotes so && joined cmds work
-    endif
+    return '"' . substitute(a:cmd, '"', '\\"', 'g') . '"'
   endif
   return shellescape(a:cmd)
 endf
