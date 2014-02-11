@@ -20,7 +20,7 @@ Vundle is short for Vim bundle and is a Vim plug-in manager.
 =============================================================================
 1. WHY VUNDLE ~
                                                    *vundle-why-vundle*
-Vundle allows to:
+Vundle allows you to:
 
 - keep track and configure your scripts right in `.vimrc`
 - install configured scripts (aka bundle)
@@ -126,8 +126,9 @@ BundleInstall allows to install scripts by name:>
     :BundleInstall unite.vim
 
 installs and activates unite.vim. You can use Tab to auto-complete known
-script names. Note that the installation, as just described, doesn't
-automatically configure scripts; you have to configure them manually.
+script names. Note that the installation just described isn't permanent. To
+finish, you must put `Bundle 'unite.vim` at the appropriate line in your
+`.vimrc` to tell Vundle to load the plugin at startup.
 
 3.3 UPDATE SCRIPTS ~
                                       *vundle-scripts-update* *BundleInstall!*
@@ -187,9 +188,9 @@ removes unused dirs with no questions.
 =============================================================================
 4. INTERACTIVE MODE ~
 							*vundle-interactive*
-Vundle provides simple interactive mode to help you explore new scripts
-easily.  Interactive mode is available as result of any commands that display
-list of bundles. For instance, running: >
+Vundle provides a simple interactive mode to help you explore new scripts
+easily.  Interactive mode is available as result of any commands that displays
+a list of bundles. For instance, running: >
 
     :BundleSearch! unite
 
@@ -205,11 +206,11 @@ content: >
     Bundle 'unite-font'
     Bundle 'unite-colorscheme'
 
-As the first line(starting with `"Keymap:`) shows, certain actions may be
-applied to selected bundles. Move cursor over line `Bundle 'unite.vim'` and
-press i key (install, see |vundle-keymappings| for more details). After
-unite.vim is installed - `:Unite file` command should be available to prove
-'unite.vim' availability.
+As the first line (starting with `"Keymap:`) shows, certain actions may be
+applied to selected bundles. Move the cursor over the line `Bundle
+'unite.vim'` and press i key (install, see |vundle-keymappings| for more
+details). After unite.vim is installed - `:Unite file` command should be
+available to prove 'unite.vim' availability.
 
 Note that the interactive installation doesn't update your .vimrc
 configuration.
