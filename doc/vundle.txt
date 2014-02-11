@@ -1,48 +1,43 @@
-*vundle.txt* Vundle the plug-in manager for Vim.     *vundle*
+*vundle.txt*		Vundle, a plug-in manager for Vim.	    *vundle*
 
-CONTENTS ~
-                                                   *vundle-contents*
-===========================================================================
+				 VUNDLE MANUAL
 
-1. About                                           |vundle-about|
-2. Why Vundle                                      |vundle-why-vundle|
-3. Quick start                                     |vundle-quickstart|
-4. Scripts                                         |vundle-scripts|
-   4.1. Configure scripts                          |vundle-scripts-configure|
-   4.2. Installing scripts                         |vundle-scripts-install|
-   4.3. Updating scripts                           |vundle-scripts-update|
-   4.4. Searching scripts                          |vundle-scripts-search|
-   4.5. Listing scripts                            |vundle-scripts-list|
-   4.6. Cleanup                                    |vundle-scripts-cleanup|
-5. Interactive mode                                |vundle-interactive|
-6. Key mappings                                    |vundle-keymappings|
-7. Options                                         |vundle-options|
+Vundle is short for Vim bundle and is a Vim plug-in manager.
 
-===========================================================================
+1. Why Vundle                                      |vundle-why-vundle|
+2. Quick start                                     |vundle-quickstart|
+3. Scripts                                         |vundle-scripts|
+   3.1. Configure scripts                          |vundle-scripts-configure|
+   3.2. Installing scripts                         |vundle-scripts-install|
+   3.3. Updating scripts                           |vundle-scripts-update|
+   3.4. Searching scripts                          |vundle-scripts-search|
+   3.5. Listing scripts                            |vundle-scripts-list|
+   3.6. Cleanup                                    |vundle-scripts-cleanup|
+4. Interactive mode                                |vundle-interactive|
+5. Key mappings                                    |vundle-keymappings|
+6. Options                                         |vundle-options|
 
-ABOUT                                              *vundle-about*
-
-Vundle is a short cut for Vim bundle and is the Vim plug-in manager.
-
-2. WHY VUNDLE ~
+=============================================================================
+1. WHY VUNDLE ~
                                                    *vundle-why-vundle*
-Vundle allows to:
+Vundle allows you to:
 
 - keep track and configure your scripts right in `.vimrc`
-- install configured scripts (aka bundle) 
+- install configured scripts (aka bundle)
 - update configured scripts
 - search [all available vim scripts] by name
 - clean up from unused scripts
 
-Also *Vundle* :
+Also Vundle:
 
 - manages runtime path of your installed scripts
 - regenerates helptags automatically
 
-Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org) 
+Vundle takes advantage of [vim-scripts.org](http://vim-scripts.org)
 in order to install/search [all available vim scripts]
 
-3. QUICK START ~
+=============================================================================
+2. QUICK START ~
                                                     *vundle-quickstart*
 1) Setup Vundle: >
 
@@ -55,7 +50,7 @@ in order to install/search [all available vim scripts]
      set nocompatible               " be iMproved
      filetype off                   " required!
 
-     set rtp+=~/.vim/vundle.git/ 
+     set rtp+=~/.vim/vundle.git/
      call vundle#rc()
 
      " let Vundle manage Vundle
@@ -77,9 +72,10 @@ in order to install/search [all available vim scripts]
      Bundle 'file:///Users/gmarik/path/to/plugin'
      " ...
 
-     filetype plugin indent on     " required!
-     " or 
-     " filetype plugin on          " to not use the indentation settings set by plugins
+     filetype plugin indent on	    " required!
+     " or
+     " filetype plugin on	    " to not use the indentation settings set
+				    " by plugins
 
 3) Install configured bundles:
 
@@ -87,19 +83,24 @@ in order to install/search [all available vim scripts]
 
     :BundleInstall
 
-Installing requires [Git] and triggers [Git clone](http://gitref.org/creating/#clone) for 
-each configured repo to `~/.vim/bundle/`.
+Installing requires [Git] and triggers
+[Git clone](http://gitref.org/creating/#clone) for each configured repo to
+`~/.vim/bundle/`.
 
-4. SCRIPTS ~
+=============================================================================
+3. SCRIPTS ~
                                                     *vundle-scripts*
-4.1 CONFIGURE SCRIPTS ~
+3.1 CONFIGURE SCRIPTS ~
                                       *vundle-scripts-configure* *Bundle*
 Before installing scripts they need to be configured. It's done using `Bundle`
 command in `.vimrc`: >
 
-    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git repository 
+    Bundle 'git_repo_uri'       " 'git_repo_uri' should be a valid uri to git
+				" repository
 or >
-    Bundle 'script_name'        " 'script-name' should be an official script name (see |vundle-scripts-search| )
+
+    Bundle 'script_name'        " 'script-name' should be an official script
+				" name (see |vundle-scripts-search|)
 
 Vundle loves Github, that's why short uris can be used with commands: >
 
@@ -109,10 +110,10 @@ equals full uri >
 
     Bundle 'http://github.com/tpope/vim-fugitive.git'
 
-NOTE: Vundle defaults to http:// protocol for the short URIs
+Note that Vundle defaults to http:// protocol for the short URIs.
 
 
-4.2 INSTALL SCRIPTS ~
+3.2 INSTALL SCRIPTS ~
                                       *vundle-scripts-install* *BundleInstall*
 run >
     :BundleInstall
@@ -124,11 +125,12 @@ BundleInstall allows to install scripts by name:>
 
     :BundleInstall unite.vim
 
-installs and activates unite.vim. You can use Tab to auto-complete known script names.
-NOTE: installation, as just described, doesn't automatically configure scripts; 
-you have to configure them manually.
+installs and activates unite.vim. You can use Tab to auto-complete known
+script names. Note that the installation just described isn't permanent. To
+finish, you must put `Bundle 'unite.vim` at the appropriate line in your
+`.vimrc` to tell Vundle to load the plugin at startup.
 
-4.3 UPDATE SCRIPTS ~
+3.3 UPDATE SCRIPTS ~
                                       *vundle-scripts-update* *BundleInstall!*
 run >
     :BundleInstall!             " NOTE: bang(!)
@@ -136,7 +138,7 @@ run >
 installs or updates configured scripts.
 press u after updates complete to see the changelog of all updated bundles.
 
-4.4 SEARCHING ~
+3.4 SEARCHING ~
                                        *vundle-scripts-search* *BundleSearch*
 run >
     :BundleSearch foo
@@ -160,7 +162,7 @@ it will display all known scripts
 
 Searching requires [`curl`](http://curl.haxx.se/)
 
-4.5 LISTING BUNDLES ~
+3.5 LISTING BUNDLES ~
                                      *vundle-scripts-list* *BundleList*
 
 To quickly pull list of installed bundles use >
@@ -168,7 +170,7 @@ To quickly pull list of installed bundles use >
     :BundleList
 
 
-4.6 CLEANING UP ~
+3.6 CLEANING UP ~
                                      *vundle-scripts-cleanup* *BundleClean*
 run >
 
@@ -183,12 +185,12 @@ confirms removal of unused script-dirs from `.vim/bundle/`.
 removes unused dirs with no questions.
 
 
-                                     *vundle-interactive*
-5. INTERACTIVE MODE ~
-
-Vundle provides simple interactive mode to help you explore new scripts easily.
-Interactive mode is available as result of any commands that display list of
-bundles. For instance, running: >
+=============================================================================
+4. INTERACTIVE MODE ~
+							*vundle-interactive*
+Vundle provides a simple interactive mode to help you explore new scripts
+easily.  Interactive mode is available as result of any commands that displays
+a list of bundles. For instance, running: >
 
     :BundleSearch! unite
 
@@ -204,17 +206,18 @@ content: >
     Bundle 'unite-font'
     Bundle 'unite-colorscheme'
 
-As the first line(starting with `"Keymap:`) shows, certain actions may be applied
-to selected bundles .  Move cursor over line `Bundle 'unite.vim'` and press i 
-key(install, see |vundle-keymappings| for more details). 
-After unite.vim is installed - `:Unite file` command should be
+As the first line (starting with `"Keymap:`) shows, certain actions may be
+applied to selected bundles. Move the cursor over the line `Bundle
+'unite.vim'` and press i key (install, see |vundle-keymappings| for more
+details). After unite.vim is installed - `:Unite file` command should be
 available to prove 'unite.vim' availability.
 
-NOTE: Interactive installation doesn't update your .vimrc configuration.
+Note that the interactive installation doesn't update your .vimrc
+configuration.
 
-                                     *vundle-keymappings*
-6. KEY MAPPINGS ~
-
+=============================================================================
+5. KEY MAPPINGS ~
+							*vundle-keymappings*
 KEY | DESCRIPTION
 ----|-------------------------- >
  i  |  run :BundleInstall with name taken from line cursor is positioned on
@@ -225,10 +228,9 @@ KEY | DESCRIPTION
  R  |  fetch fresh script list from server
 .
 
-                                     *vundle-options*
-7. OPTIONS ~
-
->
+=============================================================================
+6. OPTIONS ~
+							    *vundle-options*
   let g:vundle_default_git_proto = 'git'
 
 makes Vundle use `git` instead default `https` when building absolute repo URIs
