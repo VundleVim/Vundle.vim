@@ -3,17 +3,14 @@ set nocompatible
 
 set nowrap
 
-let root = '/tmp/!vundle-test/bundles/'
+let bundle_dir = '/tmp/vundle-test/bundles/'
 " let src = 'http://github.com/gmarik/vundle.git' 
-
-" let src = '~/.vim/bundle/vundle/.git' 
 
 " Vundle Options
 " let g:vundle_default_git_proto = 'git'
 
-" if !isdirectory(expand(root, 1).'/vundle')
-"   exec '!git clone '.src.' '.shellescape(root, 1).'/vundle'
-" endif
+silent execute '!mkdir -p '.bundle_dir
+silent execute '!ln -f -s ~/.vim/bundle/vundle '.bundle_dir
 
 filetype off
 syntax on
@@ -21,9 +18,9 @@ syntax on
 runtime macros/matchit.vim
 
 " This test should be executed in "test" directory
-set rtp+=..
+exec 'set rtp^='.bundle_dir.'vundle/'
 
-call vundle#rc(root)
+call vundle#rc(bundle_dir)
 
 " vim-scripts name
 Bundle 'molokai'
@@ -37,7 +34,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'nelstrom/vim-mac-classic-theme.git'
 "
 "  invalid uri
-Bundle 'nonexistinguser/yupppierepo.git'
+"Bundle 'nonexistinguser/yupppierepo.git'
 
 " full uri
 Bundle 'https://github.com/vim-scripts/vim-game-of-life'
@@ -62,12 +59,12 @@ Bundle 'jimenezrick/vimerl'
 
 filetype plugin indent on      " Automatically detect file types.
 
-set wildignore+=doc              " should not break helptags
-set wildignore+=.git             " should not break clone
-set wildignore+=.git/*             " should not break clone
+set wildignore+=doc            " should not break helptags
+set wildignore+=.git           " should not break clone
+set wildignore+=.git/*         " should not break clone
 set wildignore+=*/.git/*
 " TODO: helptags fails with this
-" set wildignore+=doc/*             " should not break clone
+" set wildignore+=doc/*        " should not break clone
 " set wildignore+=*/doc/*
 
 au VimEnter * BundleInstall
