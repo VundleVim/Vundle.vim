@@ -50,7 +50,7 @@ in order to install/search [all available vim scripts]
      set nocompatible               " be iMproved
      filetype off                   " required!
 
-     set rtp+=~/.vim/vundle.git/
+     set rtp+=~/.vim/bundle/vundle/
      call vundle#rc()
 
      " let Vundle manage Vundle
@@ -102,7 +102,7 @@ or >
     Bundle 'script_name'        " 'script-name' should be an official script
 				" name (see |vundle-scripts-search|)
 
-Vundle loves Github, that's why short uris can be used with commands: >
+Vundle loves Github, that's why short URIs can be used with commands: >
 
     Bundle 'tpope/vim-fugitive'
 
@@ -112,6 +112,15 @@ equals full uri >
 
 Note that Vundle defaults to http:// protocol for the short URIs.
 
+There can also be a second argument after URI.  It has to be a dictionary with
+a key called 'rtp'.  The value for that key is a directory inside the
+repository (relative path from the root of the repository) where the vim
+plugin resides.  For example: >
+
+     Bundle 'any_valid_uri', {'rtp': 'some/subdir/'}
+
+This can be used with git repositories that put the vim plugin inside a
+subdirectory.
 
 3.2 INSTALL SCRIPTS ~
                                       *vundle-scripts-install* *BundleInstall*
@@ -145,8 +154,8 @@ run >
 
 lists bundles matching 'foo' in new a new split window, ie:
 >
-    Bundle "VimFootnotes"
-    Bundle "foo.vim"
+    Bundle 'VimFootnotes'
+    Bundle 'foo.vim'
 >
 and >
 
