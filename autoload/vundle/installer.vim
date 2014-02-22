@@ -199,10 +199,11 @@ func! s:has_doc(rtp) abort
 endf
 
 func! s:helptags(rtp) abort
-  let doc_path = a:rtp.'/doc/'
+  " it is important to keep trailing slash here
+  let doc_path = resolve(a:rtp).'/doc/'
   call s:log(':helptags '.doc_path)
   try
-    execute 'helptags ' . resolve(doc_path)
+    execute 'helptags ' . doc_path
   catch
     call s:log("> Error running :helptags ".doc_path)
     return 0
