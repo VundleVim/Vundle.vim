@@ -25,6 +25,7 @@
 1. Introduction:
 
    Installation requires [Git] and triggers [`git clone`] for each configured repository to `~/.vim/bundle/` by default.
+   Curl is required for search.
 
    If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
 
@@ -69,6 +70,8 @@
    " ...
 
    filetype plugin indent on     " required
+   " To ignore plugin indent changes, instead use:
+   "filetype plugin on
    "
    " Brief help
    " :BundleList          - list configured bundles
@@ -78,6 +81,7 @@
    "
    " see :h vundle for more details or wiki for FAQ
    " NOTE: comments after Bundle commands are not allowed.
+   " Put your stuff after this line
    ```
 
 4. Install Bundles:
@@ -137,8 +141,8 @@ see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 [help tags]:http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags
 [runtime path]:http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27
 
-[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L115-129
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L131-137
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L139-161
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L171-L183
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L186-213
+[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L179-198
+[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L200-209
+[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L211-238
+[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L247-260
+[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L263-303
