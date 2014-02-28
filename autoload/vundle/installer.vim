@@ -215,7 +215,7 @@ func! s:sync(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git pull && git submodule update --init --recursive'
+    let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git remote set-url origin '.vundle#installer#shellesc(a:bundle.uri).' && git pull && git submodule update --init --recursive'
 
     let cmd = g:shellesc_cd(cmd)
 
