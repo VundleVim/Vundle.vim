@@ -99,7 +99,7 @@ func! vundle#scripts#view(title, headers, results)
   setl noswapfile
 
   setl cursorline
-  setl nonu ro noma ignorecase 
+  setl nonu ro noma 
   if (exists('&relativenumber')) | setl norelativenumber | endif
 
   setl ft=vundle
