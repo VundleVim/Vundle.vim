@@ -4,17 +4,18 @@
 
 1. About Vundle                                    |vundle-about|
 2. Quick Start                                     |vundle-quickstart|
-3. Scripts                                         |vundle-scripts|
-  3.1. Configuring Scripts                         |vundle-scripts-configure|
-  3.2. Supported URIs                              |vundle-uris|
-  3.3. Installing Scripts                          |vundle-scripts-install|
-  3.4. Updating Scripts                            |vundle-scripts-update|
-  3.5. Searching Scripts                           |vundle-scripts-search|
-  3.6. Listing Bundles                             |vundle-scripts-list|
-  3.7. Cleaning Up                                 |vundle-scripts-cleanup|
+3. Plugins                                         |vundle-plugins|
+  3.1. Configuring Plugins                         |vundle-plugins-configure|
+  3.2. Supported URIs                              |vundle-plugins-uris|
+  3.3. Installing Plugins                          |vundle-plugins-install|
+  3.4. Updating Plugins                            |vundle-plugins-update|
+  3.5. Searching Plugins                           |vundle-plugins-search|
+  3.6. Listing Plugins                             |vundle-plugins-list|
+  3.7. Cleaning Up                                 |vundle-plugins-cleanup|
 4. Interactive Mode                                |vundle-interactive|
 5. Key Mappings                                    |vundle-keymappings|
 6. Options                                         |vundle-options|
+7. Plugin Interface Change                         |vundle-interface-change|
 
 =============================================================================
 1. ABOUT VUNDLE ~
@@ -38,6 +39,9 @@ Vundle automatically...
 
 Vundle's search uses http://vim-scripts.org to provide a list of all
 available Vim scripts.
+
+Vundle is undergoing an interface change, see |vundle-interface-change| for
+more information.
 
 =============================================================================
 2. QUICK START ~
@@ -76,24 +80,24 @@ available Vim scripts.
     "call vundle#rc(path)
 
     " let Vundle manage Vundle, required
-    Bundle 'gmarik/vundle'
+    Plugin 'gmarik/vundle'
 
     " The following are examples of different formats supported.
     " Keep bundle commands between here and filetype plugin indent on.
-    " scripts on GitHub repos
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'Lokaltog/vim-easymotion'
-    Bundle 'tpope/vim-rails.git'
+    " plugins on GitHub repos
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'Lokaltog/vim-easymotion'
+    Plugin 'tpope/vim-rails.git'
     " The sparkup vim script is in a subdirectory of this repo called vim.
     " Pass the path to set the runtimepath properly.
-    Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-    " scripts from http://vim-scripts.org/vim/scripts.html
-    Bundle 'L9'
-    Bundle 'FuzzyFinder'
-    " scripts not on GitHub
-    Bundle 'git://git.wincent.com/command-t.git'
+    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+    " plugins from http://vim-scripts.org/vim/scripts.html
+    Plugin 'L9'
+    Plugin 'FuzzyFinder'
+    " plugins not on GitHub
+    Plugin 'git://git.wincent.com/command-t.git'
     " git repos on your local machine (i.e. when working on your own plugin)
-    Bundle 'file:///home/gmarik/path/to/plugin'
+    Plugin 'file:///home/gmarik/path/to/plugin'
     " ...
 
     filetype plugin indent on     " required
@@ -105,42 +109,65 @@ available Vim scripts.
 
   Launch vim and run
 >
-    :BundleInstall
+    :PluginInstall
 <
   To install from command line:
 >
-    vim +BundleInstall +qall
+    vim +PluginInstall +qall
 
 =============================================================================
-3. SCRIPTS ~
-                                                             *vundle-scripts*
+3. PLUGINS ~
+                                                             *vundle-plugins*
 
-3.1 CONFIGURING SCRIPTS ~
-                                         *vundle-scripts-configure* *:Bundle*
+3.1 CONFIGURING PLUGINS ~
+                                         *vundle-plugins-configure* *:Plugin*
 
-Vundle tracks what scripts you want configured by the `Bundle` commands in your
-`.vimrc`. Each `Bundle` command tells Vundle to activate the script on startup
-adding it to your runtimepath. Commenting out or removing the line will
-disable the `Bundle`.
+Vundle tracks what plugins you want configured by the `Plugin` commands in your
+`.vimrc`. Each `Plugin` command tells Vundle to activate the script on startup
+adding it to your |runtimepath|. Commenting out or removing the line will
+disable the `Plugin`.
 
-Each `Bundle` command takes a URI pointing to the script. No comments should
+Each `Plugin` command takes a URI pointing to the script. No comments should
 follow on the same line as the command. Example:
 >
-  Bundle 'git_URI'
+  Plugin 'git_URI'
 
-There can also be a second argument after URI.  It has to be a dictionary with
-a key called 'rtp'.  The value for that key is a directory inside the
-repository (relative path from the root of the repository) where the vim
-plugin resides.  For example:
+The `Bundle` command can optionally take a second argument after the URI. It
+has to be a dictionary, separated from the URI by a comma. Each key-value pair
+in the dictionary is a configuration option.
+
+The following per-script configuration options are available.
+
+The 'rtp' option
+----------------
+
+Specifies a directory inside the repository (relative path from the root of
+the repository) where the vim plugin resides. It determines the path that will
+be added to the |runtimepath|.
+
+For example:
 >
-  Bundle 'git_URI', {'rtp': 'some/subdir/'}
+  Plugin 'git_URI', {'rtp': 'some/subdir/'}
 
 This can be used with git repositories that put the vim plugin inside a
 subdirectory.
 
+The 'name' option
+-----------------
+
+The name of the directory that will hold the local clone of the configured
+script.
+
+For example:
+>
+  Plugin 'git_URI', {'name': 'newPluginName'}
+
+This can be used to prevent name collisions between plugins that Vundle would
+otherwise try to clone into the same directory. It also provides an additional
+level of customisation.
 
 3.2 SUPPORTED URIS ~
-                                                                *vundle-uris*
+                                                        *vundle-plugins-uris*
 
 `Vundle` integrates very well with both GitHub and vim-scripts.org
 (http://vim-scripts.org/vim/scripts.html) allowing short URIs. It also allows
@@ -152,22 +179,22 @@ http://git-scm.com/book/ch4-1.html
 
 GitHub
 ------
-GitHub is used when a user/repo is passed to `Bundle`.
+GitHub is used when a user/repo is passed to `Plugin`.
 >
-  Bundle 'gmarik/Vundle.vim' => https://github.com/gmarik/Vundle.vim
+  Plugin 'gmarik/Vundle.vim' => https://github.com/gmarik/Vundle.vim
 
 Vim Scripts
 -----------
 Any single word without a '/' is assumed to be from Vim Scripts.
 >
-  Bundle 'ctrlp.vim' => https://github.com/vim-scripts/ctrlp.vim
+  Plugin 'ctrlp.vim' => https://github.com/vim-scripts/ctrlp.vim
 
 Other Git URIs
 --------------
 No modification is performed on valid URIs that point outside the above
 URLs.
 >
-  Bundle 'git://git.wincent.com/command-t.git'
+  Plugin 'git://git.wincent.com/command-t.git'
 
 Local Plugins
 -------------
@@ -175,89 +202,89 @@ The git protocol supports local installation using the 'file://' protocol.
 This is handy when developing plugins locally. Follow the protocol with an
 absolute path to the script directory.
 >
-  Bundle 'file///path/from/root/to/plugin'
+  Plugin 'file///path/from/root/to/plugin'
 
-3.3 INSTALLING SCRIPTS ~
-                                    *vundle-scripts-install* *:BundleInstall*
+3.3 INSTALLING PLUGINS ~
+                                    *vundle-plugins-install* *:PluginInstall*
 >
-  :BundleInstall
+  :PluginInstall
 
 Will install all plugins configured in your `.vimrc`. Newly installed
-scripts will be automatically enabled. Some scripts may require extra steps
+plugins will be automatically enabled. Some plugins may require extra steps
 such as compilation or external programs, refer to their documentation.
 
-BundleInstall allows installation of scripts by name:
+PluginInstall allows installation of plugins by name:
 >
-  :BundleInstall unite.vim
+  :PluginInstall unite.vim
 
 Installs and activates unite.vim. You can use Tab to auto-complete known
 script names. Note that the installation just described isn't permanent. To
-finish, you must put `Bundle 'unite.vim'` at the appropriate place in your
+finish, you must put `Plugin 'unite.vim'` at the appropriate place in your
 `.vimrc` to tell Vundle to load the plugin at startup.
 
-After installing scripts press 'l' (lowercase 'L') to see the log of commands
+After installing plugins press 'l' (lowercase 'L') to see the log of commands
 if any errors occurred.
 
-3.4 UPDATING SCRIPTS ~
-                    *vundle-scripts-update* *:BundleUpdate* *:BundleInstall!*
+3.4 UPDATING PLUGINS ~
+                    *vundle-plugins-update* *:PluginUpdate* *:PluginInstall!*
 >
-  :BundleInstall!   " NOTE: bang(!)
+  :PluginInstall!   " NOTE: bang(!)
 or >
-  :BundleUpdate
+  :PluginUpdate
 
-Installs or updates the configured scripts. Press 'u' after updates complete
+Installs or updates the configured plugins. Press 'u' after updates complete
 to see the change log of all updated bundles. Press 'l' (lowercase 'L') to
 see the log of commands if any errors occurred.
 
-3.5 SEARCHING SCRIPTS ~
-                                      *vundle-scripts-search* *:BundleSearch*
+3.5 SEARCHING PLUGINS ~
+                                      *vundle-plugins-search* *:PluginSearch*
 >
-  :BundleSearch
+  :PluginSearch
 
 Search requires that `curl` be available on the system. The command searches
 Vim Scripts (http://vim-scripts.org/vim/scripts.html) for matching
 plugins. Results display in a new split window. For example:
 >
-  BundleSearch foo
+  PluginSearch foo
 
 displays:
 >
   "Search results for: foo
-  Bundle 'MarkdownFootnotes'
-  Bundle 'VimFootnotes'
-  Bundle 'foo.vim'
+  Plugin 'MarkdownFootnotes'
+  Plugin 'VimFootnotes'
+  Plugin 'foo.vim'
 <
-                                                             *:BundleSearch!*
+                                                             *:PluginSearch!*
 Alternatively, you can refresh the script list before searching by adding a
 bang to the command.
 >
-  :BundleSearch! foo
+  :PluginSearch! foo
 
 If the command is run without argument:
 >
-  :BundleSearch!
+  :PluginSearch!
 
-it will display all known scripts in the new split.
+it will display all known plugins in the new split.
 
 3.6 LISTING BUNDLES ~
-                                          *vundle-scripts-list* *:BundleList*
+                                          *vundle-plugins-list* *:PluginList*
 >
-  :BundleList
+  :PluginList
 
 Displays a list of installed bundles.
 
 3.7 CLEANING UP ~
-                                      *vundle-scripts-cleanup* *:BundleClean*
+                                      *vundle-plugins-cleanup* *:PluginClean*
 >
-  :BundleClean
+  :PluginClean
 
-Requests confirmation for the removal of all scripts no longered configured
+Requests confirmation for the removal of all plugins no longered configured
 in your `.vimrc` but present in your bundle installation directory
 (default: `.vim/bundle/`).
 
-                                                              *:BundleClean!*
+                                                              *:PluginClean!*
 >
-  :BundleClean!
+  :PluginClean!
 
 Automatically confirm removal of unused bundles.
 
@@ -265,25 +292,25 @@ Automatically confirm removal of unused bundles.
 4. INTERACTIVE MODE ~
                                                          *vundle-interactive*
 
-Vundle provides a simple interactive mode to help you explore new scripts
-easily.  Interactive mode is available after any command that lists `Bundles`
-such as BundleSearch, BundleList or Bundles. For instance:
+Vundle provides a simple interactive mode to help you explore new plugins
+easily.  Interactive mode is available after any command that lists `Plugins`
+such as PluginSearch, PluginList or Plugins. For instance:
 >
-  :BundleSearch! unite
+  :PluginSearch! unite
 
-Searches for scripts matching 'unite' and yields a split window with:
+Searches for plugins matching 'unite' and yields a split window with:
 >
   "Keymap: i - Install bundle; c - Cleanup; s - Search; R - Reload list
   "Search results for: unite
-  Bundle 'unite-scriptenames'
-  Bundle 'unite.vim'
-  Bundle 'unite-yarm'
-  Bundle 'unite-gem'
-  Bundle 'unite-locate'
-  Bundle 'unite-font'
-  Bundle 'unite-colorscheme'
+  Plugin 'unite-scriptenames'
+  Plugin 'unite.vim'
+  Plugin 'unite-yarm'
+  Plugin 'unite-gem'
+  Plugin 'unite-locate'
+  Plugin 'unite-font'
+  Plugin 'unite-colorscheme'
 
-To install a bundle, move your cursor to the Bundle of interest and then
+To install a bundle, move your cursor to the Plugin of interest and then
 select a command. To install 'unite.vim' put your cursor on the line and
 then push `i`. For a more complete list see |vundle-keymappings|. After
 unite.vim is installed the `:Unite file` command should be available.
@@ -296,11 +323,11 @@ Note: Interactive installation doesn't update your `.vimrc`.
 
 KEY | DESCRIPTION
 ----|-------------------------- >
- i  |  run :BundleInstall with name taken from line cursor is positioned on
- I  |  same as i, but runs :BundleInstall! to update bundle
+ i  |  run :PluginInstall with name taken from line cursor is positioned on
+ I  |  same as i, but runs :PluginInstall! to update bundle
  D  |  delete selected bundle (be careful not to remove local modifications)
- c  |  run :BundleClean
- s  |  run :BundleSearch
+ c  |  run :PluginClean
+ s  |  run :PluginSearch
  R  |  fetch fresh script list from server
 
 =============================================================================
@@ -312,6 +339,33 @@ KEY | DESCRIPTION
   This option makes Vundle use `git` instead of `https` when building
   absolute URIs. For example:
 >
-    Bundle 'sjl/gundo.vim' -> git@github.com:sjl/gundo.git
+    Plugin 'sjl/gundo.vim' -> git@github.com:sjl/gundo.git
+
+=============================================================================
+7. VUNDLE INTERFACE CHANGE ~
+                        *vundle-interface-change* *:Bundle* *:BundleInstall!*
+                *:BundleUpdate* *:BundleSearch* *:BundleList* *:BundleClean!*
+                            *:VundleInstall!* *:VundleUpdate* *:VundleSearch*
+                                                *:VundleList* *:VundleClean!*
+
+  In order to bring in new changes, Vundle is adopting a new interface.
+  Going forward we will support primarily the Plugin namespace, additionally
+  for convenience we will also alias some commands to the Vundle namespace.
+  The following table summarizes the interface changes.
+
+  Deprecated Names  | New Names
+  -----------------------------
+  Bundle            | Plugin
+  BundleInstall(!)  | PluginInstall(!), VundleInstall(!)
+  BundleUpdate      | PluginUpdate, VundleUpdate
+  BundleSearch(!)   | PluginSearch(!), VundleSearch(!)
+  BundleClean       | PluginClean(!), VundleClean(!)
+  BundleList        | PluginList
+  Bundles           | Plugins
+
+  Note: The Bundle commands will be deprecated. You may continue using them,
+  but they may not get all future updates. For instance, we have enabled
+  comments on Plugin lines but not Bundle, since it requires a change in
+  command declaration.
 
 vim:tw=78:ts=8:ft=help:norl:

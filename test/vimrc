@@ -22,8 +22,8 @@ exec 'set rtp^='.bundle_dir.'vundle/'
 
 call vundle#rc(bundle_dir)
 
-" vim-scripts name
-Bundle 'molokai'
+
+Plugin 'molokai' " vim-scripts name
 
 " github username with dashes
 Bundle 'vim-scripts/ragtag.vim'
@@ -50,6 +50,7 @@ Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 
 " with options
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
+Bundle 'matchit.zip', {'name': 'matchit'}
 
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
