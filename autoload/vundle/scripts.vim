@@ -75,7 +75,7 @@ func! s:view_changelog()
 endf
 
 func! vundle#scripts#bundle_names(names)
-  return map(copy(a:names), ' printf("Bundle ' ."'%s'".'", v:val) ')
+  return map(copy(a:names), ' printf("Plugin ' ."'%s'".'", v:val) ')
 endf
 
 func! vundle#scripts#view(title, headers, results)
@@ -104,8 +104,21 @@ func! vundle#scripts#view(title, headers, results)
 
   setl ft=vundle
   setl syntax=vim
+  syn keyword vimCommand Plugin
   syn keyword vimCommand Bundle
   syn keyword vimCommand Helptags
+
+  com! -buffer -bang -nargs=1 DeletePlugin
+    \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
+
+  com! -buffer -bang -nargs=? InstallAndRequirePlugin
+    \ call vundle#installer#run('vundle#installer#install_and_require', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+
+  com! -buffer -bang -nargs=? InstallPlugin
+    \ call vundle#installer#run('vundle#installer#install', split(<q-args>,',')[0], ['!' == '<bang>', <q-args>])
+
+  com! -buffer -bang -nargs=0 InstallHelptags
+    \ call vundle#installer#run('vundle#installer#docs', 'helptags', [])
 
   com! -buffer -bang -nargs=1 DeleteBundle
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
