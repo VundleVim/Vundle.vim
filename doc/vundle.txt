@@ -128,16 +128,39 @@ follow on the same line as the command. Example:
 >
   Bundle 'git_URI'
 
-There can also be a second argument after URI.  It has to be a dictionary with
-a key called 'rtp'.  The value for that key is a directory inside the
-repository (relative path from the root of the repository) where the vim
-plugin resides.  For example:
+The `Bundle` command can optionally take a second argument after the URI. It
+has to be a dictionary, separated from the URI by a comma. Each key-value pair
+in the dictionary is a configuration option.
+
+The following per-script configuration options are available.
+
+The 'rtp' option
+----------------
+
+Specifies a directory inside the repository (relative path from the root of
+the repository) where the vim plugin resides. It determines the path that will
+be added to the |runtimepath|.
+
+For example:
 >
   Bundle 'git_URI', {'rtp': 'some/subdir/'}
 
 This can be used with git repositories that put the vim plugin inside a
 subdirectory.
 
+The 'name' option
+-----------------
+
+The name of the directory that will hold the local clone of the configured
+script.
+
+For example:
+>
+  Bundle 'git_URI', {'name': 'newPluginName'}
+
+This can be used to prevent name collisions between plugins that Vundle would
+otherwise try to clone into the same directory. It also provides an additional
+level of customisation.
 
 3.2 SUPPORTED URIS ~
                                                                 *vundle-uris*

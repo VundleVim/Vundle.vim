@@ -27,7 +27,7 @@ func! vundle#config#init_bundle(name, opts)
   if a:name != substitute(a:name, '^\s*\(.\{-}\)\s*$', '\1', '')
     echo "Spurious leading and/or trailing whitespace found in bundle spec '" . a:name . "'"
   endif
-  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')))
+  let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')), 'keep')
   let b = extend(opts, copy(s:bundle))
   let b.rtpath = s:rtpath(opts)
   return b
