@@ -1,4 +1,4 @@
-## [Help Maintain Vundle](https://github.com/gmarik/Vundle.vim/issues/241)
+## [Help Maintain Vundle](https://github.com/gmarik/Vundle.vim/issues/383)
 
 ## About
 
