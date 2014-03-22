@@ -22,6 +22,10 @@ func! vundle#scripts#complete(a,c,d)
   return join(s:load_scripts(0),"\n")
 endf
 
+func! vundle#scripts#unloaded(a,c,d)
+   return join(map(vundle#installer#unloaded(), ' printf("'."'%s'".'", v:val) '),"\n")
+endf
+
 func! s:view_log()
   if !exists('g:vundle_log_file')
     let g:vundle_log_file = tempname()
