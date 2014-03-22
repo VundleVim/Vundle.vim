@@ -141,8 +141,9 @@ see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 [help tags]:http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags
 [runtime path]:http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27
 
-[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L179-198
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L200-209
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L211-238
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L247-260
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L263-303
+[install]: https://github.com/gmarik/Vundle.vim/blob/eb5ae19ad67c33565b18301fcdc2cf0fa7184522/doc/vundle.txt#L203-222
+[update]: https://github.com/gmarik/Vundle.vim/blob/eb5ae19ad67c33565b18301fcdc2cf0fa7184522/doc/vundle.txt#L224-233
+[search]: https://github.com/gmarik/Vundle.vim/blob/eb5ae19ad67c33565b18301fcdc2cf0fa7184522/doc/vundle.txt#L235-263
+[clean]: https://github.com/gmarik/Vundle.vim/blob/eb5ae19ad67c33565b18301fcdc2cf0fa7184522/doc/vundle.txt#L272-285
+[interactive mode]: https://github.com/gmarik/Vundle.vim/blob/eb5ae19ad67c33565b18301fcdc2cf0fa7184522/doc/vundle.txt#L288-314
+
