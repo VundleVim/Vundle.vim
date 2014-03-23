@@ -11,6 +11,10 @@ func! vundle#installer#new(bang, ...) abort
   call vundle#config#require(bundles)
 endf
 
+func! vundle#installer#command(cmd)
+  silent execute '!cd ~/.vim/bundle && ' . a:cmd
+  redraw!
+endf
 
 func! s:process(bang, cmd)
   let msg = ''
