@@ -25,7 +25,7 @@ endf
 
 func! vundle#config#init_bundle(name, opts)
   if a:name != substitute(a:name, '^\s*\(.\{-}\)\s*$', '\1', '')
-    echo "Spurious leading and/or trailing whitespace found in bundle spec '" . a:name . "'"
+    echo "Spurious leading and/or trailing whitespace found in plugin spec '" . a:name . "'"
   endif
   let opts = extend(s:parse_options(a:opts), s:parse_name(substitute(a:name,"['".'"]\+','','g')), 'keep')
   let b = extend(opts, copy(s:bundle))
@@ -55,7 +55,7 @@ func! s:parse_name(arg)
       let uri .= '.git'
     endif
     let name = substitute(split(uri,'\/')[-1], '\.git\s*$','','i')
-  elseif arg =~? '^\s*\(git@\|git://\)\S\+' 
+  elseif arg =~? '^\s*\(git@\|git://\)\S\+'
   \   || arg =~? '\(file\|https\?\)://'
   \   || arg =~? '\.git\s*$'
     let uri = arg
