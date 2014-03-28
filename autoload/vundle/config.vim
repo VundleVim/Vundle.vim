@@ -76,11 +76,37 @@ func! s:rtp_rm_a()
 endf
 
 func! s:rtp_add_a()
+  " Try to move the default directories in sensible places.  By resetting the
+  " option, we are using the correct values no matter on which OS we are.
+  let old_rtp = &rtp
+  set rtp&
+  let default_rtp = split(&rtp, ',')
+  let middle = match(default_rtp, '/after')
+  let part_one = default_rtp[: middle - 1]
+  call reverse(part_one)
+  let part_two = default_rtp[middle :]
+  " Reset &rtp to the old value, if we don't do this we might lose changes
+  " made by the user.
+  let &rtp = old_rtp
+  " add the vundles
   let paths = map(copy(g:bundles), 'v:val.rtpath')
   let prepends = join(paths, ',')
   let appends = join(paths, '/after,').'/after'
   exec 'set rtp^='.fnameescape(prepends)
   exec 'set rtp+='.fnameescape(appends)
+  " Now we can move the default directories to the right places
+  "set rtp-=~/.vim
+  "set rtp^=~/.vim
+  "set rtp-=~/.vim/after
+  "set rtp+=~/.vim/after
+  for item in part_one
+    execute 'set rtp-=' . item
+    execute 'set rtp^=' . item
+  endfor
+  for item in part_two
+    execute 'set rtp-=' . item
+    execute 'set rtp+=' . item
+  endfor
 endf
 
 func! s:rtp_rm(dir) abort
