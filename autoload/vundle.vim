@@ -6,7 +6,7 @@
 
 " Plugin Commands
 com! -nargs=+  -bar   Plugin
-\ call vundle#config#bundle(<args>)
+\ call vundle#config#bundle_lazy(<args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
@@ -56,11 +56,24 @@ sign define Vu_deleted  text=-  texthl=Comment
 sign define Vu_helptags text=*  texthl=Comment
 endif
 
-
-func! vundle#rc(...) abort
+func! vundle#begin(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
+  let g:bundles = []
   let g:updated_bundles = []
   let g:vundle_log = []
   let g:vundle_changelog = ['Updated Plugins:']
-  call vundle#config#init()
+  com! -nargs=+ -bar Plugin call vundle#config#bundle_lazy(<args>)
+endf
+
+func! vundle#end(...) abort
+  call vundle#config#activate_all_plugins()
+  com! -nargs=+ -bar Plugin call vundle#config#bundle(<args>)
+endf
+
+func! vundle#rc(...) abort
+  let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
+  let g:bundles = []
+  let g:updated_bundles = []
+  let g:vundle_log = []
+  let g:vundle_changelog = ['Updated Plugins:']
 endf

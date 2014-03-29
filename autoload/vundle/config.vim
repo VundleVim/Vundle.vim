@@ -3,13 +3,18 @@ func! vundle#config#bundle(arg, ...)
   call s:rtp_rm_a()
   call add(g:bundles, bundle)
   call s:rtp_add_a()
+  call s:rtp_add_defaults()
   return bundle
 endf
 
-func! vundle#config#init()
-  if !exists('g:bundles') | let g:bundles = [] | endif
-  call s:rtp_rm_a()
-  let g:bundles = []
+func! vundle#config#bundle_lazy(arg, ...)
+  call add(s:lazy_bundles, [a:arg, a:000])
+endf
+
+func! vundle#config#activate_all_plugins()
+  call extend(g:bundles, map(s:lazy_bundles, 'vundle#config#init_bundle(v:val[0], v:val[1])'))
+  call s:rtp_add_a()
+  call s:rtp_add_defaults()
 endf
 
 func! vundle#config#require(bundles) abort
@@ -21,6 +26,7 @@ func! vundle#config#require(bundles) abort
     exec 'runtime! '.b.name.'/after/*.vim'
     call s:rtp_rm(g:bundle_dir)
   endfor
+  call s:rtp_add_defaults()
 endf
 
 func! vundle#config#init_bundle(name, opts)
@@ -67,6 +73,21 @@ func! s:parse_name(arg)
   return {'name': name, 'uri': uri, 'name_spec': arg }
 endf
 
+func! s:rtp_add_defaults()
+  let current = &rtp
+  set rtp&vim
+  let default = &rtp
+  let &rtp = current
+  for item in reverse(split(default, ','))
+    exec 'set rtp-=' . item
+    if item =~ 'after$'
+      exec 'set rtp+=' . item
+    else
+      exec 'set rtp^=' . item
+    endif
+  endfor
+endf
+
 func! s:rtp_rm_a()
   let paths = map(copy(g:bundles), 'v:val.rtpath')
   let prepends = join(paths, ',')
@@ -102,6 +123,7 @@ func! s:rtpath(opts)
 endf
 
 let s:bundle = {}
+let s:lazy_bundles = []
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
