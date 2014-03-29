@@ -14,6 +14,8 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginInstall
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginSearch
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
+" FIXME this command is not well documented in doc/vundle.txt and seems to be
+" equivalent to PluginSearch.
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete Plugins
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
@@ -36,7 +38,7 @@ com! -nargs=? -bang                                          VundleClean   Plugi
 com! -nargs=0                                                VundleDocs    PluginDocs
 com!                                                         VundleUpdate  PluginInstall!
 
-" deprecated
+" Deprecated Commands
 com! -nargs=+                                                Bundle        call vundle#config#bundle(<args>)
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall PluginInstall<bang> <args>
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleSearch  PluginSearch<bang> <args>
@@ -46,17 +48,20 @@ com! -nargs=? -bang                                          BundleClean   Plugi
 com! -nargs=0                                                BundleDocs    PluginDocs
 com!                                                         BundleUpdate  PluginInstall!
 
+" Set up the signs used in the installer window. (See :help signs)
 if (has('signs'))
-sign define Vu_error    text=!  texthl=Error
-sign define Vu_active   text=>  texthl=Comment
-sign define Vu_todate   text=.  texthl=Comment
-sign define Vu_new      text=+  texthl=Comment
-sign define Vu_updated  text=*  texthl=Comment
-sign define Vu_deleted  text=-  texthl=Comment
-sign define Vu_helptags text=*  texthl=Comment
+  sign define Vu_error    text=!  texthl=Error
+  sign define Vu_active   text=>  texthl=Comment
+  sign define Vu_todate   text=.  texthl=Comment
+  sign define Vu_new      text=+  texthl=Comment
+  sign define Vu_updated  text=*  texthl=Comment
+  sign define Vu_deleted  text=-  texthl=Comment
+  sign define Vu_helptags text=*  texthl=Comment
 endif
 
-
+" Setup function to be called from the users vimrc file.  It is not possible
+" to do this automatically because when loading the vimrc file no plugins
+" where loaded yet.
 func! vundle#rc(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
   let g:updated_bundles = []
