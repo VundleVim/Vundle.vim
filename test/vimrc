@@ -51,6 +51,7 @@ Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 " with options
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 Bundle 'matchit.zip', {'name': 'matchit'}
+Plugin 'joonty/vim-sauce', {'bundle_dir' : '~/.vim/custom_bundle/'}
 
 " Camel case
 Bundle 'vim-scripts/RubySinatra'

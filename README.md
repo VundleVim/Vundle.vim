@@ -60,8 +60,10 @@
    Plugin 'Lokaltog/vim-easymotion'
    Plugin 'tpope/vim-rails.git'
    " The sparkup vim script is in a subdirectory of this repo called vim.
-   " Pass the path to set the runtimepath properly.
+   " Pass the path to set the runtimepath inside the repo properly.
    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+   " Pass the path to set the plugin's runtimepath dir.
+   Plugin 'joonty/vim-sauce', {'bundle_dir' : '~/plugin_dir/'}
    " scripts from http://vim-scripts.org/vim/scripts.html
    Plugin 'L9'
    Plugin 'FuzzyFinder'
