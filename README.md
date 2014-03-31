@@ -62,6 +62,9 @@
    " The sparkup vim script is in a subdirectory of this repo called vim.
    " Pass the path to set the runtimepath properly.
    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+   Plugin 'tpope/vim-fugitive'
+   " Invalid a Plugin
+   Unplug 'tpope/vim-fugitive'
    " scripts from http://vim-scripts.org/vim/scripts.html
    Plugin 'L9'
    Plugin 'FuzzyFinder'
