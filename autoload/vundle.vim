@@ -30,7 +30,7 @@ com! -nargs=0         PluginDocs
 com! PluginUpdate PluginInstall!
 
 " Vundle Aliases
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleInstall PluginList<bang> <args>
+com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleInstall PluginInstall<bang> <args>
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleSearch  PluginSearch<bang> <args>
 com! -nargs=? -bang                                          VundleClean   PluginClean<bang>
 com! -nargs=0                                                VundleDocs    PluginDocs
