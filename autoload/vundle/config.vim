@@ -6,13 +6,6 @@ func! vundle#config#bundle(arg, ...)
   return bundle
 endf
 
-func! vundle#config#unbundle(arg, ...)
-  let g:aabundle = vundle#config#init_bundle(a:arg, a:000)
-  let g:name=g:aabundle.name_spec
-  let g:unbundle=vundle#installer#get_bundle_dir(g:bundles, g:name)
-endf
-
-
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
   call s:rtp_rm_a()
