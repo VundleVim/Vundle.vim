@@ -4,7 +4,7 @@ func! vundle#installer#new(bang, ...) abort
         \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing plugins to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
+  call vundle#scripts#view('Installer',['" Installing bundles to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
   call s:process(a:bang, (a:bang ? 'add!' : 'add'))
 
@@ -30,7 +30,7 @@ func! s:process(bang, cmd)
     endif
 
     if 'updated' == g:vundle_last_status && empty(msg)
-      let msg = 'Plugins updated; press u to view changelog'
+      let msg = 'Bundles updated; press u to view changelog'
     endif
 
     " goto next one
@@ -81,7 +81,7 @@ func! vundle#installer#run(func_name, name, ...) abort
   return status
 endf
 
-func! s:sign(status)
+func! s:sign(status) 
   if (!has('signs'))
     return
   endif
