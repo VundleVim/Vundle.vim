@@ -138,6 +138,7 @@ in the dictionary is a configuration option.
 
 The following per-script configuration options are available.
 
+								*:Plugin-rtp*
 The 'rtp' option
 ----------------
 
@@ -152,6 +153,7 @@ For example:
 This can be used with git repositories that put the vim plugin inside a
 subdirectory.
 
+								*:Plugin-name*
 The 'name' option
 -----------------
 
@@ -165,6 +167,29 @@ For example:
 This can be used to prevent name collisions between plugins that Vundle would
 otherwise try to clone into the same directory. It also provides an additional
 level of customisation.
+
+This can also be used to achive some interesting results: Asume you want to
+group several plugins (for example some colorschemes) together.  To do this
+you could create a directory `colors` in the bundle directory and put the
+colorschemes into your `vimrc` like this:
+>
+  Plugin 'colorscheme_1_uri', {'name': 'colors/colorscheme_1_name'}
+  Plugin 'colorscheme_2_uri', {'name': 'colors/colorscheme_2_name'}
+  Plugin 'colorscheme_3_uri', {'name': 'colors/colorscheme_3_name'}
+
+It is also possible to put one plugin inside another plugin with this option:
+>
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'bjoernd/vim-ycm-tex', {'name': 'YouCompleteMe/python/ycm/completers/tex'}
+
+Now the files of the vim-ycm-tex plugin will end up in
+~/.vim/bundle/YouCompleteMe/python/ycm/completers/tex where the YouCompleteMe
+plugin can find them.
+
+Note  These results can for the most part also be achived with symlinks (if
+your system supports them) but then you will have both the original directory
+in the bundle directory and the symlink around.  (The main use case of
+resolving name conflicts can not be solved with symlinks.)
 
 3.2 SUPPORTED URIS ~
                                                         *vundle-plugins-uris*
