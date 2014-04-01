@@ -16,9 +16,9 @@ func! vundle#config#require(bundles) abort
   for b in a:bundles
     call s:rtp_add(b.rtpath)
     call s:rtp_add(g:bundle_dir)
-    " TODO: it has to be relative rtpath, not bundle.name
-    exec 'runtime! '.b.name.'/plugin/*.vim'
-    exec 'runtime! '.b.name.'/after/*.vim'
+    " Use absolute rtpath
+    exec 'runtime! '.b.rtpath.'/plugin/*.vim'
+    exec 'runtime! '.b.rtpath.'/after/*.vim'
     call s:rtp_rm(g:bundle_dir)
   endfor
 endf
@@ -34,13 +34,14 @@ func! vundle#config#init_bundle(name, opts)
 endf
 
 func! s:parse_options(opts)
-  " TODO: improve this
-  if len(a:opts) != 1 | return {} | endif
+  if type(a:opts) == type({})
+    return a:opts
+  endif
 
-  if type(a:opts[0]) == type({})
-    return a:opts[0]
-  else
-    return {'rev': a:opts[0]}
+  if type(a:opts) == type([]) && len(a:opts) == 1
+      return type(a:opts[0]) == type({}) ? a:opts[0] : {'rev':a:opts[0]}
+    else
+      return {}
   endif
 endf
 
@@ -104,6 +105,7 @@ endf
 let s:bundle = {}
 
 func! s:bundle.path()
-  return s:expand_path(g:bundle_dir.'/'.self.name)
+  let a:bundle_dir = has_key(self, "bundle_dir") ? self.bundle_dir : g:bundle_dir
+  return s:expand_path(a:bundle_dir.'/'.self.name)
 endf
 
