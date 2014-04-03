@@ -3,7 +3,7 @@
 " to g:bundle_dir.  If a:bang is 1 it will also update all plugins (git pull).
 "
 " bang   -- 1 or 0
-" ...    -- any number of bundle specifications (seperate arguments)
+" ...    -- any number of bundle specifications (separate arguments)
 " ---------------------------------------------------------------------------
 func! vundle#installer#new(bang, ...) abort
   let bundles = (a:1 == '') ?
@@ -323,27 +323,67 @@ endf
 
 
 " ---------------------------------------------------------------------------
-" Install or update a given bundle object with git.
+" Get the URL for the remote called 'origin' on the repository that
+" corresponds to a given bundle.
+"
+" bundle -- a bundle object to check the repository for
+" return -- the URL for the origin remote (string)
+" ---------------------------------------------------------------------------
+func! s:get_current_origin_url(bundle) abort
+  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
+  let cmd = g:shellesc_cd(cmd)
+  let out = s:strip(s:system(cmd))
+  return out
+endf
+
+
+" ---------------------------------------------------------------------------
+" Create the appropriate sync command to run according to the current state of
+" the local repository (clone, pull, reset, etc).
+"
+" In the case of a pull (update), also return the current sha, so that we can
+" later check that there has been an upgrade.
 "
 " bang   -- 0 if only new plugins should be installed, 1 if existing plugins
 "           should be updated
-" bundle -- a bundle object (dict)
-" return -- 'todate' if nothing was updated or the repository was up to date,
-"           'new' when the plugin was newly installed, 'updated' if some
-"           changes where pulled via git, 'error' if an error occurred in the
-"           shell command
+" bundle -- a bundle object to create the sync command for
+" return -- A list containing the command to run and the sha for the current
+"           HEAD
 " ---------------------------------------------------------------------------
-func! s:sync(bang, bundle) abort
-  " Do not sync if this bundle is pinned
-  if a:bundle.is_pinned()
-    return 'pinned'
-  endif
-
+func! s:make_sync_command(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
-    if !(a:bang) | return 'todate' | endif
-    let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git pull && git submodule update --init --recursive'
 
+    let current_origin_url = s:get_current_origin_url(a:bundle)
+    if current_origin_url != a:bundle.uri
+      call s:log('Plugin URI change detected for Plugin ' . a:bundle.name)
+      call s:log('>  Plugin ' . a:bundle.name . ' old URI: ' . current_origin_url)
+      call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
+      " Directory names match but the origin remotes are not the same
+      let cmd_parts = [
+                  \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
+                  \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
+                  \ 'git fetch',
+                  \ 'git reset --hard origin/HEAD',
+                  \ 'git submodule update --init --recursive',
+                  \ ]
+      let cmd = join(cmd_parts, ' && ')
+      let cmd = g:shellesc_cd(cmd)
+      let initial_sha = ''
+      return [cmd, initial_sha]
+    endif
+
+    if !(a:bang)
+      " The repo exists, and no !, so leave as it is.
+      return ['', '']
+    endif
+
+    let cmd_parts = [
+                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
+                \ 'git pull',
+                \ 'git submodule update --init --recursive',
+                \ ]
+    let cmd = join(cmd_parts, ' && ')
     let cmd = g:shellesc_cd(cmd)
 
     let get_current_sha = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
@@ -352,6 +392,33 @@ func! s:sync(bang, bundle) abort
   else
     let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
     let initial_sha = ''
+  endif
+  return [cmd, initial_sha]
+endf
+
+
+" ---------------------------------------------------------------------------
+" Install or update a given bundle object with git.
+"
+" bang   -- 0 if only new plugins should be installed, 1 if existing plugins
+"           should be updated
+" bundle -- a bundle object (dictionary)
+" return -- a string indicating the status of the bundle installation:
+"            - todate  : Nothing was updated or the repository was up to date
+"            - new     : The plugin was newly installed
+"            - updated : Some changes where pulled via git
+"            - error   : An error occurred in the shell command
+"            - pinned  : The bundle is marked as pinned
+" ---------------------------------------------------------------------------
+func! s:sync(bang, bundle) abort
+  " Do not sync if this bundle is pinned
+  if a:bundle.is_pinned()
+    return 'pinned'
+  endif
+
+  let [ cmd, initial_sha ] = s:make_sync_command(a:bang, a:bundle)
+  if empty(cmd)
+      return 'todate'
   endif
 
   let out = s:system(cmd)
@@ -427,7 +494,7 @@ endf
 " Add a log message to Vundle's internal logging variable.
 "
 " str    -- the log message (string)
-" prefix -- optional prefix for multiline entries (string)
+" prefix -- optional prefix for multi-line entries (string)
 " return -- a:str
 " ---------------------------------------------------------------------------
 func! s:log(str, ...) abort
@@ -439,6 +506,17 @@ func! s:log(str, ...) abort
       call add(g:vundle_log, '['. time .'] '. prefix . line)
   endfor
   return a:str
+endf
+
+
+" ---------------------------------------------------------------------------
+" Remove leading and trailing whitespace from a string
+"
+" str    -- The string to rid of trailing and leading spaces
+" return -- A string stripped of side spaces
+" ---------------------------------------------------------------------------
+func! s:strip(str)
+  return substitute(a:str, '\%^\_s*\(.\{-}\)\_s*\%$', '\1', '')
 endf
 
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
