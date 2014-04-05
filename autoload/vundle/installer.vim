@@ -338,6 +338,20 @@ endf
 
 
 " ---------------------------------------------------------------------------
+" Get a short sha of the HEAD of the repository for a given bundle
+"
+" bundle -- a bundle object
+" return -- A 15 character log sha for the current HEAD
+" ---------------------------------------------------------------------------
+func! s:get_current_sha(bundle)
+  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
+  let cmd = g:shellesc_cd(cmd)
+  let out = s:system(cmd)[0:15]
+  return out
+endf
+
+
+" ---------------------------------------------------------------------------
 " Create the appropriate sync command to run according to the current state of
 " the local repository (clone, pull, reset, etc).
 "
@@ -386,9 +400,7 @@ func! s:make_sync_command(bang, bundle) abort
     let cmd = join(cmd_parts, ' && ')
     let cmd = g:shellesc_cd(cmd)
 
-    let get_current_sha = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
-    let get_current_sha = g:shellesc_cd(get_current_sha)
-    let initial_sha = s:system(get_current_sha)[0:15]
+    let initial_sha = s:get_current_sha(a:bundle)
   else
     let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
     let initial_sha = ''
@@ -435,7 +447,7 @@ func! s:sync(bang, bundle) abort
     return 'new'
   endif
 
-  let updated_sha = s:system(get_current_sha)[0:15]
+  let updated_sha = s:get_current_sha(a:bundle)
 
   if initial_sha == updated_sha
     return 'todate'
