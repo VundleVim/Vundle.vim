@@ -79,6 +79,13 @@ func! vundle#scripts#bundle_names(names)
 endf
 
 func! vundle#scripts#view(title, headers, results)
+  "testing whether we have 
+  "single empty window 
+  let l:vundle_single_win=0
+  if winnr()==1 && line('$') == 1 && getline(1) == '' 
+    let l:vundle_single_win=1
+  endif
+
   if exists('g:vundle_view') && bufloaded(g:vundle_view)
     exec g:vundle_view.'bd!'
   endif
@@ -86,6 +93,9 @@ func! vundle#scripts#view(title, headers, results)
   exec 'silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
+  if l:vundle_single_win==1
+    on!
+  endif
 
   let g:vundle_view = bufnr('%')
   "
