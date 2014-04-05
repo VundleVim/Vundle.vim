@@ -363,7 +363,9 @@ func! g:shellesc_cd(cmd) abort
   endif
 endf
 
-" Wrapper for system calls.  FIXME: Why is this needed?
+" Wrapper for system calls.  This can be used to change the way system calls
+" are made during developing, without searching the whole code base for
+" system() calls.
 "
 " cmd    -- the command passed to system() (string)
 " return -- the return value from system()

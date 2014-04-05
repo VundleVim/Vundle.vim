@@ -20,7 +20,7 @@ func! vundle#config#init()
   let g:bundles = []
 endf
 
-" Add a list of bundles to the runtimepath source them.
+" Add a list of bundles to the runtimepath and source them.
 "
 " bundles -- a list of bundle objects
 " return  -- 0 (unconditionally)
@@ -38,7 +38,7 @@ endf
 " Create a bundle object from a bundle specification.
 "
 " name   -- the bundle specification as a string
-" opts   -- the options directory from then bundle definition
+" opts   -- the options dictionary from then bundle definition
 " return -- an initialized bundle object
 func! vundle#config#init_bundle(name, opts)
   if a:name != substitute(a:name, '^\s*\(.\{-}\)\s*$', '\1', '')
@@ -50,12 +50,12 @@ func! vundle#config#init_bundle(name, opts)
   return b
 endf
 
-" Parse the options which can be supplied with the plugin specification.
+" Parse the options which can be supplied with the bundle specification.
 " Corresponding documentation: vundle-plugins-configure
 "
-" opts   -- a list, holding a dictionary of options for a bundle
-" return -- the dictionary holding the options for a bundle.  This will be
-"           merged with a s:bundle object into one dictionary.
+" opts   -- a dictionary with the user supplied options for the bundle
+" return -- a dictionary with the user supplied options for the bundle, this
+"           will be merged with a s:bundle object into one dictionary.
 func! s:parse_options(opts)
   " TODO: improve this
   if len(a:opts) != 1 | return {} | endif
@@ -73,7 +73,7 @@ endf
 " arg    -- the string supplied to identify the plugin
 " return -- a dictionary with the folder name (key 'name') and the uri (key
 "           'uri') for cloning the plugin  and the original argument (key
-"           'arg')
+"           'name_spec')
 func! s:parse_name(arg)
   let arg = a:arg
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
