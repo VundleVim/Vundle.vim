@@ -202,7 +202,7 @@ The git protocol supports local installation using the 'file://' protocol.
 This is handy when developing plugins locally. Follow the protocol with an
 absolute path to the script directory.
 >
-  Plugin 'file///path/from/root/to/plugin'
+  Plugin 'file:///path/from/root/to/plugin'
 
 3.3 INSTALLING PLUGINS ~
                                     *vundle-plugins-install* *:PluginInstall*
