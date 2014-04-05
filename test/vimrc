@@ -52,6 +52,8 @@ Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 Bundle 'matchit.zip', {'name': 'matchit'}
 
+UnPlug 'molokai' "make molokai invalid
+
 " Camel case
 Bundle 'vim-scripts/RubySinatra'
 

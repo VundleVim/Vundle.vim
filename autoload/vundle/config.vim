@@ -6,6 +6,19 @@ func! vundle#config#bundle(arg, ...)
   return bundle
 endf
 
+func! vundle#config#unplug(arg, ...)
+  let bundle = vundle#config#init_bundle(a:arg, a:000)
+  let bundle_index=0
+  for b in g:bundles
+    if bundle.name_spec == b.name_spec
+      call s:rtp_rm(b.rtpath)
+      unlet g:bundles[bundle_index]
+      break
+    endif
+    let bundle_index=bundle_index+1
+  endfor
+endf
+
 func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
   call s:rtp_rm_a()
