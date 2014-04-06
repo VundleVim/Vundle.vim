@@ -56,16 +56,6 @@ sign define Vu_deleted  text=-  texthl=Comment
 sign define Vu_helptags text=*  texthl=Comment
 endif
 
-func! vundle#begin(...) abort
-  call call('vundle#rc', a:000)
-  com! -nargs=+ -bar Plugin call vundle#config#bundle_lazy(<args>)
-endf
-
-func! vundle#end(...) abort
-  call vundle#config#activate_all_plugins()
-  com! -nargs=+ -bar Plugin call vundle#config#bundle(<args>)
-endf
-
 func! vundle#rc(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
   let g:bundles = []

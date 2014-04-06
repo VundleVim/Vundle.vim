@@ -46,14 +46,15 @@
 
    " set the runtime path to include Vundle and initialize
    set rtp+=~/.vim/bundle/vundle/
-   call vundle#begin()
+   call vundle#rc()
    " alternatively, pass where Vundle should install plugins
-   "call vundle#begin('~/some/plugin/directory')
+   "call vundle#rc('~/some/plugin/directory')
 
    " let Vundle manage Vundle, required
    Plugin 'gmarik/vundle'
 
    " The following are examples of different formats supported.
+   " Plugins are available for use after the Plugin command returns.
    " plugins on GitHub repos
    Plugin 'tpope/vim-fugitive' "A plugin for git integration
    " plugins from http://vim-scripts.org/vim/scripts.html
@@ -69,8 +70,6 @@
    " Use to avoid plugin name collisions.
    Plugin 'FuzzyFinder', {'name': 'finder'}
 
-   " Plugins available after vundle#end() finishes.
-   call vundle#end()
    filetype plugin indent on     " required
    " To ignore plugin indent changes, instead use:
    "filetype plugin on

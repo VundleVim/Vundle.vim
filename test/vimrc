@@ -16,7 +16,7 @@ runtime macros/matchit.vim
 
 " This test should be executed in "test" directory
 exec 'set rtp^='.bundle_dir.'vundle/'
-call vundle#begin(bundle_dir)
+call vundle#rc(bundle_dir)
 
 Plugin 'molokai' " vim-scripts name
 
@@ -53,7 +53,6 @@ Bundle 'vim-scripts/RubySinatra'
 " syntax issue #203
 Bundle 'jimenezrick/vimerl'
 
-call vundle#end()
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc            " should not break helptags
