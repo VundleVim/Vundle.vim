@@ -165,8 +165,8 @@ let s:bundle = {}
 " FIXME: This function is only called once and in most cases the return value
 " is stored in the bundle object as obj.rtpath unmodfied.  Is this necessary?
 "
-" A method of the bundle object returning the path inside the bundle directory
-" where the plugin is cloned to.
+" Return the absolute path to the directory inside the bundle directory
+" (prefix) where thr bundle will be cloned.
 "
 " return -- the target location to clone this bundle to
 func! s:bundle.path()

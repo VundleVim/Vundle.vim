@@ -14,8 +14,6 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginInstall
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginSearch
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
-" FIXME this command is not well documented in doc/vundle.txt and seems to be
-" equivalent to PluginSearch.
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete Plugins
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
@@ -59,9 +57,11 @@ if (has('signs'))
   sign define Vu_helptags text=*  texthl=Comment
 endif
 
-" Setup function to be called from the users vimrc file.  It is not possible
-" to do this automatically because when loading the vimrc file no plugins
-" where loaded yet.
+" Set up Vundle.  This function has to be called from the users vimrc file.
+" This will force Vim to source this file as a side effect which wil define
+" the :Plugin command.  After calling this function the user can use the
+" :Plugin command in the vimrc.  It is not possible to do this automatically
+" because when loading the vimrc file no plugins where loaded yet.
 func! vundle#rc(...) abort
   let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
   let g:updated_bundles = []

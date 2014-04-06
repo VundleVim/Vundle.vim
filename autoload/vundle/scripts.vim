@@ -1,6 +1,6 @@
-" This function searches the database from vim-script.org for a matching
-" plugin.  If no argument is given all plugins are listed.  This function is
-" used by the :Plugins and :PluginSearch commands.
+" Searches the database from vim-script.org for a matching plugin.  If no
+" argument is given all plugins are listed.  This function is used by the
+" :Plugins and :PluginSearch commands.
 "
 " bang -- if 1 refresh the script name cache, if 0 don't
 " ...  -- a plugin name to search for (FIXME what about multible arguments, it

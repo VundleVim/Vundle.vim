@@ -1,6 +1,5 @@
-" This function is called by :PluginInstall.  It will try to clone all new
-" bundles given (or all bundles in g:bundles by default) to g:bundle_dir.  If
-" a:bang is 1 it will also update all plugins (git pull).
+" Try to clone all new bundles given (or all bundles in g:bundles by default)
+" to g:bundle_dir.  If a:bang is 1 it will also update all plugins (git pull).
 "
 " bang   -- 1 or 0
 " ...    -- any number of bundle specifications (seperate arguments)
@@ -23,9 +22,8 @@ func! vundle#installer#new(bang, ...) abort
   call vundle#config#require(bundles)
 endf
 
-" A function to iterate over all lines in a Vundle window and execute the
-" given command for every line.  It is used by the installation and cleaning
-" functions.
+" Iterate over all lines in a Vundle window and execute the given command for
+" every line.  Used by the installation and cleaning functions.
 "
 " bang   -- not used (FIXME)
 " cmd    -- the (normal mode) command to execute for every line as a string
@@ -61,7 +59,7 @@ func! s:process(bang, cmd)
   echo 'Done! '.msg
 endf
 
-" Wrapper function to call another function in the different Vundle windows.
+" Call another function in the different Vundle windows.
 "
 " func_name -- the function to call
 " name      -- the bundle name to call func_name for (string)
@@ -363,9 +361,9 @@ func! g:shellesc_cd(cmd) abort
   endif
 endf
 
-" Wrapper for system calls.  This can be used to change the way system calls
+" Make a system call.  This can be used to change the way system calls
 " are made during developing, without searching the whole code base for
-" system() calls.
+" actual system() calls.
 "
 " cmd    -- the command passed to system() (string)
 " return -- the return value from system()
