@@ -6,7 +6,7 @@
 
 " Plugin Commands
 com! -nargs=+  -bar   Plugin
-\ call vundle#config#bundle_lazy(<args>)
+\ call vundle#config#bundle(<args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginInstall
 \ call vundle#installer#new('!' == '<bang>', <q-args>)
@@ -57,11 +57,7 @@ sign define Vu_helptags text=*  texthl=Comment
 endif
 
 func! vundle#begin(...) abort
-  let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
-  let g:bundles = []
-  let g:updated_bundles = []
-  let g:vundle_log = []
-  let g:vundle_changelog = ['Updated Plugins:']
+  call call('vundle#rc', a:000)
   com! -nargs=+ -bar Plugin call vundle#config#bundle_lazy(<args>)
 endf
 
