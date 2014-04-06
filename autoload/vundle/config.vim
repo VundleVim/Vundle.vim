@@ -1,9 +1,17 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
-  call s:rtp_rm_a()
-  call add(g:bundles, bundle)
-  call s:rtp_add_a()
+  if exists('g:vundle_lazy_load') && g:vundle_lazy_load
+      call add(g:bundles, bundle)
+  else
+      call s:rtp_rm_a()
+      call add(g:bundles, bundle)
+      call s:rtp_add_a()
+  endif
   return bundle
+endf
+
+func! vundle#config#activate_bundles()
+  call s:rtp_add_a()
 endf
 
 func! vundle#config#init()

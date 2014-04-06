@@ -64,3 +64,13 @@ func! vundle#rc(...) abort
   let g:vundle_changelog = ['Updated Plugins:']
   call vundle#config#init()
 endf
+
+func! vundle#begin(...) abort
+  let g:vundle_lazy_load = 1
+  call call('vundle#rc', a:000)
+endf
+
+func! vundle#end(...) abort
+  unlet g:vundle_lazy_load
+  call vundle#config#activate_bundles()
+endf
