@@ -7,10 +7,15 @@ func! vundle#config#bundle(arg, ...)
   return bundle
 endf
 
+" Add a plugin to be initialized later.
+"
+" arg -- a string specifying the plugin
+" ... -- a dictionary of options for the plugin
 func! vundle#config#bundle_lazy(arg, ...)
   call add(s:lazy_bundles, [a:arg, a:000])
 endf
 
+" Add all plugins in s:lazy_bundles to the runtimepath. 
 func! vundle#config#activate_all_plugins()
   call extend(g:bundles, map(s:lazy_bundles, 'vundle#config#init_bundle(v:val[0], v:val[1])'))
   call s:rtp_add_a()
