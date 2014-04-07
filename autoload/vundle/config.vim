@@ -7,6 +7,12 @@ func! vundle#config#bundle(arg, ...)
   return bundle
 endf
 
+func! vundle#config#init()
+  if !exists('g:bundles') | let g:bundles = [] | endif
+  call s:rtp_rm_a()
+  let g:bundles = []
+endf
+
 func! vundle#config#require(bundles) abort
   for b in a:bundles
     call s:rtp_add(b.rtpath)
