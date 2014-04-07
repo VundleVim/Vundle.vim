@@ -70,7 +70,7 @@ func! s:rtp_add_defaults()
   let &rtp = current
   for item in reverse(split(default, ','))
     exec 'set rtp-=' . item
-    if item =~ 'after$'
+    if fnamemodify(item, ":t") == 'after'
       exec 'set rtp+=' . item
     else
       exec 'set rtp^=' . item
@@ -113,7 +113,6 @@ func! s:rtpath(opts)
 endf
 
 let s:bundle = {}
-let s:lazy_bundles = []
 
 func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)

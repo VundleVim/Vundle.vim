@@ -1,10 +1,10 @@
 " vim -u test/vimrc
 set nocompatible
+
 set nowrap
-filetype off
-syntax on
 
 let bundle_dir = '/tmp/vundle-test/bundles/'
+" let src = 'http://github.com/gmarik/vundle.git' 
 
 " Vundle Options
 " let g:vundle_default_git_proto = 'git'
@@ -12,11 +12,16 @@ let bundle_dir = '/tmp/vundle-test/bundles/'
 silent execute '!mkdir -p '.bundle_dir
 silent execute '!ln -f -s ~/.vim/bundle/vundle '.bundle_dir
 
+filetype off
+syntax on
+
 runtime macros/matchit.vim
 
 " This test should be executed in "test" directory
 exec 'set rtp^='.bundle_dir.'vundle/'
+
 call vundle#rc(bundle_dir)
+
 
 Plugin 'molokai' " vim-scripts name
 
