@@ -187,8 +187,8 @@ func! vundle#installer#delete(bang, dir_name) abort
 
   call s:log('')
   call s:log('Plugin '.a:dir_name)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:log(cmd, '$ ')
+  call s:log(out, '> ')
 
   if 0 != v:shell_error
     return 'error'
@@ -237,8 +237,8 @@ func! s:sync(bang, bundle) abort
   let out = s:system(cmd)
   call s:log('')
   call s:log('Plugin '.a:bundle.name_spec)
-  call s:log('$ '.cmd)
-  call s:log('> '.out)
+  call s:log(cmd, '$ ')
+  call s:log(out, '> ')
 
   if 0 != v:shell_error
     return 'error'
@@ -278,8 +278,13 @@ func! s:system(cmd) abort
   return system(a:cmd)
 endf
 
-func! s:log(str) abort
-  let fmt = '%y%m%d %H:%M:%S'
-  call add(g:vundle_log, '['.strftime(fmt).'] '.a:str)
+func! s:log(str, ...) abort
+  let prefix = a:0 > 0 ? a:1 : ''
+  let fmt = '%Y-%m-%d %H:%M:%S'
+  let lines = split(a:str, '\n', 1)
+  let time = strftime(fmt)
+  for line in lines
+      call add(g:vundle_log, '['. time .'] '. prefix . line)
+  endfor
   return a:str
 endf
