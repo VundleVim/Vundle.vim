@@ -107,3 +107,7 @@ func! s:bundle.path()
   return s:expand_path(g:bundle_dir.'/'.self.name)
 endf
 
+func! s:bundle.is_pinned()
+  return get(self, 'pinned')
+endf
+

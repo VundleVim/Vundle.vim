@@ -54,6 +54,7 @@ sign define Vu_new      text=+  texthl=Comment
 sign define Vu_updated  text=*  texthl=Comment
 sign define Vu_deleted  text=-  texthl=Comment
 sign define Vu_helptags text=*  texthl=Comment
+sign define Vu_pinned   text==  texthl=Comment
 endif
 
 
