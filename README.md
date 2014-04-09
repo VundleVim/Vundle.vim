@@ -33,7 +33,7 @@
 
 2. Set up [Vundle]:
 
-   `$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle`
+   `$ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
 
 3. Configure Plugins:
 
@@ -44,14 +44,14 @@
    filetype off                  " required
 
    " set the runtime path to include Vundle and initialize
-   set rtp+=~/.vim/bundle/vundle/
+   set rtp+=~/.vim/bundle/Vundle.vim/
    call vundle#rc()
    " alternatively, pass a path where Vundle should install plugins
    "let path = '~/some/path/here'
    "call vundle#rc(path)
 
    " let Vundle manage Vundle, required
-   Plugin 'gmarik/vundle'
+   Plugin 'gmarik/Vundle.vim'
 
    " The following are examples of different formats supported.
    " Keep Plugin commands between here and filetype plugin indent on.
