@@ -14,9 +14,6 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginInstall
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginSearch
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
 
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete Plugins
-\ call vundle#scripts#all('!' == '<bang>', <q-args>)
-
 com! -nargs=0 -bang PluginList
 \ call vundle#installer#list('!' == '<bang>')
 
@@ -40,7 +37,6 @@ com!                                                         VundleUpdate  Plugi
 com! -nargs=+                                                Bundle        call vundle#config#bundle(<args>)
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleInstall PluginInstall<bang> <args>
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete BundleSearch  PluginSearch<bang> <args>
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete Bundles       Plugins<bang> <args>
 com! -nargs=0 -bang                                          BundleList    PluginList<bang>
 com! -nargs=? -bang                                          BundleClean   PluginClean<bang>
 com! -nargs=0                                                BundleDocs    PluginDocs
