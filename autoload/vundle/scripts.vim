@@ -253,3 +253,5 @@ func! s:load_scripts(bang)
   endif
   return eval(readfile(f, 'b')[0])
 endf
+
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

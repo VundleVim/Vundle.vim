@@ -253,3 +253,4 @@ func! s:bundle.is_pinned()
   return get(self, 'pinned')
 endf
 
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

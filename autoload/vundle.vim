@@ -1,7 +1,7 @@
 " Vundle        is a shortcut for Vim Bundle and Is a simple plugin manager for Vim
 " Author:       gmarik
-" HomePage:     http://github.com/gmarik/vundle
-" Readme:       http://github.com/gmarik/vundle/blob/master/README.md
+" HomePage:     http://github.com/gmarik/Vundle.vim
+" Readme:       http://github.com/gmarik/Vundle.vim/blob/master/README.md
 " Version:      0.9
 
 " Plugin Commands
@@ -67,12 +67,17 @@ func! vundle#rc(...) abort
   call vundle#config#init()
 endf
 
+" Alternative to vundle#rc, offers speed up by modifying rtp only when end()
+" called later.
 func! vundle#begin(...) abort
   let g:vundle_lazy_load = 1
   call call('vundle#rc', a:000)
 endf
 
+" Finishes putting plugins on the rtp.
 func! vundle#end(...) abort
   unlet g:vundle_lazy_load
   call vundle#config#activate_bundles()
 endf
+
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
