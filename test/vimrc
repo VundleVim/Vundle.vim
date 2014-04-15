@@ -58,6 +58,13 @@ Bundle 'vim-scripts/RubySinatra'
 " syntax issue #203
 Bundle 'jimenezrick/vimerl'
 
+" Static bundle: Same name as a valid vim-scripts bundle
+Bundle 'latte', {'pinned' : 1}
+if !isdirectory(expand(bundle_dir) . '/latte')
+  call mkdir(expand(bundle_dir) . '/latte', 'p')
+endif
+
+
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc            " should not break helptags
