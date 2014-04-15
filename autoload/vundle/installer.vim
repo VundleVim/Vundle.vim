@@ -440,3 +440,5 @@ func! s:log(str, ...) abort
   endfor
   return a:str
 endf
+
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

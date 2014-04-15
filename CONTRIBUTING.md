@@ -14,7 +14,7 @@ Issues
 
 Before submitting an issue, be sure to check the following places for answers.
 
-1. Vundle docs at [`:h vundle`](https://github.com/gmarik/vundle/blob/master/doc/vundle.txt).
+1. Vundle docs at [`:h vundle`](https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt).
 
 2. The [FAQ](https://github.com/gmarik/Vundle.vim/search).
 
@@ -53,9 +53,9 @@ Vimrc:
 set nocompatible
 syntax on
 filetype off
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#rc()
-Bundle 'gmarik/vundle'
+Bundle 'gmarik/Vundle.vim'
 Bundle 'relevant/plugin'
 filetype plugin indent on
 

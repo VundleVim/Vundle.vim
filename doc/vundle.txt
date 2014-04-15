@@ -62,7 +62,7 @@ more information.
 
 2. Setup Vundle:
 >
-  git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 <
 3. Configure bundles:
 
@@ -73,37 +73,44 @@ more information.
     filetype off                  " required
 
     " set the runtime path to include Vundle and initialize
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
-    " alternatively, pass a path where Vundle should install bundles
-    "let path = '~/some/path/here'
-    "call vundle#rc(path)
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+    " alternatively, pass a path where Vundle should install plugins
+    "call vundle#begin('~/some/path/here')
 
     " let Vundle manage Vundle, required
-    Plugin 'gmarik/vundle'
+    Plugin 'gmarik/Vundle.vim'
 
     " The following are examples of different formats supported.
-    " Keep bundle commands between here and filetype plugin indent on.
-    " plugins on GitHub repos
+    " Keep Plugin commands between vundle#begin/end.
+    " plugin on GitHub repo
     Plugin 'tpope/vim-fugitive'
-    Plugin 'Lokaltog/vim-easymotion'
-    Plugin 'tpope/vim-rails.git'
-    " The sparkup vim script is in a subdirectory of this repo called vim.
-    " Pass the path to set the runtimepath properly.
-    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-    " plugins from http://vim-scripts.org/vim/scripts.html
+    " plugin from http://vim-scripts.org/vim/scripts.html
     Plugin 'L9'
-    Plugin 'FuzzyFinder'
-    " plugins not on GitHub
+    " plugin not on GitHub
     Plugin 'git://git.wincent.com/command-t.git'
     " git repos on your local machine (i.e. when working on your own plugin)
     Plugin 'file:///home/gmarik/path/to/plugin'
-    " ...
+    " The sparkup vim script is in a subdirectory of this repo called vim.
+    " Pass the path to set the runtimepath properly.
+    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+    " Avoid a name conflict with L9
+    Plugin 'user/L9', {'name': 'newL9'}
 
-    filetype plugin indent on     " required
+    " All of your Plugins must be added before the following line
+    call vundle#end()            " required
+    filetype plugin indent on    " required
     " To ignore plugin indent changes, instead use:
     "filetype plugin on
-    " Put your stuff after this line
+    "
+    " Brief help
+    " :PluginList          - list configured plugins
+    " :PluginInstall(!)    - install (update) plugins
+    " :PluginSearch(!) foo - search (or refresh cache first) for foo
+    " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+    "
+    " see :h vundle for more details or wiki for FAQ
+    " Put your non-Plugin stuff after this line
 
 4. Install configured bundles:
 
@@ -381,11 +388,10 @@ KEY | DESCRIPTION
   BundleSearch(!)   | PluginSearch(!), VundleSearch(!)
   BundleClean       | PluginClean(!), VundleClean(!)
   BundleList        | PluginList
-  Bundles           | Plugins
 
   Note: The Bundle commands will be deprecated. You may continue using them,
   but they may not get all future updates. For instance, we have enabled
   comments on Plugin lines but not Bundle, since it requires a change in
   command declaration.
 
-vim:tw=78:ts=8:ft=help:norl:
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78 ft=help norl:
