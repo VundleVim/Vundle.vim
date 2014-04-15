@@ -71,6 +71,7 @@
    Plugin 'file:///home/gmarik/path/to/plugin'
    " ...
 
+   " All of your Plugins must be added before the following line
    filetype plugin indent on     " required
    " To ignore plugin indent changes, instead use:
    "filetype plugin on
@@ -83,7 +84,7 @@
    "
    " see :h vundle for more details or wiki for FAQ
    " NOTE: comments after Plugin commands are not allowed.
-   " Put your stuff after this line
+   " Put your non-Plugin stuff after this line
    ```
 
 4. Install Plugins:
