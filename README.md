@@ -97,6 +97,10 @@
 
 See the [`:h vundle`](https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc for more details.
 
+## Changelog
+
+See the [changelog](https://github.com/gmarik/Vundle.vim/blob/master/CHANGELOG.md).
+
 ## People Using Vundle
 
 see [Examples](https://github.com/gmarik/Vundle.vim/wiki/Examples)
