@@ -99,7 +99,7 @@ See the [`:h vundle`](https://github.com/gmarik/Vundle.vim/blob/master/doc/vundl
 
 ## Changelog
 
-See the [changelog](https://github.com/gmarik/Vundle.vim/blob/master/CHANGELOG.md).
+See the [changelog](https://github.com/gmarik/Vundle.vim/blob/master/changelog.md).
 
 ## People Using Vundle
 
