@@ -1,3 +1,11 @@
+" ---------------------------------------------------------------------------
+" Search the database from vim-script.org for a matching plugin.  If no
+" argument is given, list all plugins. This function is used by the :Plugins
+" and :PluginSearch commands.
+"
+" bang -- if 1 refresh the script name cache, if 0 don't
+" ...  -- a plugin name to search for
+" ---------------------------------------------------------------------------
 func! vundle#scripts#all(bang, ...)
   let b:match = ''
   let info = ['"Keymap: i - Install plugin; c - Cleanup; s - Search; R - Reload list']
@@ -13,15 +21,31 @@ func! vundle#scripts#all(bang, ...)
   echo len(matches).' plugins found'
 endf
 
+
+" ---------------------------------------------------------------------------
+" Repeat the search for bundles.
+" ---------------------------------------------------------------------------
 func! vundle#scripts#reload() abort
   silent exec ':PluginSearch! '.(exists('b:match') ? b:match : '')
   redraw
 endf
 
+
+" ---------------------------------------------------------------------------
+" Complete names for bundles in the command line.
+"
+" a, c, d -- see :h command-completion-custom
+" return  -- all valid plugin names from vim-scripts.org as completion
+"            candidates, see also :h command-completion-custom
+" ---------------------------------------------------------------------------
 func! vundle#scripts#complete(a,c,d)
   return join(s:load_scripts(0),"\n")
 endf
 
+
+" ---------------------------------------------------------------------------
+" View the logfile after an update or installation.
+" ---------------------------------------------------------------------------
 func! s:view_log()
   if !exists('g:vundle_log_file')
     let g:vundle_log_file = tempname()
@@ -33,6 +57,11 @@ func! s:view_log()
   wincmd P | wincmd H
 endf
 
+
+" ---------------------------------------------------------------------------
+" Parse the output from git log after an update to create a change log for the
+" user.
+" ---------------------------------------------------------------------------
 func! s:create_changelog() abort
   for bundle_data in g:updated_bundles
     let initial_sha = bundle_data[0]
@@ -61,6 +90,10 @@ func! s:create_changelog() abort
   endfor
 endf
 
+
+" ---------------------------------------------------------------------------
+" View the change log after an update or installation.
+" ---------------------------------------------------------------------------
 func! s:view_changelog()
   call s:create_changelog()
 
@@ -74,10 +107,27 @@ func! s:view_changelog()
   wincmd P | wincmd H
 endf
 
+
+" ---------------------------------------------------------------------------
+" Create a list of 'Plugin ...' lines from a list of bundle names.
+"
+" names  -- a list of names (strings) of plugins
+" return -- a list of 'Plugin ...' lines suitable to be written to a buffer
+" ---------------------------------------------------------------------------
 func! vundle#scripts#bundle_names(names)
   return map(copy(a:names), ' printf("Plugin ' ."'%s'".'", v:val) ')
 endf
 
+
+" ---------------------------------------------------------------------------
+" Open a buffer to display information to the user.  Several special commands
+" are defined in the new buffer.
+"
+" title   -- a title for the new buffer
+" headers -- a list of header lines to be displayed at the top of the buffer
+" results -- the main information to be displayed in the buffer (list of
+"            strings)
+" ---------------------------------------------------------------------------
 func! vundle#scripts#view(title, headers, results)
   if exists('g:vundle_view') && bufloaded(g:vundle_view)
     exec g:vundle_view.'bd!'
@@ -148,6 +198,13 @@ func! vundle#scripts#view(title, headers, results)
   exec ':'.(len(a:headers) + 1)
 endf
 
+
+" ---------------------------------------------------------------------------
+" Load the plugin database from vim-scripts.org .
+"
+" to     -- the filename (string) to save the database to
+" return -- 0 on success, 1 if an error occurred
+" ---------------------------------------------------------------------------
 func! s:fetch_scripts(to)
   let scripts_dir = fnamemodify(expand(a:to, 1), ":h")
   if !isdirectory(scripts_dir)
@@ -178,6 +235,15 @@ func! s:fetch_scripts(to)
   return 0
 endf
 
+
+" ---------------------------------------------------------------------------
+" Load the plugin database and return a list of all plugins.
+"
+" bang   -- if 1 download the redatabase, else only download if it is not
+"           readable on disk (i.e. does not exist)
+" return -- a list of strings, these are the names (valid bundle
+"           specifications) of all plugins from vim-scripts.org
+" ---------------------------------------------------------------------------
 func! s:load_scripts(bang)
   let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
   if a:bang || !filereadable(f)
@@ -187,3 +253,5 @@ func! s:load_scripts(bang)
   endif
   return eval(readfile(f, 'b')[0])
 endf
+
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

@@ -4,13 +4,13 @@ set nocompatible
 set nowrap
 
 let bundle_dir = '/tmp/vundle-test/bundles/'
-" let src = 'http://github.com/gmarik/vundle.git' 
+" let src = 'http://github.com/gmarik/vundle.git'
 
 " Vundle Options
 " let g:vundle_default_git_proto = 'git'
 
 silent execute '!mkdir -p '.bundle_dir
-silent execute '!ln -f -s ~/.vim/bundle/vundle '.bundle_dir
+silent execute '!ln -f -s ~/.vim/bundle/Vundle.vim '.bundle_dir
 
 filetype off
 syntax on
@@ -18,7 +18,7 @@ syntax on
 runtime macros/matchit.vim
 
 " This test should be executed in "test" directory
-exec 'set rtp^='.bundle_dir.'vundle/'
+exec 'set rtp^='.bundle_dir.'Vundle.vim/'
 
 call vundle#rc(bundle_dir)
 
@@ -58,6 +58,13 @@ Bundle 'vim-scripts/RubySinatra'
 " syntax issue #203
 Bundle 'jimenezrick/vimerl'
 
+" Static bundle: Same name as a valid vim-scripts bundle
+Bundle 'latte', {'pinned' : 1}
+if !isdirectory(expand(bundle_dir) . '/latte')
+  call mkdir(expand(bundle_dir) . '/latte', 'p')
+endif
+
+
 filetype plugin indent on      " Automatically detect file types.
 
 set wildignore+=doc            " should not break helptags
@@ -71,3 +78,4 @@ set wildignore+=*/.git/*
 au VimEnter * BundleInstall
 
 " e test/files/erlang.erl
+" vim: set expandtab sts=2 ts=2 sw=2 tw=78:

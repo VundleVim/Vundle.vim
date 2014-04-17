@@ -1,4 +1,4 @@
-## [Help Maintain Vundle](https://github.com/gmarik/Vundle.vim/issues/241)
+## [Help Maintain Vundle](https://github.com/gmarik/Vundle.vim/issues/383)
 
 ## About
 
@@ -20,7 +20,9 @@
 
 [Vundle] is undergoing an [interface change], please stay up to date to get latest changes.
 
-![Vundle-installer](http://25.media.tumblr.com/tumblr_m8m96w06G81r39828o1_1280.png)
+[![Gitter-chat](https://badges.gitter.im/gmarik/Vundle.vim.png)](https://gitter.im/gmarik/Vundle.vim) for discussion and support.
+
+![Vundle-installer](http://i.imgur.com/Rueh7Cc.png)
 
 ## Quick Start
 
@@ -30,10 +32,11 @@
    Curl is required for search.
 
    If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
+   See [Tips] for some advanced configurations.
 
 2. Set up [Vundle]:
 
-   `$ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle`
+   `$ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
 
 3. Configure Plugins:
 
@@ -44,34 +47,33 @@
    filetype off                  " required
 
    " set the runtime path to include Vundle and initialize
-   set rtp+=~/.vim/bundle/vundle/
-   call vundle#rc()
+   set rtp+=~/.vim/bundle/Vundle.vim
+   call vundle#begin()
    " alternatively, pass a path where Vundle should install plugins
-   "let path = '~/some/path/here'
-   "call vundle#rc(path)
+   "call vundle#begin('~/some/path/here')
 
    " let Vundle manage Vundle, required
-   Plugin 'gmarik/vundle'
+   Plugin 'gmarik/Vundle.vim'
 
    " The following are examples of different formats supported.
-   " Keep Plugin commands between here and filetype plugin indent on.
-   " scripts on GitHub repos
+   " Keep Plugin commands between vundle#begin/end.
+   " plugin on GitHub repo
    Plugin 'tpope/vim-fugitive'
-   Plugin 'Lokaltog/vim-easymotion'
-   Plugin 'tpope/vim-rails.git'
-   " The sparkup vim script is in a subdirectory of this repo called vim.
-   " Pass the path to set the runtimepath properly.
-   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-   " scripts from http://vim-scripts.org/vim/scripts.html
+   " plugin from http://vim-scripts.org/vim/scripts.html
    Plugin 'L9'
-   Plugin 'FuzzyFinder'
-   " scripts not on GitHub
+   " plugin not on GitHub
    Plugin 'git://git.wincent.com/command-t.git'
    " git repos on your local machine (i.e. when working on your own plugin)
    Plugin 'file:///home/gmarik/path/to/plugin'
-   " ...
+   " The sparkup vim script is in a subdirectory of this repo called vim.
+   " Pass the path to set the runtimepath properly.
+   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+   " Avoid a name conflict with L9
+   Plugin 'user/L9', {'name': 'newL9'}
 
-   filetype plugin indent on     " required
+   " All of your Plugins must be added before the following line
+   call vundle#end()            " required
+   filetype plugin indent on    " required
    " To ignore plugin indent changes, instead use:
    "filetype plugin on
    "
@@ -82,27 +84,30 @@
    " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
    "
    " see :h vundle for more details or wiki for FAQ
-   " NOTE: comments after Plugin commands are not allowed.
-   " Put your stuff after this line
+   " Put your non-Plugin stuff after this line
    ```
 
 4. Install Plugins:
 
-   Launch `vim` and  run `:PluginInstall`
+   Launch `vim` and run `:PluginInstall`
 
    To install from command line: `vim +PluginInstall +qall`
 
 ## Docs
 
-See the [`:h vundle`](https://github.com/gmarik/vundle/blob/master/doc/vundle.txt) Vimdoc for more details.
+See the [`:h vundle`](https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc for more details.
+
+## Changelog
+
+See the [changelog](https://github.com/gmarik/Vundle.vim/blob/master/changelog.md).
 
 ## People Using Vundle
 
-see [Examples](https://github.com/gmarik/vundle/wiki/Examples)
+see [Examples](https://github.com/gmarik/Vundle.vim/wiki/Examples)
 
 ## Contributors
 
-see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
+see [Vundle contributors](https://github.com/gmarik/Vundle.vim/graphs/contributors)
 
 *Thank you!*
 
@@ -132,9 +137,10 @@ see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 * search by description as well
 * make it rock!
 
-[Vundle]:http://github.com/gmarik/vundle
-[Windows setup]:https://github.com/gmarik/vundle/wiki/Vundle-for-Windows
-[FAQ]:https://github.com/gmarik/vundle/wiki
+[Vundle]:http://github.com/gmarik/Vundle.vim
+[Windows setup]:https://github.com/gmarik/Vundle.vim/wiki/Vundle-for-Windows
+[FAQ]:https://github.com/gmarik/Vundle.vim/wiki
+[Tips]:https://github.com/gmarik/Vundle.vim/wiki/Tips-and-Tricks
 [Vim]:http://www.vim.org
 [Git]:http://git-scm.com
 [`git clone`]:http://gitref.org/creating/#clone
@@ -143,10 +149,10 @@ see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 [help tags]:http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags
 [runtime path]:http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27
 
-[configure]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L122-L205
-[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L207-L226
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L228-L237
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L239-L267
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L276-L289
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L292-L331
-[interface change]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L345-L369
+[configure]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L126-L233
+[install]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L234-L254
+[update]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L255-L265
+[search]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L266-L295
+[clean]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L303-L318
+[interactive mode]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L319-L360
+[interface change]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L372-L396
