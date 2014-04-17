@@ -11,4 +11,4 @@ F = Feature, B = Bug Fix, D = Doc Change
 - B: #440 Detect changed remotes & update repos
 - D: #435 Image update in README.md
 - D: #419 Add function documentation
-- D: #436 Rename vundle->Vundle.vim, add modelines, quickstart update
+- D: #436 Rename vundle to Vundle.vim, add modelines, quickstart update
