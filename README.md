@@ -38,7 +38,19 @@
 
 2. Set up [Vundle]:
 
+   Either you install Vundle manually:
+
    `$ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+
+   or you can put these lines *before* the configureation described below:
+
+   ```vim
+   if !filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
+     source https://raw.githubusercontent.com/gmarik/Vundle.vim/master/autoinstall.vim
+   endif
+   ```
+
+   NOTE: You might have to change the path in the test to suit you system.
 
 3. Configure Plugins:
 
