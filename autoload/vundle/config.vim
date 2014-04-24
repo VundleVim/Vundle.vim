@@ -167,11 +167,12 @@ func! s:rtp_add_defaults()
   let default = &rtp
   let &rtp = current
   for item in reverse(split(default, ','))
-    exec 'set rtp-=' . item
+    let itemEscapeSpace = substitute(item, ' ', '\\ ', "g")
+    exec 'set rtp-=' . itemEscapeSpace
     if fnamemodify(item, ":t") == 'after'
-      exec 'set rtp+=' . item
+      exec 'set rtp+=' . itemEscapeSpace
     else
-      exec 'set rtp^=' . item
+      exec 'set rtp^=' . itemEscapeSpace
     endif
   endfor
 endf
