@@ -331,7 +331,7 @@ endf
 " ---------------------------------------------------------------------------
 func! s:get_current_origin_url(bundle) abort
   let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
-  let cmd = g:shellesc_cd(cmd)
+  let cmd = vundle#installer#shellesc_cd(cmd)
   let out = s:strip(s:system(cmd))
   return out
 endf
@@ -345,7 +345,7 @@ endf
 " ---------------------------------------------------------------------------
 func! s:get_current_sha(bundle)
   let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
-  let cmd = g:shellesc_cd(cmd)
+  let cmd = vundle#installer#shellesc_cd(cmd)
   let out = s:system(cmd)[0:15]
   return out
 endf
@@ -382,7 +382,7 @@ func! s:make_sync_command(bang, bundle) abort
                   \ 'git submodule update --init --recursive',
                   \ ]
       let cmd = join(cmd_parts, ' && ')
-      let cmd = g:shellesc_cd(cmd)
+      let cmd = vundle#installer#shellesc_cd(cmd)
       let initial_sha = ''
       return [cmd, initial_sha]
     endif
@@ -398,7 +398,7 @@ func! s:make_sync_command(bang, bundle) abort
                 \ 'git submodule update --init --recursive',
                 \ ]
     let cmd = join(cmd_parts, ' && ')
-    let cmd = g:shellesc_cd(cmd)
+    let cmd = vundle#installer#shellesc_cd(cmd)
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
@@ -479,7 +479,7 @@ endf
 " cmd    -- the command to be fixed (string)
 " return -- the fixed command (string)
 " ---------------------------------------------------------------------------
-func! g:shellesc_cd(cmd) abort
+func! vundle#installer#shellesc_cd(cmd) abort
   if ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh')))
     let cmd = substitute(a:cmd, '^cd ','cd /d ','')  " add /d switch to change drives
     return cmd
