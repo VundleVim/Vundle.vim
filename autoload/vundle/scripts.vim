@@ -72,7 +72,7 @@ func! s:create_changelog() abort
           \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 
-    let cmd = g:shellesc_cd(cmd)
+    let cmd = vundle#installer#shellesc_cd(cmd)
 
     let updates = system(cmd)
 
