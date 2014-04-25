@@ -166,15 +166,12 @@ func! s:rtp_add_defaults()
   set rtp&vim
   let default = &rtp
   let &rtp = current
-  for item in reverse(split(default, ','))
-    let item = fnameescape(item)
-    exec 'set rtp-=' . item
-    if fnamemodify(item, ":t") == 'after'
-      exec 'set rtp+=' . item
-    else
-      exec 'set rtp^=' . item
-    endif
-  endfor
+  let default_rtp_items = split(default, ',')
+  if !empty(default_rtp_items)
+    let first_item = fnameescape(default_rtp_items[0])
+    exec 'set rtp-=' . first_item
+    exec 'set rtp^=' . first_item
+  endif
 endf
 
 
