@@ -139,7 +139,7 @@ follow on the same line as the command. Example:
 >
   Plugin 'git_URI'
 
-The `Bundle` command can optionally take a second argument after the URI. It
+The `Plugin` command can optionally take a second argument after the URI. It
 has to be a dictionary, separated from the URI by a comma. Each key-value pair
 in the dictionary is a configuration option.
 
