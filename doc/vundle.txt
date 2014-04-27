@@ -49,8 +49,9 @@ more information.
 
 1. Introduction:
 
-  Installation requires `Git` and triggers git clone for each configured
-  repository to `~/.vim/bundle/` by default. Curl is required for search.
+  Installation requires `Vim` (`MacVim` and `gVim` also work) and `Git`. 
+  A git clone is triggered for each configured repository to `~/.vim/bundle/`
+  by default. Curl is required for search.
 
                                                              *vundle-windows*
   If you are using Windows, see instructions on the Wiki
