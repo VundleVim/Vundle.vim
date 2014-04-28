@@ -2,7 +2,7 @@
 " Author:       gmarik
 " HomePage:     http://github.com/gmarik/Vundle.vim
 " Readme:       http://github.com/gmarik/Vundle.vim/blob/master/README.md
-" Version:      0.9
+" Version:      0.10.1
 
 " Plugin Commands
 com! -nargs=+  -bar   Plugin
