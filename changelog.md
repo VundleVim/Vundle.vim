@@ -2,6 +2,9 @@ Change Log
 ==========
 F = Feature, B = Bug Fix, D = Doc Change
 
+### Version 0.10.1
+- B: #451 Escape spaces when handling rtp directories
+
 ### Version 0.10
 - F: #415 Support plugin pinning (for non-git repos & preventing updates)
 - F: #440 Detect plugin name collisions

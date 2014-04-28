@@ -167,6 +167,7 @@ func! s:rtp_add_defaults()
   let default = &rtp
   let &rtp = current
   for item in reverse(split(default, ','))
+    let item = fnameescape(item)
     exec 'set rtp-=' . item
     if fnamemodify(item, ":t") == 'after'
       exec 'set rtp+=' . item
