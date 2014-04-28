@@ -23,6 +23,9 @@ com! -nargs=? -bang   PluginClean
 com! -nargs=0         PluginDocs
 \ call vundle#installer#helptags(g:vundle#bundles)
 
+com! -nargs=? -complete=custom,vundle#scripts#complete PluginExplore
+\ call vundle#scripts#explore(<q-args>)
+
 " Aliases
 com! -nargs=* -complete=custom,vundle#scripts#complete PluginUpdate PluginInstall! <args>
 
@@ -31,8 +34,8 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleInstall Plugi
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleSearch  PluginSearch<bang> <args>
 com! -nargs=? -bang                                          VundleClean   PluginClean<bang>
 com! -nargs=0                                                VundleDocs    PluginDocs
-com!                                                         VundleUpdate  PluginInstall!
 com! -nargs=*       -complete=custom,vundle#scripts#complete VundleUpdate  PluginInstall! <args>
+com! -nargs=?       -complete=custom,vundle#scripts#complete VundleExplore PluginExplore <args>
 
 " Deprecated Commands
 com! -nargs=+                                                Bundle        call vundle#config#bundle(<args>)

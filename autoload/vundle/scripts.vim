@@ -213,6 +213,22 @@ endf
 
 
 " ---------------------------------------------------------------------------
+" Explore the folder of a given bundle or g:bundle_dir.
+"
+" bundle -- either a bundle object or a bundle specification string.
+" ---------------------------------------------------------------------------
+func! vundle#scripts#explore(bundle)
+  if empty(a:bundle)
+    exec 'Vexplore' g:bundle_dir
+  elseif type(a:bundle) == type({})
+    exec 'Vexplore' a:bundle.rtpath
+  elseif type(a:bundle) == type('')
+    exec 'Vexplore' vundle#config#init_bundle(a:bundle, {}).rtpath
+  endif
+endf
+
+
+" ---------------------------------------------------------------------------
 " Load the plugin database from vim-scripts.org .
 "
 " to     -- the filename (string) to save the database to
