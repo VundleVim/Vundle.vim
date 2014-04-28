@@ -87,7 +87,7 @@ more information.
     Plugin 'tpope/vim-fugitive'
     " plugin from http://vim-scripts.org/vim/scripts.html
     Plugin 'L9'
-    " plugin not on GitHub
+    " Git plugin not hosted on GitHub
     Plugin 'git://git.wincent.com/command-t.git'
     " git repos on your local machine (i.e. when working on your own plugin)
     Plugin 'file:///home/gmarik/path/to/plugin'
@@ -139,7 +139,7 @@ follow on the same line as the command. Example:
 >
   Plugin 'git_URI'
 
-The `Bundle` command can optionally take a second argument after the URI. It
+The `Plugin` command can optionally take a second argument after the URI. It
 has to be a dictionary, separated from the URI by a comma. Each key-value pair
 in the dictionary is a configuration option.
 

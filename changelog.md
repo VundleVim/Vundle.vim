@@ -2,6 +2,11 @@ Change Log
 ==========
 F = Feature, B = Bug Fix, D = Doc Change
 
+### Version 0.10.2
+
+- B: #430 Put user script directories before system directories in rtp
+- B: #455 Rename functions that start with `g:` + lowercase letter (Vim patch 7.4.264)
+
 ### Version 0.10.1
 - B: #451 Escape spaces when handling rtp directories
 
