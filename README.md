@@ -47,7 +47,7 @@
    filetype off                  " required
    
    " avoid problems for users of other shells than bash. 
-   set shell=/bin/bash
+   set shell=/bin/sh
 
    " set the runtime path to include Vundle and initialize
    set rtp+=~/.vim/bundle/Vundle.vim
