@@ -46,7 +46,7 @@
    set nocompatible              " be iMproved, required
    filetype off                  " required
    
-   " avoid problems for users of other shells than bash. 
+   " Avoid problems for non-POSIX shell users. 
    set shell=/bin/sh
 
    " set the runtime path to include Vundle and initialize
