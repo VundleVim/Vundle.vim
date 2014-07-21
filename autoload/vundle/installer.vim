@@ -268,11 +268,11 @@ func! vundle#installer#top_level_path() abort
   return out
 endf
 
-func! vundle#installer#relative_path() abort
+func! vundle#installer#relative_path(bundle) abort
   let cmd = 'cd '.vundle#installer#shellesc(g:bundle_dir).' && git rev-parse --show-prefix'
   let cmd = vundle#installer#shellesc_cd(cmd)
   let prefix = s:strip(s:system(cmd))
-  return prefix.substitute(bundle.path(), g:bundle_dir.'/', '', '')
+  return prefix.substitute(a:bundle.path(), g:bundle_dir.'/', '', '')
 endf
 
 " ---------------------------------------------------------------------------
@@ -288,7 +288,7 @@ func! vundle#installer#delete(bang, dir_name) abort
 
   if vundle#installer#should_use_submodules()
     let top_level_path = vundle#installer#top_level_path()
-    let relative_path  = vundle#installer#relative_path()
+    let relative_path  = vundle#installer#relative_path(bundle)
     let cmd_parts = [
                 \ 'cd '.vundle#installer#shellesc(top_level_path),
                 \ 'git config -f .gitmodules --remove-section submodule.'.vundle#installer#shellesc(relative_path),
@@ -442,7 +442,7 @@ func! s:make_sync_command(bang, bundle) abort
   else
     if vundle#installer#should_use_submodules()
       let top_level_path = vundle#installer#top_level_path()
-      let relative_path  = vundle#installer#relative_path()
+      let relative_path  = vundle#installer#relative_path(a:bundle)
       let cmd_parts = [
                   \ 'cd '.vundle#installer#shellesc(top_level_path),
                   \ 'git submodule add '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(relative_path),
