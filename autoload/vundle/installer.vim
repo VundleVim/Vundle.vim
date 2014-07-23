@@ -291,9 +291,9 @@ func! vundle#installer#delete(bang, dir_name) abort
     let relative_path  = vundle#installer#relative_path(bundle)
     let cmd_parts = [
                 \ 'cd '.vundle#installer#shellesc(top_level_path),
+                \ 'git rm --cached '.vundle#installer#shellesc(relative_path),
                 \ 'git config -f .gitmodules --remove-section submodule.'.vundle#installer#shellesc(relative_path),
                 \ 'git config -f .git/config --remove-section submodule.'.vundle#installer#shellesc(relative_path),
-                \ 'git rm --cached '.vundle#installer#shellesc(relative_path),
                 \ 'rm -rf '.vundle#installer#shellesc(relative_path),
                 \ 'rm -rf '.vundle#installer#shellesc('.git/modules/'.relative_path),
                 \ ]
