@@ -445,7 +445,7 @@ func! s:make_sync_command(bang, bundle) abort
       let relative_path  = vundle#installer#relative_path(a:bundle)
       let cmd_parts = [
                   \ 'cd '.vundle#installer#shellesc(top_level_path),
-                  \ 'git submodule add '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(relative_path),
+                  \ 'git submodule add -f '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(relative_path),
                   \ 'git submodule init',
                   \ ]
       let cmd = join(cmd_parts, ' && ')
