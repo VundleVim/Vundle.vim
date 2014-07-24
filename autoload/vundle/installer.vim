@@ -286,6 +286,7 @@ endf
 func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
 
+  let cmd = ''
   if vundle#installer#should_use_submodules()
     let top_level_path = vundle#installer#top_level_path()
     let relative_path  = vundle#installer#relative_path(bundle)
@@ -300,8 +301,6 @@ func! vundle#installer#delete(bang, dir_name) abort
     let cmd = join(cmd_parts, ' && ')
     let cmd = vundle#installer#shellesc_cd(cmd)
     let cmd .= ' &&'
-  else
-    let cmd = ''
   endif
 
   let cmd .= ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh'))) ?
@@ -405,57 +404,42 @@ endf
 " ---------------------------------------------------------------------------
 func! s:make_sync_command(bang, bundle) abort
   let git_dir = expand(a:bundle.path().'/.git/', 1)
+  let cmd_parts = ['cd '.vundle#installer#shellesc(a:bundle.path())]
+  let initial_sha = ''
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     let current_origin_url = s:get_current_origin_url(a:bundle)
+
     if current_origin_url != a:bundle.uri
+      " Directory names match but the origin remotes are not the same
       call s:log('Plugin URI change detected for Plugin ' . a:bundle.name)
       call s:log('>  Plugin ' . a:bundle.name . ' old URI: ' . current_origin_url)
       call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
-      " Directory names match but the origin remotes are not the same
-      let cmd_parts = [
-                  \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
-                  \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
-                  \ 'git fetch',
-                  \ 'git reset --hard origin/HEAD',
-                  \ 'git submodule update --init --merge --recursive',
-                  \ ]
-      let cmd = join(cmd_parts, ' && ')
-      let cmd = vundle#installer#shellesc_cd(cmd)
-      let initial_sha = ''
-      return [cmd, initial_sha]
-    endif
-
-    if !(a:bang)
+      let cmd_parts = cmd_parts + ['git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri)]
+    elseif !(a:bang)
       " The repo exists, and no !, so leave as it is.
       return ['', '']
+    else
+      let initial_sha = s:get_current_sha(a:bundle)
     endif
 
-    let cmd_parts = [
-                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
+    let cmd_parts = cmd_parts + [
                 \ 'git fetch',
                 \ 'git reset --hard origin/HEAD',
                 \ 'git submodule update --init --merge --recursive',
                 \ ]
     let cmd = join(cmd_parts, ' && ')
     let cmd = vundle#installer#shellesc_cd(cmd)
-
-    let initial_sha = s:get_current_sha(a:bundle)
+  elseif vundle#installer#should_use_submodules()
+    let top_level_path = vundle#installer#top_level_path()
+    let relative_path  = vundle#installer#relative_path(a:bundle)
+    let cmd_parts = cmd_parts + [
+                \ 'git submodule add -f '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(relative_path),
+                \ 'git submodule init',
+                \ ]
+    let cmd = join(cmd_parts, ' && ')
+    let cmd = vundle#installer#shellesc_cd(cmd)
   else
-    if vundle#installer#should_use_submodules()
-      let top_level_path = vundle#installer#top_level_path()
-      let relative_path  = vundle#installer#relative_path(a:bundle)
-      let cmd_parts = [
-                  \ 'cd '.vundle#installer#shellesc(top_level_path),
-                  \ 'git submodule add -f '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(relative_path),
-                  \ 'git submodule init',
-                  \ ]
-      let cmd = join(cmd_parts, ' && ')
-      let cmd = vundle#installer#shellesc_cd(cmd)
-    else
-      let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
-    endif
-
-    let initial_sha = ''
+    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
   endif
   return [cmd, initial_sha]
 endf
