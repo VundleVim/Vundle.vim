@@ -408,9 +408,30 @@ endf
 " ---------------------------------------------------------------------------
 func! s:make_sync_command(bang, bundle) abort
   let initial_sha = ''
-  if vundle#installer#should_use_submodules(a:bundle)
+  let git_dir = expand(a:bundle.path().'/.git/', 1)
+  if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
     let current_origin_url = s:get_current_origin_url(a:bundle)
-    if empty(current_origin_url)
+    let cmd_parts = ['cd '.vundle#installer#shellesc(a:bundle.path())]
+    if current_origin_url != a:bundle.uri
+      " Directory names match but the origin remotes are not the same
+      call s:log('Plugin URI change detected for Plugin ' . a:bundle.name)
+      call s:log('>  Plugin ' . a:bundle.name . ' old URI: ' . current_origin_url)
+      call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
+      let cmd_parts = cmd_parts + ['git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri)]
+    elseif !(a:bang)
+      " The repo exists, and no !, so leave as it is.
+      return ['', '']
+    else
+      let initial_sha = s:get_current_sha(a:bundle)
+    end
+
+    let cmd_parts = cmd_parts + [
+                \ 'git fetch',
+                \ 'git reset --hard origin/HEAD',
+                \ 'git submodule update --init --merge --recursive',
+                \ ]
+  else
+    if vundle#installer#should_use_submodules(a:bundle)
       let top_level_path = vundle#installer#top_level_path()
       let relative_path  = vundle#installer#relative_path(a:bundle)
       let cmd_parts = [
@@ -420,32 +441,12 @@ func! s:make_sync_command(bang, bundle) abort
                   \ 'git submodule init',
                   \ ]
     else
-      let cmd_parts = ['cd '.vundle#installer#shellesc(a:bundle.path())]
-      if current_origin_url != a:bundle.uri
-        " Directory names match but the origin remotes are not the same
-        call s:log('Plugin URI change detected for Plugin ' . a:bundle.name)
-        call s:log('>  Plugin ' . a:bundle.name . ' old URI: ' . current_origin_url)
-        call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
-        let cmd_parts = cmd_parts + ['git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri)]
-      elseif !(a:bang)
-        " The repo exists, and no !, so leave as it is.
-        return ['', '']
-      else
-        let initial_sha = s:get_current_sha(a:bundle)
-      end
-
-      let cmd_parts = cmd_parts + [
-                  \ 'git fetch',
-                  \ 'git reset --hard origin/HEAD',
-                  \ 'git submodule update --init --merge --recursive',
-                  \ ]
+      let cmd_parts = ['git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())]
     endif
-
-    let cmd = join(cmd_parts, ' && ')
-    let cmd = vundle#installer#shellesc_cd(cmd)
-  else
-    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
   endif
+
+  let cmd = join(cmd_parts, ' && ')
+  let cmd = vundle#installer#shellesc_cd(cmd)
   return [cmd, initial_sha]
 endf
 
