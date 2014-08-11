@@ -307,11 +307,9 @@ func! vundle#installer#delete(bang, dir_name) abort
                 \ ]
     let cmd = join(cmd_parts, ' && ')
     let cmd = vundle#installer#shellesc_cd(cmd)
-    let cmd .= ' &&'
+  else
+    let cmd .= vundle#installer#shell_rmdir(bundle.path())
   endif
-
-  let bundle = vundle#config#init_bundle(a:dir_name, {})
-  let cmd .= vundle#installer#shell_rmdir(bundle.path())
 
   let out = s:system(cmd)
 
