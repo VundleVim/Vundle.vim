@@ -278,7 +278,9 @@ func! vundle#installer#relative_path(bundle) abort
   let cmd = vundle#installer#shellesc_cd(cmd)
   let prefix = s:strip(s:system(cmd))
   let pattern = '\V'.substitute(g:bundle_dir, '\\', '\\\\', 'g')
-  return prefix.substitute(a:bundle.path(), pattern, '', '')
+  let suffix = substitute(a:bundle.path(), pattern, '', '')
+  let suffix = substitute(suffix, '^\\', '', '')
+  return prefix.suffix
 endf
 
 " ---------------------------------------------------------------------------
