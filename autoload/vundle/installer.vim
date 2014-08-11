@@ -540,7 +540,7 @@ func! vundle#installer#shell_rmdir(target) abort
     let cmd = 'rm -rf'
   endif
 
-  return cmd.' '.vundle#installer#shellesc(target)
+  return cmd.' '.vundle#installer#shellesc(a:target)
 endf
 
 
