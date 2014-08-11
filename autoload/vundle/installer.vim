@@ -299,20 +299,16 @@ func! vundle#installer#delete(bang, dir_name) abort
                 \ 'git rm --cached '.vundle#installer#shellesc(relative_path),
                 \ 'git config -f .gitmodules --remove-section submodule.'.vundle#installer#shellesc(relative_path),
                 \ 'git config -f .git/config --remove-section submodule.'.vundle#installer#shellesc(relative_path),
-                \ 'rm -rf '.vundle#installer#shellesc(relative_path),
-                \ 'rm -rf '.vundle#installer#shellesc('.git/modules/'.relative_path),
+                \ vundle#installer#shell_rmdir(relative_path),
+                \ vundle#installer#shell_rmdir('.git/modules/'.relative_path),
                 \ ]
     let cmd = join(cmd_parts, ' && ')
     let cmd = vundle#installer#shellesc_cd(cmd)
     let cmd .= ' &&'
   endif
 
-  let cmd .= ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh'))) ?
-  \           'rmdir /S /Q' :
-  \           'rm -rf'
-
   let bundle = vundle#config#init_bundle(a:dir_name, {})
-  let cmd .= ' '.vundle#installer#shellesc(bundle.path())
+  let cmd .= vundle#installer#shell_rmdir(bundle.path())
 
   let out = s:system(cmd)
 
@@ -436,7 +432,7 @@ func! s:make_sync_command(bang, bundle) abort
       let relative_path  = vundle#installer#relative_path(a:bundle)
       let cmd_parts = [
                   \ 'cd '.vundle#installer#shellesc(top_level_path),
-                  \ 'rm -rf '.vundle#installer#shellesc(relative_path),
+                  \ vundle#installer#shell_rmdir(relative_path),
                   \ 'git submodule add -f '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(relative_path),
                   \ 'git submodule init',
                   \ ]
@@ -528,6 +524,23 @@ func! vundle#installer#shellesc_cd(cmd) abort
   else
     return a:cmd
   endif
+endf
+
+
+" ---------------------------------------------------------------------------
+" Return an shell command that removes a directory on the current platform
+"
+" target -- the path to the directory to be removed (string)
+" return -- the command to remove the directory (string)
+" ---------------------------------------------------------------------------
+func! vundle#installer#shell_rmdir(target) abort
+  if ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh')))
+    let cmd = 'rmdir /S /Q'
+  else
+    let cmd = 'rm -rf'
+  endif
+
+  return cmd.' '.vundle#installer#shellesc(target)
 endf
 
 
