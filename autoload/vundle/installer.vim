@@ -277,7 +277,8 @@ func! vundle#installer#relative_path(bundle) abort
   let cmd = 'cd '.vundle#installer#shellesc(g:bundle_dir).' && git rev-parse --show-prefix'
   let cmd = vundle#installer#shellesc_cd(cmd)
   let prefix = s:strip(s:system(cmd))
-  return prefix.substitute(a:bundle.path(), g:bundle_dir, '', '')
+  let pattern = '\V'.substitute(g:bundle_dir, '\\', '\\\\', 'g')
+  return prefix.substitute(a:bundle.path(), pattern, '', '')
 endf
 
 " ---------------------------------------------------------------------------
