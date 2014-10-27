@@ -136,7 +136,7 @@ func! s:parse_name(arg)
   let arg = a:arg
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
   if git_proto ==? 'ssh'
-    let github_prefix = 'git@github.com/'
+    let github_prefix = 'git@github.com:'
   else
     let github_prefix = git_proto.'://github.com/'
   endif
