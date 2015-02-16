@@ -8,8 +8,8 @@
 com! -nargs=+  -bar   Plugin
 \ call vundle#config#bundle(<args>)
 
-com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginInstall
-\ call vundle#installer#new('!' == '<bang>', <q-args>)
+com! -nargs=* -bang -complete=custom,vundle#scripts#complete PluginInstall
+\ call vundle#installer#new('!' == '<bang>', <f-args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginSearch
 \ call vundle#scripts#all('!' == '<bang>', <q-args>)
@@ -24,7 +24,7 @@ com! -nargs=0         PluginDocs
 \ call vundle#installer#helptags(g:bundles)
 
 " Aliases
-com! PluginUpdate PluginInstall!
+com! -nargs=* -complete=custom,vundle#scripts#complete PluginUpdate PluginInstall! <args>
 
 " Vundle Aliases
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleInstall PluginInstall<bang> <args>
