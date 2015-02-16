@@ -6,20 +6,31 @@
 " ...    -- any number of bundle specifications (separate arguments)
 " ---------------------------------------------------------------------------
 func! vundle#installer#new(bang, ...) abort
-  let bundles = (a:1 == '') ?
-        \ g:bundles :
-        \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+  " No specific plugins are specified. Operate on all plugins.
+  if a:0 == 0
+    let bundles = g:bundles
+  " Specific plugins are specified for update. Update them.
+  elseif (a:bang)
+    let bundles = filter(copy(g:bundles), 'index(a:000, v:val.name) > -1')
+  " Specific plugins are specified for installation. Install them.
+  else
+    let bundles = map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+  endif
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing plugins to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
+  if empty(bundles)
+    echoerr 'No bundles were selected for operation'
+  else
+    let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
+    call vundle#scripts#view('Installer',['" Installing plugins to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
 
-  " This calls 'add' as a normal mode command. This is a buffer local mapping
-  " defined in vundle#scripts#view(). The mapping will call a buffer local
-  " command InstallPlugin which in turn will call vundle#installer#run() with
-  " vundle#installer#install().
-  call s:process(a:bang, (a:bang ? 'add!' : 'add'))
+    " This calls 'add' as a normal mode command. This is a buffer local mapping
+    " defined in vundle#scripts#view(). The mapping will call a buffer local
+    " command InstallPlugin which in turn will call vundle#installer#run() with
+    " vundle#installer#install().
+    call s:process(a:bang, (a:bang ? 'add!' : 'add'))
 
-  call vundle#config#require(bundles)
+    call vundle#config#require(bundles)
+  endif
 endf
 
 
