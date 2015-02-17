@@ -254,4 +254,19 @@ func! s:load_scripts(bang)
   return eval(readfile(f, 'b')[0])
 endf
 
+
+" ---------------------------------------------------------------------------
+" Get the dependencies of the given bundle.
+"
+" bundle -- The bundle to check. (must be installed)
+" return -- List of bundle names.
+" ---------------------------------------------------------------------------
+func! vundle#scripts#getdeps(bundle)
+  if !empty(glob(a:bundle['rtpath'] . '/depends.txt'))
+    return eval("['" . join(readfile(a:bundle['rtpath'] . '/depends.txt'), "','") . "']")
+  else
+    return []
+  endif
+endf
+
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
