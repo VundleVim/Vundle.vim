@@ -262,8 +262,11 @@ endf
 " return -- List of bundle names.
 " ---------------------------------------------------------------------------
 func! vundle#scripts#getdeps(bundle)
-  if !empty(glob(a:bundle['rtpath'] . '/depends.txt'))
-    return eval("['" . join(readfile(a:bundle['rtpath'] . '/depends.txt'), "','") . "']")
+  if !empty(glob(a:bundle['rtpath'] . '/addon-info.json'))
+    let true = 1
+    let false = 0
+    let null = ''
+    return keys(get(eval(join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')), 'dependencies', {}))
   else
     return []
   endif
