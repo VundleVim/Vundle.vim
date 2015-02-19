@@ -270,8 +270,10 @@ func! vundle#scripts#getdeps(bundle)
     let bundles_needed = []
     for dep_name in keys(dependencyentries)
       if !empty(dependencyentries[dep_name])
-        if dependencyentries[dep_name]['type'] == 'git'
-          let bundles_needed += [dependencyentries[dep_name]['url']]
+        if get(dependencyentries[dep_name], 'type', '') == 'git'
+          let bundles_needed += [get(dependencyentries[dep_name], 'url', dep_name)]
+        else
+          let bundles_needed += [dep_name]
         endif
       else
         let bundles_needed += [dep_name]
