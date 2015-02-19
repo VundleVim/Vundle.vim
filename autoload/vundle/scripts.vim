@@ -262,19 +262,19 @@ endf
 " return -- List of bundle names.
 " ---------------------------------------------------------------------------
 func! vundle#scripts#getdeps(bundle)
-  if !empty(glob(a:bundle['rtpath'] . '/addon-info.json'))
+  if filereadable(a:bundle['rtpath'] . '/addon-info.json')
     let true = 1
     let false = 0
     let null = ''
     let dependencyentries = get(eval(join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')), 'dependencies', {})
     let bundles_needed = []
-    for information in keys(dependencyentries)
-      if !empty(dependencyentries[information])
-        if dependencyentries[information]['type'] == 'git'
-          let bundles_needed += [dependencyentries[information]['url']]
+    for dep_name in keys(dependencyentries)
+      if !empty(dependencyentries[dep_name])
+        if dependencyentries[dep_name]['type'] == 'git'
+          let bundles_needed += [dependencyentries[dep_name]['url']]
         endif
       else
-        let bundles_needed += [information]
+        let bundles_needed += [dep_name]
       endif
     endfor
     return bundles_needed
