@@ -266,7 +266,18 @@ func! vundle#scripts#getdeps(bundle)
     let true = 1
     let false = 0
     let null = ''
-    return keys(get(eval(join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')), 'dependencies', {}))
+    let dependencyentries = get(eval(join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')), 'dependencies', {})
+    let bundles_needed = []
+    for information in keys(dependencyentries)
+      if !empty(dependencyentries[information])
+        if dependencyentries[information]['type'] == 'git'
+          let bundles_needed += [dependencyentries[information]['url']]
+        endif
+      else
+        let bundles_needed += [information]
+      endif
+    endfor
+    return bundles_needed
   else
     return []
   endif
