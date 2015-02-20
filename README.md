@@ -34,6 +34,8 @@
    If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
    See [Tips] for some advanced configurations.
 
+   Using non-POSIX shells, such as the popular Fish shell, requires additional setup. Please check the [FAQ].
+
 2. Set up [Vundle]:
 
    `$ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
