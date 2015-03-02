@@ -32,6 +32,7 @@ com! -nargs=? -bang -complete=custom,vundle#scripts#complete VundleSearch  Plugi
 com! -nargs=? -bang                                          VundleClean   PluginClean<bang>
 com! -nargs=0                                                VundleDocs    PluginDocs
 com!                                                         VundleUpdate  PluginInstall!
+com! -nargs=*       -complete=custom,vundle#scripts#complete VundleUpdate  PluginInstall! <args>
 
 " Deprecated Commands
 com! -nargs=+                                                Bundle        call vundle#config#bundle(<args>)

@@ -36,13 +36,15 @@ endf
 "
 " a, c, d -- see :h command-completion-custom
 " return  -- all valid plugin names from vim-scripts.org as completion
-"            candidates, see also :h command-completion-custom
+"            candidates, or all installed plugin names when running an 'Update
+"            variant'. see also :h command-completion-custom
 " ---------------------------------------------------------------------------
 func! vundle#scripts#complete(a,c,d)
-  " Return only installed plugins if updating
-  if match(a:c, '\v^Plugin%(Install!|Update)') == 0
+  if match(a:c, '\v^%(Plugin|Vundle)%(Install!|Update)') == 0
+    " Only installed plugins if updating
     return join(map(copy(g:bundles), 'v:val.name'), "\n")
   else
+    " Or all known plugins otherwise
     return join(s:load_scripts(0),"\n")
   endif
 endf
