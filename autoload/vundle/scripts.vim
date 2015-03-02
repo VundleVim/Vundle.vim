@@ -39,7 +39,12 @@ endf
 "            candidates, see also :h command-completion-custom
 " ---------------------------------------------------------------------------
 func! vundle#scripts#complete(a,c,d)
-  return join(s:load_scripts(0),"\n")
+  " Return only installed plugins if updating
+  if match(a:c, '\v^Plugin%(Install!|Update)') == 0
+    return join(map(copy(g:bundles), 'v:val.name'), "\n")
+  else
+    return join(s:load_scripts(0),"\n")
+  endif
 endf
 
 
