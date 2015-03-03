@@ -21,7 +21,7 @@ com! -nargs=? -bang   PluginClean
 \ call vundle#installer#clean('!' == '<bang>')
 
 com! -nargs=0         PluginDocs
-\ call vundle#installer#helptags(g:bundles)
+\ call vundle#installer#helptags(g:vundle#bundles)
 
 " Aliases
 com! -nargs=* -complete=custom,vundle#scripts#complete PluginUpdate PluginInstall! <args>
@@ -61,22 +61,22 @@ endif
 " :Plugin command in the vimrc.  It is not possible to do this automatically
 " because when loading the vimrc file no plugins where loaded yet.
 func! vundle#rc(...) abort
-  let g:bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
-  let g:updated_bundles = []
-  let g:vundle_log = []
+  let g:vundle#bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
+  let g:vundle#updated_bundles = []
+  let g:vundle#log = []
   call vundle#config#init()
 endf
 
 " Alternative to vundle#rc, offers speed up by modifying rtp only when end()
 " called later.
 func! vundle#begin(...) abort
-  let g:vundle_lazy_load = 1
+  let g:vundle#lazy_load = 1
   call call('vundle#rc', a:000)
 endf
 
 " Finishes putting plugins on the rtp.
 func! vundle#end(...) abort
-  unlet g:vundle_lazy_load
+  unlet g:vundle#lazy_load
   call vundle#config#activate_bundles()
 endf
 

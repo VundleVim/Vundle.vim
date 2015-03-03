@@ -42,7 +42,7 @@ endf
 func! vundle#scripts#complete(a,c,d)
   if match(a:c, '\v^%(Plugin|Vundle)%(Install!|Update)') == 0
     " Only installed plugins if updating
-    return join(map(copy(g:bundles), 'v:val.name'), "\n")
+    return join(map(copy(g:vundle#bundles), 'v:val.name'), "\n")
   else
     " Or all known plugins otherwise
     return join(s:load_scripts(0),"\n")
@@ -61,7 +61,7 @@ func! s:view_log()
   if bufloaded(s:log_file)
     execute 'silent bdelete' s:log_file
   endif
-  call writefile(g:vundle_log, s:log_file)
+  call writefile(g:vundle#log, s:log_file)
   execute 'silent pedit ' . s:log_file
 
   wincmd P | wincmd H
@@ -74,7 +74,7 @@ endf
 " ---------------------------------------------------------------------------
 func! s:create_changelog() abort
   let changelog = ['Updated Plugins:']
-  for bundle_data in g:updated_bundles
+  for bundle_data in g:vundle#updated_bundles
     let initial_sha = bundle_data[0]
     let updated_sha = bundle_data[1]
     let bundle      = bundle_data[2]
@@ -258,7 +258,7 @@ endf
 "           specifications) of all plugins from vim-scripts.org
 " ---------------------------------------------------------------------------
 func! s:load_scripts(bang)
-  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
+  let f = expand(g:vundle#bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []
