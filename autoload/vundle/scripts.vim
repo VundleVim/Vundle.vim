@@ -54,12 +54,12 @@ endf
 " View the logfile after an update or installation.
 " ---------------------------------------------------------------------------
 func! s:view_log()
-  if !exists('g:vundle_log_file')
-    let g:vundle_log_file = tempname()
+  if !exists('s:log_file')
+    let s:log_file = tempname()
   endif
 
-  call writefile(g:vundle_log, g:vundle_log_file)
-  execute 'silent pedit ' . g:vundle_log_file
+  call writefile(g:vundle_log, s:log_file)
+  execute 'silent pedit ' . s:log_file
 
   wincmd P | wincmd H
 endf
@@ -139,15 +139,15 @@ endf
 "            strings)
 " ---------------------------------------------------------------------------
 func! vundle#scripts#view(title, headers, results)
-  if exists('g:vundle_view') && bufloaded(g:vundle_view)
-    exec g:vundle_view.'bd!'
+  if exists('s:view') && bufloaded(s:view)
+    exec s:view.'bd!'
   endif
 
   exec 'silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
 
-  let g:vundle_view = bufnr('%')
+  let s:view = bufnr('%')
   "
   " make buffer modifiable
   " to append without errors

@@ -55,11 +55,11 @@ func! s:process(bang, cmd)
 
     exec ':norm '.a:cmd
 
-    if 'error' == g:vundle_last_status
+    if 'error' == s:last_status
       let msg = 'With errors; press l to view log'
     endif
 
-    if 'updated' == g:vundle_last_status && empty(msg)
+    if 'updated' == s:last_status && empty(msg)
       let msg = 'Plugins updated; press u to view changelog'
     endif
 
@@ -118,7 +118,7 @@ func! vundle#installer#run(func_name, name, ...) abort
     throw 'whoops, unknown status:'.status
   endif
 
-  let g:vundle_last_status = status
+  let s:last_status = status
 
   return status
 endf
