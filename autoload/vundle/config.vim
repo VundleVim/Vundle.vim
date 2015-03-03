@@ -43,7 +43,7 @@ func! vundle#config#init()
   if !exists('g:bundles') | let g:bundles = [] | endif
   call s:rtp_rm_a()
   let g:bundles = []
-  let g:bundle_names = {}
+  let s:bundle_names = {}
 endf
 
 
@@ -91,14 +91,14 @@ endf
 " return -- 0 if the bundle's name has been seen before, 1 otherwise
 " ---------------------------------------------------------------------------
 funct! s:check_bundle_name(bundle)
-  if has_key(g:bundle_names, a:bundle.name)
+  if has_key(s:bundle_names, a:bundle.name)
     echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
-          \ '. Plugin ' . g:bundle_names[a:bundle.name] .
+          \ '. Plugin ' . s:bundle_names[a:bundle.name] .
           \ ' previously used the name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
   endif
-  let g:bundle_names[a:bundle.name] = a:bundle.name_spec
+  let s:bundle_names[a:bundle.name] = a:bundle.name_spec
   return 1
 endf
 
