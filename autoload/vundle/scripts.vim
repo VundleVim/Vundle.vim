@@ -58,6 +58,9 @@ func! s:view_log()
     let s:log_file = tempname()
   endif
 
+  if bufloaded(s:log_file)
+    execute 'silent bdelete' s:log_file
+  endif
   call writefile(g:vundle_log, s:log_file)
   execute 'silent pedit ' . s:log_file
 
