@@ -11,12 +11,21 @@ func! vundle#scripts#all(bang, ...)
   let info = ['"Keymap: i - Install plugin; c - Cleanup; s - Search; R - Reload list']
   let matches = s:load_scripts(a:bang)
   if !empty(a:1)
-    let matches = filter(matches, 'v:val =~? "'.escape(a:1,'"').'"')
+    let escapedSearch = escape(a:1,'"')
+    " Search both name and description of a plugin
+    " for matches
+    let matches = filter(matches,
+          \ 'v:val.n =~? "'.escapedSearch.'" ||
+          \  v:val.s =~? "'.escapedSearch.'"')
     let info += ['"Search results for: '.a:1]
-    " TODO: highlight matches
     let b:match = a:1
   endif
-  call vundle#scripts#view('search',info, vundle#scripts#bundle_names(reverse(matches)))
+  call vundle#scripts#view('search',info, vundle#scripts#bundle_search_data(matches))
+
+  if exists('escapedSearch')
+    exec 'match Search /\v\c' . escapedSearch . '/'
+  endif
+
   redraw
   echo len(matches).' plugins found'
 endf
@@ -125,9 +134,18 @@ endf
 " return -- a list of 'Plugin ...' lines suitable to be written to a buffer
 " ---------------------------------------------------------------------------
 func! vundle#scripts#bundle_names(names)
-  return map(copy(a:names), ' printf("Plugin ' ."'%s'".'", v:val) ')
+  return map(copy(a:names), ' printf("Plugin ''%s''", v:val ')
 endf
 
+" ---------------------------------------------------------------------------
+" Create a list of 'Plugin ...' lines from a list of bundle search data.
+"
+" names  -- a list of data (dictionaries) of plugins
+" return -- a list of 'Plugin ...' lines suitable to be written to a buffer
+" ---------------------------------------------------------------------------
+func! vundle#scripts#bundle_search_data(data)
+  return map(copy(a:data), ' printf("Plugin ''%s'' \" %s", v:val.n, v:val.s) ')
+endf
 
 " ---------------------------------------------------------------------------
 " Open a buffer to display information to the user.  Several special commands
@@ -168,6 +186,9 @@ func! vundle#scripts#view(title, headers, results)
   syn keyword vimCommand Bundle
   syn keyword vimCommand Helptags
 
+  " Without this, highlighting breaks when description contains double quotes
+  syn match vimComment '\v".*$'
+
   com! -buffer -bang -nargs=1 DeletePlugin
     \ call vundle#installer#run('vundle#installer#delete', split(<q-args>,',')[0], ['!' == '<bang>', <args>])
 
@@ -185,13 +206,13 @@ func! vundle#scripts#view(title, headers, results)
   com! -buffer -nargs=0 VundleChangelog call s:view_changelog()
 
   nnoremap <buffer> q :silent bd!<CR>
-  nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
+  nnoremap <buffer> D :exec 'Delete'.<SID>get_plugin_line()<CR>
 
-  nnoremap <buffer> add  :exec 'Install'.getline('.')<CR>
-  nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')<CR>
+  nnoremap <buffer> add  :exec 'Install'.<SID>get_plugin_line()<CR>
+  nnoremap <buffer> add! :exec 'Install'.substitute(<SID>get_plugin_line(), '^Plugin ', 'Plugin! ', '')<CR>
 
-  nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')<CR>
-  nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')<CR>
+  nnoremap <buffer> i :exec 'InstallAndRequire'.<SID>get_plugin_line()<CR>
+  nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(<SID>get_plugin_line(), '^Plugin ', 'Plugin! ', '')<CR>
 
   nnoremap <buffer> l :VundleLog<CR>
   nnoremap <buffer> u :VundleChangelog<CR>
@@ -210,6 +231,14 @@ endf
 
 
 " ---------------------------------------------------------------------------
+" Remove description from plugin line to prevent current
+" implementation from breaking.
+" ---------------------------------------------------------------------------
+func! s:get_plugin_line()
+  return matchstr(getline('.'), '\vPlugin\s''.{-}''')
+endf
+
+" ---------------------------------------------------------------------------
 " Load the plugin database from vim-scripts.org .
 "
 " to     -- the filename (string) to save the database to
@@ -221,7 +250,7 @@ func! s:fetch_scripts(to)
     call mkdir(scripts_dir, "p")
   endif
 
-  let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts.json'
+  let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts_recent.json'
   if executable("curl")
     let cmd = 'curl --fail -s -o '.vundle#installer#shellesc(a:to).' '.l:vim_scripts_json
   elseif executable("wget")
