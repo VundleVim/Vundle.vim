@@ -61,9 +61,9 @@ endif
 " :Plugin command in the vimrc.  It is not possible to do this automatically
 " because when loading the vimrc file no plugins where loaded yet.
 func! vundle#rc(...) abort
-  let g:vundle#bundle_dir = len(a:000) > 0 ? expand(a:1, 1) : expand('$HOME/.vim/bundle', 1)
-  let g:vundle#updated_bundles = []
-  let g:vundle#log = []
+  if a:0 > 0
+    let g:vundle#bundle_dir = expand(a:1, 1)
+  endif
   call vundle#config#init()
 endf
 
@@ -79,5 +79,12 @@ func! vundle#end(...) abort
   unlet g:vundle#lazy_load
   call vundle#config#activate_bundles()
 endf
+
+" Initialize some global variables used by Vundle.
+let vundle#bundle_dir = expand('$HOME/.vim/bundle', 1)
+let vundle#bundles = []
+let vundle#lazy_load = 0
+let vundle#log = []
+let vundle#updated_bundles = []
 
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
