@@ -267,7 +267,9 @@ func! vundle#scripts#getdeps(bundle)
     let false = 0
     let null = ''
 
-    let dependencyentries = get(eval(join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')), 'dependencies', {})
+    let l:file = join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')
+    sandbox let tmp_dependencyentries = eval(l:file)
+    let dependencyentries = get(tmp_dependencyentries, 'dependencies', {})
     let bundles_needed = []
     for [dep_name, dep_info] in items(dependencyentries)
       if !empty(dep_info)
