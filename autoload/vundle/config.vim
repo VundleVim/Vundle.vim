@@ -97,6 +97,9 @@ funct! s:check_bundle_name(bundle)
           \ ' previously used the name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
+  elseif a:bundle.name !~ '\v^[A-Za-z0-9_-]%(\.?[A-Za-z0-9_-])*$'
+    echoerr 'Invalid plugin name: ' . a:bundle.name
+    return 0
   endif
   let s:bundle_names[a:bundle.name] = a:bundle.name_spec
   return 1
@@ -262,7 +265,7 @@ let s:bundle = {}
 " return -- the target location to clone this bundle to
 " ---------------------------------------------------------------------------
 func! s:bundle.path()
-  return s:expand_path(g:vundle#bundle_dir.'/'.self.name)
+  return s:expand_path(g:vundle#bundle_dir.'/') . self.name
 endf
 
 
