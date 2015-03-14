@@ -20,7 +20,7 @@
 
 [Vundle] is undergoing an [interface change], please stay up to date to get latest changes.
 
-[![Gitter-chat](https://badges.gitter.im/gmarik/Vundle.vim.png)](https://gitter.im/gmarik/Vundle.vim) for discussion and support.
+[![Gitter-chat](https://badges.gitter.im/gmarik/Vundle.vim.svg)](https://gitter.im/gmarik/Vundle.vim) for discussion and support.
 
 ![Vundle-installer](http://i.imgur.com/Rueh7Cc.png)
 
@@ -33,6 +33,8 @@
 
    If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
    See [Tips] for some advanced configurations.
+
+   Using non-POSIX shells, such as the popular Fish shell, requires additional setup. Please check the [FAQ].
 
 2. Set up [Vundle]:
 

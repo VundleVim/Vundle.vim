@@ -36,10 +36,17 @@ endf
 "
 " a, c, d -- see :h command-completion-custom
 " return  -- all valid plugin names from vim-scripts.org as completion
-"            candidates, see also :h command-completion-custom
+"            candidates, or all installed plugin names when running an 'Update
+"            variant'. see also :h command-completion-custom
 " ---------------------------------------------------------------------------
 func! vundle#scripts#complete(a,c,d)
-  return join(s:load_scripts(0),"\n")
+  if match(a:c, '\v^%(Plugin|Vundle)%(Install!|Update)') == 0
+    " Only installed plugins if updating
+    return join(map(copy(g:bundles), 'v:val.name'), "\n")
+  else
+    " Or all known plugins otherwise
+    return join(s:load_scripts(0),"\n")
+  endif
 endf
 
 
@@ -63,6 +70,7 @@ endf
 " user.
 " ---------------------------------------------------------------------------
 func! s:create_changelog() abort
+  let changelog = ['Updated Plugins:']
   for bundle_data in g:updated_bundles
     let initial_sha = bundle_data[0]
     let updated_sha = bundle_data[1]
@@ -76,18 +84,19 @@ func! s:create_changelog() abort
 
     let updates = system(cmd)
 
-    call add(g:vundle_changelog, '')
-    call add(g:vundle_changelog, 'Updated Plugin: '.bundle.name)
+    call add(changelog, '')
+    call add(changelog, 'Updated Plugin: '.bundle.name)
 
     if bundle.uri =~ "https://github.com"
-      call add(g:vundle_changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
+      call add(changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
     endif
 
     for update in split(updates, '\n')
       let update = substitute(update, '\s\+$', '', '')
-      call add(g:vundle_changelog, '  '.update)
+      call add(changelog, '  '.update)
     endfor
   endfor
+  return changelog
 endf
 
 
@@ -95,14 +104,15 @@ endf
 " View the change log after an update or installation.
 " ---------------------------------------------------------------------------
 func! s:view_changelog()
-  call s:create_changelog()
-
-  if !exists('g:vundle_changelog_file')
-    let g:vundle_changelog_file = tempname()
+  if !exists('s:changelog_file')
+    let s:changelog_file = tempname()
   endif
 
-  call writefile(g:vundle_changelog, g:vundle_changelog_file)
-  execute 'silent pedit ' . g:vundle_changelog_file
+  if bufloaded(s:changelog_file)
+    execute 'silent bdelete' s:changelog_file
+  endif
+  call writefile(s:create_changelog(), s:changelog_file)
+  execute 'silent pedit' s:changelog_file
 
   wincmd P | wincmd H
 endf
