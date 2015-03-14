@@ -18,6 +18,18 @@ func! vundle#config#bundle(arg, ...)
     call s:rtp_add_a()
     call s:rtp_add_defaults()
   endif
+
+  if !exists('g:vundle_no_deps') || !g:vundle_no_deps
+    let deps = vundle#scripts#getdeps(bundle)
+    if !empty(deps)
+      for dependency in deps
+        if !has_key(g:bundle_names, dependency)
+          call vundle#config#bundle(dependency)
+        endif
+      endfor
+    endif
+  endif
+
   return bundle
 endf
 
@@ -96,6 +108,9 @@ funct! s:check_bundle_name(bundle)
           \ '. Plugin ' . g:bundle_names[a:bundle.name] .
           \ ' previously used the name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
+    return 0
+  elseif a:bundle.name !~ '\v^%(\.?[A-Za-z0-9_-])+$'
+    echoerr 'Invalid plugin name: ' . a:bundle.name
     return 0
   endif
   let g:bundle_names[a:bundle.name] = a:bundle.name_spec
@@ -262,7 +277,7 @@ let s:bundle = {}
 " return -- the target location to clone this bundle to
 " ---------------------------------------------------------------------------
 func! s:bundle.path()
-  return s:expand_path(g:bundle_dir.'/'.self.name)
+  return s:expand_path(g:bundle_dir.'/') . self.name
 endf
 
 

@@ -455,6 +455,21 @@ func! s:sync(bang, bundle) abort
     return 'error'
   end
 
+  if !exists('g:vundle_no_deps') || !g:vundle_no_deps
+    let deps = vundle#scripts#getdeps(a:bundle)
+    if !empty(deps)
+      for dependency in deps
+        if !has_key(g:bundle_names, dependency)
+          call s:log("Dependency: '" . dependency . "'")
+          let newbundle = vundle#config#bundle(dependency)
+          if (s:sync(a:bang, newbundle) == 'error')
+            return 'error'
+          endif
+        endif
+      endfor
+    endif
+  endif
+
   if empty(initial_sha)
     return 'new'
   endif
