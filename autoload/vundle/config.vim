@@ -94,7 +94,7 @@ funct! s:check_bundle_name(bundle)
   if has_key(g:bundle_names, a:bundle.name)
     echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
           \ '. Plugin ' . g:bundle_names[a:bundle.name] .
-          \ ' previously used the name "' . a:bundle.name . '"' .
+          \ ' is already registered with name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
   endif
