@@ -42,7 +42,7 @@ endf
 func! vundle#scripts#complete(a,c,d)
   if match(a:c, '\v^%(Plugin|Vundle)%(Install!|Update)') == 0
     " Only installed plugins if updating
-    return join(map(copy(g:bundles), 'v:val.name'), "\n")
+    return join(map(copy(g:vundle#bundles), 'v:val.name'), "\n")
   else
     " Or all known plugins otherwise
     return join(s:load_scripts(0),"\n")
@@ -54,12 +54,15 @@ endf
 " View the logfile after an update or installation.
 " ---------------------------------------------------------------------------
 func! s:view_log()
-  if !exists('g:vundle_log_file')
-    let g:vundle_log_file = tempname()
+  if !exists('s:log_file')
+    let s:log_file = tempname()
   endif
 
-  call writefile(g:vundle_log, g:vundle_log_file)
-  execute 'silent pedit ' . g:vundle_log_file
+  if bufloaded(s:log_file)
+    execute 'silent bdelete' s:log_file
+  endif
+  call writefile(g:vundle#log, s:log_file)
+  execute 'silent pedit ' . s:log_file
 
   wincmd P | wincmd H
 endf
@@ -71,7 +74,7 @@ endf
 " ---------------------------------------------------------------------------
 func! s:create_changelog() abort
   let changelog = ['Updated Plugins:']
-  for bundle_data in g:updated_bundles
+  for bundle_data in g:vundle#updated_bundles
     let initial_sha = bundle_data[0]
     let updated_sha = bundle_data[1]
     let bundle      = bundle_data[2]
@@ -139,15 +142,15 @@ endf
 "            strings)
 " ---------------------------------------------------------------------------
 func! vundle#scripts#view(title, headers, results)
-  if exists('g:vundle_view') && bufloaded(g:vundle_view)
-    exec g:vundle_view.'bd!'
+  if exists('s:view') && bufloaded(s:view)
+    exec s:view.'bd!'
   endif
 
   exec 'silent pedit [Vundle] '.a:title
 
   wincmd P | wincmd H
 
-  let g:vundle_view = bufnr('%')
+  let s:view = bufnr('%')
   "
   " make buffer modifiable
   " to append without errors
@@ -255,7 +258,7 @@ endf
 "           specifications) of all plugins from vim-scripts.org
 " ---------------------------------------------------------------------------
 func! s:load_scripts(bang)
-  let f = expand(g:bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
+  let f = expand(g:vundle#bundle_dir.'/.vundle/script-names.vim-scripts.org.json', 1)
   if a:bang || !filereadable(f)
     if 0 != s:fetch_scripts(f)
       return []
