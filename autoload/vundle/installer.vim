@@ -1,17 +1,30 @@
 " ---------------------------------------------------------------------------
-" Try to clone all new bundles given (or all bundles in g:bundles by default)
-" to g:bundle_dir.  If a:bang is 1 it will also update all plugins (git pull).
+" Try to clone all new bundles given (or all bundles in g:vundle#bundles by
+" default) to g:vundle#bundle_dir.  If a:bang is 1 it will also update all
+" plugins (git pull).
 "
 " bang   -- 1 or 0
 " ...    -- any number of bundle specifications (separate arguments)
 " ---------------------------------------------------------------------------
 func! vundle#installer#new(bang, ...) abort
-  let bundles = (a:1 == '') ?
-        \ g:bundles :
-        \ map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+  " No specific plugins are specified. Operate on all plugins.
+  if a:0 == 0
+    let bundles = g:vundle#bundles
+  " Specific plugins are specified for update. Update them.
+  elseif (a:bang)
+    let bundles = filter(copy(g:vundle#bundles), 'index(a:000, v:val.name) > -1')
+  " Specific plugins are specified for installation. Install them.
+  else
+    let bundles = map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+  endif
+
+  if empty(bundles)
+    echoerr 'No bundles were selected for operation'
+    return
+  endif
 
   let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing plugins to '.expand(g:bundle_dir, 1)], names +  ['Helptags'])
+  call vundle#scripts#view('Installer',['" Installing plugins to '.expand(g:vundle#bundle_dir, 1)], names +  ['Helptags'])
 
   " This calls 'add' as a normal mode command. This is a buffer local mapping
   " defined in vundle#scripts#view(). The mapping will call a buffer local
@@ -43,11 +56,11 @@ func! s:process(bang, cmd)
 
     exec ':norm '.a:cmd
 
-    if 'error' == g:vundle_last_status
+    if 'error' == s:last_status
       let msg = 'With errors; press l to view log'
     endif
 
-    if 'updated' == g:vundle_last_status && empty(msg)
+    if 'updated' == s:last_status && empty(msg)
       let msg = 'Plugins updated; press u to view changelog'
     endif
 
@@ -106,7 +119,7 @@ func! vundle#installer#run(func_name, name, ...) abort
     throw 'whoops, unknown status:'.status
   endif
 
-  let g:vundle_last_status = status
+  let s:last_status = status
 
   return status
 endf
@@ -151,10 +164,10 @@ endf
 " return -- the return value from s:sync()
 " ---------------------------------------------------------------------------
 func! vundle#installer#install(bang, name) abort
-  if !isdirectory(g:bundle_dir) | call mkdir(g:bundle_dir, 'p') | endif
+  if !isdirectory(g:vundle#bundle_dir) | call mkdir(g:vundle#bundle_dir, 'p') | endif
 
   let n = substitute(a:name,"['".'"]\+','','g')
-  let matched = filter(copy(g:bundles), 'v:val.name_spec == n')
+  let matched = filter(copy(g:vundle#bundles), 'v:val.name_spec == n')
 
   if len(matched) > 0
     let b = matched[0]
@@ -167,12 +180,12 @@ endf
 
 
 " ---------------------------------------------------------------------------
-" Call :helptags for all bundles in g:bundles.
+" Call :helptags for all bundles in g:vundle#bundles.
 "
 " return -- 'error' if an error occurred, else return 'helptags'
 " ---------------------------------------------------------------------------
 func! vundle#installer#docs() abort
-  let error_count = vundle#installer#helptags(g:bundles)
+  let error_count = vundle#installer#helptags(g:vundle#bundles)
   if error_count > 0
       return 'error'
   endif
@@ -210,10 +223,10 @@ endf
 " bang   -- not used
 " ---------------------------------------------------------------------------
 func! vundle#installer#list(bang) abort
-  let bundles = vundle#scripts#bundle_names(map(copy(g:bundles), 'v:val.name_spec'))
+  let bundles = vundle#scripts#bundle_names(map(copy(g:vundle#bundles), 'v:val.name_spec'))
   call vundle#scripts#view('list', ['" My Plugins'], bundles)
   redraw
-  echo len(g:bundles).' plugins configured'
+  echo len(g:vundle#bundles).' plugins configured'
 endf
 
 
@@ -225,10 +238,10 @@ endf
 "           should be removed unconditionally
 " ---------------------------------------------------------------------------
 func! vundle#installer#clean(bang) abort
-  let bundle_dirs = map(copy(g:bundles), 'v:val.path()')
+  let bundle_dirs = map(copy(g:vundle#bundles), 'v:val.path()')
   let all_dirs = (v:version > 702 || (v:version == 702 && has("patch51")))
-  \   ? split(globpath(g:bundle_dir, '*', 1), "\n")
-  \   : split(globpath(g:bundle_dir, '*'), "\n")
+  \   ? split(globpath(g:vundle#bundle_dir, '*', 1), "\n")
+  \   : split(globpath(g:vundle#bundle_dir, '*'), "\n")
   let x_dirs = filter(all_dirs, '0 > index(bundle_dirs, v:val)')
 
   if empty(x_dirs)
@@ -453,7 +466,7 @@ func! s:sync(bang, bundle) abort
     return 'todate'
   endif
 
-  call add(g:updated_bundles, [initial_sha, updated_sha, a:bundle])
+  call add(g:vundle#updated_bundles, [initial_sha, updated_sha, a:bundle])
   return 'updated'
 endf
 
@@ -515,7 +528,7 @@ func! s:log(str, ...) abort
   let lines = split(a:str, '\n', 1)
   let time = strftime(fmt)
   for line in lines
-      call add(g:vundle_log, '['. time .'] '. prefix . line)
+      call add(g:vundle#log, '['. time .'] '. prefix . line)
   endfor
   return a:str
 endf
