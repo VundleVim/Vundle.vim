@@ -49,8 +49,14 @@
    filetype off                  " required
 
    " set the runtime path to include Vundle and initialize
-   set rtp+=~/.vim/bundle/Vundle.vim
-   call vundle#begin()
+   if has("win32")                                                                                                   
+     set rtp+=~/vimfiles/bundle/Vundle.vim/
+     let path='~/vimfiles/bundle'
+     call vundle#begin(path)
+   else
+     set rtp+=~/.vim/bundle/Vundle.vim
+     call vundle#begin()
+   endif
    " alternatively, pass a path where Vundle should install plugins
    "call vundle#begin('~/some/path/here')
 
@@ -158,3 +164,4 @@ see [Vundle contributors](https://github.com/gmarik/Vundle.vim/graphs/contributo
 [clean]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L303-L318
 [interactive mode]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L319-L360
 [interface change]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L372-L396
+
