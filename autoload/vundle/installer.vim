@@ -15,7 +15,7 @@ func! vundle#installer#new(bang, ...) abort
     let bundles = filter(copy(g:vundle#bundles), 'index(a:000, v:val.name) > -1')
   " Specific plugins are specified for installation. Install them.
   else
-    let bundles = map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+    let bundles = filter(map(copy(a:000), 'vundle#config#bundle(v:val, {})'),'v:val!={}')
   endif
 
   if empty(bundles)
@@ -150,8 +150,10 @@ endf
 func! vundle#installer#install_and_require(bang, name) abort
   let result = vundle#installer#install(a:bang, a:name)
   let b = vundle#config#bundle(a:name, {})
-  call vundle#installer#helptags([b])
-  call vundle#config#require([b])
+  if b!={}
+    call vundle#installer#helptags([b])
+    call vundle#config#require([b])
+  endif
   return result
 endf
 
