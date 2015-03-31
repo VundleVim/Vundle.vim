@@ -85,7 +85,7 @@ func! s:create_changelog() abort
 
     let cmd = vundle#installer#shellesc_cd(cmd)
 
-    let updates = system(cmd)
+    let updates = vundle#installer#system(cmd)
 
     call add(changelog, '')
     call add(changelog, 'Updated Plugin: '.bundle.name)
@@ -239,7 +239,7 @@ func! s:fetch_scripts(to)
     return 1
   endif
 
-  call system(cmd)
+  call vundle#installer#system(cmd)
 
   if (0 != v:shell_error)
     echoerr 'Error fetching scripts!'
