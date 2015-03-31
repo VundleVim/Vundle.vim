@@ -515,11 +515,15 @@ endf
 func! vundle#installer#system(cmd) abort
   " would this suffice?
   " return system('"'.a:cmd.'"')
-  let slash = &shellslash
-  set noshellslash
-  let result = system(shellescape(a:cmd))
-  if slash | set shellslash | endif
-  return result
+  if has("win32") || has("win64")
+    let slash = &shellslash
+    set noshellslash
+    let result = system(shellescape(a:cmd))
+    if slash | set shellslash | endif
+    return result
+  else
+    return system(a:cmd)
+  endif
 endf
 
 
