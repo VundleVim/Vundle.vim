@@ -8,7 +8,7 @@
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
   if !s:check_bundle_name(bundle)
-    return
+    return {}
   endif
   if exists('g:vundle#lazy_load') && g:vundle#lazy_load
     call add(g:vundle#bundles, bundle)
@@ -84,24 +84,31 @@ endf
 
 
 " ---------------------------------------------------------------------------
-" Check if the current bundle name has already been used in this running
-" instance and show an error to that effect.
+" Register the name of the current bundle as aleady used or show an error if
+" it is a duplicate (determined by the URI). Duplicates with the same URI are
+" okay, since no surprises come to the user from this situation.
+"
+" Additionally, check whether the name conforms or not with the pattern of
+" expected plugin names.
 "
 " bundle -- a bundle object whose name is to be checked
-" return -- 0 if the bundle's name has been seen before, 1 otherwise
+" return -- 0 if the bundle's name has been seen before or is invalid,
+"           1 otherwise
 " ---------------------------------------------------------------------------
 funct! s:check_bundle_name(bundle)
-  if has_key(s:bundle_names, a:bundle.name)
+  if has_key(s:bundle_names, a:bundle.name) &&
+        \ s:bundle_names[a:bundle.name]['uri'] != a:bundle.uri
     echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
-          \ '. Plugin ' . s:bundle_names[a:bundle.name] .
+          \ '. Plugin ' . s:bundle_names[a:bundle.name].spec .
           \ ' previously used the name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
   elseif a:bundle.name !~ '\v^[A-Za-z0-9_-]%(\.?[A-Za-z0-9_-])*$'
-    echoerr 'Invalid plugin name: ' . a:bundle.name
+    echoerr 'Vundle error: Invalid plugin name: ' . a:bundle.name
     return 0
   endif
-  let s:bundle_names[a:bundle.name] = a:bundle.name_spec
+  let s:bundle_names[a:bundle.name] = { 'spec' : a:bundle.name_spec,
+                                      \ 'uri'  : a:bundle.uri }
   return 1
 endf
 

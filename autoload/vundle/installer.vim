@@ -149,9 +149,12 @@ endf
 " ---------------------------------------------------------------------------
 func! vundle#installer#install_and_require(bang, name) abort
   let result = vundle#installer#install(a:bang, a:name)
-  let b = vundle#config#bundle(a:name, {})
-  call vundle#installer#helptags([b])
-  call vundle#config#require([b])
+  let bundle = vundle#config#bundle(a:name, {})
+  if empty(bundle)
+    return 'error'
+  endif
+  call vundle#installer#helptags([bundle])
+  call vundle#config#require([bundle])
   return result
 endf
 
