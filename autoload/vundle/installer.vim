@@ -18,6 +18,8 @@ func! vundle#installer#new(bang, ...) abort
     let bundles = map(copy(a:000), 'vundle#config#bundle(v:val, {})')
   endif
 
+  let bundles = filter(copy(bundles), '!empty(v:val)')
+
   if empty(bundles)
     echoerr 'No bundles were selected for operation'
     return
