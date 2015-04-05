@@ -98,13 +98,14 @@ endf
 funct! s:check_bundle_name(bundle)
   if has_key(s:bundle_names, a:bundle.name) &&
         \ s:bundle_names[a:bundle.name]['uri'] != a:bundle.uri
-    echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
+    echomsg 'Vundle warning: Name collision for Plugin ' . a:bundle.name_spec .
           \ '. Plugin ' . s:bundle_names[a:bundle.name].spec .
           \ ' previously used the name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
   elseif a:bundle.name !~ '\v^[A-Za-z0-9_-]%(\.?[A-Za-z0-9_-])*$'
-    echoerr 'Vundle error: Invalid plugin name: ' . a:bundle.name
+    echomsg 'Vundle warning: Invalid plugin name: ' . a:bundle.name . 
+          \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
   endif
   let s:bundle_names[a:bundle.name] = { 'spec' : a:bundle.name_spec,

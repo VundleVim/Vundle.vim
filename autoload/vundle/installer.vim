@@ -21,7 +21,8 @@ func! vundle#installer#new(bang, ...) abort
   let bundles = filter(copy(bundles), '!empty(v:val)')
 
   if empty(bundles)
-    echoerr 'No bundles were selected for operation'
+    let operation = a:bang ? 'update' : 'installation'
+    echomsg 'Vundle warning: No (valid) plugins were selected for ' . operation
     return
   endif
 

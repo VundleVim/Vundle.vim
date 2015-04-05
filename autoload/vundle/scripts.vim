@@ -235,14 +235,14 @@ func! s:fetch_scripts(to)
       let cmd = vundle#installer#shellesc(cmd)
     end
   else
-    echoerr 'Error curl or wget is not available!'
+    echoerr 'Vundle error: Neither curl nor wget are available!'
     return 1
   endif
 
   call system(cmd)
 
   if (0 != v:shell_error)
-    echoerr 'Error fetching scripts!'
+    echoerr 'Vundle error: Could not fetch vim-scripts list for searching'
     return v:shell_error
   endif
   return 0
