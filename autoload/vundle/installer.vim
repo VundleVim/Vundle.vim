@@ -516,7 +516,11 @@ func! vundle#installer#system(cmd) abort
   if has("win32") || has("win64")
     " see cmd.exe docs (scroll down to remarks):
     " https://technet.microsoft.com/de-de/library/cc771320(v=ws.10).aspx
-    return system('"'.a:cmd.'"')
+    if v:version>703 || (has("patch443") && has("patch445"))
+      return system(a:cmd)
+    else
+      return system('"'.a:cmd.'"')
+    endif
   else
     return system(a:cmd)
   endif
