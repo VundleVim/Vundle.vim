@@ -512,19 +512,28 @@ endf
 " cmd    -- the command passed to system() (string)
 " return -- the return value from system()
 " ---------------------------------------------------------------------------
-func! vundle#installer#system(cmd) abort
-  if has("win32") || has("win64")
+if (has("win32") || has("win64")) &&
+  \  (v:version<703 ||
+  \  (v:version==703 && (!has("patch443") || !has("patch445") || !has("patch446"))) )
+
+  func! vundle#installer#system(cmd) abort
     " see cmd.exe docs (scroll down to remarks):
     " https://technet.microsoft.com/de-de/library/cc771320(v=ws.10).aspx
-    if v:version>703 || (has("patch443") && has("patch445"))
-      return system(a:cmd)
-    else
+    " and vim patches links: https://github.com/airblade/vim-system-escape
+    if &shell=~"cmd.exe"
       return system('"'.a:cmd.'"')
+    else
+      return system(a:cmd)
     endif
-  else
+  endf
+
+else
+
+  func! vundle#installer#system(cmd) abort
     return system(a:cmd)
-  endif
-endf
+  endf
+
+endif
 
 
 " ---------------------------------------------------------------------------
