@@ -110,6 +110,8 @@ func! vundle#installer#run(func_name, name, ...) abort
     echo n.' regenerated'
   elseif 'pinned' == status
     echo n.' pinned'
+  elseif 'detached' == status
+    echo n. ' HEAD detached'
   elseif 'error' == status
     echohl Error
     echo 'Error processing '.n
@@ -416,6 +418,10 @@ func! s:make_sync_command(bang, bundle) abort
     let initial_sha = s:get_current_sha(a:bundle)
   else
     let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let rev = get(a:bundle, 'rev', '')
+    if (rev != '')
+      let cmd = cmd.' -b '.vundle#installer#shellesc(rev)
+    endif
     let initial_sha = ''
   endif
   return [cmd, initial_sha]
@@ -439,6 +445,8 @@ func! s:sync(bang, bundle) abort
   " Do not sync if this bundle is pinned
   if a:bundle.is_pinned()
     return 'pinned'
+  elseif a:bundle.is_detached()
+    return 'detached'
   endif
 
   let [ cmd, initial_sha ] = s:make_sync_command(a:bang, a:bundle)

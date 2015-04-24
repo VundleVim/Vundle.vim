@@ -189,6 +189,21 @@ control systems other than git, but the user is responsible for cloning and
 keeping up to date. It also allows the users to stay in the current version of
 a plugin that might have previously been updated by Vundle.
 
+The 'rev' option
+----------------
+
+The revision (branch or tag) you want to follow.
+
+For example:
+>
+  Plugin 'git_URI', 'branch or tag name'
+or
+>
+  Plugin 'git_URI', {'rev': 'branch or tag name'}
+
+Note that this option will try to checkout the revision specified
+everytime you install or update a plugin.
+
 Please note that the URI will be treated the same as for any other plugins, so
 only the last part of it will be added to the |runtimepath|. The user is
 advised to use this flag only with single word URIs to avoid confusion.
