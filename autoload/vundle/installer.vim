@@ -393,7 +393,7 @@ func! s:make_sync_command(bang, bundle) abort
                   \ 'git fetch',
                   \ 'git reset --hard origin/HEAD',
                   \ 'git submodule update --init --recursive',
-                  \ 'git checkout '.a:bundle.revision,
+                  \ 'git reset --hard origin/'.a:bundle.revision,
                   \ ]
       let cmd = join(cmd_parts, ' && ')
       let cmd = vundle#installer#shellesc_cd(cmd)
