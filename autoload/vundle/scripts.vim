@@ -90,7 +90,7 @@ func! s:create_changelog() abort
     call add(changelog, '')
     call add(changelog, 'Updated Plugin: '.bundle.name)
 
-    if bundle.uri =~ "https://github.com"
+    if bundle.uri =~ "https://github.com" "TODO: what for git protocol?
       call add(changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
     endif
 
