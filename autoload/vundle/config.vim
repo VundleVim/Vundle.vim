@@ -140,6 +140,13 @@ func! s:parse_name(arg)
   let git_proto = exists('g:vundle_default_git_proto') ? g:vundle_default_git_proto : 'https'
   let github_uri_prefix = (git_proto == 'git' ? 'git@github.com:' : git_proto.'://github.com/')
 
+  if arg =~? '@'
+    let revision = split(arg, '@')[-1]
+    let arg = split(arg, '@')[0]
+  else
+    let revision = 'master'
+  endif
+
   if    arg =~? '^\s*\(gh\|github\):\S\+'
   \  || arg =~? '^[a-z0-9][a-z0-9-]*/[^/]\+$'
     let uri = github_uri_prefix . split(arg, ':')[-1]
@@ -156,7 +163,7 @@ func! s:parse_name(arg)
     let name = arg
     let uri  = github_uri_prefix . '/vim-scripts/'.name.'.git'
   endif
-  return {'name': name, 'uri': uri, 'name_spec': arg }
+  return {'name': name, 'uri': uri, 'name_spec': arg, 'revision': revision }
 endf
 
 

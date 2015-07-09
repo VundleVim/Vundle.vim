@@ -72,6 +72,8 @@
    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
    " Avoid a name conflict with L9
    Plugin 'user/L9', {'name': 'newL9'}
+   " Install a specific branch/tag/revision
+   Plugin 'WoLpH/nerdtree@patch-1'
 
    " All of your Plugins must be added before the following line
    call vundle#end()            " required
