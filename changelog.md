@@ -2,6 +2,10 @@ Change Log
 ==========
 F = Feature, B = Bug Fix, D = Doc Change
 
+### Version 0.10.3
+- F: #616 use github style uri when using the git protocol.
+- F: #604 Added support for specifying a specific branch, tag or revision while installing.
+
 ### Version 0.10.2
 
 - B: #430 Put user script directories before system directories in rtp

@@ -393,6 +393,7 @@ func! s:make_sync_command(bang, bundle) abort
                   \ 'git fetch',
                   \ 'git reset --hard origin/HEAD',
                   \ 'git submodule update --init --recursive',
+                  \ 'git reset --hard origin/'.a:bundle.revision,
                   \ ]
       let cmd = join(cmd_parts, ' && ')
       let cmd = vundle#installer#shellesc_cd(cmd)
@@ -410,14 +411,19 @@ func! s:make_sync_command(bang, bundle) abort
                 \ 'git pull',
                 \ 'git submodule update --init --recursive',
                 \ ]
-    let cmd = join(cmd_parts, ' && ')
-    let cmd = vundle#installer#shellesc_cd(cmd)
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
-    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let cmd_parts = [
+                \ 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path()),
+                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
+                \ ]
     let initial_sha = ''
   endif
+
+  let cmd_parts = cmd_parts + ['git checkout '.a:bundle.revision]
+  let cmd = join(cmd_parts, ' && ')
+  let cmd = vundle#installer#shellesc_cd(cmd)
   return [cmd, initial_sha]
 endf
 
