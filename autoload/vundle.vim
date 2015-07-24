@@ -81,7 +81,11 @@ func! vundle#end(...) abort
 endf
 
 " Initialize some global variables used by Vundle.
-let vundle#bundle_dir = expand('$HOME/.vim/bundle', 1)
+if has('win32') || has('win64')
+  let vundle#bundle_dir = expand('$VIM/vimfiles/bundle', 1)
+else
+  let vundle#bundle_dir = expand('$HOME/.vim/bundle', 1)
+endif
 let vundle#bundles = []
 let vundle#lazy_load = 0
 let vundle#log = []
