@@ -23,16 +23,115 @@ func! vundle#installer#new(bang, ...) abort
     return
   endif
 
-  let names = vundle#scripts#bundle_names(map(copy(bundles), 'v:val.name_spec'))
-  call vundle#scripts#view('Installer',['" Installing plugins to '.expand(g:vundle#bundle_dir, 1)], names +  ['Helptags'])
+  let specs = map(copy(bundles), 'v:val.name_spec')
+  let names = vundle#scripts#bundle_names(specs)
+  let headers = [
+        \  '" Installing plugins to '.expand(g:vundle#bundle_dir, 1)
+        \ ]
+  call vundle#scripts#view('Installer', headers, names +  ['Helptags'])
 
-  " This calls 'add' as a normal mode command. This is a buffer local mapping
-  " defined in vundle#scripts#view(). The mapping will call a buffer local
-  " command InstallPlugin which in turn will call vundle#installer#run() with
-  " vundle#installer#install().
-  call s:process(a:bang, (a:bang ? 'add!' : 'add'))
+  if (has('python') || has('python3')) && g:vundle#threads > 1
+    " This runs a Pool of threads to syncronize the bundles
+    call s:process_parallel(a:bang, specs, len(headers), g:vundle#threads)
+  else
+    " This calls 'add' as a normal mode command. This is a buffer local mapping
+    " defined in vundle#scripts#view(). The mapping will call a buffer local
+    " command InstallPlugin which in turn will call vundle#installer#run() with
+    " vundle#installer#install().
+    call s:process(a:bang, (a:bang ? 'add!' : 'add'))
+  endif
 
   call vundle#config#require(bundles)
+endf
+
+func! s:process_parallel(bang, specs, headers, threads) abort
+  let cmds = map(a:specs, 's:make_sync_command(a:bang, s:bundle_from_name(v:val))')
+  let python = has('python3') ? 'python3' : 'python'
+
+  execute python "<< EOF"
+import os
+import subprocess
+from multiprocessing import Pool
+
+import vim
+
+def main(cmds, shas, threads):
+  ''' execute cmds in parallel and update the ui '''
+  iterable = Pool(threads).imap(sync, cmds)
+  iterable = ui(iterable, cmds, shas, len(cmds), threads)
+
+  for result in iterable:
+    yield result
+
+def sync(cmd):
+  ''' run cmd discarding the output '''
+  devnull = os.open(os.devnull, os.O_RDWR)
+
+  if subprocess.mswindows:
+    import msvcrt
+    devnull = msvcrt.get_osfhandle(os.devnull)
+
+  return subprocess.call(
+    cmd,
+    shell=True,
+    stdin=devnull,
+    stdout=devnull,
+    stderr=devnull,
+  )
+
+def ui(iterable, cmds, shas, total, threads):
+  ''' compose the current running and the finished marks '''
+  vim.command('redraw')
+  for result in status(active(iterable, threads, total), cmds, shas):
+    vim.command('redraw')
+    yield result
+  vim.command('redraw')
+
+def active(iterable, start, total):
+  ''' mark the  bundles that are being downloaded '''
+  for running in range(start):
+    mark('active', running)
+
+  for result in iterable:
+    if running < total:
+      running += 1
+      mark('active', running)
+
+    yield result
+
+def status(iterable, cmds, shas):
+  ''' mark the status of the bundle '''
+  for current, result in enumerate(iterable):
+    if not len(cmds[current]):
+      mark('todate', current)
+    elif result != 0:
+      mark('error', current)
+    elif not len(shas[current]):
+      mark('new', current)
+    # elif not len(shas[current]):
+    else:
+      mark('updated', current)
+
+    yield result
+
+def mark(status, line):
+  ''' mark status on line '''
+
+  vim.command('''
+    exec ':{line}'
+    call s:sign('{status}')
+  '''.format(line=1 + line + headers, status=status))
+
+cmd_sha = vim.eval('cmds')
+cmds = [cmd for cmd, sha in cmd_sha]
+shas = [sha for cmd, sha in cmd_sha]
+
+threads = int(vim.eval('a:threads'))
+headers = int(vim.eval('a:headers'))
+
+list(main(cmds, shas, threads))
+
+EOF
 endf
 
 
@@ -164,20 +263,31 @@ endf
 " return -- the return value from s:sync()
 " ---------------------------------------------------------------------------
 func! vundle#installer#install(bang, name) abort
+  let bundle = call s:bundle_from_name(name)
+  return s:sync(a:bang, bundle)
+endf
+
+
+" ---------------------------------------------------------------------------
+" Creates bundle detiny directory and return a bundle dictionary.
+"
+" name   -- the name_spec for the bundle
+" return -- 'error' if an error occurred, else return 'helptags'
+" ---------------------------------------------------------------------------
+func! s:bundle_from_name(name)
   if !isdirectory(g:vundle#bundle_dir) | call mkdir(g:vundle#bundle_dir, 'p') | endif
 
   let n = substitute(a:name,"['".'"]\+','','g')
   let matched = filter(copy(g:vundle#bundles), 'v:val.name_spec == n')
 
   if len(matched) > 0
-    let b = matched[0]
+    let bundle = matched[0]
   else
-    let b = vundle#config#init_bundle(a:name, {})
+    let bundle = vundle#config#init_bundle(a:name, {})
   endif
 
-  return s:sync(a:bang, b)
+  return bundle
 endf
-
 
 " ---------------------------------------------------------------------------
 " Call :helptags for all bundles in g:vundle#bundles.
@@ -390,7 +500,7 @@ func! s:make_sync_command(bang, bundle) abort
       let cmd_parts = [
                   \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
                   \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
-                  \ 'git fetch',
+                  \ 'git fetch' . g:vundle#shallow_copy == 1 ? '--depth 1' : ''
                   \ 'git reset --hard origin/HEAD',
                   \ 'git submodule update --init --recursive',
                   \ ]
@@ -407,7 +517,7 @@ func! s:make_sync_command(bang, bundle) abort
 
     let cmd_parts = [
                 \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
-                \ 'git pull',
+                \ 'git pull' . g:vundle#shallow_copy == 1 ? '--depth 1' : '',
                 \ 'git submodule update --init --recursive',
                 \ ]
     let cmd = join(cmd_parts, ' && ')
@@ -415,7 +525,10 @@ func! s:make_sync_command(bang, bundle) abort
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
-    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let cmd = 'git clone --recursive ' .
+          \ g:vundle#shallow_copy == 1 ? '--depth 1' : '' .
+          \ vundle#installer#shellesc(a:bundle.uri) . ' ' .
+          \ vundle#installer#shellesc(a:bundle.path())
     let initial_sha = ''
   endif
   return [cmd, initial_sha]
