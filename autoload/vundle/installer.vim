@@ -45,7 +45,7 @@ func! vundle#installer#new(bang, ...) abort
 endf
 
 func! s:process_parallel(bang, specs, headers, threads) abort
-  let cmds = map(a:specs, 's:make_sync_command(a:bang, s:bundle_from_name(v:val))')
+  let cmds = map(copy(a:specs), 's:make_sync_command(a:bang, s:bundle_from_name(v:val))')
   let python = has('python3') ? 'python3' : 'python'
 
   execute python "<< EOF"
@@ -71,13 +71,19 @@ def sync(cmd):
     import msvcrt
     devnull = msvcrt.get_osfhandle(os.devnull)
 
-  return subprocess.call(
-    cmd,
-    shell=True,
-    stdin=devnull,
-    stdout=devnull,
-    stderr=devnull,
-  )
+  try:
+    out = subprocess.check_output(
+      cmd,
+      shell=True,
+      stdin=devnull,
+      stderr=subprocess.STDOUT,
+    )
+  except subprocess.CalledProcessError as error:
+    return (error.returncode, error.output)
+  except Excpetion as error:
+    return (-1, error.message)
+
+  return (0, out)
 
 def ui(iterable, cmds, shas, total, threads):
   ''' compose the current running and the finished marks '''
@@ -101,10 +107,10 @@ def active(iterable, start, total):
 
 def status(iterable, cmds, shas):
   ''' mark the status of the bundle '''
-  for current, result in enumerate(iterable):
+  for current, (code, out) in enumerate(iterable):
     if not len(cmds[current]):
       mark('todate', current)
-    elif result != 0:
+    elif code != 0:
       mark('error', current)
     elif not len(shas[current]):
       mark('new', current)
@@ -112,7 +118,7 @@ def status(iterable, cmds, shas):
     else:
       mark('updated', current)
 
-    yield result
+    yield (code, out)
 
 def mark(status, line):
   ''' mark status on line '''
@@ -126,10 +132,17 @@ cmd_sha = vim.eval('cmds')
 cmds = [cmd for cmd, sha in cmd_sha]
 shas = [sha for cmd, sha in cmd_sha]
 
+specs = vim.eval('a:specs')
 threads = int(vim.eval('a:threads'))
 headers = int(vim.eval('a:headers'))
 
-list(main(cmds, shas, threads))
+for pos, (result, out) in enumerate(main(cmds, shas, threads)):
+  vim.command('''
+    call s:log('')
+    call s:log('Plugin {spec}')
+    call s:log("{cmd}", '$ ')
+    call s:log("{out}", '> ')
+  '''.format(spec=specs[pos], cmd=cmds[pos], out=out))
 
 EOF
 endf
@@ -500,7 +513,7 @@ func! s:make_sync_command(bang, bundle) abort
       let cmd_parts = [
                   \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
                   \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
-                  \ 'git fetch' . g:vundle#shallow_copy == 1 ? '--depth 1' : ''
+                  \ 'git fetch' . (g:vundle#shallow_copy == 1 ? ' --depth 1' : ''),
                   \ 'git reset --hard origin/HEAD',
                   \ 'git submodule update --init --recursive',
                   \ ]
@@ -516,8 +529,8 @@ func! s:make_sync_command(bang, bundle) abort
     endif
 
     let cmd_parts = [
-                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
-                \ 'git pull' . g:vundle#shallow_copy == 1 ? '--depth 1' : '',
+                \ 'cd ' . vundle#installer#shellesc(a:bundle.path()),
+                \ 'git pull' . (g:vundle#shallow_copy == 1 ? ' --depth 1' : ''),
                 \ 'git submodule update --init --recursive',
                 \ ]
     let cmd = join(cmd_parts, ' && ')
@@ -526,7 +539,7 @@ func! s:make_sync_command(bang, bundle) abort
     let initial_sha = s:get_current_sha(a:bundle)
   else
     let cmd = 'git clone --recursive ' .
-          \ g:vundle#shallow_copy == 1 ? '--depth 1' : '' .
+          \ (g:vundle#shallow_copy == 1 ? '--depth 1 ' : '') .
           \ vundle#installer#shellesc(a:bundle.uri) . ' ' .
           \ vundle#installer#shellesc(a:bundle.path())
     let initial_sha = ''
