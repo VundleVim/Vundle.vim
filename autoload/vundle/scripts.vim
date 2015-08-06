@@ -124,6 +124,7 @@ func! s:view_changelog()
   setl buftype=nofile
   setl noswapfile
   setl ro noma
+  setfiletype vundlelog
 
   wincmd P | wincmd H
 endf
