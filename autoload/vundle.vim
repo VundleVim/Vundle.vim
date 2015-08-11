@@ -87,6 +87,6 @@ let vundle#lazy_load = 0
 let vundle#log = []
 let vundle#updated_bundles = []
 let vundle#threads = 15
-let vundle#shallow_copy = 1
+let vundle#shallow_copy = 0
 
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
