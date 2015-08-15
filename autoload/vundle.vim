@@ -83,6 +83,8 @@ endf
 " Initialize some global variables used by Vundle.
 if has('win32') || has('win64')
   let vundle#bundle_dir = expand('$VIM/vimfiles/bundle', 1)
+elseif has('nvim')
+  let vundle#bundle_dir = expand('$HOME/.nvim/bundle', 1)
 else
   let vundle#bundle_dir = expand('$HOME/.vim/bundle', 1)
 endif
