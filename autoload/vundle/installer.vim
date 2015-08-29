@@ -33,6 +33,10 @@ func! vundle#installer#new(bang, ...) abort
   if (has('python') || has('python3')) && g:vundle#threads > 1
     " This runs a Pool of threads to syncronize the bundles
     call s:process_parallel(a:bang, specs, len(headers), g:vundle#threads)
+
+    " goto the last line and update the docs
+    exec ':+1'
+    call vundle#installer#run('vundle#installer#docs', 'helptags', [])
   else
     " This calls 'add' as a normal mode command. This is a buffer local mapping
     " defined in vundle#scripts#view(). The mapping will call a buffer local
