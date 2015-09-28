@@ -14,15 +14,15 @@ Issues
 
 Before submitting an issue, be sure to check the following places for answers.
 
-1. Vundle docs at [`:h vundle`](https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt).
+1. Vundle docs at [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt).
 
-2. The [FAQ](https://github.com/gmarik/Vundle.vim/search).
+2. The [FAQ](https://github.com/VundleVim/Vundle.vim/wiki).
 
-3. [Search](https://github.com/gmarik/Vundle.vim/search) the repository for related issues.
+3. [Search](https://github.com/VundleVim/Vundle.vim/search) the repository for related issues.
 
 ## Try To Eliminate Your Vimrc
 
-In order to make sure it isn't just `.vimrc` replace your own config file with the [minimal vimrc](https://github.com/gmarik/Vundle.vim/blob/master/test/minirc.vim). Clear out bundles and then try to reproduce.
+In order to make sure it isn't just `.vimrc` replace your own config file with the [minimal vimrc](https://github.com/VundleVim/Vundle.vim/blob/master/test/minirc.vim). Clear out bundles and then try to reproduce.
 
 If the problem stops, likely there is an issue in your user configuration. You can incrementally add back your user changes to the minimal file testing the bug each time. This will allow you to slowly bisect the issue. You may want to test one plugin at a time.
 
@@ -46,7 +46,7 @@ To better respond to issues please follow these general guidelines when explaini
 
 I am using Vim on Kubuntu 13.04 64 bit and I get the following error... (add further explanation here)
 
-To reproduce the bug, use the vimrc file below and run `:BundleInstall`... (continue with steps)
+To reproduce the bug, use the vimrc file below and run `:PluginInstall`... (continue with steps)
 
 Vimrc:
 ```
@@ -55,8 +55,8 @@ syntax on
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#rc()
-Bundle 'gmarik/Vundle.vim'
-Bundle 'relevant/plugin'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'relevant/plugin'
 filetype plugin indent on
 
 .... more user configs here...
