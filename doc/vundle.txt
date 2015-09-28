@@ -54,15 +54,15 @@ more information.
 
                                                              *vundle-windows*
   If you are using Windows, see instructions on the Wiki
-  https://github.com/gmarik/Vundle.vim/wiki/Vundle-for-Windows.
+  https://github.com/VundleVim/Vundle.vim/wiki/Vundle-for-Windows.
 
                                                                  *vundle-faq*
   If you run into any issues, please consult the FAQ at
-  https://github.com/gmarik/Vundle.vim/wiki
+  https://github.com/VundleVim/Vundle.vim/wiki
 
 2. Setup Vundle:
 >
-  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 <
 3. Configure bundles:
 
@@ -79,7 +79,7 @@ more information.
     "call vundle#begin('~/some/path/here')
 
     " let Vundle manage Vundle, required
-    Plugin 'gmarik/Vundle.vim'
+    Plugin 'VundleVim/Vundle.vim'
 
     " The following are examples of different formats supported.
     " Keep Plugin commands between vundle#begin/end.
@@ -208,7 +208,7 @@ GitHub
 ------
 GitHub is used when a user/repo is passed to `Plugin`.
 >
-  Plugin 'gmarik/Vundle.vim' => https://github.com/gmarik/Vundle.vim
+  Plugin 'VundleVim/Vundle.vim' => https://github.com/VundleVim/Vundle.vim
 
 Vim Scripts
 -----------
