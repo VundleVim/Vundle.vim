@@ -63,6 +63,10 @@ func! s:view_log()
   endif
   call writefile(g:vundle#log, s:log_file)
   execute 'silent pedit ' . s:log_file
+  set bufhidden=wipe
+  setl buftype=nofile
+  setl noswapfile
+  setl ro noma
 
   wincmd P | wincmd H
 endf
@@ -116,6 +120,10 @@ func! s:view_changelog()
   endif
   call writefile(s:create_changelog(), s:changelog_file)
   execute 'silent pedit' s:changelog_file
+  set bufhidden=wipe
+  setl buftype=nofile
+  setl noswapfile
+  setl ro noma
 
   wincmd P | wincmd H
 endf
@@ -160,6 +168,7 @@ func! vundle#scripts#view(title, headers, results)
 
   setl buftype=nofile
   setl noswapfile
+  set bufhidden=wipe
 
   setl cursorline
   setl nonu ro noma
