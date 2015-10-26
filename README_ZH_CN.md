@@ -1,4 +1,4 @@
-## [Help Maintain Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
+## [帮助维护Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
 
 ## 关于
 
@@ -20,119 +20,121 @@
 
 [Vundle] 正在经历一个 [interface change], 请通过以下方式获取最新信息.
 
-[![Gitter-chat](https://badges.gitter.im/VundleVim/Vundle.vim.svg)](https://gitter.im/VundleVim/Vundle.vim) : 讨论和技术支持.
+讨论和技术支持:[![Gitter-chat](https://badges.gitter.im/VundleVim/Vundle.vim.svg)](https://gitter.im/VundleVim/Vundle.vim)
 
 ![Vundle-installer](http://i.imgur.com/Rueh7Cc.png)
 
-## Quick Start
+## 快速开始
 
-1. Introduction:
+1. 介绍:
 
-   Installation requires [Git] and triggers [`git clone`] for each configured repository to `~/.vim/bundle/` by default.
-   Curl is required for search.
+   安装需要[Git](http://git-scm.com/),触发[`git clone`](http://gitref.org/creating/#clone),默认将每一个指定特定格式插件的仓库复制到`~/.vim/bundle/`.
+   搜索需要Curl支持.
 
-   If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
-   See [Tips] for some advanced configurations.
+   Windows用户请直接访问[Windows setup]. 如果有任何问题, 请参考 [FAQ].
+   查看 [Tips] 获取相关高级配置.
 
-   Using non-POSIX shells, such as the popular Fish shell, requires additional setup. Please check the [FAQ].
+   使用 non-POSIX shells, 比如比较流行对 Fish shell, 需要额外对步骤. 请查看 [FAQ].
 
-2. Set up [Vundle]:
+2. 初始安装 [Vundle]:
 
    `$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
 
-3. Configure Plugins:
+3. 配置插件 :
 
-   Put this at the top of your `.vimrc` to use Vundle. Remove plugins you don't need, they are for illustration purposes.
+   请将以下加在 `.vimrc` 方可使用Vundle. 删掉你不需要的插件, 这些只是用做示例.
 
    ```vim
-   set nocompatible              " be iMproved, required
-   filetype off                  " required
+   set nocompatible              " 去除VI一致性,必须
+   filetype off                  " 必须
 
-   " set the runtime path to include Vundle and initialize
+   " 设置包括vundle和初始化相关的runtime path
    set rtp+=~/.vim/bundle/Vundle.vim
    call vundle#begin()
-   " alternatively, pass a path where Vundle should install plugins
+   " 另一种选择, 指定一个vundle安装插件的路径
    "call vundle#begin('~/some/path/here')
 
-   " let Vundle manage Vundle, required
+   " 让vundle管理插件版本,必须
    Plugin 'VundleVim/Vundle.vim'
 
-   " The following are examples of different formats supported.
-   " Keep Plugin commands between vundle#begin/end.
-   " plugin on GitHub repo
+   " 以下范例用来支持不同格式的插件安装.
+   " 请将安装插的命令放在vundle#begin和vundle#end之间.
+   " Github上的插件
+   " 格式为 Plugin '用户名/插件仓库名'
    Plugin 'tpope/vim-fugitive'
-   " plugin from http://vim-scripts.org/vim/scripts.html
+   " 来自 http://vim-scripts.org/vim/scripts.html 的插件
+   " Plugin '插件名称' 实际上是 Plugin 'vim-scripts/插件仓库名' 只是此处的用户名可以省略
    Plugin 'L9'
-   " Git plugin not hosted on GitHub
+   " 由Git支持但不再github上的插件仓库 Plugin 'git clone 后面的地址'
    Plugin 'git://git.wincent.com/command-t.git'
-   " git repos on your local machine (i.e. when working on your own plugin)
+   " 本地的Git仓库(例如自己的插件) Plugin 'file:///+本地插件仓库绝对路径'
    Plugin 'file:///home/gmarik/path/to/plugin'
-   " The sparkup vim script is in a subdirectory of this repo called vim.
-   " Pass the path to set the runtimepath properly.
+   " 插件在仓库的子目录中.
+   " 正确指定路径用以设置runtimepath. 以下范例插件在sparkup/vim目录下
    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-   " Avoid a name conflict with L9
+   " 避免插件名冲突,例如L9已存在,则可以指定
    Plugin 'user/L9', {'name': 'newL9'}
 
-   " All of your Plugins must be added before the following line
-   call vundle#end()            " required
-   filetype plugin indent on    " required
-   " To ignore plugin indent changes, instead use:
+   " 你的所有插件需要在下面这行之前
+   call vundle#end()            " 必须
+   filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
+   " 忽视插件改变缩进,可以使用以下替代:
    "filetype plugin on
    "
-   " Brief help
-   " :PluginList       - lists configured plugins
-   " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-   " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-   " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+   " 简要帮助文档
+   " :PluginList       - 列出所有已配置的插件
+   " :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate
+   " :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
+   " :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
    "
-   " see :h vundle for more details or wiki for FAQ
-   " Put your non-Plugin stuff after this line
+   " 查阅 :h vundle 获取更多细节和wiki以及FAQ
+   " 将你自己对非插件片段放在这行之后
    ```
 
-4. Install Plugins:
+4. 安装插件:
 
-   Launch `vim` and run `:PluginInstall`
+   运行 `vim` 再运行 `:PluginInstall`
 
-   To install from command line: `vim +PluginInstall +qall`
+   通过命令行直接安装 `vim +PluginInstall +qall`
 
 ## Docs
 
-See the [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc for more details.
+查阅 [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc 以获取更多细节.
 
-## Changelog
+## 更新日志
 
-See the [changelog](https://github.com/VundleVim/Vundle.vim/blob/master/changelog.md).
+查阅 [changelog](https://github.com/VundleVim/Vundle.vim/blob/master/changelog.md).
 
-## People Using Vundle
+## 在使用此插件的用户的VIMRC
 
-see [Examples](https://github.com/VundleVim/Vundle.vim/wiki/Examples)
+查阅 [Examples](https://github.com/VundleVim/Vundle.vim/wiki/Examples)
 
-## Contributors
+## 维护者
 
-see [Vundle contributors](https://github.com/VundleVim/Vundle.vim/graphs/contributors)
+查阅 [Vundle contributors](https://github.com/VundleVim/Vundle.vim/graphs/contributors)
 
-*Thank you!*
+*感谢!*
 
-## Inspiration & Ideas
+## 灵感 & 思路
 
 * [pathogen.vim](http://github.com/tpope/vim-pathogen/)
 * [Bundler](https://github.com/bundler/bundler)
 * [Scott Bronson](http://github.com/bronson)
 
-## Also
+## 另外
 
-* Vundle was developed and tested with [Vim] 7.3 on OS X, Linux and Windows
-* Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
+* Vundle 已测试环境为: [Vim] 7.3 on OS X, Linux and Windows
+* Vundle 尝试尽可能保持至简模式 [KISS](http://en.wikipedia.org/wiki/KISS_principle) 
 
 ## TODO:
-[Vundle] is a work in progress, so any ideas and patches are appreciated.
+[Vundle] 是一个正在进步对项目, 所以很多设计思路和补丁是需要借鉴的.
 
-* ✓ activate newly added bundles on `.vimrc` reload or after `:PluginInstall`
-* ✓ use preview window for search results
+* ✓ 在重新载入或者执行`:PluginInstall`之后激活`.vimrc`中新添加的插件
+* ✓ 使用预览窗口显示搜索结果
 * ✓ Vim documentation
-* ✓ put Vundle in `bundles/` too (will fix Vundle help)
-* ✓ tests
-* ✓ improve error handling
+* ✓ 同时将Vundle 放置在 `bundles/` 中 (将修复 Vundle 帮助)
+* ✓ 测试
+* ✓ 提升错误处理能力
 * allow specifying revision/version?
 * handle dependencies
 * show description in search results
