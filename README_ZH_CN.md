@@ -135,11 +135,11 @@
 * ✓ 同时将Vundle 放置在 `bundles/` 中 (将修复 Vundle 帮助)
 * ✓ 测试
 * ✓ 提升错误处理能力
-* allow specifying revision/version?
-* handle dependencies
-* show description in search results
-* search by description as well
-* make it rock!
+* 支持手动指定版本(待考虑)
+* 版本依赖
+* 搜索结果中显示描述
+* 同时支持通过描述搜索
+* 使其更加稳定!
 
 [Vundle]:http://github.com/VundleVim/Vundle.vim
 [Windows setup]:https://github.com/VundleVim/Vundle.vim/wiki/Vundle-for-Windows
