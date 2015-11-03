@@ -196,25 +196,25 @@ func! vundle#scripts#view(title, headers, results)
 
   com! -buffer -nargs=0 VundleChangelog call s:view_changelog()
 
-  nnoremap <buffer> q :silent bd!<CR>
-  nnoremap <buffer> D :exec 'Delete'.getline('.')<CR>
+  nnoremap <silent> <buffer> q :silent bd!<CR>
+  nnoremap <silent> <buffer> D :exec 'Delete'.getline('.')<CR>
 
-  nnoremap <buffer> add  :exec 'Install'.getline('.')<CR>
-  nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')<CR>
+  nnoremap <silent> <buffer> add  :exec 'Install'.getline('.')<CR>
+  nnoremap <silent> <buffer> add! :exec 'Install'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')<CR>
 
-  nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')<CR>
-  nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')<CR>
+  nnoremap <silent> <buffer> i :exec 'InstallAndRequire'.getline('.')<CR>
+  nnoremap <silent> <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Plugin ', 'Plugin! ', '')<CR>
 
-  nnoremap <buffer> l :VundleLog<CR>
-  nnoremap <buffer> u :VundleChangelog<CR>
-  nnoremap <buffer> h :h vundle<CR>
-  nnoremap <buffer> ? :norm h<CR>
+  nnoremap <silent> <buffer> l :VundleLog<CR>
+  nnoremap <silent> <buffer> u :VundleChangelog<CR>
+  nnoremap <silent> <buffer> h :h vundle<CR>
+  nnoremap <silent> <buffer> ? :h vundle<CR>
 
-  nnoremap <buffer> c :PluginClean<CR>
-  nnoremap <buffer> C :PluginClean!<CR>
+  nnoremap <silent> <buffer> c :PluginClean<CR>
+  nnoremap <silent> <buffer> C :PluginClean!<CR>
 
   nnoremap <buffer> s :PluginSearch
-  nnoremap <buffer> R :call vundle#scripts#reload()<CR>
+  nnoremap <silent> <buffer> R :call vundle#scripts#reload()<CR>
 
   " goto first line after headers
   exec ':'.(len(a:headers) + 1)
