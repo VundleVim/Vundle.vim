@@ -527,8 +527,11 @@ func! s:log(str, ...) abort
   let fmt = '%Y-%m-%d %H:%M:%S'
   let lines = split(a:str, '\n', 1)
   let time = strftime(fmt)
+  let entry_prefix = '['. time .'] '. prefix
   for line in lines
-      call add(g:vundle#log, '['. time .'] '. prefix . line)
+    " Trim trailing whitespace
+    let entry = substitute(entry_prefix . line, '\m\s\+$', '', '')
+    call add(g:vundle#log, entry)
   endfor
   return a:str
 endf
