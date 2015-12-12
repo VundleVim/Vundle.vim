@@ -1,0 +1,13 @@
+set nocompatible
+filetype off
+
+set rtp=./.vim/
+set rtp+=./.vim/bundle/vundle/
+call vundle#begin('./.vim/bundle')
+
+Plugin 'tpope/vim-fugitive', {'version': 'v1.2'}
+Plugin 'tpope/vim-surround'
+Plugin 'kien/ctrlp.vim', {'version': '1.78'}
+Plugin 'pangloss/vim-javascript', {'version': 'v0.9.0'}
+
+call vundle#end() 
