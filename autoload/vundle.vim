@@ -89,12 +89,12 @@ let vundle#updated_bundles = []
 
 if !exists('g:vundle#git_executable')
   let vundle#git_executable = 'git'
-endf
+endif
 if !exists('g:vundle#curl_executable')
   let vundle#curl_executable = 'curl'
-endf
+endif
 if !exists('g:vundle#wget_executable')
   let vundle#wget_executable = 'wget'
-endf
+endif
 
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
