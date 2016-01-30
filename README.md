@@ -70,8 +70,9 @@
    " The sparkup vim script is in a subdirectory of this repo called vim.
    " Pass the path to set the runtimepath properly.
    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-   " Avoid a name conflict with L9
-   Plugin 'user/L9', {'name': 'newL9'}
+   " Install L9 and avoid a Naming conflict if you've already installed a
+   " different version somewhere else.
+   Plugin 'ascenator/L9', {'name': 'newL9'}
 
    " All of your Plugins must be added before the following line
    call vundle#end()            " required
