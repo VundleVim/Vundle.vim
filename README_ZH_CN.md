@@ -72,8 +72,8 @@
    " 插件在仓库的子目录中.
    " 正确指定路径用以设置runtimepath. 以下范例插件在sparkup/vim目录下
    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-   " 避免插件名冲突,例如L9已存在,则可以指定
-   Plugin 'user/L9', {'name': 'newL9'}
+   " 安装L9，如果已经安装过这个插件，可利用以下格式避免命名冲突
+   Plugin 'ascenator/L9', {'name': 'newL9'}
 
    " 你的所有插件需要在下面这行之前
    call vundle#end()            " 必须
