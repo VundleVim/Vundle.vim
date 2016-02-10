@@ -55,9 +55,18 @@ func! s:process_parallel(bang, specs, headers, threads) abort
   execute python "<< EOF"
 import os
 import subprocess
+import sys
 from multiprocessing import Pool
 
 import vim
+
+# bytes vs str
+if sys.version_info < (3,):
+  def to_str(data):
+    return data
+else:
+  def to_str(data):
+    return data.decode('utf8')  # TODO: make sure utf8 is the right encoding
 
 def main(cmds, shas, threads):
   ''' execute cmds in parallel and update the ui '''
@@ -71,7 +80,7 @@ def sync(cmd):
   ''' run cmd discarding the output '''
   devnull = os.open(os.devnull, os.O_RDWR)
 
-  if subprocess.mswindows:
+  if sys.platform == 'win32':
     import msvcrt
     devnull = msvcrt.get_osfhandle(os.devnull)
 
@@ -87,7 +96,8 @@ def sync(cmd):
   except Excpetion as error:
     return (-1, error.message)
 
-  return (0, out)
+  # py3 returns bytes
+  return (0, to_str(out))
 
 def ui(iterable, cmds, shas, total, threads):
   ''' compose the current running and the finished marks '''
@@ -132,6 +142,10 @@ def mark(status, line):
     call s:sign('{status}')
   '''.format(line=1 + line + headers, status=status))
 
+def clean(data):
+  ''' remove single quotes from the data to avoid escaping problems when using eval'''
+  return data.replace("'", '')
+
 cmd_sha = vim.eval('cmds')
 cmds = [cmd for cmd, sha in cmd_sha]
 shas = [sha for cmd, sha in cmd_sha]
@@ -141,12 +155,9 @@ threads = int(vim.eval('a:threads'))
 headers = int(vim.eval('a:headers'))
 
 for pos, (result, out) in enumerate(main(cmds, shas, threads)):
-  vim.command('''
-    call s:log('')
-    call s:log('Plugin {spec}')
-    call s:log("{cmd}", '$ ')
-    call s:log("{out}", '> ')
-  '''.format(spec=specs[pos], cmd=cmds[pos], out=out))
+  vim.command("call s:log('Plugin {spec}')".format(spec=clean(specs[pos])))
+  vim.command("call s:log('{cmd}', '$ ')".format(cmd=clean(cmds[pos])))
+  vim.command("call s:log('{out}', '> ')".format(out=clean(out)))
 
 EOF
 endf
