@@ -101,7 +101,7 @@
 
 查閱 [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc 以獲取更多細節.
 
-## 更新日志
+## 更新日誌
 
 查閱 [changelog](https://github.com/VundleVim/Vundle.vim/blob/master/changelog.md).
 
