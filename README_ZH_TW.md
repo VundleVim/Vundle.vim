@@ -1,4 +1,4 @@
-﻿## [幫助維護Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
+## [幫助維護Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
 
 ## 關於
 
