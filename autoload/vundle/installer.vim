@@ -356,7 +356,7 @@ endf
 " return -- A 15 character log sha for the current HEAD
 " ---------------------------------------------------------------------------
 func! s:get_current_sha(bundle)
-  let cmd = s:make_sync_command(a:bundle, ['rev-parse', 'HEAD'])
+  let cmd = s:make_git_command(a:bundle, ['rev-parse', 'HEAD'])
   let out = s:system(cmd)[0:15]
   return out
 endf
@@ -374,7 +374,7 @@ func! s:make_git_command(bundle, args) abort
 
   let git = ['git', '--git-dir='.gitdir, '--work-tree='.workdir]
 
-  return join(map(copy(git + args), 'vundle#installer#shellesc'))
+  return join(map(git + a:args, 'vundle#installer#shellesc(v:val)'))
 endf
 
 " ---------------------------------------------------------------------------
@@ -385,7 +385,7 @@ endf
 " return -- A string containing the escaped shell command
 " ---------------------------------------------------------------------------
 func! s:make_git_commands(bundle, argss) abort
-  return join(map(a:argss, 's:make_git_command(s:bundle, {})'), ' && ')
+  return join(map(a:argss, 's:make_git_command(a:bundle, v:val)'), ' && ')
 endf
 
 " ---------------------------------------------------------------------------
@@ -412,11 +412,11 @@ func! s:make_sync_command(bang, bundle) abort
       call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
       " Directory names match but the origin remotes are not the same
       let cmd_parts = [
-          [ 'remote', 'set-url', 'origin', a:bundle.uri ],
-          [ 'fetch' ],
-          [ 'reset', '--hard', 'origin/HEAD' ],
-          [ 'submodule', 'update', '--init', '--recursive' ],
-        ]
+        \  [ 'remote', 'set-url', 'origin', a:bundle.uri ],
+        \  [ 'fetch' ],
+        \  [ 'reset', '--hard', 'origin/HEAD' ],
+        \  [ 'submodule', 'update', '--init', '--recursive' ]
+        \]
       let cmd = s:make_git_commands(a:bundle, cmd_parts)
       let initial_sha = ''
       return [cmd, initial_sha]
