@@ -343,7 +343,8 @@ endf
 " return -- the URL for the origin remote (string)
 " ---------------------------------------------------------------------------
 func! s:get_current_origin_url(bundle) abort
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
+  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && '.
+    g:vundle#git_executable.' config --get remote.origin.url'
   let cmd = vundle#installer#shellesc_cd(cmd)
   let out = s:strip(s:system(cmd))
   return out
@@ -357,7 +358,8 @@ endf
 " return -- A 15 character log sha for the current HEAD
 " ---------------------------------------------------------------------------
 func! s:get_current_sha(bundle)
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
+  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && '.
+    g:vundle#git_executable.' rev-parse HEAD'
   let cmd = vundle#installer#shellesc_cd(cmd)
   let out = s:system(cmd)[0:15]
   return out
@@ -389,10 +391,10 @@ func! s:make_sync_command(bang, bundle) abort
       " Directory names match but the origin remotes are not the same
       let cmd_parts = [
                   \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
-                  \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
-                  \ 'git fetch',
-                  \ 'git reset --hard origin/HEAD',
-                  \ 'git submodule update --init --recursive',
+                  \ g:vundle#git_executable.' remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
+                  \ g:vundle#git_executable.' fetch',
+                  \ g:vundle#git_executable.' reset --hard origin/HEAD',
+                  \ g:vundle#git_executable.' submodule update --init --recursive',
                   \ ]
       let cmd = join(cmd_parts, ' && ')
       let cmd = vundle#installer#shellesc_cd(cmd)
@@ -407,15 +409,15 @@ func! s:make_sync_command(bang, bundle) abort
 
     let cmd_parts = [
                 \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
-                \ 'git pull',
-                \ 'git submodule update --init --recursive',
+                \ g:vundle#git_executable.' pull',
+                \ g:vundle#git_executable.' submodule update --init --recursive',
                 \ ]
     let cmd = join(cmd_parts, ' && ')
     let cmd = vundle#installer#shellesc_cd(cmd)
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
-    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let cmd = g:vundle#git_executable.' clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
     let initial_sha = ''
   endif
   return [cmd, initial_sha]
