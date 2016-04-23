@@ -428,16 +428,13 @@ func! s:make_sync_command(bang, bundle) abort
     endif
 
     let cmd_parts = [
-                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
-                \ g:vundle#git_executable.' pull',
-                \ g:vundle#git_executable.' submodule update --init --recursive',
-                \ ]
-    let cmd = join(cmd_parts, ' && ')
-    let cmd = vundle#installer#shellesc_cd(cmd)
-
+          \  [ 'pull'],
+          \  [ 'submodule', 'update', '--init', '--recursive']
+          \]
+    let cmd = s:make_git_commands(a:bundle, cmd_parts)
     let initial_sha = s:get_current_sha(a:bundle)
   else
-    let cmd = g:vundle#git_executable.' clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let cmd = s:make_git_command(a:bundle, ['clone', '--recursive', a:bundle.uri, a:bundle.path()])
     let initial_sha = ''
   endif
   return [cmd, initial_sha]
