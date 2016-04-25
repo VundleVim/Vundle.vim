@@ -74,38 +74,6 @@ endf
 
 
 " ---------------------------------------------------------------------------
-" Parse the output from git log after an update to create a change log for the
-" user.
-" ---------------------------------------------------------------------------
-func! s:create_changelog() abort
-  let changelog = ['Updated Plugins:']
-  for bundle_data in g:vundle#updated_bundles
-    let initial_sha = bundle_data[0]
-    let updated_sha = bundle_data[1]
-    let bundle      = bundle_data[2]
-
-    let cmd = s:make_git_command(bundle, ['log', '--pretty=format:"%s   %an, %ar"',
-                    \                     '--graph', initial_sha.'..'.updated_sha ])
-
-    let updates = system(cmd)
-
-    call add(changelog, '')
-    call add(changelog, 'Updated Plugin: '.bundle.name)
-
-    if bundle.uri =~ "https://github.com"
-      call add(changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
-    endif
-
-    for update in split(updates, '\n')
-      let update = substitute(update, '\s\+$', '', '')
-      call add(changelog, '  '.update)
-    endfor
-  endfor
-  return changelog
-endf
-
-
-" ---------------------------------------------------------------------------
 " View the change log after an update or installation.
 " ---------------------------------------------------------------------------
 func! s:view_changelog()
@@ -116,7 +84,7 @@ func! s:view_changelog()
   if bufloaded(s:changelog_file)
     execute 'silent bdelete' s:changelog_file
   endif
-  call writefile(s:create_changelog(), s:changelog_file)
+  call writefile(vundle#installer#create_changelog(), s:changelog_file)
   execute 'silent pedit' s:changelog_file
   set bufhidden=wipe
   setl buftype=nofile

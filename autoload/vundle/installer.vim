@@ -76,6 +76,38 @@ endf
 
 
 " ---------------------------------------------------------------------------
+" Parse the output from git log after an update to create a change log for the
+" user.
+" ---------------------------------------------------------------------------
+func! vundle#installer#create_changelog() abort
+  let changelog = ['Updated Plugins:']
+  for bundle_data in g:vundle#updated_bundles
+    let initial_sha = bundle_data[0]
+    let updated_sha = bundle_data[1]
+    let bundle      = bundle_data[2]
+
+    let cmd = s:make_git_command(bundle, ['log', '--pretty=format:%s   %an, %ar',
+                    \                     '--graph', initial_sha.'..'.updated_sha ])
+
+    let updates = system(cmd)
+
+    call add(changelog, '')
+    call add(changelog, 'Updated Plugin: '.bundle.name)
+
+    if bundle.uri =~ "https://github.com"
+      call add(changelog, 'Compare at: '.bundle.uri[0:-5].'/compare/'.initial_sha.'...'.updated_sha)
+    endif
+
+    for update in split(updates, '\n')
+      let update = substitute(update, '\s\+$', '', '')
+      call add(changelog, '  '.update)
+    endfor
+  endfor
+  return changelog
+endf
+
+
+" ---------------------------------------------------------------------------
 " Call another function in the different Vundle windows.
 "
 " func_name -- the function to call
