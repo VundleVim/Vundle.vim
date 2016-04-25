@@ -372,9 +372,12 @@ func! s:make_git_command(bundle, args) abort
   let workdir = a:bundle.path()
   let gitdir  = workdir.'/.git/'
 
-  let git = [g:vundle#git_executable, '--git-dir='.gitdir, '--work-tree='.workdir]
+  let git_cmd = [g:vundle#git_executable, '--git-dir', gitdir]
+  if a:args[0] != 'clone'
+    let git_cmd = git_cmd + ['-C', workdir, '--work-tree', workdir]
+  endif
 
-  return join(map(git + a:args, 'vundle#installer#shellesc(v:val)'))
+  return join(map(git_cmd + a:args, 'vundle#installer#shellesc(v:val)'))
 endf
 
 " ---------------------------------------------------------------------------
