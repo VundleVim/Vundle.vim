@@ -84,6 +84,8 @@ def sync(cmd):
     import msvcrt
     devnull = msvcrt.get_osfhandle(os.devnull)
 
+  # py3 output is bytes, convert it before returning
+
   try:
     out = subprocess.check_output(
       cmd,
@@ -92,11 +94,10 @@ def sync(cmd):
       stderr=subprocess.STDOUT,
     )
   except subprocess.CalledProcessError as error:
-    return (error.returncode, error.output)
+    return (error.returncode, to_str(error.output))
   except Excpetion as error:
-    return (-1, error.message)
+    return (-1, to_str(error.message))
 
-  # py3 returns bytes
   return (0, to_str(out))
 
 def ui(iterable, cmds, shas, total, threads):
