@@ -1,19 +1,16 @@
 " vundle - vim compatibility support module
 
 " this abstracts the operation:
-"  exec 'set runtimepath-='.fnameescape(LIST)
-"
-" ... even when fnameescape() is not available (on vim-7.0, for example)
+"  exec 'set runtimepath-='.vundle#compat#fnameescape(LIST)
 "
 " notes:
-"  * it attempts to do the "real thing", if it can
-"     (if 'fnameescape()' is available);
+"  * it attempts to do the "real thing", if it can;
 "   * otherwise, it has a number of fallback scenarios, ordered by
 "      reliability;
 "  * special case: if a:dirs contains a ',' (multiple entries), this function
 "     attempts the
-"      exec 'set runtimepath-='.fnameescape(LIST)
-"     first (if fnameescape() is available).
+"      exec 'set runtimepath-='.vundle#compat#fnameescape(LIST)
+"     first.
 "     if that does not alter &runtimepath, then it tries to remove a:dirs
 "     elements individually;
 "
@@ -33,12 +30,10 @@ func! vundle#compat#rtp_rm_entry(dirs)
   let l:elem_separator = ','
   for l:process_stage in range(1, 4)
     if ( l:process_stage == 1 )
-      if exists('*fnameescape')
-        exec 'set rtp-='.fnameescape(a:dirs)
-        " if &rtp was altered, or a:dirs had only one element, we won't keep
-        "  trying
-        let l:processed_flag = ( ( &rtp != l:runtimepath_orig ) || ( stridx(a:dirs, l:elem_separator) < 0 ) )
-      endif
+      exec 'set rtp-='.vundle#compat#fnameescape(a:dirs)
+      " if &rtp was altered, or a:dirs had only one element, we won't keep
+      "  trying
+      let l:processed_flag = ( ( &rtp != l:runtimepath_orig ) || ( stridx(a:dirs, l:elem_separator) < 0 ) )
     elseif ( l:process_stage == 2 )
       if exists('*split') && exists('*filter') && exists('*join')
         " a bit costly, but more compatible
@@ -73,11 +68,9 @@ func! vundle#compat#rtp_rm_entry(dirs)
 endf
 
 " abstracts the following operations:
-"  exec 'set runtimepath^='.fnameescape(LIST)
-"  exec 'set runtimepath+='.fnameescape(LIST)
-"  exec 'set runtimepath='.fnameescape(LIST)
-"
-" ... even when fnameescape() is not available (on vim-7.0, for example)
+"  exec 'set runtimepath^='.vundle#compat#fnameescape(LIST)
+"  exec 'set runtimepath+='.vundle#compat#fnameescape(LIST)
+"  exec 'set runtimepath='.vundle#compat#fnameescape(LIST)
 "
 " args:
 "  dirs [string]: described as 'LIST' above;
@@ -152,6 +145,11 @@ func! vundle#compat#shellescape(string_value)
   endif
 endf
 
-" MAYBE: also provide fnameescape()
 "  (first appeared in a major release in vim-7.2)
+let s:vundle_compat_has_fnameescape = exists( '*fnameescape' )
+function vundle#compat#fnameescape( fname )
+  " from documentation: it escapes: " \t\n*?[{`$\\%#'\"|!<"
+  "  plus, depending on 'isfname', other characters.
+  return ( s:vundle_compat_has_fnameescape ? fnameescape( a:fname ) : escape( a:fname, " \t\n*?[{`$\\%#'\"|!<" ) )
+endfunction
 
