@@ -4,7 +4,7 @@
 "  exec 'set runtimepath-='.fnameescape(LIST)
 "
 " ... even when fnameescape() is not available (on vim-7.0, for example)
-" 
+"
 " notes:
 "  * it attempts to do the "real thing", if it can
 "     (if 'fnameescape()' is available);
@@ -78,7 +78,7 @@ endf
 "  exec 'set runtimepath='.fnameescape(LIST)
 "
 " ... even when fnameescape() is not available (on vim-7.0, for example)
-" 
+"
 " args:
 "  dirs [string]: described as 'LIST' above;
 "  addset_operator [string]: one of:

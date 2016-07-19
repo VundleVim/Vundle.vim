@@ -1,112 +1,123 @@
+## [Help Maintain Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
+
 ## About
 
 [Vundle] is short for _Vim bundle_ and is a [Vim] plugin manager.
 
-![Vundle-installer](http://25.media.tumblr.com/tumblr_m8m96w06G81r39828o1_1280.png)
+[Vundle] allows you to...
 
-## Quick start
+* keep track of and [configure] your plugins right in the `.vimrc`
+* [install] configured plugins (a.k.a. scripts/bundle)
+* [update] configured plugins
+* [search] by name all available [Vim scripts]
+* [clean] unused plugins up
+* run the above actions in a *single keypress* with [interactive mode]
 
-1. Set up [Vundle]:
+[Vundle] automatically...
 
-   ```
-   $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-   ```
+* manages the [runtime path] of your installed scripts
+* regenerates [help tags] after installing and updating
 
-2. Configure bundles:
+[Vundle] is undergoing an [interface change], please stay up to date to get latest changes.
 
-   Sample `.vimrc`:
+[![Gitter-chat](https://badges.gitter.im/VundleVim/Vundle.vim.svg)](https://gitter.im/VundleVim/Vundle.vim) for discussion and support.
+
+![Vundle-installer](http://i.imgur.com/Rueh7Cc.png)
+
+## Quick Start
+
+1. Introduction:
+
+   Installation requires [Git] and triggers [`git clone`] for each configured repository to `~/.vim/bundle/` by default.
+   Curl is required for search.
+
+   If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
+   See [Tips] for some advanced configurations.
+
+   Using non-POSIX shells, such as the popular Fish shell, requires additional setup. Please check the [FAQ].
+
+2. Set up [Vundle]:
+
+   `$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+
+3. Configure Plugins:
+
+   Put this at the top of your `.vimrc` to use Vundle. Remove plugins you don't need, they are for illustration purposes.
 
    ```vim
-   set nocompatible              " be iMproved
-   filetype off                  " required!
-   
-   set rtp+=~/.vim/bundle/vundle/
-   call vundle#rc()
-   
-   " let Vundle manage Vundle
-   " required! 
-   Bundle 'gmarik/vundle'
-   
-   " My bundles here:
-   "
-   " original repos on GitHub
-   Bundle 'tpope/vim-fugitive'
-   Bundle 'Lokaltog/vim-easymotion'
-   Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-   Bundle 'tpope/vim-rails.git'
-   " vim-scripts repos
-   Bundle 'L9'
-   Bundle 'FuzzyFinder'
-   " non-GitHub repos
-   Bundle 'git://git.wincent.com/command-t.git'
-   " Git repos on your local machine (i.e. when working on your own plugin)
-   Bundle 'file:///Users/gmarik/path/to/plugin'
-   " ...
-   
-   filetype plugin indent on     " required!
+   set nocompatible              " be iMproved, required
+   filetype off                  " required
+
+   " set the runtime path to include Vundle and initialize
+   set rtp+=~/.vim/bundle/Vundle.vim
+   call vundle#begin()
+   " alternatively, pass a path where Vundle should install plugins
+   "call vundle#begin('~/some/path/here')
+
+   " let Vundle manage Vundle, required
+   Plugin 'VundleVim/Vundle.vim'
+
+   " The following are examples of different formats supported.
+   " Keep Plugin commands between vundle#begin/end.
+   " plugin on GitHub repo
+   Plugin 'tpope/vim-fugitive'
+   " plugin from http://vim-scripts.org/vim/scripts.html
+   Plugin 'L9'
+   " Git plugin not hosted on GitHub
+   Plugin 'git://git.wincent.com/command-t.git'
+   " git repos on your local machine (i.e. when working on your own plugin)
+   Plugin 'file:///home/gmarik/path/to/plugin'
+   " The sparkup vim script is in a subdirectory of this repo called vim.
+   " Pass the path to set the runtimepath properly.
+   Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+   " Install L9 and avoid a Naming conflict if you've already installed a
+   " different version somewhere else.
+   Plugin 'ascenator/L9', {'name': 'newL9'}
+
+   " All of your Plugins must be added before the following line
+   call vundle#end()            " required
+   filetype plugin indent on    " required
+   " To ignore plugin indent changes, instead use:
+   "filetype plugin on
    "
    " Brief help
-   " :BundleList          - list configured bundles
-   " :BundleInstall(!)    - install (update) bundles
-   " :BundleSearch(!) foo - search (or refresh cache first) for foo
-   " :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
+   " :PluginList       - lists configured plugins
+   " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+   " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+   " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
    "
    " see :h vundle for more details or wiki for FAQ
-   " NOTE: comments after Bundle commands are not allowed.
+   " Put your non-Plugin stuff after this line
    ```
 
-3. Install configured bundles:
+4. Install Plugins:
 
-   Launch `vim`, run `:BundleInstall` 
-   (or `vim +BundleInstall +qall` for CLI lovers)
+   Launch `vim` and run `:PluginInstall`
 
-   *Windows users*: see [Vundle for Windows](https://github.com/gmarik/vundle/wiki/Vundle-for-Windows)
-
-   Installation requires [Git] and triggers [`git clone`](http://gitref.org/creating/#clone) for each configured repo to `~/.vim/bundle/`.
-
-4. Consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T44EJZX8RBUWY)
-
-   [*Thank you*](http://j.mp/rSbm01) for supporting this project!
-
-
-## Why Vundle
-
-[Vundle] allows you to:
-
-- keep track of and configure your scripts right in `.vimrc`
-- [install] configured scripts (a.k.a. bundle) 
-- [update] configured scripts
-- [search] by name [all available Vim scripts]
-- [clean] unused scripts up
-- run the above actions in a *single keypress* with [interactive mode]
-
-[Vundle] also:
-
-- manages the [runtime path] of your installed scripts
-- [regenerates help tags][helptags] automatically
+   To install from command line: `vim +PluginInstall +qall`
 
 ## Docs
 
-See the [`:h vundle`](https://github.com/gmarik/vundle/blob/master/doc/vundle.txt) Vimdoc for more details.
+See the [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc for more details.
 
-## People using Vundle
+## Changelog
 
-see [Examples](https://github.com/gmarik/vundle/wiki/Examples)
+See the [changelog](https://github.com/VundleVim/Vundle.vim/blob/master/changelog.md).
 
-## FAQ
+## People Using Vundle
 
-see [the wiki](https://github.com/gmarik/vundle/wiki#faq)
+see [Examples](https://github.com/VundleVim/Vundle.vim/wiki/Examples)
 
 ## Contributors
 
-see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
+see [Vundle contributors](https://github.com/VundleVim/Vundle.vim/graphs/contributors)
 
 *Thank you!*
 
-## Inspiration and ideas from
+## Inspiration & Ideas
 
-* [pathogen.vim]
-* [Bundler]
+* [pathogen.vim](http://github.com/tpope/vim-pathogen/)
+* [Bundler](https://github.com/bundler/bundler)
 * [Scott Bronson](http://github.com/bronson)
 
 ## Also
@@ -117,7 +128,7 @@ see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 ## TODO:
 [Vundle] is a work in progress, so any ideas and patches are appreciated.
 
-* ✓ activate newly added bundles on `.vimrc` reload or after `:BundleInstall`
+* ✓ activate newly added bundles on `.vimrc` reload or after `:PluginInstall`
 * ✓ use preview window for search results
 * ✓ Vim documentation
 * ✓ put Vundle in `bundles/` too (will fix Vundle help)
@@ -129,17 +140,22 @@ see [Vundle contributors](https://github.com/gmarik/vundle/graphs/contributors)
 * search by description as well
 * make it rock!
 
-[Vundle]:http://github.com/gmarik/vundle
-[pathogen.vim]:http://github.com/tpope/vim-pathogen/
-[Bundler]:https://github.com/bundler/bundler
+[Vundle]:http://github.com/VundleVim/Vundle.vim
+[Windows setup]:https://github.com/VundleVim/Vundle.vim/wiki/Vundle-for-Windows
+[FAQ]:https://github.com/VundleVim/Vundle.vim/wiki
+[Tips]:https://github.com/VundleVim/Vundle.vim/wiki/Tips-and-Tricks
 [Vim]:http://www.vim.org
 [Git]:http://git-scm.com
-[all available Vim scripts]:http://vim-scripts.org/vim/scripts.html
-[helptags]:http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags
+[`git clone`]:http://gitref.org/creating/#clone
+
+[Vim scripts]:http://vim-scripts.org/vim/scripts.html
+[help tags]:http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags
 [runtime path]:http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27
 
-[install]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L115-129
-[update]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L131-137
-[search]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L139-161
-[clean]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L171-L183
-[interactive mode]:https://github.com/gmarik/vundle/blob/master/doc/vundle.txt#L186-213
+[configure]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L126-L233
+[install]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L234-L254
+[update]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L255-L265
+[search]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L266-L295
+[clean]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L303-L318
+[interactive mode]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L319-L360
+[interface change]:https://github.com/VundleVim/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L372-L396
