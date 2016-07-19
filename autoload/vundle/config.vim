@@ -171,7 +171,7 @@ func! s:rtp_add_defaults()
   let &rtp = current
   let default_rtp_items = split(default, ',')
   if !empty(default_rtp_items)
-    let first_item = fnameescape(default_rtp_items[0])
+    let first_item = vundle#compat#fnameescape(default_rtp_items[0])
     exec 'set rtp-=' . first_item
     exec 'set rtp^=' . first_item
   endif
