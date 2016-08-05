@@ -58,7 +58,7 @@
    Plugin 'VundleVim/Vundle.vim'
 
    " 以下范例用来支持不同格式的插件安装.
-   " 请将安装插的命令放在vundle#begin和vundle#end之间.
+   " 请将安装插件的命令放在vundle#begin和vundle#end之间.
    " Github上的插件
    " 格式为 Plugin '用户名/插件仓库名'
    Plugin 'tpope/vim-fugitive'
