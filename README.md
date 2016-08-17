@@ -128,17 +128,17 @@ see [Vundle contributors](https://github.com/VundleVim/Vundle.vim/graphs/contrib
 ## TODO:
 [Vundle] is a work in progress, so any ideas and patches are appreciated.
 
-[x] activate newly added bundles on `.vimrc` reload or after `:PluginInstall`
-[x] use preview window for search results
-[x] Vim documentation
-[x] put Vundle in `bundles/` too (will fix Vundle help)
-[x] tests
-[x] improve error handling
-[ ] allow specifying revision/version?
-[ ]handle dependencies
-[ ]show description in search results
-[ ]search by description as well
-[ ]make it rock!
+* [x] activate newly added bundles on `.vimrc` reload or after `:PluginInstall`
+* [x] use preview window for search results
+* [x] Vim documentation
+* [x] put Vundle in `bundles/` too (will fix Vundle help)
+* [x] tests
+* [x] improve error handling
+* [ ] allow specifying revision/version?
+* [ ] handle dependencies
+* [ ] show description in search results
+* [ ] search by description as well
+* [ ] make it rock!
 
 [Vundle]:http://github.com/VundleVim/Vundle.vim
 [Windows setup]:https://github.com/VundleVim/Vundle.vim/wiki/Vundle-for-Windows
