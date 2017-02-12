@@ -1,0 +1,16 @@
+
+install () {
+    if [ ! -f ~/.vim ]; then
+        mkdir ~/.vim
+        mkdir ~/.vim/bundle
+        cp -r ./Vundle.vim ~/.vim/bundle
+    fi
+
+    if [ ! -f ~/.vimrc ]; then
+        cp ./vimrc ~/.vimrc
+    fi
+  }
+
+install
+source .vimrc
+vim +PluginClean! +PluginInstall +PluginUpdate +qall
