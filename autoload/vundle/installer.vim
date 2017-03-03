@@ -278,8 +278,8 @@ endf
 " ---------------------------------------------------------------------------
 func! vundle#installer#delete(bang, dir_name) abort
 
-  let cmd = ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh'))) ?
-  \           'rmdir /S /Q' :
+  let cmd = (has('win32') || has('win64')) ?
+  \           'cmd /C rmdir /S /Q' :
   \           'rm -rf'
 
   let bundle = vundle#config#init_bundle(a:dir_name, {})
