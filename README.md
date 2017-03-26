@@ -96,6 +96,8 @@
 
    To install from command line: `vim +PluginInstall +qall`
 
+5. (optional) For those using the fish shell: add `shell=/bin/bash` to your `.vimrc`
+
 ## Docs
 
 See the [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc for more details.
