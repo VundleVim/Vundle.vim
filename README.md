@@ -73,6 +73,8 @@
    " Install L9 and avoid a Naming conflict if you've already installed a
    " different version somewhere else.
    Plugin 'ascenator/L9', {'name': 'newL9'}
+   " Specific a plugin version (works with releases and tags)
+   Plugin 'kien/ctrlp.vim', {'version': '1.79'}
 
    " All of your Plugins must be added before the following line
    call vundle#end()            " required

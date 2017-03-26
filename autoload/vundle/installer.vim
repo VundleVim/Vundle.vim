@@ -405,17 +405,41 @@ func! s:make_sync_command(bang, bundle) abort
       return ['', '']
     endif
 
-    let cmd_parts = [
-                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
-                \ 'git pull',
-                \ 'git submodule update --init --recursive',
-                \ ]
+    let cmd_parts = ['cd '.vundle#installer#shellesc(a:bundle.path())]
+    if (has_key(a:bundle, 'version'))
+      echo "Processing '".a:bundle.name."' version ".a:bundle.version
+      call extend(cmd_parts, [
+        \ 'git fetch',
+        \ 'git checkout tags/'.vundle#installer#shellesc(a:bundle.version),
+      \ ])
+    else
+      call extend(cmd_parts, [
+        \ 'git checkout master',
+        \ 'git pull',
+      \ ])
+    endif
+    call add(cmd_parts, 'git submodule update --init --recursive')
+
     let cmd = join(cmd_parts, ' && ')
     let cmd = vundle#installer#shellesc_cd(cmd)
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
-    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let cmd_parts = [
+      \ 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path()),
+    \ ]
+
+    if (has_key(a:bundle, 'version'))
+      echo "Processing '".a:bundle.name."' version ".a:bundle.version
+      call extend(cmd_parts, [
+        \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
+        \ 'git checkout tags/'.vundle#installer#shellesc(a:bundle.version),
+      \ ])
+    endif
+
+    let cmd = join(cmd_parts, ' && ')
+    let cmd = vundle#installer#shellesc_cd(cmd)
+
     let initial_sha = ''
   endif
   return [cmd, initial_sha]
