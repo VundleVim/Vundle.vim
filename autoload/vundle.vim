@@ -80,7 +80,7 @@ func! vundle#end(...) abort
   call vundle#config#activate_bundles()
 endf
 
-" Initialize some global variables used by Vundle.
+" Initialize some global variables used by Vundle. Yeah Right!
 let vundle#bundle_dir = expand('$HOME/.vim/bundle', 1)
 let vundle#bundles = []
 let vundle#lazy_load = 0
