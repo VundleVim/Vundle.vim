@@ -1,36 +1,42 @@
 " ---------------------------------------------------------------------------
 " Syntax highlighting for the line which identifies the plugin.
 " ---------------------------------------------------------------------------
-syntax match VundlePluginName '\v(^Updated Plugin: )@<=.*$'
+syntax match VundlePluginName '\v\C(Plugin )@<=\S+/\S+(\s|$)'
 highlight link VundlePluginName Keyword
 
 " ---------------------------------------------------------------------------
-" Syntax highlighting for the 'compare at' line of each plugin.
+" Syntax highlighting for diffs on each plugin
 " ---------------------------------------------------------------------------
-syntax region VundleCompareLine start='\v^Compare at: https:' end='\v\n'
-    \ contains=VundleCompareUrl
-syntax match VundleCompareUrl '\vhttps:\S+'
-highlight link VundleCompareLine Comment
-highlight link VundleCompareUrl Underlined
+syntax match VundleGitAddition '\v(\|\s*\d+ )@<=\++'
+highlight VundleGitAddition guifg=darkgreen guibg=NONE gui=bold
+    \ ctermfg=darkgreen ctermbg=NONE cterm=bold
+
+syntax match VundleGitDeletion '\v(\|\s*\d+ \+*)@<=-+'
+highlight VundleGitDeletion guifg=red guibg=NONE gui=bold ctermfg=red
+    \ ctermbg=NONE cterm=bold
 
 " ---------------------------------------------------------------------------
-" Syntax highlighting for individual commits.
+" Syntax highlighting for log-specific features
 " ---------------------------------------------------------------------------
-" The main commit line.
-" Note that this regex is intimately related to the one for VundleCommitTree,
-" and the two should be changed in sync.
-syntax match VundleCommitLine '\v(^  [|*]( *[\\|/\*])* )@<=[^*|].*$'
-    \ contains=VundleCommitMerge,VundleCommitUser,VundleCommitTime
-highlight link VundleCommitLine String
-" Sub-regions inside the commit message.
-syntax match VundleCommitMerge '\v Merge pull request #\d+.*'
-syntax match VundleCommitUser '\v(   )@<=\S+( \S+)*(, \d+ \w+ ago$)@='
-syntax match VundleCommitTime '\v(, )@<=\d+ \w+ ago$'
-highlight link VundleCommitMerge Ignore
-highlight link VundleCommitUser Identifier
-highlight link VundleCommitTime Comment
-" The git history DAG markers are outside of the main commit line region.
-" Note that this regex is intimately related to the one for VundleCommitLine,
-" and the two should be changed in sync.
-syntax match VundleCommitTree '\v(^  )@<=[|*]( *[\\|/\*])*'
-highlight link VundleCommitTree Label
+syntax match VundleCaret '\V >'
+highlight link VundleCaret Label
+
+" Make path to tags file stand out
+syntax match VundleTagPath '\v\C(:helptags )@<=/\S+$'
+highlight link VundleTagPath Comment
+
+" Make URL stand out
+syntax match VundleCompareUrl '\v\Chttps:\S+'
+highlight link VundleCompareUrl Underlined
+
+" Make errors (from git) stand out
+syntax match VundleError '\v\C( \> )@<=fatal:.*$'
+highlight link VundleError Error
+
+" Make git messages stand out
+syntax match VundleGitMsg '\v\C( \> )@<=git:.*$'
+highlight link VundleGitMsg Type
+
+" De-emphasize the time stamp
+syntax match VundleTimeStamp '\m^\[\d\{4}-\d\{2}-\d\{2} \d\{2}:\d\{2}:\d\{2}]'
+highlight link VundleTimeStamp String

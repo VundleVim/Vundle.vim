@@ -87,4 +87,14 @@ let vundle#lazy_load = 0
 let vundle#log = []
 let vundle#updated_bundles = []
 
+if !exists('g:vundle#git_executable')
+  let vundle#git_executable = 'git'
+endif
+if !exists('g:vundle#curl_executable')
+  let vundle#curl_executable = 'curl'
+endif
+if !exists('g:vundle#wget_executable')
+  let vundle#wget_executable = 'wget'
+endif
+
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:
