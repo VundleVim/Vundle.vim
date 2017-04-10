@@ -277,4 +277,35 @@ func! s:load_scripts(bang)
   return eval(readfile(f, 'b')[0])
 endf
 
+
+" ---------------------------------------------------------------------------
+" Get the dependencies of the given bundle.
+"
+" bundle -- The bundle to check. (must be installed)
+" return -- List of bundle names.
+" ---------------------------------------------------------------------------
+func! vundle#scripts#getdeps(bundle)
+  if filereadable(a:bundle['rtpath'] . '/addon-info.json')
+    let true = 1
+    let false = 0
+    let null = ''
+    let dependencyentries = get(eval(join(readfile(a:bundle['rtpath'] . '/addon-info.json'), '')), 'dependencies', {})
+    let bundles_needed = []
+    for dep_name in keys(dependencyentries)
+      if !empty(dependencyentries[dep_name])
+        if get(dependencyentries[dep_name], 'type', '') == 'git'
+          let bundles_needed += [get(dependencyentries[dep_name], 'url', dep_name)]
+        else
+          let bundles_needed += [dep_name]
+        endif
+      else
+        let bundles_needed += [dep_name]
+      endif
+    endfor
+    return bundles_needed
+  else
+    return []
+  endif
+endf
+
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

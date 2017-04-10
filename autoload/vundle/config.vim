@@ -18,6 +18,18 @@ func! vundle#config#bundle(arg, ...)
     call s:rtp_add_a()
     call s:rtp_add_defaults()
   endif
+
+  if !exists('g:vundle_no_deps') || !g:vundle_no_deps
+    let deps = vundle#scripts#getdeps(bundle)
+    if !empty(deps)
+      for dependency in deps
+        if !has_key(g:bundle_names, dependency)
+          call vundle#config#bundle(dependency)
+        endif
+      endfor
+    endif
+  endif
+
   return bundle
 endf
 

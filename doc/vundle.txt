@@ -12,6 +12,7 @@
   3.5. Searching Plugins                           |vundle-plugins-search|
   3.6. Listing Plugins                             |vundle-plugins-list|
   3.7. Cleaning Up                                 |vundle-plugins-cleanup|
+  3.8. Dependencies                                |vundle-plugins-dependencies|
 4. Interactive Mode                                |vundle-interactive|
 5. Key Mappings                                    |vundle-keymappings|
 6. Options                                         |vundle-options|
@@ -329,6 +330,20 @@ in your `.vimrc` but present in your bundle installation directory
 
 Automatically confirm removal of unused bundles.
 
+3.8 DEPENDENCIES ~
+                                                *vundle-plugins-dependencies*
+
+By default, Vundle automatically reads plugin dependencies from
+`addon-info.json` if it is found in the root of a plugin folder. This aims to
+be compatible with vim-addon-manager.
+
+This behavior can be disabled by adding the following line to your `.vimrc`
+before the first call to Vundle:
+>
+  let g:vundle_no_deps = 1
+<
+For more information, see |vundle-options|.
+
 =============================================================================
 4. INTERACTIVE MODE ~
                                                          *vundle-interactive*
@@ -381,6 +396,12 @@ KEY | DESCRIPTION
   absolute URIs. For example:
 >
     Plugin 'sjl/gundo.vim' -> git@github.com:sjl/gundo.git
+
+>
+  let g:vundle_no_deps = 1
+<
+  This option makes Vundle ignore any dependencies stated by a plugin,
+  preventing these dependencies from being installed automatically.
 
 =============================================================================
 7. VUNDLE INTERFACE CHANGE ~

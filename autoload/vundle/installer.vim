@@ -36,7 +36,7 @@ func! vundle#installer#new(bang, ...) abort
 endf
 
 
-" ---------------------------------------------------------------------------
+" ---------------------------------------------------------------------------dep
 " Iterate over all lines in a Vundle window and execute the given command for
 " every line.  Used by the installation and cleaning functions.
 "
@@ -455,6 +455,21 @@ func! s:sync(bang, bundle) abort
   if 0 != v:shell_error
     return 'error'
   end
+
+  if !exists('g:vundle_no_deps') || !g:vundle_no_deps
+    let deps = vundle#scripts#getdeps(a:bundle)
+    if !empty(deps)
+      for dependency in deps
+        if !has_key(g:bundle_names, dependency)
+          let newbundle = vundle#config#bundle(dependency)
+          call s:log("Dependency '" . dependency . "'")
+          if (s:sync(a:bang, newbundle) == 'error')
+            return 'error'
+          endif
+        endif
+      endfor
+    endif
+  endif
 
   if empty(initial_sha)
     return 'new'
