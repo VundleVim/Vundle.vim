@@ -68,7 +68,7 @@ func! s:create_changelog() abort
     let updated_sha = bundle_data[1]
     let bundle      = bundle_data[2]
 
-    let cmd = 'cd '.vundle#installer#shellesc(bundle.path()).
+    let cmd = 'unset GIT_DIR; cd '.vundle#installer#shellesc(bundle.path()).
           \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 

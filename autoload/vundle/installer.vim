@@ -330,7 +330,7 @@ endf
 " return -- the URL for the origin remote (string)
 " ---------------------------------------------------------------------------
 func! s:get_current_origin_url(bundle) abort
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
+  let cmd = 'unset GIT_DIR; cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
   let cmd = vundle#installer#shellesc_cd(cmd)
   let out = s:strip(s:system(cmd))
   return out
@@ -344,7 +344,7 @@ endf
 " return -- A 15 character log sha for the current HEAD
 " ---------------------------------------------------------------------------
 func! s:get_current_sha(bundle)
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
+  let cmd = 'unset GIT_DIR; cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
   let cmd = vundle#installer#shellesc_cd(cmd)
   let out = s:system(cmd)[0:15]
   return out
@@ -375,7 +375,7 @@ func! s:make_sync_command(bang, bundle) abort
       call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
       " Directory names match but the origin remotes are not the same
       let cmd_parts = [
-                  \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
+                  \ 'unset GIT_DIR; cd '.vundle#installer#shellesc(a:bundle.path()) ,
                   \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
                   \ 'git fetch',
                   \ 'git reset --hard origin/HEAD',
@@ -393,7 +393,7 @@ func! s:make_sync_command(bang, bundle) abort
     endif
 
     let cmd_parts = [
-                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
+                \ 'unset GIT_DIR; cd '.vundle#installer#shellesc(a:bundle.path()),
                 \ 'git pull',
                 \ 'git submodule update --init --recursive',
                 \ ]
@@ -402,7 +402,7 @@ func! s:make_sync_command(bang, bundle) abort
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
-    let cmd = 'git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
+    let cmd = 'unset GIT_DIR; git clone --recursive '.vundle#installer#shellesc(a:bundle.uri).' '.vundle#installer#shellesc(a:bundle.path())
     let initial_sha = ''
   endif
   return [cmd, initial_sha]
