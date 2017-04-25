@@ -81,7 +81,7 @@ func! vundle#end(...) abort
 endf
 
 " Initialize some global variables used by Vundle.
-let vundle#bundle_dir = expand('$HOME/.vim/bundle', 1)
+let vundle#bundle_dir = expand('$HOME/Dropbox/Vim/bundle', 1)
 let vundle#bundles = []
 let vundle#lazy_load = 0
 let vundle#log = []
