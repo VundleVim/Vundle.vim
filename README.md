@@ -1,5 +1,17 @@
 ## [Help Maintain Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
 
+## Table of Contents
+
+- [About](#about)
+- [Quick Start](#quick-start)
+- [Docs](#docs)
+- [Changelog](#changelog)
+- [People Using Vundle](#people-using-vundle)
+- [Contributors](#contributors)
+- [Inspiration & Ideas](#inspiration--ideas)
+- [Also](#also)
+- [TODO:](#todo)
+
 ## About
 
 [Vundle] is short for _Vim bundle_ and is a [Vim] plugin manager.
