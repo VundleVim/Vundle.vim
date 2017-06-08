@@ -10,7 +10,7 @@
 - [Contributors](#contributors)
 - [Inspiration & Ideas](#inspiration--ideas)
 - [Also](#also)
-- [TODO:](#todo)
+- [TODO](#todo)
 
 ## About
 
@@ -139,7 +139,7 @@ see [Vundle contributors](https://github.com/VundleVim/Vundle.vim/graphs/contrib
 * Vundle was developed and tested with [Vim] 7.3 on OS X, Linux and Windows
 * Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
-## TODO:
+## TODO
 [Vundle] is a work in progress, so any ideas and patches are appreciated.
 
 * [x] activate newly added bundles on `.vimrc` reload or after `:PluginInstall`
