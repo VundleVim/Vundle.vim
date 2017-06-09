@@ -1,5 +1,17 @@
 ## [Help Maintain Vundle](https://github.com/VundleVim/Vundle.vim/issues/383)
 
+## Table of Contents
+
+- [About](#about)
+- [Quick Start](#quick-start)
+- [Docs](#docs)
+- [Changelog](#changelog)
+- [People Using Vundle](#people-using-vundle)
+- [Contributors](#contributors)
+- [Inspiration & Ideas](#inspiration--ideas)
+- [Also](#also)
+- [TODO](#todo)
+
 ## About
 
 [Vundle] is short for _Vim bundle_ and is a [Vim] plugin manager.
@@ -127,7 +139,7 @@ see [Vundle contributors](https://github.com/VundleVim/Vundle.vim/graphs/contrib
 * Vundle was developed and tested with [Vim] 7.3 on OS X, Linux and Windows
 * Vundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
-## TODO:
+## TODO
 [Vundle] is a work in progress, so any ideas and patches are appreciated.
 
 * [x] activate newly added bundles on `.vimrc` reload or after `:PluginInstall`
