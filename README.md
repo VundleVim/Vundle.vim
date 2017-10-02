@@ -102,13 +102,16 @@
    " Put your non-Plugin stuff after this line
    ```
 
-4. Install Plugins:
+5. Source the .vimrc file
+`source [location to your .vimrc file]` 
+
+6. Install Plugins:
 
    Launch `vim` and run `:PluginInstall`
 
    To install from command line: `vim +PluginInstall +qall`
 
-5. (optional) For those using the fish shell: add `set shell=/bin/bash` to your `.vimrc`
+7. (optional) For those using the fish shell: add `set shell=/bin/bash` to your `.vimrc`
 
 ## Docs
 
