@@ -127,7 +127,7 @@
 * Vundle 尝试尽可能保持至简模式 [KISS](http://en.wikipedia.org/wiki/KISS_principle) 
 
 ## TODO:
-[Vundle] 是一个正在进步对项目, 所以很多设计思路和补丁是需要借鉴的.
+[Vundle] 是一个正在进步的项目, 所以很多设计思路和补丁是需要借鉴的.
 
 * ✓ 在重新载入或者执行`:PluginInstall`之后激活`.vimrc`中新添加的插件
 * ✓ 使用预览窗口显示搜索结果
