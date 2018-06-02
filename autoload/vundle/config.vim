@@ -10,11 +10,11 @@ func! vundle#config#bundle(arg, ...)
   if !s:check_bundle_name(bundle)
     return
   endif
-  if exists('g:vundle_lazy_load') && g:vundle_lazy_load
-    call add(g:bundles, bundle)
+  if exists('g:vundle#lazy_load') && g:vundle#lazy_load
+    call add(g:vundle#bundles, bundle)
   else
     call s:rtp_rm_a()
-    call add(g:bundles, bundle)
+    call add(g:vundle#bundles, bundle)
     call s:rtp_add_a()
     call s:rtp_add_defaults()
   endif
@@ -40,10 +40,10 @@ endf
 " once.
 " ---------------------------------------------------------------------------
 func! vundle#config#init()
-  if !exists('g:bundles') | let g:bundles = [] | endif
+  if !exists('g:vundle#bundles') | let g:vundle#bundles = [] | endif
   call s:rtp_rm_a()
-  let g:bundles = []
-  let g:bundle_names = {}
+  let g:vundle#bundles = []
+  let s:bundle_names = {}
 endf
 
 
@@ -55,11 +55,11 @@ endf
 func! vundle#config#require(bundles) abort
   for b in a:bundles
     call s:rtp_add(b.rtpath)
-    call s:rtp_add(g:bundle_dir)
+    call s:rtp_add(g:vundle#bundle_dir)
     " TODO: it has to be relative rtpath, not bundle.name
     exec 'runtime! '.b.name.'/plugin/*.vim'
     exec 'runtime! '.b.name.'/after/*.vim'
-    call s:rtp_rm(g:bundle_dir)
+    call s:rtp_rm(g:vundle#bundle_dir)
   endfor
   call s:rtp_add_defaults()
 endf
@@ -91,14 +91,17 @@ endf
 " return -- 0 if the bundle's name has been seen before, 1 otherwise
 " ---------------------------------------------------------------------------
 funct! s:check_bundle_name(bundle)
-  if has_key(g:bundle_names, a:bundle.name)
+  if has_key(s:bundle_names, a:bundle.name)
     echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
-          \ '. Plugin ' . g:bundle_names[a:bundle.name] .
+          \ '. Plugin ' . s:bundle_names[a:bundle.name] .
           \ ' previously used the name "' . a:bundle.name . '"' .
           \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
     return 0
+  elseif a:bundle.name !~ '\v^[A-Za-z0-9_-]%(\.?[A-Za-z0-9_-])*$'
+    echoerr 'Invalid plugin name: ' . a:bundle.name
+    return 0
   endif
-  let g:bundle_names[a:bundle.name] = a:bundle.name_spec
+  let s:bundle_names[a:bundle.name] = a:bundle.name_spec
   return 1
 endf
 
@@ -180,7 +183,7 @@ endf
 " runtimepath.
 " ---------------------------------------------------------------------------
 func! s:rtp_rm_a()
-  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let paths = map(copy(g:vundle#bundles), 'v:val.rtpath')
   let prepends = join(paths, ',')
   let appends = join(paths, '/after,').'/after'
   exec 'set rtp-='.fnameescape(prepends)
@@ -193,7 +196,7 @@ endf
 " runtimepath.
 " ---------------------------------------------------------------------------
 func! s:rtp_add_a()
-  let paths = map(copy(g:bundles), 'v:val.rtpath')
+  let paths = map(copy(g:vundle#bundles), 'v:val.rtpath')
   let prepends = join(paths, ',')
   let appends = join(paths, '/after,').'/after'
   exec 'set rtp^='.fnameescape(prepends)
@@ -262,7 +265,7 @@ let s:bundle = {}
 " return -- the target location to clone this bundle to
 " ---------------------------------------------------------------------------
 func! s:bundle.path()
-  return s:expand_path(g:bundle_dir.'/'.self.name)
+  return s:expand_path(g:vundle#bundle_dir.'/') . self.name
 endf
 
 

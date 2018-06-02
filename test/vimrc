@@ -75,6 +75,8 @@ set wildignore+=*/.git/*
 " set wildignore+=doc/*        " should not break clone
 " set wildignore+=*/doc/*
 
+let $GIT_DIR='/tmp'            " should not break any git commands
+
 au VimEnter * BundleInstall
 
 " e test/files/erlang.erl
