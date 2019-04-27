@@ -51,6 +51,7 @@ Bundle '~/Dropbox/.gitrepos/utilz.vim.git'
 " with options
 Bundle 'rstacruz/sparkup.git', {'rtp': 'vim/'}
 Bundle 'matchit.zip', {'name': 'matchit'}
+Bundle 'Valloric/YouCompleteMe', {'cmd': './install.py --clang-completer'}
 
 " Camel case
 Bundle 'vim-scripts/RubySinatra'

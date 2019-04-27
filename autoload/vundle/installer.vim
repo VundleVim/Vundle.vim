@@ -365,6 +365,27 @@ endf
 
 
 " ---------------------------------------------------------------------------
+" Run user command script for a given bundle if defined
+"
+" bundle -- a bundle object
+" return -- True if script succeed, False otherwise
+" ---------------------------------------------------------------------------
+func! s:run_user_cmd(bundle)
+  if has_key(a:bundle, 'cmd')
+      let cmd = [
+            \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
+            \ a:bundle.cmd,
+            \ ]
+      let cmd = join(cmd, ' && ')
+      let out = s:system(vundle#installer#shellesc_cd(cmd))
+      call s:log(cmd, '$ ')
+      call s:log(out, '> ')
+  endif
+  return 0 == v:shell_error
+endf
+
+
+" ---------------------------------------------------------------------------
 " Create the appropriate sync command to run according to the current state of
 " the local repository (clone, pull, reset, etc).
 "
@@ -457,7 +478,7 @@ func! s:sync(bang, bundle) abort
   end
 
   if empty(initial_sha)
-    return 'new'
+    return s:run_user_cmd(a:bundle) ? 'new' : 'error'
   endif
 
   let updated_sha = s:get_current_sha(a:bundle)
@@ -467,7 +488,7 @@ func! s:sync(bang, bundle) abort
   endif
 
   call add(g:vundle#updated_bundles, [initial_sha, updated_sha, a:bundle])
-  return 'updated'
+  return s:run_user_cmd(a:bundle) ? 'updated' : 'error'
 endf
 
 
