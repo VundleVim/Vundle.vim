@@ -48,9 +48,13 @@
 
    Using non-POSIX shells, such as the popular Fish shell, requires additional setup. Please check the [FAQ].
 
-2. Set up [Vundle]:
+2. Set up [Vundle] for vim:
 
    ` git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+   
+   If you are using [neovim](https://github.com/neovim/neovim), it is similarly:
+   
+   ` git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim`
 
 3. Configure Plugins:
 
@@ -61,7 +65,7 @@
    filetype off                  " required
 
    " set the runtime path to include Vundle and initialize
-   set rtp+=~/.vim/bundle/Vundle.vim
+   set rtp+=~/.vim/bundle/Vundle.vim " neovim variant: set rtp+=~/.config/nvim/bundle/Vundle.vim
    call vundle#begin()
    " alternatively, pass a path where Vundle should install plugins
    "call vundle#begin('~/some/path/here')
