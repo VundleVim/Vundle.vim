@@ -84,7 +84,7 @@ func! s:create_changelog() abort
     let bundle      = bundle_data[2]
 
     let cmd = 'cd '.vundle#installer#shellesc(bundle.path()).
-          \              ' && git log --pretty=format:"%s   %an, %ar" --graph '.
+          \              ' && '.g:vundle#git_executable.' log --pretty=format:"%s   %an, %ar" --graph '.
           \               initial_sha.'..'.updated_sha
 
     let cmd = vundle#installer#shellesc_cd(cmd)
@@ -235,11 +235,11 @@ func! s:fetch_scripts(to)
   endif
 
   let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts.json'
-  if executable("curl")
-    let cmd = 'curl --fail -s -o '.vundle#installer#shellesc(a:to).' '.l:vim_scripts_json
-  elseif executable("wget")
+  if executable(g:vundle#curl_executable)
+    let cmd = g:vundle#curl_executable.' --fail -s -o '.vundle#installer#shellesc(a:to).' '.l:vim_scripts_json
+  elseif executable(g:vundle#wget_executable)
     let temp = vundle#installer#shellesc(tempname())
-    let cmd = 'wget -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.vundle#installer#shellesc(a:to)
+    let cmd = g:vundle#wget_executable.' -q -O '.temp.' '.l:vim_scripts_json. ' && mv -f '.temp.' '.vundle#installer#shellesc(a:to)
     if (has('win32') || has('win64'))
       let cmd = substitute(cmd, 'mv -f ', 'move /Y ', '') " change force flag
       let cmd = vundle#installer#shellesc(cmd)
