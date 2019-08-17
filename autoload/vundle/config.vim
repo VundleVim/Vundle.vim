@@ -42,6 +42,7 @@ endf
 func! vundle#config#init()
   if !exists('g:vundle#bundles') | let g:vundle#bundles = [] | endif
   call s:rtp_rm_a()
+  let s:rtp_default = &rtp
   let g:vundle#bundles = []
   let s:bundle_names = {}
 endf
@@ -165,11 +166,7 @@ endf
 "  (with their 'after' directories last).
 " ---------------------------------------------------------------------------
 func! s:rtp_add_defaults()
-  let current = &rtp
-  set rtp&vim
-  let default = &rtp
-  let &rtp = current
-  let default_rtp_items = split(default, ',')
+  let default_rtp_items = split(s:rtp_default, ',')
   if !empty(default_rtp_items)
     let first_item = fnameescape(default_rtp_items[0])
     exec 'set rtp-=' . first_item
