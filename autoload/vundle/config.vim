@@ -278,4 +278,21 @@ func! s:bundle.is_pinned()
   return get(self, 'pinned')
 endf
 
+" ---------------------------------------------------------------------------
+" Return HEAD to the specified revision, if one exists, and check if 
+" it's detached
+"
+"  return -- 1 if the bundle is detached, 0 otherwise
+" ---------------------------------------------------------------------------
+func! s:bundle.is_detached()
+  let cmd = 'cd '.vundle#installer#shellesc(self.path())
+  let rev = get(self, 'rev', '')
+  if (rev != '')
+    let cmd = cmd.' && git checkout -q '.vundle#installer#shellesc(self.rev)
+  endif
+  let cmd = cmd.' && git status -b --porcelain'
+  let cmd = vundle#installer#shellesc_cd(cmd)
+  return system(cmd) =~# '^## HEAD'
+endf
+
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

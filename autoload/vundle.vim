@@ -53,6 +53,7 @@ if (has('signs'))
   sign define Vu_deleted  text=-  texthl=Comment
   sign define Vu_helptags text=*  texthl=Comment
   sign define Vu_pinned   text==  texthl=Comment
+  sign define Vu_detached text=@  texthl=Comment
 endif
 
 " Set up Vundle.  This function has to be called from the users vimrc file.
