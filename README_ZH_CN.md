@@ -2,7 +2,7 @@
 
 ## 关于
 
-[Vundle] 是 _Vim bundle_ 的简称,是一个 [Vim] 插件管理器.
+[Vundle] 是 _Vim bundle_ 的简称,是一个 [Vim] 插件管理器：
 
 [Vundle] 允许你做...
 
@@ -18,9 +18,9 @@
 * 管理已安装插件的[runtime path](http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27)
 * 安装和更新后,重新生成[帮助标签](http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags)
 
-[Vundle] 正在经历一个 [interface change], 请通过以下方式获取最新信息.
+[Vundle] 正在经历一个 [interface change], 请通过以下方式获取最新信息。
 
-讨论和技术支持:[![Gitter-chat](https://badges.gitter.im/VundleVim/Vundle.vim.svg)](https://gitter.im/VundleVim/Vundle.vim)
+讨论和技术支持：[![Gitter-chat](https://badges.gitter.im/VundleVim/Vundle.vim.svg)](https://gitter.im/VundleVim/Vundle.vim)
 
 ![Vundle-installer](http://i.imgur.com/Rueh7Cc.png)
 
@@ -28,15 +28,15 @@
 
 1. 介绍:
 
-   安装需要[Git](http://git-scm.com/),触发[`git clone`](http://gitref.org/creating/#clone),默认将每一个指定特定格式插件的仓库复制到`~/.vim/bundle/`.
-   搜索需要Curl支持.
+   安装需要[Git](http://git-scm.com/)，触发[`git clone`](http://gitref.org/creating/#clone),默认将每一个指定特定格式插件的仓库复制到`~/.vim/bundle/`.
+   搜索需要Curl支持。
 
    Windows用户请直接访问[Windows setup]. 如果有任何问题, 请参考 [FAQ].
-   查看 [Tips] 获取相关高级配置.
+   查看 [Tips] 获取相关高级配置。
 
-   使用 non-POSIX shells, 比如比较流行对 Fish shell, 需要额外对步骤. 请查看 [FAQ].
+   使用 non-POSIX shells, 比如比较流行对 Fish shell, 需要额外对步骤。 请查看 [FAQ].
 
-2. 初始安装 [Vundle]:
+2. 初始安装 [Vundle]：
 
    `$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
 
@@ -97,9 +97,9 @@
 
    通过命令行直接安装 `vim +PluginInstall +qall`
 
-## Docs
+## 文档
 
-查阅 [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc 以获取更多细节.
+查阅 [`:h vundle`](https://github.com/VundleVim/Vundle.vim/blob/master/doc/vundle.txt) Vimdoc 以获取更多细节。
 
 ## 更新日志
 
@@ -127,7 +127,7 @@
 * Vundle 尝试尽可能保持至简模式 [KISS](http://en.wikipedia.org/wiki/KISS_principle) 
 
 ## TODO:
-[Vundle] 是一个正在进步对项目, 所以很多设计思路和补丁是需要借鉴的.
+[Vundle] 是一个正在进步的项目, 所以很多设计思路和补丁是需要借鉴的.
 
 * ✓ 在重新载入或者执行`:PluginInstall`之后激活`.vimrc`中新添加的插件
 * ✓ 使用预览窗口显示搜索结果
