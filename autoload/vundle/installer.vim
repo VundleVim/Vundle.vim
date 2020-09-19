@@ -278,7 +278,8 @@ endf
 " ---------------------------------------------------------------------------
 func! vundle#installer#delete(bang, dir_name) abort
 
-  let cmd = ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh'))) ?
+  let cmd = (&shell == 'pwsh') ? 'rm -Recurse -Force' : 
+  \         ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh'))) ?
   \           'rmdir /S /Q' :
   \           'rm -rf'
 
