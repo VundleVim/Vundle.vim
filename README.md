@@ -54,6 +54,8 @@
 
 3. Configure Plugins:
 
+   We need to create the file "~/.vimrc".
+   
    Put this at the top of your `.vimrc` to use Vundle. Remove plugins you don't need, they are for illustration purposes.
 
    ```vim
