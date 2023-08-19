@@ -392,6 +392,7 @@ func! s:make_sync_command(bang, bundle) abort
                   \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
                   \ 'git fetch',
                   \ 'git reset --hard origin/HEAD',
+                  \ 'git submodule sync --recursive',
                   \ 'git submodule update --init --recursive',
                   \ ]
       let cmd = join(cmd_parts, ' && ')
@@ -408,6 +409,7 @@ func! s:make_sync_command(bang, bundle) abort
     let cmd_parts = [
                 \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
                 \ 'git pull',
+                \ 'git submodule sync --recursive',
                 \ 'git submodule update --init --recursive',
                 \ ]
     let cmd = join(cmd_parts, ' && ')
