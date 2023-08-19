@@ -61,6 +61,9 @@
    ```vim
    set nocompatible              " be iMproved, required
    filetype off                  " required
+   
+   " Avoid problems for non-POSIX shell users. 
+   set shell=/bin/sh
 
    " set the runtime path to include Vundle and initialize
    set rtp+=~/.vim/bundle/Vundle.vim
