@@ -234,7 +234,7 @@ func! s:fetch_scripts(to)
     call mkdir(scripts_dir, "p")
   endif
 
-  let l:vim_scripts_json = 'http://vim-scripts.org/api/scripts.json'
+  let l:vim_scripts_json = 'https://raw.githubusercontent.com/vim-scraper/vim-scraper.github.com/master/api/scripts.json'
   if executable("curl")
     let cmd = 'curl --fail -s -o '.vundle#installer#shellesc(a:to).' '.l:vim_scripts_json
   elseif executable("wget")
