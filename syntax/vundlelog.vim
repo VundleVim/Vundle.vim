@@ -19,7 +19,7 @@ highlight link VundleCompareUrl Underlined
 " The main commit line.
 " Note that this regex is intimately related to the one for VundleCommitTree,
 " and the two should be changed in sync.
-syntax match VundleCommitLine '\v(^  [|*]( *[\\|/\*])* )@<=[^*|].*$'
+syntax match VundleCommitLine '\v(^  [|*]( *[\\|_/\*])* )@<=[^*|].*$'
     \ contains=VundleCommitMerge,VundleCommitUser,VundleCommitTime
 highlight link VundleCommitLine String
 " Sub-regions inside the commit message.
@@ -32,5 +32,5 @@ highlight link VundleCommitTime Comment
 " The git history DAG markers are outside of the main commit line region.
 " Note that this regex is intimately related to the one for VundleCommitLine,
 " and the two should be changed in sync.
-syntax match VundleCommitTree '\v(^  )@<=[|*]( *[\\|/\*])*'
+syntax match VundleCommitTree '\v(^  )@<=[|*]( *[\\|_/\*])*'
 highlight link VundleCommitTree Label
