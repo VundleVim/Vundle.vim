@@ -277,6 +277,16 @@ To update specific plugins, write their names separated by space:
 or >
   :PluginUpdate vim-surround vim-fugitive
 
+The command `git tag` will be used to tag the commit that was used before any 
+update (i.e. before `git pull` is run). The tag is named `update-<strftime>` 
+(today's date and time).  If a plugin breaks after update, go to its 
+directory, check for the latest tag using `git tag` and run
+
+  `git checkout vundle-<somedatetime> && \`
+  `git submodule update --init --recursive`
+
+Then mark it as 'pinned' in `.vimrc`.
+
 3.5 SEARCHING PLUGINS ~
                                       *vundle-plugins-search* *:PluginSearch*
 >
