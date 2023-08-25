@@ -343,8 +343,7 @@ endf
 " return -- the URL for the origin remote (string)
 " ---------------------------------------------------------------------------
 func! s:get_current_origin_url(bundle) abort
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
-  let cmd = vundle#installer#shellesc_cd(cmd)
+  let cmd = s:make_git_command(a:bundle, ['config', '--get', 'remote.origin.url'])
   let out = s:strip(s:system(cmd))
   return out
 endf
@@ -357,12 +356,37 @@ endf
 " return -- A 15 character log sha for the current HEAD
 " ---------------------------------------------------------------------------
 func! s:get_current_sha(bundle)
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
-  let cmd = vundle#installer#shellesc_cd(cmd)
+  let cmd = s:make_git_command(a:bundle, ['rev-parse', 'HEAD'])
   let out = s:system(cmd)[0:15]
   return out
 endf
 
+" ---------------------------------------------------------------------------
+" Build a safe (escaped) git command
+"
+" bundle -- A bundle object to get the path to the git dir
+" args   -- A list of arguments to the git executable
+" return -- A string containing the escaped shell command
+" ---------------------------------------------------------------------------
+func! s:make_git_command(bundle, args) abort
+  let workdir = a:bundle.path()
+  let gitdir  = workdir.'/.git/'
+
+  let git = ['git', '--git-dir='.gitdir, '--work-tree='.workdir]
+
+  return join(map(git + a:args, 'vundle#installer#shellesc(v:val)'))
+endf
+
+" ---------------------------------------------------------------------------
+" Build a safe (escaped) command from list of git args
+"
+" bundle -- A bundle object to get the path to the git dir
+" argss  -- A list of lists of arguments to successive git calls
+" return -- A string containing the escaped shell command
+" ---------------------------------------------------------------------------
+func! s:make_git_commands(bundle, argss) abort
+  return join(map(a:argss, 's:make_git_command(a:bundle, v:val)'), ' && ')
+endf
 
 " ---------------------------------------------------------------------------
 " Create the appropriate sync command to run according to the current state of
@@ -388,14 +412,12 @@ func! s:make_sync_command(bang, bundle) abort
       call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
       " Directory names match but the origin remotes are not the same
       let cmd_parts = [
-                  \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
-                  \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
-                  \ 'git fetch',
-                  \ 'git reset --hard origin/HEAD',
-                  \ 'git submodule update --init --recursive',
-                  \ ]
-      let cmd = join(cmd_parts, ' && ')
-      let cmd = vundle#installer#shellesc_cd(cmd)
+        \  [ 'remote', 'set-url', 'origin', a:bundle.uri ],
+        \  [ 'fetch' ],
+        \  [ 'reset', '--hard', 'origin/HEAD' ],
+        \  [ 'submodule', 'update', '--init', '--recursive' ]
+        \]
+      let cmd = s:make_git_commands(a:bundle, cmd_parts)
       let initial_sha = ''
       return [cmd, initial_sha]
     endif
