@@ -96,6 +96,8 @@ more information.
     Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
     " Avoid a name conflict with L9
     Plugin 'user/L9', {'name': 'newL9'}
+    " Run an additional command after installation and updates
+    Plugin 'workspace/custom', {'cmd': 'make'}
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -192,6 +194,19 @@ a plugin that might have previously been updated by Vundle.
 Please note that the URI will be treated the same as for any other plugins, so
 only the last part of it will be added to the |runtimepath|. The user is
 advised to use this flag only with single word URIs to avoid confusion.
+
+The 'cmd' option
+----------------
+
+An additional command script which runs right after installation and update
+operation process.
+
+For example:
+>
+  Plugin 'customplugin', {'cmd': './build all'}
+
+This can be usefull for complex plugins with requirements of post-install
+builds, data importing, etc. All operations must not depend on user input.
 
 3.2 SUPPORTED URIS ~
                                                         *vundle-plugins-uris*
