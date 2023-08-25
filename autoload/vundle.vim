@@ -12,7 +12,7 @@ com! -nargs=* -bang -complete=custom,vundle#scripts#complete PluginInstall
 \ call vundle#installer#new('!' == '<bang>', <f-args>)
 
 com! -nargs=? -bang -complete=custom,vundle#scripts#complete PluginSearch
-\ call vundle#scripts#all('!' == '<bang>', <q-args>)
+\ call vundle#search#new(<q-args>)
 
 com! -nargs=0 -bang PluginList
 \ call vundle#installer#list('!' == '<bang>')
