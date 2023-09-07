@@ -482,7 +482,7 @@ func! vundle#installer#shellesc(cmd) abort
   if ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh')))
     return '"' . substitute(a:cmd, '"', '\\"', 'g') . '"'
   endif
-  return shellescape(a:cmd)
+  return vundle#compat#shellescape(a:cmd)
 endf
 
 

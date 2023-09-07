@@ -9,6 +9,9 @@ let bundle_dir = '/tmp/vundle-test/bundles/'
 " Vundle Options
 " let g:vundle_default_git_proto = 'git'
 
+" NOTE: the 'autoload' modules are not available. if they were,
+"  we could escape the 'bundle_dir' like this:
+"  vundle#compat#shellescape(bundle_dir)
 silent execute '!mkdir -p '.bundle_dir
 silent execute '!ln -f -s ~/.vim/bundle/Vundle.vim '.bundle_dir
 
