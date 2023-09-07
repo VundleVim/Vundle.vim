@@ -7,8 +7,8 @@
 " ---------------------------------------------------------------------------
 func! vundle#config#bundle(arg, ...)
   let bundle = vundle#config#init_bundle(a:arg, a:000)
-  if !s:check_bundle_name(bundle)
-    return
+  if 'new'!=s:register_bundle_name(bundle)
+    return {}
   endif
   if exists('g:vundle#lazy_load') && g:vundle#lazy_load
     call add(g:vundle#bundles, bundle)
@@ -84,25 +84,30 @@ endf
 
 
 " ---------------------------------------------------------------------------
-" Check if the current bundle name has already been used in this running
-" instance and show an error to that effect.
+" Check if the current bundle name has already been used by another bundle in
+" this running instance. If bundle name is unique and valid, register it to
+" current bundle, else show an error.
 "
-" bundle -- a bundle object whose name is to be checked
-" return -- 0 if the bundle's name has been seen before, 1 otherwise
+" bundle -- a bundle object whose name is to be checked/registered
+" return -- 'new'|'known'|'collision'|'invalid'
 " ---------------------------------------------------------------------------
-funct! s:check_bundle_name(bundle)
+funct! s:register_bundle_name(bundle)
   if has_key(s:bundle_names, a:bundle.name)
-    echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
-          \ '. Plugin ' . s:bundle_names[a:bundle.name] .
-          \ ' previously used the name "' . a:bundle.name . '"' .
-          \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
-    return 0
+    if s:bundle_names[a:bundle.name]==a:bundle.name_spec
+      return 'known'
+    else
+      echoerr 'Vundle error: Name collision for Plugin ' . a:bundle.name_spec .
+            \ '. Plugin ' . s:bundle_names[a:bundle.name] .
+            \ ' previously used the name "' . a:bundle.name . '"' .
+            \ '. Skipping Plugin ' . a:bundle.name_spec . '.'
+      return 'collision'
+    endif
   elseif a:bundle.name !~ '\v^[A-Za-z0-9_-]%(\.?[A-Za-z0-9_-])*$'
     echoerr 'Invalid plugin name: ' . a:bundle.name
-    return 0
+    return 'invalid'
   endif
   let s:bundle_names[a:bundle.name] = a:bundle.name_spec
-  return 1
+  return 'new'
 endf
 
 

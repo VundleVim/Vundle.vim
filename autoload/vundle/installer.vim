@@ -15,7 +15,7 @@ func! vundle#installer#new(bang, ...) abort
     let bundles = filter(copy(g:vundle#bundles), 'index(a:000, v:val.name) > -1')
   " Specific plugins are specified for installation. Install them.
   else
-    let bundles = map(copy(a:000), 'vundle#config#bundle(v:val, {})')
+    let bundles = filter(map(copy(a:000), 'vundle#config#bundle(v:val, {})'),'v:val!={}')
   endif
 
   if empty(bundles)
@@ -150,8 +150,10 @@ endf
 func! vundle#installer#install_and_require(bang, name) abort
   let result = vundle#installer#install(a:bang, a:name)
   let b = vundle#config#bundle(a:name, {})
-  call vundle#installer#helptags([b])
-  call vundle#config#require([b])
+  if b!={}
+    call vundle#installer#helptags([b])
+    call vundle#config#require([b])
+  endif
   return result
 endf
 
@@ -285,7 +287,7 @@ func! vundle#installer#delete(bang, dir_name) abort
   let bundle = vundle#config#init_bundle(a:dir_name, {})
   let cmd .= ' '.vundle#installer#shellesc(bundle.path())
 
-  let out = s:system(cmd)
+  let out = vundle#installer#system(cmd)
 
   call s:log('')
   call s:log('Plugin '.a:dir_name)
@@ -345,7 +347,7 @@ endf
 func! s:get_current_origin_url(bundle) abort
   let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
   let cmd = vundle#installer#shellesc_cd(cmd)
-  let out = s:strip(s:system(cmd))
+  let out = s:strip(vundle#installer#system(cmd))
   return out
 endf
 
@@ -359,7 +361,7 @@ endf
 func! s:get_current_sha(bundle)
   let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
   let cmd = vundle#installer#shellesc_cd(cmd)
-  let out = s:system(cmd)[0:15]
+  let out = vundle#installer#system(cmd)[0:15]
   return out
 endf
 
@@ -446,10 +448,10 @@ func! s:sync(bang, bundle) abort
       return 'todate'
   endif
 
-  let out = s:system(cmd)
   call s:log('')
   call s:log('Plugin '.a:bundle.name_spec)
   call s:log(cmd, '$ ')
+  let out = vundle#installer#system(cmd)
   call s:log(out, '> ')
 
   if 0 != v:shell_error
@@ -510,9 +512,28 @@ endf
 " cmd    -- the command passed to system() (string)
 " return -- the return value from system()
 " ---------------------------------------------------------------------------
-func! s:system(cmd) abort
-  return system(a:cmd)
-endf
+if (has("win32") || has("win64")) &&
+  \  (v:version<703 ||
+  \  (v:version==703 && (!has("patch443") || !has("patch445") || !has("patch446"))) )
+
+  func! vundle#installer#system(cmd) abort
+    " see cmd.exe docs (scroll down to remarks):
+    " https://technet.microsoft.com/de-de/library/cc771320(v=ws.10).aspx
+    " and vim patches links: https://github.com/airblade/vim-system-escape
+    if &shell=~"cmd.exe"
+      return system('"'.a:cmd.'"')
+    else
+      return system(a:cmd)
+    endif
+  endf
+
+else
+
+  func! vundle#installer#system(cmd) abort
+    return system(a:cmd)
+  endf
+
+endif
 
 
 " ---------------------------------------------------------------------------
