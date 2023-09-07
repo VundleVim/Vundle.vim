@@ -363,6 +363,9 @@ func! s:get_current_sha(bundle)
   return out
 endf
 
+func! s:uri_https2ssl(uri)
+  return substitute(a:uri, '\<https:\/\/\(\w\+\.\w\+\)\/\(\w\+\)\/\([a-zA-Z\.]\+\)', 'git@\1:\2/\3', 'g')
+endf
 
 " ---------------------------------------------------------------------------
 " Create the appropriate sync command to run according to the current state of
@@ -382,7 +385,7 @@ func! s:make_sync_command(bang, bundle) abort
   if isdirectory(git_dir) || filereadable(expand(a:bundle.path().'/.git', 1))
 
     let current_origin_url = s:get_current_origin_url(a:bundle)
-    if current_origin_url != a:bundle.uri
+    if current_origin_url != a:bundle.uri && current_origin_url != s:uri_https2ssl(a:bundle.uri)
       call s:log('Plugin URI change detected for Plugin ' . a:bundle.name)
       call s:log('>  Plugin ' . a:bundle.name . ' old URI: ' . current_origin_url)
       call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
