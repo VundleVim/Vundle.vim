@@ -56,7 +56,7 @@
 
 3. Configure Plugins:
 
-   Put this at the top of your `.vimrc` to use Vundle. Remove plugins you don't need, they are for illustration purposes.
+   Put this at the top of your `.vimrc` to use Vundle. You may have to create a `.vimrc` file if it doesn't already exist at `~/.vimrc`. Remove plugins you don't need, they are for illustration purposes.
 
    ```vim
    set nocompatible              " be iMproved, required
