@@ -334,6 +334,19 @@ func! s:helptags(rtp) abort
   return 1
 endf
 
+" ---------------------------------------------------------------------------
+" Expand a git command relative to a specified bundle, so that it can be
+" executed as a system command.
+"
+" bundle -- the bundle object to run the git command relative to
+" cmd    -- the git command (e.g. 'ls-files')
+" return -- the fully expanded system command (string)
+" ---------------------------------------------------------------------------
+func! vundle#installer#expand_git_cmd(bundle, cmd) abort
+  let out = 'git -C '.vundle#installer#shellesc(a:bundle.path()).' --git-dir=.git/ --work-tree=. '.a:cmd
+  return out
+endf
+
 
 " ---------------------------------------------------------------------------
 " Get the URL for the remote called 'origin' on the repository that
@@ -343,8 +356,7 @@ endf
 " return -- the URL for the origin remote (string)
 " ---------------------------------------------------------------------------
 func! s:get_current_origin_url(bundle) abort
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git config --get remote.origin.url'
-  let cmd = vundle#installer#shellesc_cd(cmd)
+  let cmd = vundle#installer#expand_git_cmd(a:bundle, 'config --get remote.origin.url')
   let out = s:strip(s:system(cmd))
   return out
 endf
@@ -357,8 +369,7 @@ endf
 " return -- A 15 character log sha for the current HEAD
 " ---------------------------------------------------------------------------
 func! s:get_current_sha(bundle)
-  let cmd = 'cd '.vundle#installer#shellesc(a:bundle.path()).' && git rev-parse HEAD'
-  let cmd = vundle#installer#shellesc_cd(cmd)
+  let cmd = vundle#installer#expand_git_cmd(a:bundle, 'rev-parse HEAD')
   let out = s:system(cmd)[0:15]
   return out
 endf
@@ -388,14 +399,12 @@ func! s:make_sync_command(bang, bundle) abort
       call s:log('>  Plugin ' . a:bundle.name . ' new URI: ' . a:bundle.uri)
       " Directory names match but the origin remotes are not the same
       let cmd_parts = [
-                  \ 'cd '.vundle#installer#shellesc(a:bundle.path()) ,
-                  \ 'git remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri),
-                  \ 'git fetch',
-                  \ 'git reset --hard origin/HEAD',
-                  \ 'git submodule update --init --recursive',
+                  \ vundle#installer#expand_git_cmd(a:bundle, 'remote set-url origin ' . vundle#installer#shellesc(a:bundle.uri)),
+                  \ vundle#installer#expand_git_cmd(a:bundle, 'fetch'),
+                  \ vundle#installer#expand_git_cmd(a:bundle, 'reset --hard origin/HEAD'),
+                  \ vundle#installer#expand_git_cmd(a:bundle, 'submodule update --init --recursive')
                   \ ]
       let cmd = join(cmd_parts, ' && ')
-      let cmd = vundle#installer#shellesc_cd(cmd)
       let initial_sha = ''
       return [cmd, initial_sha]
     endif
@@ -406,12 +415,10 @@ func! s:make_sync_command(bang, bundle) abort
     endif
 
     let cmd_parts = [
-                \ 'cd '.vundle#installer#shellesc(a:bundle.path()),
-                \ 'git pull',
-                \ 'git submodule update --init --recursive',
+                \ vundle#installer#expand_git_cmd(a:bundle, 'pull'),
+                \ vundle#installer#expand_git_cmd(a:bundle, 'submodule update --init --recursive'),
                 \ ]
     let cmd = join(cmd_parts, ' && ')
-    let cmd = vundle#installer#shellesc_cd(cmd)
 
     let initial_sha = s:get_current_sha(a:bundle)
   else
@@ -483,22 +490,6 @@ func! vundle#installer#shellesc(cmd) abort
     return '"' . substitute(a:cmd, '"', '\\"', 'g') . '"'
   endif
   return shellescape(a:cmd)
-endf
-
-
-" ---------------------------------------------------------------------------
-" Fix a cd shell command to be used on Windows.
-"
-" cmd    -- the command to be fixed (string)
-" return -- the fixed command (string)
-" ---------------------------------------------------------------------------
-func! vundle#installer#shellesc_cd(cmd) abort
-  if ((has('win32') || has('win64')) && empty(matchstr(&shell, 'sh')))
-    let cmd = substitute(a:cmd, '^cd ','cd /d ','')  " add /d switch to change drives
-    return cmd
-  else
-    return a:cmd
-  endif
 endf
 
 
