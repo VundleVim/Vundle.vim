@@ -4,6 +4,9 @@
 " Readme:       http://github.com/VundleVim/Vundle.vim/blob/master/README.md
 " Version:      0.10.2
 
+" Save the path from which Vundle was first loaded
+let vundle#vundle_path = expand('<sfile>:p:h:h')
+
 " Plugin Commands
 com! -nargs=+  -bar   Plugin
 \ call vundle#config#bundle(<args>)
@@ -64,6 +67,21 @@ func! vundle#rc(...) abort
   if a:0 > 0
     let g:vundle#bundle_dir = expand(a:1, 1)
   endif
+
+  " If this function has already been called and Vim hasn't finished loading,
+  " that is, we are not sourcing our .vimrc file later on, Vundle is probably
+  " loading from several sources which can lead to unpredictable results.
+  if exists('g:vundle#vundle_loading') && g:vundle#vundle_loading
+    echoerr 'Vundle is probably loading from several sources. ' .
+          \ 'This can lead to unpredictable results! ' .
+          \ 'Please find and remove the duplication.'
+  endif
+
+  " Set g:vundle_loading only if Vim hasn't finished loading.
+  if !exists('g:vundle#vundle_loaded') || !g:vundle#vundle_loaded
+    let g:vundle#vundle_loading = 1
+  endif
+
   call vundle#config#init()
 endf
 
@@ -86,5 +104,13 @@ let vundle#bundles = []
 let vundle#lazy_load = 0
 let vundle#log = []
 let vundle#updated_bundles = []
+
+augroup vundle
+  au!
+
+  " Tell Vundle it has finished loading and Vim is up and running.
+  au VimEnter * unlet g:vundle#vundle_loading
+  au VimEnter * let g:vundle#vundle_loaded = 1
+augroup END
 
 " vim: set expandtab sts=2 ts=2 sw=2 tw=78 norl:

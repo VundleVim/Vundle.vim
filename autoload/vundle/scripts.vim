@@ -1,3 +1,10 @@
+" Verify this file is sourced from the correct Vundle path
+if expand('<sfile>:p:h:h:h') !=# vundle#vundle_path
+  echoerr 'Vundle is probably loading from several sources. ' .
+        \ 'This can lead to unpredictable results! ' .
+        \ 'Please find and remove the duplication.'
+endif
+
 " ---------------------------------------------------------------------------
 " Search the database from vim-script.org for a matching plugin.  If no
 " argument is given, list all plugins. This function is used by the :Plugins
