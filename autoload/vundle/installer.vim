@@ -511,7 +511,13 @@ endf
 " return -- the return value from system()
 " ---------------------------------------------------------------------------
 func! s:system(cmd) abort
-  return system(a:cmd)
+  let cmd = a:cmd
+  if !empty(&encoding) && !empty(&termencoding)
+    if &encoding !=? &termencoding
+      let cmd = iconv(a:cmd, &encoding, &termencoding)
+    endif
+  endif
+  return system(cmd)
 endf
 
 
