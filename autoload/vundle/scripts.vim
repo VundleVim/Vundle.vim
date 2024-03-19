@@ -223,6 +223,51 @@ endf
 
 
 " ---------------------------------------------------------------------------
+" Open the homepage of the given plugin in a browser.  If the plugin is a
+" local one :Explore it.
+"
+" arg: A plugin specification like for :Plugin
+" ---------------------------------------------------------------------------
+func! vundle#scripts#visit_bundle_home(arg)
+  let uri = vundle#config#init_bundle(a:arg)['uri']
+  if exists(':OpenBrowser')
+    " See https://github.com/tyru/open-browser.vim
+    execute 'OpenBrowser' uri
+  else
+    " The user does not have the open-browser plugin installed so we have to
+    " try to open the uri ourself.
+    let protocoll = split(uri, ':')[0]
+    if protocoll == 'file'
+      execute 'Vexplore' uri[7:]
+      return
+    elseif protocoll =~ 'https?'
+      " FIXME is there a better way to test for OS X?  This is false with the
+      " stock version of vim.
+      if has('macunix')
+        execute '!open' uri
+        return
+      elseif has('win16') || has('win32') || has('win64')
+        execute '!start' uri
+        " FIXME should this be:
+        "execute 'cmd /c start' uri
+        return
+      elseif has('unix')
+        if executable('xgd-open')
+          execute '!xgd-open' uri
+          " FIXME are there other ways to open uris on linux (besides calling
+          " firefox or chrome directly)?  What do Gnome, KDE or XFCE provide?
+          return
+        endif
+      endif
+    endif
+    " if we reach this point we either can not open the uri (it is a git:// uri)
+    " or we do not know how to open stuff on this system.
+    echomsg 'The uri for this plugin is' uri.'.  Please open it yourself.'
+  endif
+endf
+
+
+" ---------------------------------------------------------------------------
 " Load the plugin database from vim-scripts.org .
 "
 " to     -- the filename (string) to save the database to

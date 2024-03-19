@@ -23,6 +23,9 @@ com! -nargs=? -bang   PluginClean
 com! -nargs=0         PluginDocs
 \ call vundle#installer#helptags(g:vundle#bundles)
 
+com! -nargs=1         PluginVisitHome
+\ call vundle#scripts#visit_bundle_home(<q-args>)
+
 " Aliases
 com! -nargs=* -complete=custom,vundle#scripts#complete PluginUpdate PluginInstall! <args>
 
